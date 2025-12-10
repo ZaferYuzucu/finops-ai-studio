@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* FlowAnimation — Neon Panel */
+.neon-panel {
+  position: relative;
+  /* diğer CSS kuralları buraya */
+}
+
+/* FlowAnimation — Diyagonal arka plan çizgileri */
+.diagonal-lines {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255,255,255,0.03) 0px,
+    rgba(255,255,255,0.03) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* FlowAnimation — Pipeline çizgileri (sol & sağ) */
+.pipeline-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(59,130,246,0.6), transparent);
+  animation: pulseLine 4s linear infinite;
+}
+
+.pipeline-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: cyan;
+  border-radius: 50%;
+  animation: moveDot 4s linear infinite;
+}
+
+/* Sol taraf için örnek pozisyonlar */
+.pipeline-line--left-1 { top: 60px; left: 0; right: 50%; }
+.pipeline-line--left-2 { top: 110px; left: 0; right: 50%; }
+.pipeline-line--left-3 { top: 160px; left: 0; right: 50%; }
+.pipeline-line--left-4 { top: 210px; left: 0; right: 50%; }
+
+/* Sağ taraf için örnek pozisyonlar */
+.pipeline-line--right-1 { top: 60px; left: 50%; right: 0; }
+.pipeline-line--right-2 { top: 110px; left: 50%; right: 0; }
+.pipeline-line--right-3 { top: 160px; left: 50%; right: 0; }
+.pipeline-line--right-4 { top: 210px; left: 50%; right: 0; }
+
+/* Dot animasyonu */
+@keyframes moveDot {
+  0% { transform: translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  50% { transform: translateX(100%); opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(200%); opacity: 0; }
+}
+
+/* Line parlaması */
+@keyframes pulseLine {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+}
