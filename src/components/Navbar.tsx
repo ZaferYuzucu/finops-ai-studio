@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import logo from "@/assets/brand/finops-logo-dark.png";
 
 const navConfig = [
   {
@@ -41,7 +42,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center gap-2">
-              <img src="/finops-logo-dark.png" alt="Finops AI Logo" className="h-7 w-auto" />
+              <img src={logo} alt="Finops AI Logo" className="h-7 w-auto" />
               <span className="text-gray-800 font-semibold text-base tracking-wide">Finops AI</span>
             </Link>
           </div>

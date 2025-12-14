@@ -1,6 +1,23 @@
 import React from 'react';
 import { Download, Copy } from 'lucide-react';
 
+// --- ASSET IMPORTS --- //
+import finopsLogoDark from '../assets/brand/finops-logo-dark.png';
+import finopsLogoLight from '../assets/brand/finops-logo-light.png';
+import finopsTmColor from '../assets/brand/finops-tm-color.png';
+import finopsTmMono from '../assets/brand/finops-tm-mono.png';
+import finopsProfileLight from '../assets/brand/finops-profile-light.png';
+import finopsProfileDark from '../assets/brand/finops-profile-dark.png';
+import finopsLiBannerLight from '../assets/brand/finops-li-banner-light.png';
+import finopsLiBannerDark from '../assets/brand/finops-li-banner-dark.png';
+import finopsKartvizitLight from '../assets/brand/finops-kartvizit-light.png';
+import finopsKartvizitDark from '../assets/brand/finops-kartvizit-dark.png';
+import finopsQrCode from '../assets/brand/finops-qr-code.png';
+import finopsIgAnaliz from '../assets/brand/finops-ig-Analiz.png';
+import finopsIgButceLight from '../assets/brand/finops-ig-Bütçe-light.png';
+import finopsIgHaberlerLight from '../assets/brand/finops-ig-Haberler-light.png';
+import finopsIgIpuclari from '../assets/brand/finops-ig-İpuçları .png';
+
 // --- DATA: COLORS --- //
 const colorPalette = [
   { name: "Primary Blue", hex: "#2563eb", rgb: "37, 99, 235", philosophy: "Güven, teknoloji ve yenilikçiliği temsil eder. Ana eylem çağrıları ve vurgular için kullanılır." },
@@ -13,7 +30,7 @@ const colorPalette = [
 
 // --- DATA: TYPOGRAPHY --- //
 const typography = {
-  fontFamily: "'Manrope', sans-serif", // Assuming Manrope is used or a similar modern sans-serif
+  fontFamily: "'Manrope', sans-serif",
   styles: [
     { name: "Ana Başlık (H1)", style: "text-4xl font-bold tracking-tight text-gray-900", text: "Veri Odaklı Finans Yönetimi" },
     { name: "İkincil Başlık (H2)", style: "text-3xl font-bold text-gray-800", text: "Sektörel Çözümler" },
@@ -29,47 +46,47 @@ const assetCategories = [
     title: "Ana Logolar",
     description: "Markamızın birincil kimliği. Farklı zeminlerde kullanım için versiyonları mevcuttur.",
     assets: [
-      { name: "Logo (Koyu Metin)", file: "/public/finops-logo-dark.png" },
-      { name: "Logo (Açık Metin)", file: "/public/finops-logo-light.png" },
-      { name: "Monogram (Renkli)", file: "/public/finops-tm-color.png" },
-      { name: "Monogram (Siyah/Beyaz)", file: "/public/finops-tm-mono.png" },
+      { name: "Logo (Koyu Metin)", file: finopsLogoDark },
+      { name: "Logo (Açık Metin)", file: finopsLogoLight },
+      { name: "Monogram (Renkli)", file: finopsTmColor },
+      { name: "Monogram (Siyah/Beyaz)", file: finopsTmMono },
     ]
   },
   {
     title: "Sosyal Medya ve Profil",
     description: "Dijital platformlarda markamızı temsil eden profil ve banner görselleri.",
     assets: [
-      { name: "Profil Resmi (Açık Zemin)", file: "/public/finops-profile-light.png" },
-      { name: "Profil Resmi (Koyu Zemin)", file: "/public/finops-profile-dark.png" },
-      { name: "LinkedIn Banner (Açık)", file: "/public/finops-li-banner-light.png" },
-      { name: "LinkedIn Banner (Koyu)", file: "/public/finops-li-banner-dark.png" },
+      { name: "Profil Resmi (Açık Zemin)", file: finopsProfileLight },
+      { name: "Profil Resmi (Koyu Zemin)", file: finopsProfileDark },
+      { name: "LinkedIn Banner (Açık)", file: finopsLiBannerLight },
+      { name: "LinkedIn Banner (Koyu)", file: finopsLiBannerDark },
     ]
   },
   {
     title: "Pazarlama ve Sunum Materyalleri",
     description: "Satış, pazarlama ve kurumsal iletişimde kullanılacak tüm materyaller.",
     assets: [
-      { name: "İş Planı (PDF)", file: "/public/FINOPS-BusinessPlan.pdf" },
-      { name: "Kartvizit (Açık Tasarım)", file: "/public/finops-kartvizit-light.png" },
-      { name: "Kartvizit (Koyu Tasarım)", file: "/public/finops-kartvizit-dark.png" },
-      { name: "QR Kod", file: "/public/finops-qr-code.png" },
+      { name: "İş Planı (PDF)", file: "/FINOPS-BusinessPlan.pdf" },
+      { name: "Kartvizit (Açık Tasarım)", file: finopsKartvizitLight },
+      { name: "Kartvizit (Koyu Tasarım)", file: finopsKartvizitDark },
+      { name: "QR Kod", file: finopsQrCode },
     ]
   },
   {
     title: "İçerik Şablonları (Instagram)",
     description: "Instagram paylaşımları için oluşturulmuş, marka kimliğine uygun şablonlar.",
     assets: [
-      { name: "Analiz (Koyu)", file: "/public/finops-ig-Analiz.png" },
-      { name: "Bütçe (Açık)", file: "/public/finops-ig-Bütçe-light.png" },
-      { name: "Haberler (Açık)", file: "/public/finops-ig-Haberler-light.png" },
-      { name: "İpuçları (Koyu)", file: "/public/finops-ig-İpuçları .png" },
+      { name: "Analiz (Koyu)", file: finopsIgAnaliz },
+      { name: "Bütçe (Açık)", file: finopsIgButceLight },
+      { name: "Haberler (Açık)", file: finopsIgHaberlerLight },
+      { name: "İpuçları (Koyu)", file: finopsIgIpuclari },
     ]
   }
 ];
 
 // --- HELPER COMPONENT: ASSET CARD --- //
 const AssetCard: React.FC<{ asset: { name: string; file: string } }> = ({ asset }) => {
-  const isPDF = asset.file.toLowerCase().endsWith('.pdf');
+  const isPDF = typeof asset.file === 'string' && asset.file.toLowerCase().endsWith('.pdf');
   const handleDownload = () => {
     const link = document.createElement('a');
     link.href = asset.file;
@@ -83,7 +100,7 @@ const AssetCard: React.FC<{ asset: { name: string; file: string } }> = ({ asset 
     <div className="border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 group flex flex-col">
       <div className="w-full h-48 bg-gray-50 flex items-center justify-center p-4 rounded-t-lg overflow-hidden">
         <img 
-          src={isPDF ? "/public/finops-tm-color.png" : asset.file} 
+          src={isPDF ? finopsTmColor : asset.file} 
           alt={asset.name} 
           className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
         />

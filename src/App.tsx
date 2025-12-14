@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import HeroPage from './pages/HeroPage';
 import SupportPage from './pages/SupportPage';
 import LoginPage from './pages/LoginPage';
@@ -24,8 +25,20 @@ import DataVisualizationDashboardExamplesPage from './pages/solutions/DataVisual
 import DataVisualizationFeaturesPage from './pages/solutions/DataVisualizationFeaturesPage';
 import DataVisualizationSupportPage from './pages/solutions/DataVisualizationSupportPage';
 
-// YENİ EKLENEN DÖKÜMANTASYON DETAY SAYFASI
+// Dökümantasyon Detay Sayfası
 import GetStartedDocPage from './pages/docs/GetStartedDocPage';
+
+// Hukuki Sayfalar
+import PrivacyPolicyPage from './pages/legal/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/legal/TermsOfServicePage';
+import CookiePolicyPage from './pages/legal/CookiePolicyPage';
+
+// KURUMSAL KİMLİK SAYFALARI İÇİN IMPORT'LAR EKLENDİ
+import BrandingKitPage from './pages/BrandingKitPage';
+import BusinessPlanPage from './pages/BusinessPlanPage';
+import MarketingPlanPage from './pages/MarketingPlanPage';
+import ProjectActivityReportPage from './pages/ProjectActivityReportPage';
+import StudioCreatorPage from './pages/StudioCreatorPage';
 
 function App() {
   return (
@@ -63,8 +76,21 @@ function App() {
           <Route path="/solutions/dashboard-examples" element={<DataVisualizationDashboardExamplesPage />} />
           <Route path="/solutions/features" element={<DataVisualizationFeaturesPage />} />
           <Route path="/solutions/support" element={<DataVisualizationSupportPage />} />
+
+          {/* Hukuki Sayfa Route'ları */}
+          <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/legal/terms-of-service" element={<TermsOfServicePage />} />
+          <Route path="/legal/cookie-policy" element={<CookiePolicyPage />} />
+
+          {/* KURUMSAL KİMLİK SAYFA ROUTE'LARI EKLENDİ */}
+          <Route path="/branding" element={<BrandingKitPage />} />
+          <Route path="/business-plan" element={<BusinessPlanPage />} />
+          <Route path="/marketing-plan" element={<MarketingPlanPage />} />
+          <Route path="/project-activity-report" element={<ProjectActivityReportPage />} />
+          <Route path="/studio-creator" element={<StudioCreatorPage />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }

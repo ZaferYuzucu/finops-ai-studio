@@ -19,6 +19,10 @@
       onCreate = {
         npm-install = "npm install";
       };
+      # Runs every time the workspace is (re)started.
+      onStart = {
+        dev-server = "npm run dev";
+      };
     };
     
     # Configure a web preview for your application.
