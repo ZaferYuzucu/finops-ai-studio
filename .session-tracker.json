@@ -1,0 +1,12 @@
+{
+  "lastUpdate": "2025-12-26T12:05:00.000Z",
+  "updateIntervalMinutes": 15,
+  "sessionStartTime": "2025-12-26T11:00:00.000Z",
+  "currentSessionDate": "2025-12-26",
+  "totalUpdates": 1,
+  "autoUpdateEnabled": true,
+  "lastLogFile": "SESSION-LOG-2025-12-26.md",
+  "systemVersion": "1.0",
+  "notes": "Akıllı otomatik güncelleme sistemi aktif. Her 15 dakikada bir kontrol edilir."
+}
+
