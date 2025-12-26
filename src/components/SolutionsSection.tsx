@@ -1,31 +1,38 @@
 import React from 'react';
-import DashboardPreview from './DashboardPreview'; // Dashboard bileşeni import edildi
+import { useTranslation } from 'react-i18next';
+import DashboardPreview from './DashboardPreview';
+// Finops SVG İllüstrasyonları (PNG'ler değiştirildi!)
+import cfoKontrolImg from "@/assets/illustrations/undraw/undraw_financial-data_lbci-finops.svg";
+import karZararImg from "@/assets/illustrations/undraw/undraw_inflation_ht0o-finops.svg";
+import nakitAkisiImg from "@/assets/illustrations/undraw/undraw_finance_m6vw-finops.svg";
+import salesKpiImg from "@/assets/illustrations/undraw/undraw_performance-overview_1b4y-finops.svg";
+import butceGerceklesenImg from "@/assets/illustrations/undraw/undraw_wallet_diag-finops.svg";
 
-const solutions = [
+const getSolutions = (t: any) => [
   {
-    name: 'Finansal Veri Analizi',
-    description: 'Tüm finansal verilerinizi tek bir platformda birleştirin. Kapsamlı analiz araçlarımızla verilerinizi anlamlı, eyleme geçirilebilir içgörülere dönüştürün ve stratejik kararlarınızı bu temel üzerine inşa edin.',
-    imageUrl: '/images/solutions/financial-data-analysis.png',
+    name: t('solutions.financialDataAnalysis.name'),
+    description: t('solutions.financialDataAnalysis.description'),
+    imageUrl: cfoKontrolImg,
   },
   {
-    name: 'Maliyet ve Stok Yönetimi',
-    description: 'Operasyonel maliyetlerinizi ve envanter seviyelerinizi hassas bir şekilde takip edin. Yapay zeka destekli algoritmalarımız, maliyetleri düşürmek ve stok verimliliğini en üst düzeye çıkarmak için size özel öneriler sunar.',
-    imageUrl: '/images/solutions/cost-inventory-management.png',
+    name: t('solutions.costInventoryManagement.name'),
+    description: t('solutions.costInventoryManagement.description'),
+    imageUrl: karZararImg,
   },
   {
-    name: 'Nakit Akışı Tahminleme',
-    description: 'Geleceğe yönelik nakit akışınızı yüksek doğrulukla tahmin ederek finansal istikrarınızı güvence altına alın. Olası darboğazları önceden tespit edin ve proaktif önlemlerle finansal sağlığınızı koruyun.',
-    imageUrl: '/images/solutions/cash-flow-forecasting.png',
+    name: t('solutions.cashFlowForecasting.name'),
+    description: t('solutions.cashFlowForecasting.description'),
+    imageUrl: nakitAkisiImg,
   },
   {
-    name: 'İK ve Performans Yönetimi',
-    description: 'İnsan kaynakları verilerinizi ve personel performansını analiz ederek organizasyonel verimliliği artırın. Ekip performansını objektif metriklerle ölçün ve yetenek yönetimi stratejilerinizi veriye dayalı olarak şekillendirin.',
-    imageUrl: '/images/solutions/hr-performance-management.png',
+    name: t('solutions.hrPerformanceManagement.name'),
+    description: t('solutions.hrPerformanceManagement.description'),
+    imageUrl: salesKpiImg,
   },
   {
-    name: 'Bütçe ve Finansal Planlama',
-    description: 'Bütçe ve fiili harcamalarınızı kolayca karşılaştırın, sapmaları anında tespit edin. Dinamik planlama araçlarımızla daha esnek ve gerçekçi finansal hedefler belirleyin ve bu hedeflere ulaşma yolunda ilerlemenizi sürekli izleyin.',
-    imageUrl: '/images/solutions/budget-financial-planning.png',
+    name: t('solutions.budgetFinancialPlanning.name'),
+    description: t('solutions.budgetFinancialPlanning.description'),
+    imageUrl: butceGerceklesenImg,
   },
 ];
 
@@ -39,19 +46,22 @@ const softColorPalette = [
 ];
 
 const SolutionsSection = () => {
+  const { t } = useTranslation();
+  const solutions = getSolutions(t);
+  
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="bg-white py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Üst bölüm, metin ve dashboard için iki sütunlu yapıya dönüştürüldü */}
         <div className="grid grid-cols-1 items-center gap-x-16 gap-y-10 lg:grid-cols-2">
           {/* Sol sütun: Başlık ve metin sola yaslandı */}
           <div>
-            <h2 className="text-base font-semibold leading-7 text-indigo-600">Çözümlerimizle Tanışın</h2>
+            <h2 className="text-base font-semibold leading-7 text-indigo-600">{t('solutions.title')}</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              İşletmeniz İçin Değer Yaratın
+              {t('solutions.subtitle')}
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              FINOPS AI Studio, finansal operasyonlarınızı basitleştirmek ve kârlılığınızı artırmak için tasarlanmış, birbiriyle entegre çalışan güçlü modüller sunar.
+              {t('solutions.description')}
             </p>
           </div>
           {/* Sağ sütun: KPI Dashboard bileşeni eklendi */}

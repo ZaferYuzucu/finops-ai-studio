@@ -1,49 +1,56 @@
 import { CheckCircle, ArrowRight, TrendingUp, TrendingDown, Banknote } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import financeImg from '../../assets/illustrations/undraw/undraw_finance_m6vw-finops.svg';
+import walletImg from '../../assets/illustrations/undraw/undraw_wallet_diag-finops.svg';
 
-const features = [
+const getFeatures = (t: any) => [
   {
-    name: 'Tahsilat ve Ödeme Yönetimi',
-    description: 'Müşteri alacaklarınızın vadesini ve tedarikçi ödemelerinizi takip edin. Ortalama tahsilat süresini (DSO) düşürmek için proaktif uyarılar alın.',
+    name: t('solutionPages.cashFlow.features.collectionPayment.name'),
+    description: t('solutionPages.cashFlow.features.collectionPayment.description'),
     icon: Banknote,
   },
   {
-    name: 'Nakit Akışı Tahminlemesi',
-    description: 'Geçmiş verilerinizi ve mevcut trendleri kullanarak gelecekteki 30, 60 ve 90 günlük nakit pozisyonunuzu yüksek doğrulukla tahminleyin.',
+    name: t('solutionPages.cashFlow.features.forecasting.name'),
+    description: t('solutionPages.cashFlow.features.forecasting.description'),
     icon: TrendingUp,
   },
   {
-    name: 'Senaryo Analizi',
-    description: 'Farklı gelir veya gider senaryolarının (örn: büyük bir müşteri kaybı veya beklenmedik bir yatırım) nakit akışınıza etkisini simüle edin ve hazırlıklı olun.',
+    name: t('solutionPages.cashFlow.features.scenarioAnalysis.name'),
+    description: t('solutionPages.cashFlow.features.scenarioAnalysis.description'),
     icon: TrendingDown,
   },
 ];
 
 const NakitAkisiPage = () => {
+  const { t } = useTranslation();
+  const features = getFeatures(t);
   return (
     <div className="bg-slate-50">
       {/* Header */}
       <div className="relative isolate pt-14">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:gap-x-10 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:flex-auto">
-            <h1 className="text-base font-semibold leading-7 text-yellow-600">Çözüm Detayı</h1>
+            <h1 className="text-base font-semibold leading-7 text-yellow-600">{t('solutionPages.cashFlow.badge')}</h1>
             <p className="mt-2 text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-orange-400 sm:text-5xl">
-              Nakit Akışı (Cash Flow)
+              {t('solutionPages.cashFlow.title')}
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              İşletmenizin finansal dayanıklılığını sağlayın. Finops AI ile nakit giriş ve çıkışlarınızı tam olarak kontrol edin, darboğazları önleyin ve büyüme için gerekli likiditeyi her zaman koruyun.
+              {t('solutionPages.cashFlow.subtitle')}
             </p>
             <div className="mt-10 flex items-center gap-x-6">
               <Link to="/signup" className="rounded-md bg-yellow-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500">
-                Nakit Akışını Analiz Et
+                {t('solutionPages.cashFlow.startAnalysis')}
               </Link>
               <Link to="/contact" className="text-sm font-semibold leading-6 text-gray-900">
-                Finansal Danışmanlık <span aria-hidden="true">→</span>
+                {t('solutionPages.cashFlow.talkToExpert')} <span aria-hidden="true">→</span>
               </Link>
             </div>
           </div>
           <div className="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
-            <img src="https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Nakit Akışı Paneli" className="rounded-2xl shadow-xl w-full"/>
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl shadow-xl p-8 flex items-center justify-center">
+              <img src={financeImg} alt="Nakit Akışı Paneli" className="w-full h-auto max-w-lg"/>
+            </div>
           </div>
         </div>
       </div>
@@ -52,9 +59,9 @@ const NakitAkisiPage = () => {
       <div className="py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl lg:text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Likiditenizi Yönetmenin Anahtarları</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{t('solutionPages.cashFlow.featuresTitle')}</h2>
                 <p className="mt-6 text-lg leading-8 text-gray-600">
-                    Nakit akışınızı öngörülebilir ve yönetilebilir kılmak için geliştirdiğimiz araçlarla finansal belirsizlikleri ortadan kaldırın.
+                    {t('solutionPages.cashFlow.featuresSubtitle')}
                 </p>
             </div>
             <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
@@ -81,27 +88,29 @@ const NakitAkisiPage = () => {
             <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
                 <div className="lg:pr-4">
                     <div className="lg:max-w-lg">
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900">Bu Çözüm Kimin İçin Hayati?</h2>
+                        <h2 className="text-3xl font-bold tracking-tight text-gray-900">{t('solutionPages.cashFlow.whoIsItFor.title')}</h2>
                         <p className="mt-6 text-lg text-gray-600">
-                           Nakit Akışı Yönetimi çözümümüz, şirketin finansal istikrarını ve operasyonel devamlılığını sağlayan kilit karar vericilere yöneliktir.
+                           {t('solutionPages.cashFlow.whoIsItFor.subtitle')}
                         </p>
                         <ul className="mt-8 space-y-4 text-gray-600">
                             <li className="flex items-start">
                                 <CheckCircle className="h-6 w-6 flex-shrink-0 text-green-500 mr-3 mt-1" />
-                                <span><strong>İş Sahipleri ve Girişimciler:</strong> İşletmenizin ne kadar süre daha ayakta kalabileceğini (runway) bilin ve büyüme yatırımlarını güvenle planlayın.</span>
+                                <span><strong>{t('solutionPages.cashFlow.whoIsItFor.role1.title')}:</strong> {t('solutionPages.cashFlow.whoIsItFor.role1.description')}</span>
                             </li>
                             <li className="flex items-start">
                                 <CheckCircle className="h-6 w-6 flex-shrink-0 text-green-500 mr-3 mt-1" />
-                                <span><strong>Finans Departmanları:</strong> Günlük, haftalık ve aylık nakit pozisyonunu yönetin, borç ve alacak takibini otomatikleştirin.</span>
+                                <span><strong>{t('solutionPages.cashFlow.whoIsItFor.role2.title')}:</strong> {t('solutionPages.cashFlow.whoIsItFor.role2.description')}</span>
                             </li>
                              <li className="flex items-start">
                                 <CheckCircle className="h-6 w-6 flex-shrink-0 text-green-500 mr-3 mt-1" />
-                                <span><strong>Hazine Yöneticileri:</strong> Şirketin likiditesini en verimli şekilde yönetin, kur riski ve faiz oranı değişikliklerine karşı senaryolar oluşturun.</span>
+                                <span><strong>{t('solutionPages.cashFlow.whoIsItFor.role3.title')}:</strong> {t('solutionPages.cashFlow.whoIsItFor.role3.description')}</span>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <img src="https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Finansal planlama" className="rounded-xl shadow-xl w-full"/>
+                <div className="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl shadow-xl p-8 flex items-center justify-center">
+                  <img src={walletImg} alt={t('solutionPages.cashFlow.whoIsItFor.imageAlt')} className="w-full h-auto"/>
+                </div>
             </div>
         </div>
     </div>

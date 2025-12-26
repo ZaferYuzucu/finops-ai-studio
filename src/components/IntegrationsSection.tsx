@@ -1,64 +1,91 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+// Import ONLY working SVG files (non-empty)
+import googleSheets from '../assets/integrations/google-sheets.svg';
+import sap from '../assets/integrations/sap.svg';
+import googleCloud from '../assets/integrations/google-cloud.svg';
+import quickbooks from '../assets/integrations/quickbooks.svg';
+import xero from '../assets/integrations/xero.svg';
+import zoho from '../assets/integrations/zoho.svg';
+import hubspot from '../assets/integrations/hubspot.svg';
+import stripe from '../assets/integrations/stripe.svg';
 
 const integrations = [
-  { name: 'Logo Yazılım', logoUrl: '/images/integrations/logo-yazilim.svg' },
-  { name: 'Netsis', logoUrl: '/images/integrations/netsis.svg' },
-  { name: 'Paraşüt', logoUrl: '/images/integrations/parasut.svg' },
-  { name: 'Microsoft Azure', logoUrl: '/images/integrations/azure.svg' },
-  { name: 'Amazon Web Services', logoUrl: '/images/integrations/aws.svg' },
-  { name: 'Microsoft Excel', logoUrl: '/images/integrations/excel.svg' },
-  { name: 'Google Sheets', logoUrl: '/images/integrations/google-sheets.svg' },
-  { name: 'SAP', logoUrl: '/images/integrations/sap.svg' },
-  { name: 'Oracle', logoUrl: '/images/integrations/oracle.svg' },
-  { name: 'Salesforce', logoUrl: '/images/integrations/salesforce.svg' },
-  { name: 'QuickBooks', logoUrl: '/images/integrations/quickbooks.svg' },
-  { name: 'Shopify', logoUrl: '/images/integrations/shopify.svg' },
-  { name: 'WooCommerce', logoUrl: '/images/integrations/woocommerce.svg' },
-  { name: 'Google Cloud', logoUrl: '/images/integrations/google-cloud.svg' },
+  { name: 'Logo Yazılım', logoText: 'LOGO', subtitle: 'Logo Yazılım' },
+  { name: 'Netsis', logoText: 'NETSİS' },
+  { name: 'Paraşüt', logoText: 'PARAŞÜT' },
+  { name: 'Microsoft Azure', logoText: 'AZURE', subtitle: 'Microsoft' },
+  { name: 'Amazon AWS', logoText: 'AWS', subtitle: 'Amazon Web Services' },
+  { name: 'Microsoft Excel', logoText: 'EXCEL', subtitle: 'Microsoft' },
+  { name: 'Google Sheets', logoUrl: googleSheets },
+  { name: 'SAP', logoUrl: sap },
+  { name: 'Oracle', logoText: 'ORACLE' },
+  { name: 'Salesforce', logoText: 'SALESFORCE' },
+  { name: 'Google Cloud', logoUrl: googleCloud },
+  { name: 'QuickBooks', logoUrl: quickbooks },
+  { name: 'Xero', logoUrl: xero },
+  { name: 'Zoho', logoUrl: zoho },
+  { name: 'HubSpot', logoUrl: hubspot },
+  { name: 'Stripe', logoUrl: stripe },
 ];
 
-// Kutucuklar için renk paleti tanımlandı.
+// FINOPS RENK SKALASI - Soft gradient tonları
 const colorPalette = [
-  'bg-sky-900',
-  'bg-teal-900',
-  'bg-violet-900',
-  'bg-indigo-900',
-  'bg-rose-900',
-  'bg-cyan-900',
+  'bg-gradient-to-br from-sky-500/10 to-sky-600/20 border-sky-500/30',      // Turkuaz
+  'bg-gradient-to-br from-purple-500/10 to-purple-600/20 border-purple-500/30', // Mor
+  'bg-gradient-to-br from-orange-500/10 to-orange-600/20 border-orange-500/30', // Turuncu
+  'bg-gradient-to-br from-green-500/10 to-green-600/20 border-green-500/30',   // Yeşil
+  'bg-gradient-to-br from-cyan-500/10 to-cyan-600/20 border-cyan-500/30',      // Cyan
+  'bg-gradient-to-br from-indigo-500/10 to-indigo-600/20 border-indigo-500/30', // İndigo
 ];
 
 const IntegrationsSection = () => {
+  const { t } = useTranslation();
+  
   return (
-    // Arka plan, okunabilirliği koruyarak iki ton açıldı (bg-slate-600).
-    <div className="bg-slate-600 py-24 sm:py-32">
+    <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
-          <h2 className="text-base font-semibold leading-7 text-indigo-400">Sorunsuz Entegrasyon</h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Mevcut Yazılımlarınızla Uyumlu
+          <h2 className="text-base font-semibold leading-7 text-indigo-600">{t('integrations.title')}</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            {t('integrations.subtitle')}
           </p>
-          <p className="mt-6 text-lg leading-8 text-gray-300">
-            Platformumuz, Türkiye pazarında yaygın olarak kullanılan ERP, bulut ve ofis yazılımlarıyla sorunsuz bir şekilde entegre olarak veri akışınızı otomatikleştirir ve size zaman kazandırır.
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            {t('integrations.description')}
           </p>
         </div>
-        <div className="mx-auto mt-16 max-w-5xl">
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-8">
+        <div className="mx-auto mt-12 max-w-6xl">
+          <div className="grid grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
             {integrations.map((integration, index) => {
-              // Renk paletinden sırayla bir renk seçilir.
-              const bgColor = colorPalette[index % colorPalette.length];
-              const finalClassName = `flex h-24 w-40 items-center justify-center rounded-lg ${bgColor} p-4 transition-transform duration-300 transform hover:-translate-y-2 hover:shadow-xl`;
+              const colorClass = colorPalette[index % colorPalette.length];
 
               return (
-                <div 
+                <div
                   key={integration.name}
-                  className={finalClassName}
+                  className={`flex flex-col h-28 items-center justify-center rounded-xl ${colorClass} border-2 p-4 
+                             backdrop-blur-sm bg-white/70
+                             transition-all duration-300 
+                             hover:scale-105 hover:shadow-2xl hover:bg-white/90
+                             cursor-pointer group`}
                   title={integration.name}
                 >
-                  <img
-                    className="max-h-12 w-auto object-contain"
-                    src={integration.logoUrl}
-                    alt={integration.name}
-                  />
+                  {integration.logoUrl ? (
+                    <img
+                      className="max-h-12 w-auto object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300"
+                      src={integration.logoUrl}
+                      alt={integration.name}
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <p className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">
+                        {integration.logoText}
+                      </p>
+                      {integration.subtitle && (
+                        <p className="text-xs text-gray-500 mt-1">{integration.subtitle}</p>
+                      )}
+                    </div>
+                  )}
                 </div>
               );
             })}

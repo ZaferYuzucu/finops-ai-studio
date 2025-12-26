@@ -1,6 +1,33 @@
 
-// Tamamen statik yollar kullanarak asset'leri bağlıyoruz.
-// Bu yöntem, asset'lerin Vite tarafından işlenmesini atlar ve doğrudan 'public' klasöründen sunulmasını sağlar.
+// Finops SVG İllüstrasyonları (Eski PNG'ler değiştirildi!)
+import ceoDashboardImg from "@/assets/illustrations/undraw/visual-data-bro-finops.svg";
+import profitAndLossImg from "@/assets/illustrations/undraw/undraw_financial-data_lbci-finops.svg";
+import cashFlowImg from "@/assets/illustrations/undraw/undraw_finance_m6vw-finops.svg";
+import salesPerformanceImg from "@/assets/illustrations/undraw/undraw_business-analytics_y8m6-finops.svg";
+import salesFunnelImg from "@/assets/illustrations/undraw/design-stats-bro-finops.svg";
+import marketingCampaignImg from "@/assets/illustrations/undraw/social-dashboard-bro-finops.svg";
+import hrMetricsImg from "@/assets/illustrations/undraw/undraw_performance-overview_1b4y-finops.svg";
+import inventoryManagementImg from "@/assets/illustrations/undraw/undraw_logistics_8vri-finops.svg";
+import restaurantOperationsImg from "@/assets/illustrations/undraw/undraw_online-stats_d57c-finops.svg";
+import restaurantFinancialImg from "@/assets/illustrations/undraw/undraw_inflation_ht0o-finops.svg";
+import ecommerceKpiImg from "@/assets/illustrations/undraw/undraw_online-payments_d5ef-finops.svg";
+import hotelImg from "@/assets/illustrations/undraw/undraw_certificate_cqps-finops.svg";
+import automotiveImg from "@/assets/illustrations/undraw/setup-analytics-pana-finops.svg";
+import agricultureImg from "@/assets/illustrations/undraw/visual-data-pana-finops.svg";
+// Türkçe Dashboard İllüstrasyonları (Finops SVG)
+import butceGerceklesenImg from "@/assets/illustrations/undraw/undraw_wallet_diag-finops.svg";
+import cfoKontrolImg from "@/assets/illustrations/undraw/site-stats-bro-finops.svg";
+import genelRestoranImg from "@/assets/illustrations/undraw/undraw_all-the-data_ijgn-finops.svg";
+import hotelManagementImg from "@/assets/illustrations/undraw/undraw_visual-data_1eya-finops.svg";
+import kaliteKontrolImg from "@/assets/illustrations/undraw/undraw_analytics-setup_ptrz-finops.svg";
+import karZararImg from "@/assets/illustrations/undraw/undraw_financial-data_lbci-finops.svg";
+import nakitAkisiImg from "@/assets/illustrations/undraw/undraw_finance_m6vw-finops.svg";
+import otomotivDashboardImg from "@/assets/illustrations/undraw/setup-analytics-pana-finops.svg";
+import restoranEnvanterImg from "@/assets/illustrations/undraw/undraw_database-tables_yft5-finops.svg";
+import restoranIsgucuImg from "@/assets/illustrations/undraw/undraw_performance-overview_1b4y-finops.svg";
+import restoranSatisImg from "@/assets/illustrations/undraw/design-stats-bro-finops.svg";
+import uretimKontrolImg from "@/assets/illustrations/undraw/visual-data-pana-finops.svg";
+
 
 export interface Dashboard {
   id: string;
@@ -8,106 +35,644 @@ export interface Dashboard {
   category: string;
   description: string;
   longDescription: string;
-  imageUrl: string; 
+  imageUrl: string;
+  keyQuestions: string[];
+  keyMetrics: string[];
 }
 
 export const dashboardCategories = [
-  "Tümü",
   "Finans",
   "Satış",
   "Pazarlama",
-  "İK",
   "Operasyon",
-  "Proje Yönetimi",
-  "Sektörel",
+  "İnsan Kaynakları",
+  "Restoran",
+  "Otel",
+  "Otomotiv",
+  "Tarım",
+  "E-Ticaret"
 ];
 
 export const dashboards: Dashboard[] = [
     // Finans
     {
+        id: "cfo-kontrol-paneli",
+        name: "CFO Kontrol Paneli",
+        category: "Finans",
+        description: "Finans Direktörleri için kritik finansal metrikler ve genel bakış.",
+        longDescription: "CFO Kontrol Paneli, bir Finans Direktörünün ihtiyaç duyduğu tüm kritik bilgileri tek bir ekranda birleştirir. Karlılık oranları, likidite durumu, borçluluk seviyesi ve yatırım getirileri gibi üst düzey metrikleri sunarak şirketin finansal stratejilerine yön verir.",
+        imageUrl: cfoKontrolImg,
+        keyQuestions: [
+            "Şirketin finansal sağlığı genel olarak nasıl?",
+            "Karlılık oranları hedeflerimize uygun mu?",
+            "Nakit akışı pozitif mi, likidite yeterli mi?",
+            "Borçluluk seviyesi kabul edilebilir aralıkta mı?",
+            "Yatırım getirilerimiz sektör ortalamasının üzerinde mi?"
+        ],
+        keyMetrics: [
+            "Brüt Kar Marjı: (Brüt Kar / Net Satışlar) * 100",
+            "Net Kar Marjı: (Net Gelir / Net Satışlar) * 100",
+            "Yatırım Getirisi (ROI): (Net Kar / Yatırım Maliyeti) * 100",
+            "Cari Oran: Cari Varlıklar / Cari Yükümlülükler",
+            "Hızlı Oran: (Cari Varlıklar – Stoklar) / Cari Yükümlülükler",
+            "Borç/Özkaynak Oranı: Toplam Yükümlülükler / Toplam Özkaynak",
+            "EBITDA (Faiz, Vergi, Amortisman Öncesi Kar)"
+        ]
+    },
+    {
+        id: "kar-zarar-tablosu",
+        name: "Kar Zarar Tablosu",
+        category: "Finans",
+        description: "Detaylı gelir ve gider kalemleriyle şirketinizin net karını analiz edin.",
+        longDescription: "Kar Zarar Tablosu, şirketin finansal performansının temelini oluşturur. Bu dinamik panel, gelir kaynaklarını, satılan malın maliyetini ve tüm operasyonel giderleri detaylı bir şekilde listeler. Farklı dönemleri karşılaştırarak karlılık trendlerini ve gider yapısındaki değişiklikleri kolayca analiz etmenizi sağlar.",
+        imageUrl: karZararImg,
+        keyQuestions: [
+            "Şirketin net karı beklentilere uygun mu?",
+            "Gelir artışı hangi ürün veya hizmetlerden kaynaklanıyor?",
+            "En yüksek gider kalemleri hangileri ve optimize edilebilir mi?",
+            "Brüt kar marjı sektör ortalamasına göre nasıl?",
+            "Operasyonel verimlilik nasıl iyileştirilebilir?"
+        ],
+        keyMetrics: [
+            "Toplam Gelir: Satışlardan elde edilen toplam gelir",
+            "Satılan Malın Maliyeti (COGS): Ürünlerin üretimi veya satışı ile ilgili doğrudan maliyetler",
+            "Brüt Kar: Gelir eksi Satılan Malın Maliyeti",
+            "İşletme Giderleri: İşletmenin yürütülmesiyle ilgili dolaylı maliyetler",
+            "Faaliyet Karı: Brüt kar eksi faaliyet giderleri",
+            "Net Kar: Tüm gelir ve giderler sonrası kalan kar"
+        ]
+    },
+    {
+        id: "nakit-akisi-gosterge-paneli",
+        name: "Nakit Akışı Gösterge Paneli",
+        category: "Finans",
+        description: "Şirketinizin nakit giriş ve çıkışlarını izleyerek likiditeyi yönetin.",
+        longDescription: "Nakit Akışı Gösterge Paneli, bir işletmenin can damarı olan nakit hareketlerini görselleştirir. Operasyon, yatırım ve finansman faaliyetlerinden gelen ve giden nakit akışlarını net bir şekilde göstererek, şirketin kısa vadeli finansal sağlığı hakkında kritik bilgiler sunar.",
+        imageUrl: nakitAkisiImg,
+        keyQuestions: [
+            "Mevcut nakit bakiyesi yeterli mi?",
+            "Nakit girişleri hangi kaynaklardan geliyor?",
+            "En büyük nakit çıkışları hangi alanlarda?",
+            "Operasyonel nakit akışı pozitif mi?",
+            "Nakit sıkıntısı riski var mı ve ne zaman olabilir?"
+        ],
+        keyMetrics: [
+            "Nakit Bakiyesi: Mevcut nakit miktarı",
+            "Nakit Girişleri: Satışlar, yatırımlar ve krediler",
+            "Nakit Çıkışları: Maaşlar, kira, satın alımlar",
+            "Net Nakit Akışı: Nakit girişleri - Nakit çıkışları",
+            "Alacakların Tahsil Süresi (DSO): (Alacaklar / Net Kredili Satışlar) * 365",
+            "Nakit Akışı Oranı: Faaliyetlerden Elde Edilen Nakit Akışı / Kısa Vadeli Yükümlülükler"
+        ]
+    },
+    {
+        id: "butce-karsilastirma",
+        name: "Bütçe & Gerçekleşen Karşılaştırma",
+        category: "Finans",
+        description: "Bütçelenen değerler ile gerçekleşen finansal sonuçları karşılaştırın.",
+        longDescription: "Bütçe ve Gerçekleşen Karşılaştırma Paneli, finansal hedefler ile fiili sonuçlar arasındaki farkları net bir şekilde ortaya koyar. Departman, proje veya gider kalemi bazında sapmaları analiz ederek bütçe disiplinini artırır ve gelecekteki planlamalar için değerli içgörüler sunar.",
+        imageUrl: butceGerceklesenImg,
+        keyQuestions: [
+            "Bütçelenen hedefler gerçekleşti mi?",
+            "Hangi departmanlarda bütçe aşımı var?",
+            "Önemli sapmalar neden kaynaklanıyor?",
+            "Gelir tahminleri ne kadar doğru?",
+            "Gelecek dönem bütçe planlaması için neler öğrenebiliriz?"
+        ],
+        keyMetrics: [
+            "Bütçelenen Gelir vs Gerçekleşen Gelir",
+            "Bütçelenen Gider vs Gerçekleşen Gider",
+            "Varyans (Sapma): Gerçekleşen - Bütçelenen",
+            "Varyans Yüzdesi: (Varyans / Bütçelenen) * 100",
+            "Bütçe Uygulama Oranı: Gerçekleşen / Bütçelenen",
+            "Kümülatif Varyans: Yıl başından itibaren toplam sapma"
+        ]
+    },
+    {
+        id: "profit-and-loss-dashboard",
+        name: "Kar ve Zarar Analizi Paneli",
+        category: "Finans",
+        description: "Gelir tablolarınızı dinamik olarak analiz ederek karlılığınızı artırın.",
+        longDescription: "Bu pano, şirketin belirli bir dönemdeki finansal performansını detaylı bir şekilde analiz eder. Gelirleri, satılan malın maliyetini (COGS) ve operasyonel giderleri karşılaştırarak net karın nereden geldiğini veya nerede kaybedildiğini net bir şekilde ortaya koyar. Ürün, hizmet veya departman bazında karlılık analizi yapmanızı sağlar.",
+        imageUrl: karZararImg,
+        keyQuestions: [
+            "Ürün veya hizmet bazında karlılık nasıl?",
+            "Hangi departmanlar en karlı ve hangilerinde iyileştirme gerekli?",
+            "Gelir trendleri nasıl, büyüme sürdürülebilir mi?",
+            "Maliyet yapısı optimize edilebilir mi?",
+            "Kar marjları geçmiş dönemlere göre nasıl değişti?"
+        ],
+        keyMetrics: [
+            "Toplam Gelir: Tüm satış işlemlerinin toplamı",
+            "Ürün/Hizmet Bazında Gelir Dağılımı",
+            "Brüt Kar ve Brüt Kar Marjı",
+            "Faaliyet Giderleri: SG&A (Satış, Genel ve İdari Giderler)",
+            "EBITDA: Faiz, Vergi, Amortisman Öncesi Kar",
+            "Net Kar Marjı: (Net Kar / Toplam Gelir) * 100"
+        ]
+    },
+    {
         id: "ceo-dashboard",
         name: "CEO Bütünsel Bakış Paneli",
         category: "Finans",
         description: "Şirketin genel finansal ve operasyonel sağlığını tek bir ekranda izleyin.",
-        longDescription: "CEO Paneli, yöneticilere şirketin nabzını tutma imkanı sunar.",
-        // KLONLAMA SALDIRISI: Navbar'da çalışan logo yolu buraya kopyalandı.
-        imageUrl: "/finops-logo-dark.png",
+        longDescription: "CEO Bütünsel Bakış Paneli, yöneticilere şirketin nabzını 360 derece tutma imkanı sunar. Finansal tablolardan satış performansına, operasyonel verimlilikten pazar trendlerine kadar tüm kritik verileri bir araya getirerek stratejik karar alma süreçlerini destekler. Bu merkezi kontrol paneli, departmanlar arası korelasyonları ve işin genel gidişatını bir bakışta sunar.",
+        imageUrl: ceoDashboardImg,
+        keyQuestions: [
+            "Şirketin genel performansı stratejik hedeflerle uyumlu mu?",
+            "En yüksek öncelikli risk alanları nelerdir?",
+            "Hangi departmanlar hedeflerini aşıyor, hangileri geride?",
+            "Pazar payımız rakiplere göre nasıl değişiyor?",
+            "Büyüme stratejimiz sürdürülebilir mi?"
+        ],
+        keyMetrics: [
+            "Toplam Gelir ve Yıllık Büyüme Oranı",
+            "Net Kar ve Karlılık Oranları",
+            "Nakit Pozisyonu ve Likidite",
+            "Müşteri Edinme Maliyeti (CAC) ve Yaşam Boyu Değer (LTV)",
+            "Çalışan Başına Gelir ve Verimlilik",
+            "Pazar Payı ve Marka Değeri"
+        ]
     },
     {
-        id: "profit-loss",
-        name: "Kar ve Zarar Analizi",
+        id: "cash-flow-statement-dashboard",
+        name: "Nakit Akışı Yönetim Paneli",
         category: "Finans",
-        description: "Gelir tablolarınızı dinamik olarak analiz edin.",
-        longDescription: "Bu pano, şirketin belirli bir dönemdeki finansal performansını detaylı bir şekilde analiz eder.",
-        imageUrl: "/public/finops-ig-Bütçe-light.png",
-    },
-    {
-        id: "cash-flow",
-        name: "Nakit Akışı Performansı",
-        category: "Finans",
-        description: "Nakit giriş ve çıkışlarınızı izleyerek, gelecekteki nakit pozisyonunuzu tahmin edin.",
-        longDescription: "İşletmenin can damarı olan nakit akışını yönetin.",
-        imageUrl: "/public/finops-ig-Bütçe.png",
+        description: "İşletmenizin nakit pozisyonunu ve likiditesini proaktif olarak yönetin.",
+        longDescription: "Nakit Akışı Paneli, işletmenin belirli bir dönemdeki nakit giriş ve çıkışlarını özetler. Operasyonel, yatırım ve finansman faaliyetlerinden kaynaklanan nakit hareketlerini analiz ederek şirketin likidite sağlığını, borç ödeme kapasitesini ve finansal esnekliğini gösterir. Geleceğe yönelik nakit akışı projeksiyonları oluşturmanıza yardımcı olur.",
+        imageUrl: nakitAkisiImg,
+        keyQuestions: [
+            "Faaliyetlerden nakit akışı pozitif mi?",
+            "Yatırım harcamaları planlanan bütçe dahilinde mi?",
+            "Finansman ihtiyacı var mı, ne zaman ortaya çıkabilir?",
+            "Nakit dönüşüm döngüsü nasıl iyileştirilebilir?",
+            "Gelecek 3-6 aylık nakit projeksiyonu nasıl?"
+        ],
+        keyMetrics: [
+            "Operasyonel Nakit Akışı: Ana iş faaliyetlerinden kaynaklanan nakit",
+            "Yatırım Nakit Akışı: Varlık alım-satımlarından kaynaklanan nakit",
+            "Finansman Nakit Akışı: Borçlanma ve öz sermaye işlemlerinden nakit",
+            "Serbest Nakit Akışı: Operasyonel Nakit - Sermaye Harcamaları",
+            "Nakit Dönüşüm Döngüsü: DSO + DIO - DPO",
+            "Yanma Oranı: Aylık toplam nakit çıkışı"
+        ]
     },
     // Satış
     {
-        id: "sales-team-performance",
+        id: "sales-team-performance-dashboard",
         name: "Satış Ekibi Performans Paneli",
         category: "Satış",
-        description: "Satış temsilcilerinizin performansını gerçek zamanlı olarak takip edin.",
-        longDescription: "Satış ekibinizin bireysel ve takım bazındaki performansını ölçün.",
-        imageUrl: "/public/finops-ig-Haberler-light.png",
+        description: "Satış temsilcilerinizin performansını ve hedeflerini gerçek zamanlı izleyin.",
+        longDescription: "Satış ekibinizin bireysel ve takım bazındaki performansını ölçün. Bu pano, satış hedeflerine ulaşma oranlarını, kazanılan anlaşma sayılarını, satış döngüsü uzunluğunu ve aktivite metriklerini analiz ederek koçluk ve motivasyon için değerli içgörüler sunar. Liderlik panoları ile rekabeti teşvik eder.",
+        imageUrl: karZararImg,
+        keyQuestions: [
+            "Satış ekibi hedeflerini karşılıyor mu?",
+            "En yüksek performans gösteren temsilciler kimler?",
+            "Ortalama satış döngüsü ne kadar ve nasıl kısaltılabilir?",
+            "Hangi ürünlerde dönüşüm oranları daha yüksek?",
+            "Satış aktivitesi (görüşme, teklif) ile sonuç arasında korelasyon var mı?"
+        ],
+        keyMetrics: [
+            "Temsilci Bazında Satış Hedefi ve Gerçekleşme",
+            "Kazanılan Anlaşma Sayısı ve Toplam Değeri",
+            "Ortalama Anlaşma Büyüklüğü",
+            "Satış Döngüsü Uzunluğu (İlk Temasdan Kapanışa)",
+            "Kazanma Oranı: Kazanılan / (Kazanılan + Kaybedilen)",
+            "Aktivite Metrikleri: Arama, Toplantı, Demo Sayıları"
+        ]
     },
     {
-        id: "sales-kpi",
-        name: "Satış KPI ve Hedef Takibi",
+        id: "sales-funnel-dashboard",
+        name: "Satış Hunisi (Funnel) Paneli",
         category: "Satış",
-        description: "Temel KPI'ları izleyerek satış stratejinizi optimize edin.",
-        longDescription: "Satış huninizin (funnel) her aşamasını analiz edin.",
-        imageUrl: "/public/finops-ig-Haberler.png",
+        description: "Müşteri yolculuğunu analiz ederek satış dönüşüm oranlarınızı optimize edin.",
+        longDescription: "Satış Hunisi Paneli, potansiyel müşterinin ilk temastan kapanışa kadar olan yolculuğunu görselleştirir. Farkındalık, ilgi, değerlendirme ve karar aşamalarındaki dönüşüm oranlarını analiz ederek darboğazları ve iyileştirme alanlarını ortaya çıkarır. Pazarlama ve satış ekiplerinin uyum içinde çalışmasını sağlar.",
+        imageUrl: salesFunnelImg,
+        keyQuestions: [
+            "Satış hunisinin her aşamasında dönüşüm oranları nasıl?",
+            "Hangi aşamada en fazla kayıp yaşanıyor?",
+            "Lead kalitesi satış sonuçlarını nasıl etkiliyor?",
+            "Farklı kaynaklar (pazarlama kampanyaları) arasında dönüşüm farkı var mı?",
+            "Huni optimizasyonu için hangi aksiyonlar alınmalı?"
+        ],
+        keyMetrics: [
+            "Lead Sayısı: Toplam potansiyel müşteri",
+            "MQL (Marketing Qualified Lead): Pazarlama nitelikli lead",
+            "SQL (Sales Qualified Lead): Satış nitelikli lead",
+            "Fırsat (Opportunity): Aktif satış görüşmesi",
+            "Kazanılan Müşteri: Kapanmış anlaşma",
+            "Aşama Bazında Dönüşüm Oranları",
+            "Ortalama Huni Kalış Süresi"
+        ]
     },
     // Pazarlama
     {
-        id: "marketing-campaign",
+        id: "marketing-campaign-performance-dashboard",
         name: "Pazarlama Kampanya Paneli",
         category: "Pazarlama",
-        description: "Pazarlama kampanyalarınızın yatırım getirisini (ROI) analiz edin.",
-        longDescription: "Dijital pazarlama kampanyalarınızın etkinliğini ölçün.",
-        imageUrl: "/public/finops-kartvizit-dark.png",
+        description: "Pazarlama kampanyalarınızın yatırım getirisini (ROI) ölçün ve optimize edin.",
+        longDescription: "Dijital pazarlama kampanyalarınızın etkinliğini ölçün. Bu pano, Google Ads, sosyal medya, e-posta pazarlaması gibi farklı kanallardan gelen trafiği, potansiyel müşterileri, dönüşüm oranlarını ve kampanya başına maliyeti analiz ederek pazarlama bütçenizi en verimli şekilde kullanmanıza yardımcı olur.",
+        imageUrl: salesFunnelImg,
+        keyQuestions: [
+            "Hangi pazarlama kanalları en yüksek ROI sağlıyor?",
+            "Kampanya bazında müşteri edinme maliyeti (CAC) nedir?",
+            "Dönüşüm oranları hedeflere uygun mu?",
+            "Organik ve ücretli kanallar arasındaki performans farkı nedir?",
+            "Pazarlama bütçesi hangi kanallara yeniden tahsis edilmeli?"
+        ],
+        keyMetrics: [
+            "Kampanya Bazında Harcama ve Gelir",
+            "Pazarlama ROI: (Gelir - Maliyet) / Maliyet * 100",
+            "Müşteri Edinme Maliyeti (CAC): Toplam Pazarlama Harcaması / Yeni Müşteri",
+            "Trafik Kaynakları: Organik, Ücretli, Sosyal, Referans",
+            "Dönüşüm Oranı: Müşteri / Ziyaretçi * 100",
+            "Lead Başına Maliyet (CPL)",
+            "E-posta Açılma ve Tıklama Oranları"
+        ]
     },
-    // İK
+    // İnsan Kaynakları
     {
-        id: "hr-metrics",
-        name: "İK Metrikleri ve Personel Analizi",
-        category: "İK",
-        description: "İşe alım ve personel devir oranı gibi metrikleri izleyin.",
-        longDescription: "İnsan kaynakları departmanınızın stratejik bir ortağa dönüşmesini sağlayın.",
-        imageUrl: "/public/finops-kartvizit-light.png",
+        id: "hr-dashboard",
+        name: "İK Metrikleri ve Yetenek Yönetimi",
+        category: "İnsan Kaynakları",
+        description: "İşe alım, çalışan bağlılığı ve personel devir oranı gibi metrikleri izleyin.",
+        longDescription: "İnsan kaynakları departmanınızın stratejik bir ortağa dönüşmesini sağlayın. Bu pano, işe alım sürelerinden personel devir oranına (turnover), çalışan bağlılığından eğitim etkinliğine ve çeşitlilik metriklerine kadar birçok kritik İK verisini analiz ederek yetenek yönetimi stratejilerinizi destekler.",
+        imageUrl: hrMetricsImg,
+        keyQuestions: [
+            "Personel devir oranı sektör ortalamasının altında mı?",
+            "İşe alım süreci ne kadar sürede tamamlanıyor?",
+            "Çalışan memnuniyeti ve bağlılığı nasıl?",
+            "Eğitim ve gelişim programlarının etkinliği ölçülebiliyor mu?",
+            "Yetenek boşlukları nerede ve nasıl kapatılabilir?"
+        ],
+        keyMetrics: [
+            "Personel Devir Oranı (Turnover): (Ayrılanlar / Ortalama Çalışan) * 100",
+            "İşe Alım Süresi: Pozisyon açılışından işe başlamaya kadar geçen süre",
+            "Çalışan Memnuniyet Skoru (eNPS)",
+            "İşe Alım Maliyeti: Toplam işe alım gideri / İşe alınan kişi",
+            "Eğitim Saati Başına Çalışan",
+            "Devamsızlık Oranı",
+            "Çeşitlilik Metrikleri: Cinsiyet, yaş, departman dağılımı"
+        ]
     },
     // Operasyon
     {
-        id: "inventory-management",
-        name: "Envanter Yönetim Paneli",
+        id: "uretim-kontrol-paneli",
+        name: "Üretim Kontrol Paneli",
         category: "Operasyon",
-        description: "Stok seviyelerinizi ve envanter devir hızını optimize edin.",
-        longDescription: "Envanter yönetiminizi optimize edin.",
-        imageUrl: "/public/finops-li-banner-dark.png",
+        description: "Üretim hattı verimliliğini, duruşları ve kalite metriklerini izleyin.",
+        longDescription: "Üretim Kontrol Paneli, fabrika ve atölyeler için gerçek zamanlı bir performans göstergesidir. Üretim hacmi, makine duruş süreleri, OEE (Genel Ekipman Etkinliği) ve hurda oranları gibi kritik verileri izleyerek operasyonel verimliliği en üst düzeye çıkarmayı hedefler.",
+        imageUrl: uretimKontrolImg,
+        keyQuestions: [
+            "Üretim hedefleri zamanında karşılanıyor mu?",
+            "Hangi makinelerde en fazla duruş yaşanıyor?",
+            "OEE (Genel Ekipman Etkinliği) puanı nasıl artırılabilir?",
+            "Hurda oranı neden kaynaklanıyor ve nasıl azaltılabilir?",
+            "Üretim döngü süresi optimize edilebilir mi?"
+        ],
+        keyMetrics: [
+            "Üretim Çıktısı: Belirli sürede üretilen toplam birim",
+            "OEE (Overall Equipment Effectiveness): Kullanılabilirlik * Performans * Kalite",
+            "Makine Duruş Süresi: Plansız arıza ve bakım süreleri",
+            "İlk Geçiş Verimi (FPY): Yeniden işleme olmadan geçen ürün yüzdesi",
+            "Hurda Oranı: İsraf edilen malzeme / Toplam malzeme * 100",
+            "Çevrim Süresi: Bir birimin üretimi için gereken süre",
+            "Zamanında Teslimat Oranı (OTD)"
+        ]
     },
-    // Sektörel
     {
-        id: "saas-kpi",
-        name: "SaaS KPI Paneli (MRR, Churn)",
-        category: "Sektörel",
-        description: "MRR, Churn ve LTV gibi SaaS metriklerini takip edin.",
-        longDescription: "SaaS iş modeliniz için hayati metrikleri izleyin.",
-        imageUrl: "/public/finops-li-banner-light.png",
+        id: "kalite-kontrol-paneli",
+        name: "Kalite Kontrol Paneli",
+        category: "Operasyon",
+        description: "Üretim veya hizmet kalitesini kritik metriklerle takip edin.",
+        longDescription: "Kalite Kontrol Paneli, üretim süreçlerindeki veya hizmet sunumundaki kalite seviyesini izlemek için tasarlanmıştır. Hata oranları, müşteri şikayetleri, yeniden işleme maliyetleri ve standartlara uygunluk gibi metrikleri analiz ederek kaliteyi sürekli iyileştirme fırsatları sunar.",
+        imageUrl: kaliteKontrolImg,
+        keyQuestions: [
+            "Ürün veya hizmet kalitesi standartları karşılıyor mu?",
+            "Hata oranları kabul edilebilir seviyede mi?",
+            "Müşteri şikayetlerinin ana nedenleri nelerdir?",
+            "Kalite kontrol maliyetleri nasıl optimize edilebilir?",
+            "Düzeltici ve önleyici faaliyetler etkili mi?"
+        ],
+        keyMetrics: [
+            "Hata Oranı: Kusurlu ürün / Toplam ürün * 100",
+            "İlk Geçiş Verimi (FPY): Tek seferde kalite kontrolünden geçen yüzde",
+            "Müşteri Şikayet Sayısı ve Kategorileri",
+            "Yeniden İşleme Maliyeti ve Oranı",
+            "Düşük Kalitenin Maliyeti (COPQ): Kalite sorunlarıyla ilgili toplam maliyet",
+            "Uygunluk Oranı: Standartları karşılayan ürün yüzdesi",
+            "Ortalama Düzeltme Süresi"
+        ]
     },
     {
-        id: "ecommerce-sales",
-        name: "E-Ticaret Satış Paneli",
-        category: "Sektörel",
-        description: "Ortalama sepet tutarı ve dönüşüm oranları gibi e-ticaret verilerini analiz edin.",
-        longDescription: "E-ticaret sitenizin performansını en ince ayrıntısına kadar analiz edin.",
-        imageUrl: "/public/finops-logo-light.png",
+        id: "inventory-management-dashboard",
+        name: "Stok ve Tedarik Zinciri Paneli",
+        category: "Operasyon",
+        description: "Stok seviyelerinizi, envanter devir hızını ve tedarik zinciri verimliliğini optimize edin.",
+        longDescription: "Stok yönetiminizi optimize ederek maliyetleri düşürün ve müşteri memnuniyetini artırın. Bu pano, stok seviyelerini, envanter devir hızını, stokta kalma sürelerini, talep tahmin doğruluğunu ve tedarik zinciri performansını izler. Atıl stokları ve stoksuz kalma risklerini proaktif olarak belirlemenizi sağlar.",
+        imageUrl: karZararImg,
+        keyQuestions: [
+            "Stok seviyeleri optimal mi, fazla veya eksik stok var mı?",
+            "Envanter devir hızı sektör ortalamalarına uygun mu?",
+            "Hangi ürünlerde stok tükenmesi riski var?",
+            "Tedarikçi performansı beklentileri karşılıyor mu?",
+            "Taşıma maliyetleri nasıl azaltılabilir?"
+        ],
+        keyMetrics: [
+            "Stok Devir Hızı: Satılan Malın Maliyeti / Ortalama Stok",
+            "Stok Günleri (DIO): (Ortalama Stok / COGS) * 365",
+            "Stok Doğruluğu: Fiziksel sayım / Sistem kaydı",
+            "Stoksuz Kalma Oranı: Stok tükenmesi / Toplam sipariş",
+            "ABC Analizi: A (Yüksek Değer), B (Orta), C (Düşük) ürün dağılımı",
+            "Tedarikçi Zamanında Teslimat Oranı",
+            "Güvenlik Stoku ve Yeniden Sipariş Noktası"
+        ]
     },
-];
+    // Restoran
+    {
+        id: "genel-restoran-kontrol-paneli",
+        name: "Genel Restoran Kontrol Paneli",
+        category: "Restoran",
+        description: "Restoranınızın genel performansını tek bir ekrandan yönetin.",
+        longDescription: "Genel Restoran Kontrol Paneli, satışlar, maliyetler, müşteri memnuniyeti ve operasyonel verimlilik gibi tüm temel metrikleri bir araya getirir. Yöneticilere restoranın genel sağlığı hakkında hızlı ve kapsamlı bir bakış sunar.",
+        imageUrl: genelRestoranImg,
+        keyQuestions: [
+            "Restoranın genel finansal sağlığı nasıl?",
+            "Operasyonel verimlilikte iyileştirme alanları nereler?",
+            "Karar alma süreçlerini hızlandıracak temel göstergeler nelerdir?",
+            "Müşteri memnuniyetini ve sadakatini etkileyen faktörler nelerdir?"
+        ],
+        keyMetrics: [
+            "Gelir: Toplam satışlar, iadeler ve indirimler",
+            "Giderler: Satılan malların maliyeti, işçilik ve işletme giderleri",
+            "Kar Marjı",
+            "Müşteri Trafiği",
+            "Ortalama Hesap Tutarı",
+            "Masa Devir Oranı"
+        ]
+    },
+    {
+        id: "restoran-satis-gosterge-paneli",
+        name: "Restoran Satış Gösterge Paneli",
+        category: "Restoran",
+        description: "Satış trendlerini, ürün performansını ve gelir kanallarını detaylı izleyin.",
+        longDescription: "Restoran Satış Gösterge Paneli, cironun nereden geldiğini detaylı bir şekilde ortaya koyar. Saatlik satışlar, menü öğesi popülerliği, online siparişler ve masa başına harcama gibi verilerle satış ve pazarlama stratejilerinizi şekillendirmenize yardımcı olur.",
+        imageUrl: restoranSatisImg,
+        keyQuestions: [
+            "Satış performansı genel olarak nasıl gidiyor?",
+            "En çok ve en az satan menü kalemleri hangileri?",
+            "Hangi saatler veya günler satışların en yoğun olduğu zamanlar?",
+            "Pazarlama ve promosyon stratejilerini optimize etmek için hangi veriler kullanılabilir?",
+            "Müşteri kazanım ve elde tutma oranları ne durumda?"
+        ],
+        keyMetrics: [
+            "Toplam Satışlar",
+            "Ürün Kategorisine Göre Satışlar",
+            "Lokasyona Göre Satışlar",
+            "Zaman İçindeki Satış Trendleri",
+            "Müşteri Kazanım Oranı",
+            "Müşteri Bağlılık Oranı",
+            "Ortalama Fiş Tutarı",
+            "En Yoğun Satış Dönemleri"
+        ]
+    },
+    {
+        id: "restoran-envanter-kontrol-paneli",
+        name: "Restoran Envanter Kontrol Paneli",
+        category: "Restoran",
+        description: "Stok seviyelerini, tedarikçi performansını ve fire oranlarını izleyin.",
+        longDescription: "Restoran Envanter Kontrol Paneli, mutfak operasyonlarının temel taşı olan stok yönetimini optimize eder. Malzeme seviyeleri, sipariş sıklığı, tedarikçi performansı ve fire oranları gibi metriklerle gıda maliyetlerini (food cost) doğrudan kontrol etmenizi sağlar.",
+        imageUrl: restoranEnvanterImg,
+        keyQuestions: [
+            "Mevcut stok seviyeleri kritik bir düzeyde mi?",
+            "Gıda maliyeti (food cost) hedeflenen bütçe dahilinde mi?",
+            "Hangi ürünlerin stok devir hızı yavaş ve atıl stok oluşturuyor?",
+            "Gıda israfı (fire) oranı ne kadar ve nasıl azaltılabilir?",
+            "Stok tükenmesi riski taşıyan en kritik ürünler hangileri?"
+        ],
+        keyMetrics: [
+            "Ürün Bazında Stok Seviyeleri",
+            "Stok Maliyetleri",
+            "Gıda Maliyeti Yüzdesi",
+            "Stok Devir Oranı",
+            "Stokta Olmayan Ürün Sayısı",
+            "Gıda İsrafı Oranı"
+        ]
+    },
+    {
+        id: "restoran-isgucu-gosterge-paneli",
+        name: "Restoran İşgücü Gösterge Paneli",
+        category: "Restoran",
+        description: "Personel maliyetlerini, verimliliği ve vardiya planlamasını analiz edin.",
+        longDescription: "Restoran İşgücü Gösterge Paneli, işçilik maliyetlerinin ciroya oranını, personel devir hızını ve çalışan başına düşen geliri analiz eder. Vardiya planlamasını optimize ederek ve personel verimliliğini artırarak karlılığı doğrudan etkileyen içgörüler sunar.",
+        imageUrl: restoranIsgucuImg,
+        keyQuestions: [
+            "İşçilik maliyetleri bütçeyi aşıyor mu?",
+            "Personel devir (turnover) oranı sektör ortalamasına göre ne durumda?",
+            "Vardiya planlaması ne kadar verimli? Yoğun saatlerde yeterli personel var mı?",
+            "Çalışan başına düşen gelir nedir ve nasıl artırılabilir?",
+"Fazla mesai saatleri kontrol altında mı ve maliyetleri nasıl etkiliyor?"
+        ],
+        keyMetrics: [
+            "İşçilik Maliyetleri",
+            "Çalışan Devir Oranı",
+            "Çalışan Planlaması ve Vardiya Uyumu",
+            "İşgücü Verimliliği (Toplam Satış / Toplam İş Saati)",
+            "Fazla Mesai Saatleri"
+        ]
+    },
+    {
+        id: "restaurant-operations-dashboard",
+        name: "Restoran Operasyon Paneli",
+        category: "Restoran",
+        description: "Günlük satışları, masa devir hızını ve müşteri memnuniyetini anlık takip edin.",
+        longDescription: "Restoranınızın günlük nabzını tutun. Bu pano, anlık satışları, masa ve müşteri başına ortalama harcamayı, masa devir hızını ve en popüler menü öğelerini gösterir. Yoğun saatleri belirleyerek personel planlamanızı optimize etmenize ve müşteri geri bildirimlerini takip ederek hizmet kalitesini artırmanıza yardımcı olur.",
+        imageUrl: genelRestoranImg,
+        keyQuestions: [
+            "Günlük satış performansı hedeflere uygun mu?",
+            "Masa devir hızı optimal seviyede mi?",
+            "En popüler ve karlı menü öğeleri hangileri?",
+            "Yoğun saatler ne zaman ve personel planlaması yeterli mi?",
+            "Müşteri memnuniyeti nasıl ölçülüyor ve iyileştirilebilir?"
+        ],
+        keyMetrics: [
+            "Günlük Toplam Satış ve Karşılaştırmalı Analiz",
+            "Masa Devir Oranı: Devrilen masa / Toplam masa",
+            "Ortalama Hesap Tutarı: Toplam satış / Müşteri sayısı",
+            "Müşteri Trafiği: Hizmet verilen toplam müşteri",
+            "En Çok Satan Menü Öğeleri",
+            "Sipariş Hazırlama Süresi (Mutfak Performansı)"
+        ]
+    },
+    {
+        id: "restaurant-financial-dashboard",
+        name: "Restoran Finansal ve Maliyet Paneli",
+        category: "Restoran",
+        description: "Gıda maliyeti (food cost), işçilik maliyeti ve karlılık oranlarınızı analiz edin.",
+        longDescription: "Restoranınızın finansal sağlığını derinlemesine analiz edin. Bu pano, en büyük gider kalemleri olan gıda ve işçilik maliyetlerini kontrol altında tutmanıza yardımcı olur. Menü öğesi bazında karlılık analizi yaparak fiyatlandırma stratejilerinizi optimize etmenizi ve genel karlılığı artırmanızı sağlar.",
+        imageUrl: restoranSatisImg,
+        keyQuestions: [
+            "Gıda maliyeti yüzdesi (food cost) hedef aralıkta mı?",
+            "İşçilik maliyetleri ciroya oranı nedir ve kontrol altında mı?",
+            "Menü öğeleri bazında karlılık analizi yapılıyor mu?",
+            "Prime cost (gıda + işçilik) sürdürülebilir seviyelerde mi?",
+            "Fiyatlandırma stratejisi optimize edilebilir mi?"
+        ],
+        keyMetrics: [
+            "Gıda Maliyeti Yüzdesi: (Gıda Maliyeti / Gıda Satışı) * 100",
+            "İşçilik Maliyeti Yüzdesi: (İşçilik Maliyeti / Toplam Satış) * 100",
+            "Prime Cost: Gıda Maliyeti + İşçilik Maliyeti",
+            "Menü Öğesi Bazında Katkı Marjı",
+            "Kar Marjı: (Net Kar / Toplam Satış) * 100",
+            "İşletme Giderleri Yüzdesi"
+        ]
+    },
+    // Otel
+    {
+        id: "hotel-management-paneli",
+        name: "Otel Yönetim Paneli",
+        category: "Otel",
+        description: "Doluluk, gelir ve operasyonel metriklerle otelinizi bütünsel yönetin.",
+        longDescription: "Otel Yönetim Paneli, doluluk oranları ve gelir metriklerinin (RevPAR, ADR) yanı sıra, personel yönetimi, temizlik operasyonları ve müşteri geri bildirimleri gibi operasyonel detayları da içerir. Bu bütünsel bakış, otel yöneticilerinin daha verimli ve etkili kararlar almasını sağlar.",
+        imageUrl: hotelManagementImg,
+        keyQuestions: [
+            "Doluluk oranları beklentilere uygun mu ve nasıl artırılabilir?",
+            "RevPAR (Oda Başına Gelir) performansı rakiplere göre nasıl?",
+            "Operasyonel maliyetler kontrol altında mı?",
+            "Müşteri memnuniyeti ve tekrar ziyaret oranları nasıl?",
+            "Personel verimliliği ve hizmet kalitesi optimize edilebilir mi?"
+        ],
+        keyMetrics: [
+            "Doluluk Oranı: Dolu Oda / Toplam Oda * 100",
+            "ADR (Average Daily Rate): Toplam Oda Geliri / Satılan Oda",
+            "RevPAR (Revenue Per Available Room): Oda Geliri / Toplam Oda",
+            "Ortalama Konaklama Süresi",
+            "Online Değerlendirme Puanı (TripAdvisor, Booking.com vb.)",
+            "Doğrudan Rezervasyon vs OTA Oranı",
+            "Oda Temizlik ve Hazırlama Süresi"
+        ]
+    },
+    {
+        id: "hotel-dashboard",
+        name: "Otel Doluluk ve Gelir Paneli",
+        category: "Otel",
+        description: "Oda doluluk oranlarını (ADR, RevPAR) ve gelir kanallarını anlık izleyin.",
+        longDescription: "Otelinizin performansını kritik metriklerle yönetin. Bu pano, ortalama günlük oda fiyatı (ADR), oda başına düşen gelir (RevPAR), doluluk oranı ve gelir kaynaklarını (oda, restoran, etkinlikler) analiz eder. Rezervasyon kanallarını ve müşteri segmentasyonunu izleyerek gelir yönetimi stratejilerinizi optimize etmenizi sağlar.",
+        imageUrl: hotelManagementImg,
+        keyQuestions: [
+            "Gelir yönetimi stratejisi optimal fiyatlandırmayı sağlıyor mu?",
+            "Hangi rezervasyon kanalları en karlı?",
+            "Sezonluk trendlere göre kapasite yönetimi nasıl yapılmalı?",
+            "Ek gelir kaynakları (F&B, spa, etkinlikler) yeterince kullanılıyor mu?",
+            "Müşteri segmentasyonuna göre fiyatlandırma optimize edilebilir mi?"
+        ],
+        keyMetrics: [
+            "Toplam Gelir ve Gelir Dağılımı (Oda, F&B, Diğer)",
+            "ADR Trendi: Günlük, haftalık, aylık",
+            "RevPAR Benchmark: Rakip oteller ve pazar ortalaması",
+            "Rezervasyon Kaynakları: Direkt, OTA, Kurumsal",
+            "İptal Oranı ve No-Show Oranı",
+            "Müşteri Segmenti Bazında Harcama Analizi"
+        ]
+    },
+    // Otomotiv
+    {
+        id: "otomotiv-dashboard-paneli",
+        name: "Otomotiv Dashboard Paneli",
+        category: "Otomotiv",
+        description: "Satış, servis ve envanter verilerini bir araya getiren kapsamlı panel.",
+        longDescription: "Otomotiv Dashboard Paneli, satış adetleri, servis gelirleri ve envanterdeki araçların durumu gibi farklı veri noktalarını birleştirir. Bayi yöneticilerine, işletmenin tüm yönlerini kapsayan stratejik bir bakış açısı sunar.",
+        imageUrl: otomotivDashboardImg,
+        keyQuestions: [
+            "Araç satışları hedeflere uygun mu ve hangi modeller öne çıkıyor?",
+            "Servis departmanı ne kadar karlı ve müşteri sadakati nasıl?",
+            "Envanter devir hızı optimal mi, stokta bekleyen araçlar var mı?",
+            "Yedek parça satışları ve karlılığı nasıl?",
+            "Müşteri yaşam boyu değeri (LTV) nasıl artırılabilir?"
+        ],
+        keyMetrics: [
+            "Yeni ve İkinci El Araç Satış Adetleri",
+            "Satış Kanalı Bazında Performans (Showroom, Online, Kurumsal)",
+            "Servis Departmanı Geliri ve Kar Marjı",
+            "Envanter Yaşı ve Devir Hızı",
+            "Müşteri Memnuniyeti (CSI) ve Servis Memnuniyeti (SSI)",
+            "Test Sürüşü Dönüşüm Oranı",
+            "Finansman ve Sigorta Penetrasyonu (F&I)"
+        ]
+    },
+    {
+        id: "automotive-dashboard",
+        name: "Otomotiv Satış ve Servis Paneli",
+        category: "Otomotiv",
+        description: "Araç satışlarını, servis randevularını ve müşteri yaşam boyu değerini yönetin.",
+        longDescription: "Otomotiv bayinizin satış ve servis operasyonlarını tek bir merkezden yönetin. Bu pano, yeni ve ikinci el araç satışlarını, envanter devir hızını, servis departmanı verimliliğini ve müşteri başına düşen geliri izler. Satış sonrası hizmetlerin ve müşteri sadakatinin karlılığa etkisini analiz etmenize olanak tanır.",
+        imageUrl: automotiveImg,
+        keyQuestions: [
+            "Satış ve servis departmanları arasındaki sinerji yeterli mi?",
+            "Servis randevu doluluk oranı ve verimlilik nasıl?",
+            "Tekrar eden müşteri oranı nasıl artırılabilir?",
+            "Garanti dışı işler hangi oranda ve ne kadar karlı?",
+            "Dijital kanallardan gelen satış ve servis talepleri nasıl yönetiliyor?"
+        ],
+        keyMetrics: [
+            "Satış Funnel: Test Sürüşü → Teklif → Kapanış",
+            "Servis Randevu Doluluk Oranı",
+            "Teknisyen Verimliliği: Faturalanabilir Saat / Toplam Saat",
+            "Müşteri Elde Tutma Oranı (Retention)",
+            "Ortalama Servis İşi Değeri",
+            "Kampanya ROI'si",
+            "Müşteri Yaşam Boyu Değeri (LTV)"
+        ]
+    },
+    // Tarım
+    {
+        id: "agriculture-dashboard",
+        name: "Tarım Operasyonları ve Verimlilik Paneli",
+        category: "Tarım",
+        description: "Mahsul verimliliğini, ekipman kullanımını ve operasyonel maliyetleri izleyin.",
+        longDescription: "Tarımsal işletmenizin verimliliğini ve karlılığını artırın. Bu pano, dönüm başına mahsul verimini, gübre ve su gibi kaynakların kullanım oranlarını, ekipmanların çalışma sürelerini ve bakım maliyetlerini analiz eder. Hava durumu ve pazar fiyatları gibi dış faktörleri entegre ederek hasat ve satış stratejilerinizi optimize etmenize yardımcı olur.",
+        imageUrl: agricultureImg,
+        keyQuestions: [
+            "Dönüm başına mahsul verimi geçmiş sezonlara göre nasıl?",
+            "Girdi maliyetleri (gübre, tohum, su) optimize edilebilir mi?",
+            "Ekipman kullanımı ve bakım maliyetleri nasıl yönetiliyor?",
+            "Hasat zamanlaması ve pazar fiyatları göz önüne alındığında satış stratejisi nedir?",
+            "İklim ve hava koşullarının üretim üzerindeki etkisi nasıl?",
+        ],
+        keyMetrics: [
+            "Dönüm Başına Verim: Kg veya Ton / Dönüm",
+            "Toplam Üretim Maliyeti: Tohum + Gübre + İşçilik + Ekipman",
+            "Birim Başına Maliyet: Toplam Maliyet / Toplam Üretim",
+            "Ekipman Kullanım Oranı ve Arıza Süresi",
+            "Su ve Gübre Kullanım Verimliliği",
+            "Hasat Kaybı Yüzdesi",
+            "Pazar Fiyatı Trendleri ve Satış Karlılığı"
+        ]
+    },
+    // E-Ticaret
+    {
+        id: "ecommerce-kpi-dashboard",
+        name: "E-Ticaret KPI Paneli",
+        category: "E-Ticaret",
+        description: "Dönüşüm oranı, ortalama sepet tutarı ve müşteri yaşam boyu değerini izleyin.",
+        longDescription: "E-ticaret sitenizin performansını A'dan Z'ye analiz edin. Bu pano, ziyaretçi trafiğinden terk edilmiş sepetlere, dönüşüm oranlarından müşteri yaşam boyu değerine kadar tüm kritik metrikleri bir araya getirir. Pazarlama kampanyalarınızın etkinliğini ölçmenize ve kullanıcı deneyimini iyileştirmenize olanak tanır.",
+        imageUrl: ecommerceKpiImg,
+        keyQuestions: [
+            "Dönüşüm oranı sektör ortalamasına göre nasıl?",
+            "Sepet terk edilme oranı neden yüksek ve nasıl azaltılabilir?",
+            "Müşteri edinme maliyeti (CAC) ile yaşam boyu değer (LTV) oranı sağlıklı mı?",
+            "En çok hangi ürünler satılıyor ve marj analizi nasıl?",
+            "Mobil ve desktop dönüşüm oranları arasındaki fark nedir?"
+        ],
+        keyMetrics: [
+            "Toplam Ziyaretçi ve Trafik Kaynakları",
+            "Dönüşüm Oranı: Sipariş / Ziyaretçi * 100",
+            "Ortalama Sipariş Değeri (AOV): Toplam Gelir / Sipariş Sayısı",
+            "Sepet Terk Edilme Oranı: Terk Edilen / Başlatılan Sepet * 100",
+            "Müşteri Yaşam Boyu Değeri (LTV)",
+            "Müşteri Edinme Maliyeti (CAC)",
+            "Tekrar Satın Alma Oranı",
+            "Net Promoter Score (NPS)"
+        ]
+    }
+]

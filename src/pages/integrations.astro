@@ -1,0 +1,34 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ibm from '../assets/integrations/ibm.svg';
+import sap from '../assets/integrations/sap.svg';
+import salesforce from '../assets/integrations/salesforce.svg';
+import hubspot from '../assets/integrations/hubspot.svg';
+import zoho from '../assets/integrations/zoho.svg';
+import quickbooks from '../assets/integrations/quickbooks.svg';
+import xero from '../assets/integrations/xero.svg';
+import stripe from '../assets/integrations/stripe.svg';
+import payu from '../assets/integrations/payu.svg';
+
+const integrations = [
+  { name: 'IBM', logo: ibm },
+  { name: 'SAP', logo: sap },
+  { name: 'Salesforce', logo: salesforce },
+  { name: 'Hubspot', logo: hubspot },
+  { name: 'Zoho', logo: zoho },
+  { name: 'Quickbooks', logo: quickbooks },
+  { name: 'Xero', logo: xero },
+  { name: 'Stripe', logo: stripe },
+  { name: 'PayU', logo: payu },
+];
+---
+
+<Layout title="Integrations">
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {integrations.map(integration => (
+      <div class="flex items-center justify-center p-6 bg-gray-800 rounded-lg">
+        <img src={integration.logo} alt={integration.name} class="h-12" />
+      </div>
+    ))}
+  </div>
+</Layout>

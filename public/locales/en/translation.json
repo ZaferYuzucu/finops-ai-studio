@@ -1,84 +1,1049 @@
 {
-  "login": "Login",
-  "signUp": "Sign Up",
+  "nav": {
   "solutions": "Solutions",
-  "dataVisualization": "Data Visualization",
-  "resources": "Resources",
-  "pricing": "Pricing",
   "financialDataAnalysis": "Financial Data Analysis",
   "costInventoryManagement": "Cost & Inventory Management",
-  "cashFlow": "Cash Flow Optimization",
-  "budgetPlanning": "Budget Planning",
+    "cashFlow": "Cash Flow",
+    "budgetPlanning": "Budget & Planning",
   "hrPayrollPerformance": "HR & Payroll Performance",
+    "dataVisualization": "Data Visualization",
   "dashboardExamples": "Dashboard Examples",
   "features": "Features",
   "support": "Support",
+    "resources": "Resources",
+    "knowledgeBase": "Knowledge Base",
+    "documents": "Documents",
+    "pricing": "Pricing",
+    "login": "Login",
+    "signUp": "Sign Up",
+    "userPanel": "User Panel",
+    "logout": "Logout"
+  },
+  "hero": {
+    "title": "Make Data-Driven Decisions, Increase Your Profitability",
+    "subtitle": "Finops AI brings all your financial and operational data together. It provides the insights you need to increase your efficiency and gain a competitive advantage.",
+    "button1": "Start for Free",
+    "button2": "Explore Features"
+  },
+  "pricing": {
+    "transparentPricing": "Transparent and Flexible Pricing",
+    "title": "Choose the Right",
+    "titleHighlight": "Plan for You",
+    "subtitle": "Flexible plans designed for your business size and needs. No commitment, change anytime.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "yearlyDiscount": "20% Off",
+    "yearlyNote": "Annual plans are billed upfront.",
+    "launchPartner": {
+      "title": "Launch Partner",
+      "subtitle": "Beta Partner - Special Offer",
+      "price": "0",
+      "period": "/ 1 Year Free",
+      "badge": "Quota Left",
+      "quotaFull": "Quota Full",
+      "quotaWarning": "Only X businesses left!",
+      "priceNote": "75% discounted fixed price guarantee after 1 year",
+      "specialNote": "Valid for the first 20 businesses only. By special invitation or application.",
+      "button": "Apply Now",
+      "buttonFull": "Quota Full",
+      "features": {
+        "1": "All Premium Features Included",
+        "2": "Voice in Product Roadmap",
+        "3": "24/7 VIP Support Line",
+        "4": "75% discounted fixed price guarantee after 1 year"
+      }
+    },
+    "entrepreneur": {
+      "title": "Entrepreneur",
+      "subtitle": "Launch Special",
+      "price": "0",
+      "period": "/ 6 Months (Free)",
+      "badge": "6 Month Period",
+      "specialNote": "Opportunity to switch to \"Business Friendly\" package with 50% discount at the end of the 6th month.",
+      "button": "Start Free",
+      "features": {
+        "1": "1 Business Definition",
+        "2": "Income/Expense Tracking",
+        "3": "e-Invoice Viewing",
+        "4": "Basic Financial Reporting"
+      }
+    },
+    "business": {
+      "title": "Business Friendly",
+      "subtitle": "Efficient Growth",
+      "price": "599",
+      "period": "/ Month",
+      "priceNote": "20% discount applied for annual payment",
+      "priceNoteMonthly": "299 TL for the first 6 months when switching from Entrepreneur package",
+      "button": "Join Now",
+      "features": {
+        "1": "3 User Access",
+        "2": "Bank and POS Integration",
+        "3": "Weekly Cost Increase Report",
+        "4": "Automatic Category Classification"
+      }
+    },
+    "premium": {
+      "title": "Premium",
+      "subtitle": "Professional Management",
+      "price": "1,799",
+      "period": "/ Month",
+      "priceNote": "20% discount applied for annual payment",
+      "button": "Go Professional",
+      "features": {
+        "1": "Sectoral Stock and Regalo Analysis",
+        "2": "Personnel Efficiency Report",
+        "3": "10 Custom Dashboard Panel Setup",
+        "4": "Advanced Cash Flow Forecasting"
+      }
+    },
+    "enterprise": {
+      "title": "Enterprise",
+      "subtitle": "Enterprise",
+      "price": "Get Quote",
+      "period": "Custom Pricing",
+      "priceNote": "Solutions tailored to your needs",
+      "button": "Contact Us",
+      "features": {
+        "1": "Multi-Branch / Hotel Management",
+        "2": "Custom AI Consulting",
+        "3": "24/7 Priority Support & On-site Training",
+        "4": "Unlimited User Definition"
+      }
+    },
+    "currentPlan": "Your Current Plan",
+    "securePayment": {
+      "title": "Secure Payment Methods",
+      "subtitle": "All your payments are securely processed through Iyzico and Stripe infrastructure.",
+      "features": {
+        "ssl": "SSL Certified Secure Payment",
+        "support": "24/7 Technical Support",
+        "updates": "Free Updates",
+        "guarantee": "14 Day Money Back Guarantee"
+      },
+      "note": "* Annual plans are billed upfront. VAT not included in all prices."
+    },
+    "payment": {
+      "title": "Secure Payment Methods",
+      "description": "All your payments are securely processed through Iyzico and Stripe infrastructure.",
+      "creditCard": "Credit Card",
+      "bankTransfer": "Bank Transfer",
+      "features": {
+        "ssl": "SSL Certified Secure Payment",
+        "support": "24/7 Technical Support",
+        "updates": "Free Updates",
+        "guarantee": "14 Day Money Back Guarantee"
+      },
+      "disclaimer": "* Annual plans are billed upfront. VAT not included in all prices."
+    }
+  },
+  "footer": {
+    "solutions": "SOLUTIONS",
+    "resources": "RESOURCES",
+    "corporate": "CORPORATE",
+    "admin": "MANAGEMENT",
+    "social": "SOCIAL MEDIA",
+    "links": {
+      "financialDataAnalysis": "Financial Data Analysis",
+      "costInventoryManagement": "Cost & Inventory Management",
+      "budgetPlanning": "Budget & Planning",
+      "cashFlow": "Cash Flow",
+      "hrPayrollPerformance": "HR & Payroll Performance",
   "knowledgeBase": "Knowledge Base",
   "documents": "Documents",
   "about": "About",
   "contact": "Contact",
-  "blog": "Blog",
-  "heroTitle": "Make Data-Driven Decisions, Increase Your Profitability",
-  "heroSubtitle": "Finops AI brings all your financial and operational data together. It provides the insights you need to increase your efficiency and gain a competitive advantage.",
-  "heroButton1": "Start for Free",
-  "heroButton2": "Explore Features",
-  "solutionsTitle": "One Platform for All Your Financial Needs",
-  "solutionsSubtitle": "From data analysis to budget planning, all the tools you need to manage the financial health of your business.",
-  "integrationsTitle": "Integrate All Your Data Sources in Minutes",
-  "integrationsSubtitle": "Easily connect to cloud services, databases, spreadsheets, and CRM systems to get a holistic view of your business.",
-  "dashboardPreviewTitle": "Interactive and Customizable Dashboards",
-  "dashboardPreviewSubtitle": "Visualize your data with our drag-and-drop interface. Gain deep insights with a variety of chart types, tables, and maps.",
-  "sectorCardsTitle": "Solutions for Every Sector",
-  "sectorCardsSubtitle": "We offer customized solutions for different sectors. Find the best tools to meet your business needs.",
-  "footerSolutions": "SOLUTIONS",
-  "footerSupport": "SUPPORT",
-  "footerCompany": "COMPANY",
-  "footerCorporateIdentity": "CORPORATE",
-  "footerSocialMedia": "SOCIAL",
-  "footerFinancialDataAnalysis": "Financial Data Analysis",
-  "footerCostInventoryManagement": "Cost & Inventory",
-  "footerCashFlowOptimization": "Cash Flow Optimization",
-  "footerBudgetPlanning": "Budget Planning",
-  "footerHrPayrollPerformance": "HR & Payroll",
-  "footerDocumentation": "Documentation",
-  "footerHelpCenter": "Help Center",
-  "footerAboutUs": "About Us",
-  "footerBlog": "Blog",
-  "footerCareers": "Careers",
-  "footerBrandingKit": "Branding Kit",
-  "footerBusinessPlan": "Business Plan",
-  "footerMarketingPlan": "Marketing Plan",
-  "footerStudioCreator": "Studio Creator",
-  "footerProjectActivityReport": "Project Activity Report",
-  "footerStayUpdated": "Stay Updated",
-  "footerStayUpdatedSubtitle": "The latest news, articles, and resources, sent to your inbox weekly.",
-  "footerEmailPlaceholder": "Enter your email",
-  "footerSubscribe": "Subscribe",
-  "footerRightsReserved": "All rights reserved.",
-  "footerPrivacyPolicy": "Privacy Policy",
-  "footerTermsOfService": "Terms of Service",
-  "footerCookiePolicy": "Cookie Policy",
-  "footerEmailDisclaimer": "Email Disclaimer",
-  "kpi": {
-    "months": {
-      "jan": "January",
-      "feb": "February",
-      "mar": "March",
-      "apr": "April",
-      "may": "May",
-      "jun": "June",
-      "jul": "July"
+      "brandKit": "Brand Kit",
+      "projectActivityReport": "Project Activity Report",
+      "platformAnalytics": "Platform Analytics (Backstage)",
+      "brandingKit": "Branding Kit (Admin)",
+      "studioCreator": "Studio Creator",
+      "newsletterPanel": "Newsletter Panel",
+      "businessPlan": "Business Plan",
+      "pricing": "Pricing",
+      "marketingPlan": "Marketing Plan",
+      "userJourneyMap": "User Journey Map"
     },
-    "expenses": {
-      "marketing": "Marketing",
-      "technology": "Technology",
-      "personnel": "Personnel",
-      "operational": "Operational"
+    "stayUpdated": "Stay Updated",
+    "stayUpdatedSubtitle": "The latest news, articles, and resources, sent to your inbox weekly.",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "subscribing": "Subscribing...",
+    "subscribeSuccess": "Successfully subscribed to our newsletter!",
+    "subscribeError": "An error occurred. Please try again.",
+    "rightsReserved": "All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "cookiePolicy": "Cookie Policy"
+  },
+  "hero": {
+    "title": "Next-generation Financial Operations",
+    "subtitle": "Automate, optimize, and control your cloud spending with our AI-powered FinOps platform.",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "integrations": {
+    "title": "Seamless Integration",
+    "subtitle": "Compatible with Your Existing Software",
+    "description": "Our platform seamlessly integrates with widely used ERP, cloud, and office software in the Turkish market, automating your data flow and saving you time."
+  },
+  "solutions": {
+    "title": "Discover Our Solutions",
+    "subtitle": "Create Value for Your Business",
+    "description": "FINOPS AI Studio offers powerful, integrated modules designed to simplify your financial operations and increase profitability.",
+    "financialDataAnalysis": {
+      "name": "Financial Data Analysis",
+      "description": "Consolidate all your financial data on a single platform. Transform your data into meaningful, actionable insights with our comprehensive analysis tools and build your strategic decisions on this foundation."
+    },
+    "costInventoryManagement": {
+      "name": "Cost & Inventory Management",
+      "description": "Precisely track your operational costs and inventory levels. Our AI-powered algorithms provide tailored recommendations to reduce costs and maximize inventory efficiency."
+    },
+    "cashFlowForecasting": {
+      "name": "Cash Flow Forecasting",
+      "description": "Secure your financial stability by forecasting your future cash flow with high accuracy. Identify potential bottlenecks in advance and protect your financial health with proactive measures."
+    },
+    "hrPerformanceManagement": {
+      "name": "HR & Performance Management",
+      "description": "Increase organizational efficiency by analyzing human resources data and personnel performance. Measure team performance with objective metrics and shape your talent management strategies based on data."
+    },
+    "budgetFinancialPlanning": {
+      "name": "Budget & Financial Planning",
+      "description": "Easily compare your budget and actual expenses, instantly detect deviations. Set more flexible and realistic financial goals with our dynamic planning tools and continuously monitor your progress toward achieving them."
     }
   },
-  "marketing": {
-    "valueProp": {
-      "content": "\"Wherever your financial data is (ERP, Excel, Cloud), we transform it into <1>understandable and actionable insights</1>, increasing your profitability and efficiency.\""
+  "heroPage": {
+    "hero": {
+      "title": "From Scattered Data to Net Profit: Shape Your Financial Future",
+      "subtitle": "FINOPS AI Studio helps you increase profitability and make solid decisions for the future by transforming your business's financial data into meaningful insights.",
+      "explorePlatform": "Explore Platform"
+    },
+    "dashboard": {
+      "alt": "FINOPS AI Studio CEO Dashboard Panel"
+    },
+    "automation": {
+      "badge": "Increase Efficiency",
+      "title": "AI-Powered Automation Flow",
+      "description": "Discover how our platform simplifies complex tasks in seconds. Your natural language commands are instantly analyzed, processed, and transformed into customized solutions by our advanced AI models."
+    }
+  },
+  "solutionPages": {
+    "financialAnalysis": {
+      "badge": "Solution Detail",
+      "title": "Financial Data Analysis",
+      "subtitle": "Transform your raw financial data into meaningful and actionable insights that enable strategic decisions. Keep your company's financial pulse in real-time with Finops AI.",
+      "startAnalysis": "Start Analysis",
+      "talkToExpert": "Talk to Expert",
+      "imageAlt": "Financial Data Analysis Panel",
+      "featuresTitle": "Cornerstones of Data Analysis",
+      "featuresSubtitle": "Our platform offers powerful capabilities designed to illuminate every layer of your financial data.",
+      "features": {
+        "profitabilityAnalysis": {
+          "name": "Profitability Analysis",
+          "description": "Clearly see your profitability rates by product, service, or customer segment. Identify which areas support growth and which consume resources."
+        },
+        "expenseManagement": {
+          "name": "Expense Management & Optimization",
+          "description": "Categorize all your expense items, instantly detect unexpected increases, and reduce your costs with AI-powered savings recommendations."
+        },
+        "kpiTracking": {
+          "name": "Key Performance Indicators (KPI) Tracking",
+          "description": "Track critical financial KPIs such as EBITDA, Net Profit Margin, Customer Acquisition Cost (CAC) on instant and dynamic panels."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Who Is This Solution Ideal For?",
+        "subtitle": "Our Financial Data Analysis solution enables key roles at different levels of the organization to make smarter and faster decisions.",
+        "role1": {
+          "title": "Finance Managers (CFO, VP of Finance)",
+          "description": "Gain deep insights needed for strategic planning, budgeting, and investor relations."
+        },
+        "role2": {
+          "title": "CEO and Board of Directors",
+          "description": "See the company's overall financial performance and health at a glance, lead with data-driven decisions."
+        },
+        "role3": {
+          "title": "Operations and Department Leaders",
+          "description": "Understand the financial impact of your units and increase efficiency to meet budget targets."
+        },
+        "imageAlt": "Team collaboration"
+      }
+    },
+    "costInventory": {
+      "badge": "Solution Detail",
+      "title": "Cost & Inventory Management",
+      "subtitle": "Turn your inventory into profit. Maintain optimal inventory levels that always meet customer demand while minimizing stock costs.",
+      "startAnalysis": "Start Inventory Analysis",
+      "talkToExpert": "Operations Consulting",
+      "featuresTitle": "Cornerstones of Inventory Control",
+      "featuresSubtitle": "Meet our integrated solutions designed to prevent losses from excess or shortage of stock.",
+      "features": {
+        "inventoryTurnover": {
+          "name": "Inventory Turnover Optimization",
+          "description": "Analyze which products move fast and which move slow. Reduce idle stock costs and allocate your capital to the right inventory."
+        },
+        "cogsAnalysis": {
+          "name": "Cost of Goods Sold (COGS) Analysis",
+          "description": "Calculate your net profit margin accurately by analyzing your production, storage, and logistics costs on a product basis."
+        },
+        "supplyChain": {
+          "name": "Supply Chain Efficiency",
+          "description": "Eliminate inefficiencies and bottlenecks in your supply chain by monitoring supplier performance, delivery times, and purchasing costs."
+        }
+      },
+      "imageAlt": "Warehouse workers and inventory management",
+      "whoIsItFor": {
+        "title": "Who Is This Solution Strategic For?",
+        "subtitle": "Our Cost and Inventory Management solution is critically important for roles that directly impact operational efficiency and financial health.",
+        "role1": {
+          "title": "Purchasing and Supply Chain Managers",
+          "description": "Optimize supplier performance, order the right quantity at the right time, and reduce carrying costs."
+        },
+        "role2": {
+          "title": "Financial Controllers and Analysts",
+          "description": "Automate inventory valuation and COGS calculations, increase the accuracy of financial reporting."
+        },
+        "role3": {
+          "title": "Operations Directors",
+          "description": "Maximize warehouse efficiency, order fulfillment rates, and overall operational performance."
+        },
+        "imageAlt": "Operational efficiency and teamwork"
+      }
+    },
+    "cashFlow": {
+      "badge": "Solution Detail",
+      "title": "Cash Flow",
+      "subtitle": "Ensure your business's financial resilience. Take full control of your cash inflows and outflows with Finops AI, prevent bottlenecks, and always maintain the liquidity needed for growth.",
+      "startAnalysis": "Analyze Cash Flow",
+      "talkToExpert": "Financial Consulting",
+      "featuresTitle": "Keys to Managing Your Liquidity",
+      "featuresSubtitle": "Eliminate financial uncertainties with our tools developed to make your cash flow predictable and manageable.",
+      "features": {
+        "collectionPayment": {
+          "name": "Collection & Payment Management",
+          "description": "Track your customer receivables deadlines and supplier payments. Receive proactive alerts to reduce average collection period (DSO)."
+        },
+        "forecasting": {
+          "name": "Cash Flow Forecasting",
+          "description": "Predict your future 30, 60, and 90-day cash position with high accuracy using your historical data and current trends."
+        },
+        "scenarioAnalysis": {
+          "name": "Scenario Analysis",
+          "description": "Simulate the impact of different revenue or expense scenarios (e.g., loss of a major customer or unexpected investment) on your cash flow and be prepared."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Who Is This Solution Vital For?",
+        "subtitle": "Our Cash Flow Management solution is aimed at key decision-makers who ensure the company's financial stability and operational continuity.",
+        "role1": {
+          "title": "Business Owners and Entrepreneurs",
+          "description": "Know how long your business can survive (runway) and confidently plan growth investments."
+        },
+        "role2": {
+          "title": "Finance Departments",
+          "description": "Manage daily, weekly, and monthly cash positions, automate debt and receivables tracking."
+        },
+        "role3": {
+          "title": "Treasury Managers",
+          "description": "Manage the company's liquidity most efficiently, create scenarios against exchange rate risk and interest rate changes."
+        },
+        "imageAlt": "Financial planning"
+      }
+    },
+    "budgetPlanning": {
+      "badge": "Solution Detail",
+      "title": "Budget & Planning",
+      "subtitle": "Break free from static spreadsheets. Transition to a dynamic, intelligent, and collaborative budgeting and planning process in which your entire organization participates with Finops AI.",
+      "startPlanning": "Start Planning",
+      "talkToExpert": "Strategy Consulting",
+      "featuresTitle": "Building Blocks of Strategic Planning",
+      "featuresSubtitle": "We offer a data-driven and flexible planning infrastructure that helps you achieve your goals.",
+      "features": {
+        "dynamicBudgeting": {
+          "name": "Dynamic Budgeting",
+          "description": "Create flexible budgets by department, project, or location. Instead of static spreadsheets, create a live planning environment where all stakeholders can participate."
+        },
+        "actualVsBudget": {
+          "name": "Actual vs. Budget Analysis",
+          "description": "Instantly compare budgeted figures with actual expenses. Detect deviations immediately and understand their causes with root analysis."
+        },
+        "predictivePlanning": {
+          "name": "Predictive Planning (Forecasting)",
+          "description": "Use our AI engine to predict whether you'll meet your year-end financial goals. Make proactive revisions."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Who Does This Solution Make Life Easier For?",
+        "subtitle": "Our Budget and Planning solution is designed for teams responsible for setting financial goals and achieving them.",
+        "role1": {
+          "title": "Financial Planning & Analysis (FP&A) Teams",
+          "description": "Eliminate manual data collection and consolidation, use your time for scenario analysis and strategic consulting."
+        },
+        "role2": {
+          "title": "Department Managers",
+          "description": "Easily create and track your own budgets. Increase spending responsibility and financial awareness."
+        },
+        "role3": {
+          "title": "Senior Management (CEO, CFO)",
+          "description": "Monitor the company's overall budget performance and compliance with goals from one place, make strategic revisions quickly."
+        },
+        "imageAlt": "Finance team having budget meeting"
+      }
+    },
+    "hrPayroll": {
+      "badge": "Solution Detail",
+      "title": "HR - Payroll & Performance Management",
+      "subtitle": "Efficiently manage your most valuable asset - human resources. Automate payroll processes and increase employee engagement by creating a performance culture.",
+      "startAnalysis": "Start HR Analysis",
+      "talkToExpert": "HR Consulting",
+      "featuresTitle": "Fundamentals of Modern HR Management",
+      "featuresSubtitle": "Tools that reduce operational burden and enable you to focus on strategic human resources management.",
+      "features": {
+        "autoPayroll": {
+          "name": "Automated Payroll & Salary Calculation",
+          "description": "Make the payroll process error-free and fast by automatically calculating all legal deductions, bonuses, advances, and fringe benefits."
+        },
+        "performanceEval": {
+          "name": "Performance Evaluation & Feedback",
+          "description": "Track employee goals, competencies, and performance metrics from one place. Create 360-degree feedback processes."
+        },
+        "hrAnalytics": {
+          "name": "Human Resources Analytics",
+          "description": "Analyze critical HR metrics such as hiring, turnover rates, employee satisfaction, and demographic distribution with visual panels."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Different Sectors, One Solution",
+        "subtitle": "Our HR and Payroll Management solution is flexible to meet the needs of different sectors with intensive blue-collar and white-collar employees.",
+        "role1": {
+          "title": "Tourism and Hospitality",
+          "description": "Easily manage attendance and payroll for seasonal and variable-hour employees."
+        },
+        "role2": {
+          "title": "Manufacturing and Industry",
+          "description": "Accurately calculate factory workers' shifts, overtime, and performance bonuses."
+        },
+        "role3": {
+          "title": "Retail and Store Management",
+          "description": "Centrally track staff performance and target bonuses by store."
+        },
+        "imageAlt": "Automotive mechanic working in service"
+      }
+    }
+  },
+  "index": {
+    "hero": {
+      "title": "Data-Driven Decisions, Strategic Growth",
+      "subtitle": "FINOPS AI Studio offers an intelligent management platform that combines SMEs' financial and operational data to increase profitability and accelerate growth.",
+      "getStarted": "Get Started",
+      "dashboardExamples": "Dashboard Examples"
+    },
+    "featuresSection": {
+      "badge": "Discover Our Solutions",
+      "title": "Create Value for Your Business",
+      "subtitle": "FINOPS AI Studio offers powerful, integrated modules designed to simplify your financial operations and increase profitability."
+    },
+    "features": {
+      "financialReporting": {
+        "title": "Financial Reporting",
+        "description": "Automatically generate standard reports such as income statements, balance sheets, and cash flow statements."
+      },
+      "costProfitabilityAnalysis": {
+        "title": "Cost & Profitability Analysis",
+        "description": "Make strategic decisions by analyzing profitability by product, service, and customer."
+      },
+      "budgetScenarioPlanning": {
+        "title": "Budget & Scenario Planning",
+        "description": "Create your future period budgets and measure the impact of different economic scenarios."
+      }
+    }
+  },
+  "cta": {
+    "boostProductivity": "Boost your productivity.",
+    "startToday": "Start using our app today.",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "about": {
+    "badge": "ABOUT US",
+    "title": "AI Revolution in Financial Operations",
+    "subtitle": "As Finops AI, we set out to empower businesses' decision-making processes by transforming complex financial data into understandable, actionable, and intelligent insights.",
+    "mission": {
+      "title": "Our Mission",
+      "description": "To enable businesses of all sizes to maximize their financial efficiency, optimize costs, and accelerate strategic growth with our cloud-based and AI-powered FinOps (Financial Operations) tools."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "To build a future where financial management is not just about numbers, but transforms into a strategic art. We aim to create a data-driven culture and build a seamless bridge between finance and technology teams."
+    },
+    "philosophy": {
+      "title": "Our Philosophy",
+      "description": "We believe in the principle of shared responsibility. Transparency in financial data enables all departments to understand the impact of spending and make informed decisions aligned with common goals. Our tool is designed to support this culture."
+    }
+  },
+  "dashboardExamples": {
+    "badge": "36 Professional Panels",
+    "title": "Dashboard and Report",
+    "titleHighlight": "Examples",
+    "subtitle": "Discover dashboard examples used by real teams and start creating KPI tracking for your business. Each example shows how you can transform your data into meaningful insights."
+  },
+  "features": {
+    "hero": {
+      "title": "Transform Your Data into Art",
+      "subtitle": "Our platform enables you to easily understand, analyze, and present even the most complex data with impressive visuals."
+    },
+    "section1": {
+      "badge": "Everything Under Control",
+      "title": "The Easiest Way to Prepare Data",
+      "subtitle": "We've automated the data preparation and cleaning steps, the most challenging part of the data analysis process, for you."
+    },
+    "section2": {
+      "badge": "Smart Solutions",
+      "title": "Drag-and-Drop Simplicity",
+      "subtitle": "Manage your data with our visual interface without writing a single line of code. Merge tables, create new calculated fields, and easily build complex data models."
+    },
+    "features": {
+      "connectDataSources": {
+        "name": "Connect All Your Data Sources",
+        "description": "Excel, SQL databases, cloud services... Connect instantly to your data wherever it is and get a central view."
+      },
+      "aiDataTransformation": {
+        "name": "AI-Powered Data Transformation",
+        "description": "Clean, shape, and prepare complex datasets for analysis in seconds with our AI-powered tools."
+      },
+      "visualDataModeling": {
+        "name": "Visual Data Modeling",
+        "description": "Build relationships between your data tables and create powerful data models with our drag-and-drop interface without writing code."
+      },
+      "readyTemplates": {
+        "name": "Ready Dashboard Templates",
+        "description": "Start data visualization instantly and save time with dozens of ready templates designed specifically for your industry."
+      }
+    }
+  },
+  "support": {
+    "hero": {
+      "title": "How Can We Help?",
+      "subtitle": "All the support you need on your path to success is here. Do you have a question or just want to say hello? You're in the right place."
+    },
+    "links": {
+      "knowledgeBase": {
+        "name": "Knowledge Base",
+        "description": "Articles, guides, and frequently asked questions explaining all features of the platform in detail."
+      },
+      "trainingVideos": {
+        "name": "Training Videos",
+        "description": "Learn everything from the basics of data visualization to advanced techniques with step-by-step video tutorials."
+      },
+      "communityForum": {
+        "name": "Community Forum",
+        "description": "Connect with other users, ask your questions, and share best practice tips."
+      },
+      "customSupport": {
+        "name": "Custom Support Request",
+        "description": "Encountered a technical issue? Our support team is just a click away, ready to help you."
+      }
+    },
+    "cta": {
+      "title": "Ready to Explore the Platform?",
+      "subtitle": "Create your first dashboard in minutes. Experience the full power of the platform with our free trial.",
+      "startFree": "Start Free",
+      "reviewDocs": "Review Documents"
+    }
+  },
+  "blog": {
+    "title": "Knowledge Center",
+    "subtitle": "Gain in-depth knowledge about FinOps culture, cloud cost management, and data-driven decision-making processes.",
+    "readMore": "Read More",
+    "posts": {
+      "whatIsFinops": {
+        "title": "What is FinOps?: A Fundamental Guide",
+        "description": "Discover the \"Inform, Optimize, Operate\" cycle that forms the foundation of FinOps culture and how this methodology can add value to your business."
+      },
+      "bringingTeams": {
+        "title": "Bringing Teams Together: Finance and Engineering Collaboration",
+        "description": "How to bridge finance and engineering teams? Build a data-driven collaboration culture with concepts like \"Unit Cost\" and \"Shared Responsibility\"."
+      },
+      "dataDriven": {
+        "title": "Making Data-Driven Decisions",
+        "description": "Learn how to make more accurate and strategic decisions using the power of data in critical processes like anomaly detection, budget forecasting, and capacity planning."
+      }
+    }
+  },
+  "docs": {
+    "title": "Documentation and Knowledge Center",
+    "subtitle": "Discover how to get the most out of our platform. Everything you're looking for is here.",
+    "searchPlaceholder": "Search articles and documentation...",
+    "categories": {
+      "gettingStarted": {
+        "name": "Getting Started",
+        "description": "First steps to use the platform, basic setup and configuration information.",
+        "articles": {
+          "0": "How to set up quickly in 10 minutes?",
+          "1": "Creating your first project guide",
+          "2": "Platform interface overview"
+        }
+      },
+      "security": {
+        "name": "Account and Security",
+        "description": "User management, role-based access control, and security best practices.",
+        "articles": {
+          "0": "Is our data secure? Our security policy.",
+          "1": "What is Role-Based Access Control (RBAC)?",
+          "2": "Enable Two-Factor Authentication (2FA)"
+        }
+      },
+      "dataSources": {
+        "name": "Data Sources",
+        "description": "Data integration from cloud providers, databases, and other services.",
+        "articles": {
+          "0": "Connecting AWS and Azure accounts",
+          "1": "SQL database integration",
+          "2": "100+ supported data sources"
+        }
+      },
+      "dashboards": {
+        "name": "Dashboards and Reports",
+        "description": "Create, manage, and visualize your data with unlimited BI panels.",
+        "articles": {
+          "0": "Create your first dashboard with drag-and-drop",
+          "1": "Using filters and segmentation",
+          "2": "Automatically email reports"
+        }
+      },
+      "finops": {
+        "name": "FinOps Principles",
+        "description": "Inform, Optimize, and Operate. Embrace the FinOps culture.",
+        "articles": {
+          "0": "What are the Core Steps of FinOps?",
+          "1": "How do you reduce your cloud costs?",
+          "2": "How does the Shared Responsibility Model work?"
+        }
+      },
+      "costManagement": {
+        "name": "Cost Management",
+        "description": "Financial tools like budgeting, forecasting, cost optimization, and anomaly detection.",
+        "articles": {
+          "0": "Budget forecasting and capacity planning",
+          "1": "How does cost anomaly detection work?",
+          "2": "Understanding automatic optimization suggestions"
+        }
+      },
+      "aiTools": {
+        "name": "AI Tools",
+        "description": "Increase efficiency with AI assistant, tool requests, and chat features.",
+        "articles": {
+          "0": "Get insights with unlimited AI messages",
+          "1": "How to query in natural language?",
+          "2": "File analysis with AI (200MB limit)"
+        }
+      },
+      "support": {
+        "name": "Support and Help",
+        "description": "Access priority email support and other help channels here.",
+        "articles": {
+          "0": "How to create a priority support request?",
+          "1": "Frequently Asked Questions (FAQ)",
+          "2": "Join the community forum"
+        }
+      },
+      "api": {
+        "name": "API Reference",
+        "description": "API documentation for integrating our platform with your applications.",
+        "articles": {
+          "0": "Authentication",
+          "1": "Basic API endpoints",
+          "2": "Rate Limits"
+        }
+      },
+      "blog": {
+        "name": "Knowledge Center and Blog",
+        "description": "Latest articles, guides, and blog posts on FinOps, data analysis, and business intelligence.",
+        "articles": {
+          "0": "What is FinOps? Introduction to Cloud Financial Management",
+          "1": "Bringing Teams Together: FinOps Culture",
+          "2": "The Importance of Data-Driven Decision Making in Business",
+          "3": "View all articles..."
+        }
+      }
+    }
+  },
+  "contact": {
+    "badge": "CONTACT",
+    "title": "Get in Touch",
+    "subtitle": "You can reach us through the channels below for your questions, suggestions, or collaboration requests. We would be happy to discuss how we can help optimize your financial operations.",
+    "website": "Website",
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "dashboardFilters": {
+    "title": "Filter Panels",
+    "showing": "panels showing",
+    "clear": "Clear",
+    "searchPlaceholder": "Search in panel name or description...",
+    "filterByCategory": "Filter by Category:",
+    "all": "All",
+    "noResults": "No results found.",
+    "tryDifferent": "Please try a different search term or category."
+  },
+  "dashboardDrawer": {
+    "keyQuestions": "Key Questions",
+    "askAI": "Answer with AI",
+    "keyMetrics": "Key Metrics",
+    "trending": {
+      "up": "Trending Up",
+      "down": "Trending Down",
+      "stable": "Stable"
+    },
+    "cta": {
+      "title": "Start Using This Panel",
+      "description": "Create this dashboard with your real data",
+      "button": "Create Now"
+    }
+  },
+  "dashboardCard": {
+    "filled": "Filled",
+    "preview": "Dashboard Preview",
+    "questions": "Questions",
+    "metrics": "Metrics"
+  },
+  "dashboardCategories": {
+    "Finans": "Finance",
+    "Satış": "Sales",
+    "Pazarlama": "Marketing",
+    "Operasyon": "Operations",
+    "İnsan Kaynakları": "Human Resources",
+    "Restoran": "Restaurant",
+    "Otel": "Hotel",
+    "Otomotiv": "Automotive",
+    "Tarım": "Agriculture",
+    "E-Ticaret": "E-Commerce"
+  },
+  "dashboards": {
+    "cfo-kontrol-paneli": {
+      "name": "CFO Control Panel",
+      "description": "Critical financial metrics and overview for Finance Directors."
+    },
+    "kar-zarar-tablosu": {
+      "name": "Profit & Loss Statement",
+      "description": "Analyze your company's net profit with detailed income and expense items."
+    },
+    "nakit-akisi-gosterge-paneli": {
+      "name": "Cash Flow Dashboard",
+      "description": "Manage liquidity by tracking your company's cash inflows and outflows."
+    },
+    "butce-karsilastirma": {
+      "name": "Budget & Actual Comparison",
+      "description": "Compare budgeted values with actual financial results."
+    },
+    "profit-and-loss-dashboard": {
+      "name": "Profit & Loss Analysis Panel",
+      "description": "Dynamically analyze income statements to increase profitability."
+    },
+    "ceo-dashboard": {
+      "name": "CEO Comprehensive Dashboard",
+      "description": "Monitor your company's overall financial and operational health on one screen."
+    },
+    "cash-flow-statement-dashboard": {
+      "name": "Cash Flow Management Panel",
+      "description": "Proactively manage your business's cash position and liquidity."
+    },
+    "sales-team-performance-dashboard": {
+      "name": "Sales Team Performance Panel",
+      "description": "Track your sales representatives' performance and targets in real-time."
+    },
+    "sales-funnel-dashboard": {
+      "name": "Sales Funnel Panel",
+      "description": "Optimize conversion rates by analyzing the customer journey."
+    },
+    "marketing-campaign-performance-dashboard": {
+      "name": "Marketing Campaign Performance Panel",
+      "description": "Measure and optimize your marketing campaigns' ROI and effectiveness."
+    },
+    "hr-dashboard": {
+      "name": "Human Resources & Talent Management Panel",
+      "description": "Manage employee metrics, performance, and organizational health."
+    },
+    "uretim-kontrol-paneli": {
+      "name": "Production Control Panel",
+      "description": "Increase efficiency and quality by monitoring production processes."
+    },
+    "kalite-kontrol-paneli": {
+      "name": "Quality Control Panel",
+      "description": "Monitor product quality and ensure continuous improvement."
+    },
+    "inventory-management-dashboard": {
+      "name": "Inventory Management Panel",
+      "description": "Reduce costs and prevent stockouts by optimizing stock levels."
+    },
+    "genel-restoran-kontrol-paneli": {
+      "name": "General Restaurant Control Panel",
+      "description": "Monitor all operational and financial metrics of your restaurant on one screen."
+    },
+    "restoran-satis-gosterge-paneli": {
+      "name": "Restaurant Sales Dashboard",
+      "description": "Analyze menu performance, table turnover rate, and sales trends."
+    },
+    "restoran-envanter-kontrol-paneli": {
+      "name": "Restaurant Inventory Control Panel",
+      "description": "Optimize food costs and reduce waste rates."
+    },
+    "restoran-isgucu-gosterge-paneli": {
+      "name": "Restaurant Labor Dashboard",
+      "description": "Optimize personnel costs and efficiency."
+    },
+    "restaurant-operations-dashboard": {
+      "name": "Restaurant Operations Panel",
+      "description": "Increase customer satisfaction by monitoring daily operations."
+    },
+    "restaurant-financial-dashboard": {
+      "name": "Restaurant Financial Panel",
+      "description": "Monitor your restaurant's financial health and profitability."
+    },
+    "hotel-management-paneli": {
+      "name": "Hotel Management Panel",
+      "description": "Manage all operational and financial metrics of the hotel from one point."
+    },
+    "hotel-dashboard": {
+      "name": "Hotel Performance Panel",
+      "description": "Track occupancy rate, RevPAR, and customer satisfaction."
+    },
+    "otomotiv-dashboard-paneli": {
+      "name": "Automotive Dashboard Panel",
+      "description": "Manage vehicle fleet, service operations, and sales performance."
+    },
+    "automotive-dashboard": {
+      "name": "Automotive Industry Panel",
+      "description": "Monitor sales, inventory, and service operations on one screen."
+    },
+    "agriculture-dashboard": {
+      "name": "Agriculture Management Panel",
+      "description": "Analyze crop productivity, costs, and income trends."
+    },
+    "ecommerce-kpi-dashboard": {
+      "name": "E-Commerce KPI Panel",
+      "description": "Optimize online sales, conversion rates, and customer behavior."
+    }
+  },
+  "login": {
+    "title": "Welcome back!",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up for free",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "forgotPassword": "Forgot your password?",
+    "loginButton": "Sign In",
+    "or": "Or",
+    "googleButton": "Sign in with Google",
+    "recaptchaError": "Please complete the reCAPTCHA verification.",
+    "loginError": "Login failed. Please check your credentials.",
+    "googleError": "Google sign-in failed."
+  },
+  "signup": {
+    "title": "Welcome! Nice to meet you!",
+    "subtitle": "Please use the form to sign up. If you're already a member, please",
+    "signIn": "sign in",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "signUpButton": "Sign Up",
+    "or": "Or",
+    "googleButton": "Sign up with Google",
+    "termsAgreement": "By creating an account, you agree to our",
+    "termsOfService": "Terms of Service",
+    "and": "and",
+    "privacyPolicy": "Privacy Policy",
+    "recaptchaError": "Please complete the reCAPTCHA verification.",
+    "emailError": "Please enter a valid email address.",
+    "passwordError": "Password must be at least 8 characters.",
+    "passwordMismatch": "Passwords do not match.",
+    "signupError": "Sign up failed. Please try again.",
+    "googleError": "Google sign-in failed."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view": "View",
+    "download": "Download",
+    "upload": "Upload",
+    "share": "Share",
+    "copy": "Copy",
+    "print": "Print"
+  },
+  "blogDetail": {
+    "backToBlog": "Back to Knowledge Center",
+    "whatIsFinops": {
+      "title": "What is FinOps?: A Fundamental Guide",
+      "intro": "FinOps is an evolving cloud financial management discipline and cultural practice that brings financial accountability to the variable spending model of the cloud, enabling you to get maximum business value from your cloud spending. At the heart of FinOps lies an iterative cycle known as \"Inform, Optimize, Operate.\" To demonstrate our commitment and expertise in this field, we chose the domain www.finops.ist. FinOps.ist is Turkey's leading platform in financial operations management.",
+      "domainStatement": "www.finops.ist - The digital hub of your financial operations. The only destination carrying FinOps methodology from Istanbul to the world, enhancing the financial efficiency of local and global businesses.",
+      "step1": {
+        "title": "1. Inform",
+        "content": "This first phase is all about visibility. Teams are provided with accurate, timely, and understandable information about cloud spending. This enables them to understand where costs are coming from, who is responsible, and which business metrics they relate to. Effective tagging strategies, cost allocation reports, and dashboards are the foundational tools of this phase."
+      },
+      "step2": {
+        "title": "2. Optimize",
+        "content": "After achieving visibility, the optimization phase begins. This phase is not just about cutting costs; it's about increasing efficiency. Teams are empowered to shut down idle resources, perform right-sizing, and leverage discounted pricing models like AWS Savings Plans or Azure Reserved Instances. The goal is to achieve the highest value at the lowest cost without sacrificing performance."
+      },
+      "step3": {
+        "title": "3. Operate",
+        "content": "The operation phase aims to make FinOps practices continuous and automated. This includes setting up alerts for spending that exceeds defined budgets, establishing anomaly detection mechanisms, and automating governance policies. Teams ensure they are acting in alignment with financial goals without compromising speed and innovation."
+      },
+      "conclusion": "This cycle makes FinOps not a one-time project, but a continuous cultural practice. Companies maintain control over cloud spending by iterating through these three steps, while also preserving engineering teams' freedom to innovate. As www.finops.ist, we are here to apply this cycle most effectively to Turkish businesses and optimize your financial operations.",
+      "imageAlt": "FinOps Cycle Illustration"
+    },
+    "bringingTeams": {
+      "title": "Bringing Teams Together: Finance and Engineering Collaboration",
+      "intro": "Traditionally, finance teams focus on controlling costs while engineering teams are driven by speed and innovation. These different goals often lead to friction. FinOps solves this problem by bringing these two worlds together in a common language through the concepts of \"Unit Cost\" and \"Shared Responsibility.\"",
+      "section1": {
+        "title": "What is Unit Cost?",
+        "content": "Viewing cloud costs only as total spending prevents meaningful dialogue. Instead, FinOps ties costs to business metrics. For example, instead of \"total server cost,\" metrics like \"cost per customer\" or \"cost per transaction\" are used. This enables engineers to understand the financial impact of their technical choices, and finance teams to understand the impact of business growth on costs."
+      },
+      "section2": {
+        "title": "Shared Responsibility",
+        "content": "FinOps removes cost management from being solely the finance department's responsibility. Instead, it creates a culture where every engineer is responsible for the cost of the service they develop. This turns cost from a \"blame\" tool into a \"metric\" that everyone tries to optimize. While finance provides central budgeting and governance, engineering teams have the authority to efficiently use and optimize their own resources."
+      },
+      "conclusion": "When these two concepts come together, finance and engineering are no longer adversaries, but partners running toward the same goal, speaking the same language. The result is a cost-efficient, yet innovative and agile organization.",
+      "imageAlt": "Teams collaborating in a meeting"
+    },
+    "dataDriven": {
+      "title": "Making Data-Driven Decisions",
+      "intro": "In FinOps culture, decisions are based on concrete data, not intuition or assumptions. This enables companies to both keep costs under control and plan the future more accurately. Data plays the most critical role especially in areas like anomaly detection and budget forecasting.",
+      "section1": {
+        "title": "Anomaly Detection",
+        "content": "Cloud environments are dynamic and costs can spike unexpectedly. Situations like a developer accidentally writing code that creates an infinite loop or a service suddenly consuming excessive resources can inflate cost bills. Data-driven anomaly detection systems learn normal spending patterns and immediately detect sudden increases outside this pattern, alerting relevant teams. This prevents surprise bills and increases financial predictability."
+      },
+      "section2": {
+        "title": "Budget Forecasting and Capacity Planning",
+        "content": "Historical spending data is gold for predicting future cloud costs. FinOps teams use this data to analyze seasonal trends, growth rates, and potential costs of new projects. This not only enables creating more accurate budgets, but also facilitates capacity planning. Teams predict future resource needs in advance, knowing when and how much investment to make."
+      },
+      "conclusion": "Data-driven decision making transforms FinOps from a reactive cost control mechanism into a proactive strategic management discipline. Companies create more space for innovation by using their resources most efficiently.",
+      "imageAlt": "Dashboard screen with data analysis and charts"
+    }
+  },
+  "getStarted": {
+    "badge": "Getting Started",
+    "title": "Finops AI Setup and First Steps",
+    "intro": "This guide contains all the steps you need to quickly get started with the Finops AI platform. We will cover every step from setup to creating your first dashboard in a simple and understandable way.",
+    "step1": {
+      "title": "1. Setup and Project Creation",
+      "content": "To start using our platform, you first need to create an account and define your first project. Your project will be your central workspace housing all your data sources, dashboards, and reports.",
+      "quote": "With just a few clicks, you can start the data integration process by connecting your cloud providers (AWS, Azure, GCP) or local databases."
+    },
+    "step2": {
+      "title": "2. Security and Authorization",
+      "content": "Data security is our top priority. Finops AI ensures that only authorized individuals can access your sensitive data with Role-Based Access Control (RBAC). You can easily manage data and dashboard access by assigning your team members to different roles (Administrator, Editor, Viewer).",
+      "imageAlt": "Security settings screen",
+      "caption": "User roles and permission settings panel."
+    },
+    "step3": {
+      "title": "3. Make Data-Driven Decisions",
+      "content": "After setup is complete, it's time to make your data speak! Our platform brings together data from different departments (Finance, Sales, Marketing, Operations) to provide a 360-degree company view. This holistic perspective eliminates silos and encourages cross-team collaboration.",
+      "benefit1": {
+        "title": "Strategic Alignment",
+        "description": "All departments focus on common goals by working on the same data set."
+      },
+      "benefit2": {
+        "title": "Efficiency Increase",
+        "description": "Save time by automating manual reporting and data collection processes."
+      },
+      "benefit3": {
+        "title": "Real-Time Insights",
+        "description": "Respond instantly to market changes with dashboards equipped with real-time data."
+      }
+    },
+    "conclusion": "Now you know the basics of the Finops AI platform. For more information, you can explore other documentation sections or get inspired by our",
+    "dashboardLink": "Dashboard Examples",
+    "conclusionEnd": "page."
+  },
+  "brandKit": {
+    "hero": {
+      "title": "FINOPS AI Studio Brand Kit",
+      "subtitle": "Our brand identity, logos, colors, and social media templates - all in one place, ready to use.",
+      "downloadGuidelines": "Download Brand Guidelines",
+      "downloadCSS": "Download CSS Variables"
+    },
+    "slogans": {
+      "title": "Brand Slogans",
+      "subtitle": "6 impactful slogans reflecting our brand identity - featuring our domain-focused main slogan"
+    },
+    "colors": {
+      "badge": "Color Palette",
+      "title": "Brand Colors",
+      "subtitle": "Modern color system"
+    },
+    "typography": {
+      "badge": "Typography",
+      "title": "Font Families",
+      "display": "Display Font",
+      "primary": "Primary Font",
+      "mono": "Monospace Font",
+      "displayDesc": "Headings, Titles",
+      "primaryDesc": "Body text, UI elements",
+      "monoDesc": "Numbers, KPIs, Code"
+    },
+    "logos": {
+      "badge": "Logo Assets",
+      "title": "Download Logos",
+      "subtitle": "Multiple formats for different use cases",
+      "logoDark": "Logo Dark",
+      "logoLight": "Logo Light",
+      "iconOnly": "Icon Only",
+      "monochrome": "Monochrome",
+      "descDark": "Light backgrounds",
+      "descLight": "Dark backgrounds",
+      "descIcon": "App icon, favicon",
+      "descMono": "Documents, print",
+      "download": "Download PNG"
+    },
+    "docs": {
+      "title": "Brand Documentation",
+      "subtitle": "Complete guides and templates",
+      "guidelines": {
+        "title": "Brand Guidelines",
+        "desc": "Complete brand identity manual"
+      },
+      "readme": {
+        "title": "Brand Kit README",
+        "desc": "Quick start guide & usage examples"
+      },
+      "social": {
+        "title": "Social Media Templates",
+        "desc": "LinkedIn & Instagram content templates"
+      },
+      "downloadMd": "Download (.md)"
+    },
+    "guidelines": {
+      "title": "Quick Usage Guidelines",
+      "dos": "DO's",
+      "donts": "DON'Ts",
+      "do1": "Use official logo files (don't recreate)",
+      "do2": "Maintain aspect ratio when resizing",
+      "do3": "Ensure minimum size: 120px width",
+      "do4": "Use Primary Blue (#007bff) for CTAs",
+      "do5": "Test color contrast (WCAG AA)",
+      "dont1": "Don't stretch or squish the logo",
+      "dont2": "Don't use logo smaller than 48px",
+      "dont3": "Don't use more than 3 colors in one design",
+      "dont4": "Don't mix more than 2 font families",
+      "dont5": "Don't use low-contrast text combinations"
+    },
+    "cta": {
+      "title": "Need Custom Assets?",
+      "subtitle": "Contact our design team for custom graphics, presentations, or marketing materials",
+      "button": "Contact Design Team"
     }
   }
 }

@@ -1,49 +1,56 @@
 import { CheckCircle, ArrowRight, BarChart, TrendingUp, Filter } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import visualDataImg from '../../assets/illustrations/undraw/undraw_visual-data_1eya-finops.svg';
+import onlineStatsImg from '../../assets/illustrations/undraw/undraw_online-stats_d57c-finops.svg';
 
-const features = [
+const getFeatures = (t: any) => [
   {
-    name: 'Kârlılık Analizi',
-    description: 'Ürün, hizmet veya müşteri segmenti bazında kârlılık oranlarınızı net bir şekilde görün. Hangi alanların büyümeyi desteklediğini, hangilerinin kaynak tükettiğini belirleyin.',
+    name: t('solutionPages.financialAnalysis.features.profitabilityAnalysis.name'),
+    description: t('solutionPages.financialAnalysis.features.profitabilityAnalysis.description'),
     icon: TrendingUp,
   },
   {
-    name: 'Gider Yönetimi ve Optimizasyonu',
-    description: 'Tüm gider kalemlerinizi kategorize edin, beklenmedik artışları anında tespit edin ve yapay zeka destekli tasarruf önerileriyle maliyetlerinizi düşürün.',
+    name: t('solutionPages.financialAnalysis.features.expenseManagement.name'),
+    description: t('solutionPages.financialAnalysis.features.expenseManagement.description'),
     icon: Filter,
   },
   {
-    name: 'Anahtar Performans Göstergeleri (KPI) Takibi',
-    description: 'EBITDA, Net Kâr Marjı, Müşteri Edinme Maliyeti (CAC) gibi kritik finansal KPI\'ları anlık ve dinamik panellerde takip edin.',
+    name: t('solutionPages.financialAnalysis.features.kpiTracking.name'),
+    description: t('solutionPages.financialAnalysis.features.kpiTracking.description'),
     icon: BarChart,
   },
 ];
 
 const FinansalVeriAnaliziPage = () => {
+  const { t } = useTranslation();
+  const features = getFeatures(t);
   return (
     <div className="bg-slate-50">
       {/* Header */}
       <div className="relative isolate pt-14">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:gap-x-10 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:flex-auto">
-            <h1 className="text-base font-semibold leading-7 text-blue-600">Çözüm Detayı</h1>
+            <h1 className="text-base font-semibold leading-7 text-blue-600">{t('solutionPages.financialAnalysis.badge')}</h1>
             <p className="mt-2 text-4xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-400 sm:text-5xl">
-              Finansal Veri Analizi
+              {t('solutionPages.financialAnalysis.title')}
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Ham finansal verilerinizi, stratejik kararlar almanızı sağlayan anlamlı ve eyleme geçirilebilir içgörülere dönüştürün. Finops AI ile şirketinizin finansal nabzını anlık olarak tutun.
+              {t('solutionPages.financialAnalysis.subtitle')}
             </p>
             <div className="mt-10 flex items-center gap-x-6">
               <Link to="/signup" className="rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500">
-                Analizi Başlat
+                {t('solutionPages.financialAnalysis.startAnalysis')}
               </Link>
               <Link to="/contact" className="text-sm font-semibold leading-6 text-gray-900">
-                Uzmanla Konuş <span aria-hidden="true">→</span>
+                {t('solutionPages.financialAnalysis.talkToExpert')} <span aria-hidden="true">→</span>
               </Link>
             </div>
           </div>
           <div className="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Finansal Veri Analizi Paneli" className="rounded-2xl shadow-xl w-full"/>
+            <div className="bg-gradient-to-br from-blue-50 to-sky-50 rounded-2xl shadow-xl p-8 flex items-center justify-center">
+              <img src={visualDataImg} alt={t('solutionPages.financialAnalysis.imageAlt')} className="w-full h-auto max-w-lg"/>
+            </div>
           </div>
         </div>
       </div>
@@ -52,9 +59,9 @@ const FinansalVeriAnaliziPage = () => {
        <div className="py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl lg:text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Veri Analizinin Temel Taşları</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{t('solutionPages.financialAnalysis.featuresTitle')}</h2>
                 <p className="mt-6 text-lg leading-8 text-gray-600">
-                    Platformumuz, finansal verilerinizin her bir katmanını aydınlatmak için tasarlanmış güçlü yetenekler sunar.
+                    {t('solutionPages.financialAnalysis.featuresSubtitle')}
                 </p>
             </div>
             <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
@@ -81,27 +88,29 @@ const FinansalVeriAnaliziPage = () => {
             <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
                 <div className="lg:pr-4">
                     <div className="lg:max-w-lg">
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900">Bu Çözüm Kimler İçin İdeal?</h2>
+                        <h2 className="text-3xl font-bold tracking-tight text-gray-900">{t('solutionPages.financialAnalysis.whoIsItFor.title')}</h2>
                         <p className="mt-6 text-lg text-gray-600">
-                            Finansal Veri Analizi çözümümüz, organizasyonun farklı seviyelerindeki kilit rollerin daha akıllı ve daha hızlı kararlar almasını sağlar.
+                            {t('solutionPages.financialAnalysis.whoIsItFor.subtitle')}
                         </p>
                         <ul className="mt-8 space-y-4 text-gray-600">
                             <li className="flex items-start">
                                 <CheckCircle className="h-6 w-6 flex-shrink-0 text-green-500 mr-3 mt-1" />
-                                <span><strong>Finans Yöneticileri (CFO, VP of Finance):</strong> Stratejik planlama, bütçeleme ve yatırımcı ilişkileri için gereken derinlemesine içgörülere sahip olun.</span>
+                                <span><strong>{t('solutionPages.financialAnalysis.whoIsItFor.role1.title')}:</strong> {t('solutionPages.financialAnalysis.whoIsItFor.role1.description')}</span>
                             </li>
                             <li className="flex items-start">
                                 <CheckCircle className="h-6 w-6 flex-shrink-0 text-green-500 mr-3 mt-1" />
-                                <span><strong>CEO ve Yönetim Kurulu:</strong> Şirketin genel finansal performansını ve sağlığını tek bir bakışta görün, veriye dayalı liderlik yapın.</span>
+                                <span><strong>{t('solutionPages.financialAnalysis.whoIsItFor.role2.title')}:</strong> {t('solutionPages.financialAnalysis.whoIsItFor.role2.description')}</span>
                             </li>
                              <li className="flex items-start">
                                 <CheckCircle className="h-6 w-6 flex-shrink-0 text-green-500 mr-3 mt-1" />
-                                <span><strong>Operasyon ve Departman Liderleri:</strong> Kendi birimlerinin finansal etkisini anlayın ve bütçe hedeflerine ulaşmak için verimliliği artırın.</span>
+                                <span><strong>{t('solutionPages.financialAnalysis.whoIsItFor.role3.title')}:</strong> {t('solutionPages.financialAnalysis.whoIsItFor.role3.description')}</span>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Ekip çalışması" className="rounded-xl shadow-xl w-full"/>
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-xl p-8 flex items-center justify-center">
+                  <img src={onlineStatsImg} alt={t('solutionPages.financialAnalysis.whoIsItFor.imageAlt')} className="w-full h-auto"/>
+                </div>
             </div>
         </div>
     </div>

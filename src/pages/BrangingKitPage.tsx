@@ -13,8 +13,8 @@ const BrandingKitPage = () => {
   };
 
   const typography = {
-    heading: ''Poppins', sans-serif',
-    body: ''Inter', sans-serif',
+    heading: 'Poppins, sans-serif',
+    body: 'Inter, sans-serif',
   };
 
   const logos = {

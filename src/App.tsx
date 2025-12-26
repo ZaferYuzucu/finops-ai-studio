@@ -1,98 +1,116 @@
+
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import PageLayout from './components/PageLayout';
+
+// Sayfaları ve Bileşenleri Import Et
 import HeroPage from './pages/HeroPage';
-import SupportPage from './pages/SupportPage';
-import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
+import PricingPage from './pages/PricingPage';
+import FinancialDataAnalysisPage from './pages/solutions/FinansalVeriAnaliziPage';
+import CostInventoryManagementPage from './pages/solutions/MaliyetVeStokYonetimiPage';
+import CashFlowPage from './pages/solutions/NakitAkisiPage';
+import BudgetPlanningPage from './pages/solutions/ButceVePlanlamaPage';
+import HRPayrollPerformancePage from './pages/solutions/IKBordoPerformansPage';
+import DataVisualizationDashboardExamplesPage from './pages/solutions/DataVisualizationDashboardExamplesPage';
+import DataVisualizationFeaturesPage from './pages/solutions/DataVisualizationFeaturesPage';
+import DataVisualizationSupportPage from './pages/solutions/DataVisualizationSupportPage';
+import DashboardDetailPage from './pages/solutions/DashboardDetailPage';
 import BlogPage from './pages/BlogPage';
 import WhatIsFinopsPage from './pages/blog/WhatIsFinopsPage';
 import BringingTeamsTogetherPage from './pages/blog/BringingTeamsTogetherPage';
 import DataDrivenDecisionsPage from './pages/blog/DataDrivenDecisionsPage';
-import PricingPage from './pages/PricingPage';
 import DocsPage from './pages/DocsPage';
-
-// Çözüm Sayfaları
-import SolutionsPage from './pages/SolutionsPage';
-import FinansalVeriAnaliziPage from './pages/solutions/FinansalVeriAnaliziPage';
-import MaliyetVeStokYonetimiPage from './pages/solutions/MaliyetVeStokYonetimiPage';
-import NakitAkisiPage from './pages/solutions/NakitAkisiPage';
-import ButceVePlanlamaPage from './pages/solutions/ButceVePlanlamaPage';
-import IKBordoPerformansPage from './pages/solutions/IKBordoPerformansPage';
-
-// Veri Görselleştirme Sayfaları
-import DataVisualizationDashboardExamplesPage from './pages/solutions/DataVisualizationDashboardExamplesPage';
-import DataVisualizationFeaturesPage from './pages/solutions/DataVisualizationFeaturesPage';
-import DataVisualizationSupportPage from './pages/solutions/DataVisualizationSupportPage';
-
-// Dökümantasyon Detay Sayfası
 import GetStartedDocPage from './pages/docs/GetStartedDocPage';
-
-// Hukuki Sayfalar
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+// import BrandKitPage from './pages/BrandKitPage'; // TEMPORARILY DISABLED - missing assets
+import ProjectActivityReportPage from './pages/ProjectActivityReportPage';
+// import IllustrationDemoPage from './pages/IllustrationDemoPage'; // TEMPORARILY DISABLED - missing assets
+// import UndrawComparisonPage from './pages/UndrawComparisonPage'; // TEMPORARILY DISABLED - missing assets
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
+import AdminLoginPage from './pages/AdminLoginPage';
 import PrivacyPolicyPage from './pages/legal/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/legal/TermsOfServicePage';
 import CookiePolicyPage from './pages/legal/CookiePolicyPage';
+import DataGuidePage from './pages/DataGuidePage';
+import DataImportPage from './pages/DataImportPage';
+import UserJourneyMapPage from './pages/UserJourneyMapPage'; 
 
-// KURUMSAL KİMLİK SAYFALARI İÇİN IMPORT'LAR EKLENDİ
-import BrandingKitPage from './pages/BrandingKitPage';
+// Koruma Bileşenleri ve Korunan Sayfalar
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminProtectedRoute from './components/AdminProtectedRoute';
+import DashboardPage from './pages/DashboardPage';
+import AdminPanelPage from './pages/AdminPanelPage';
+import NewsletterPanelPage from './pages/admin/NewsletterPanelPage';
+import PlatformAnalyticsPage from './pages/admin/PlatformAnalyticsPage';
+import StudioCreatorPage from './pages/StudioCreatorPage';
 import BusinessPlanPage from './pages/BusinessPlanPage';
 import MarketingPlanPage from './pages/MarketingPlanPage';
-import ProjectActivityReportPage from './pages/ProjectActivityReportPage';
-import StudioCreatorPage from './pages/StudioCreatorPage';
+import InvestorPresentationPage from './pages/InvestorPresentationPage';
+import DashboardCreateWizardPage from './pages/DashboardCreateWizardPage';
 
-function App() {
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <Navbar />
-      <main className="pt-16">
-        <Routes>
-          {/* Temel Sayfalar */}
-          <Route path="/" element={<HeroPage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/support" element={<SupportPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
+    <PageLayout>
+      <Routes>
+        {/* === Genel ve Halka Açık Rotalar === */}
+        <Route path="/" element={<HeroPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/solutions/financial-data-analysis" element={<FinancialDataAnalysisPage />} />
+        <Route path="/solutions/cost-inventory-management" element={<CostInventoryManagementPage />} />
+        <Route path="/solutions/cash-flow" element={<CashFlowPage />} />
+        <Route path="/solutions/budget-planning" element={<BudgetPlanningPage />} />
+        <Route path="/solutions/hr-payroll-performance" element={<HRPayrollPerformancePage />} />
+        <Route path="/solutions/dashboard-examples" element={<DataVisualizationDashboardExamplesPage />} />
+        <Route path="/solutions/dashboards/:dashboardId" element={<DashboardDetailPage />} />
+        <Route path="/solutions/features" element={<DataVisualizationFeaturesPage />} />
+        <Route path="/solutions/support" element={<DataVisualizationSupportPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/what-is-finops" element={<WhatIsFinopsPage />} />
+        <Route path="/blog/bringing-teams-together" element={<BringingTeamsTogetherPage />} />
+        <Route path="/blog/data-driven-decisions" element={<DataDrivenDecisionsPage />} />
+        <Route path="/docs" element={<DocsPage />} />
+        <Route path="/docs/get-started" element={<GetStartedDocPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        {/* <Route path="/brand-kit" element={<AdminProtectedRoute><BrandKitPage /></AdminProtectedRoute>} /> */}
+        <Route path="/project-activity-report" element={<ProjectActivityReportPage />} />
+        {/* <Route path="/illustration-demo" element={<IllustrationDemoPage />} /> */}
+        {/* <Route path="/undraw-comparison" element={<UndrawComparisonPage />} /> */}
 
-          {/* Dökümantasyon Sayfaları */}
-          <Route path="/docs" element={<DocsPage />} />
-          <Route path="/docs/get-started" element={<GetStartedDocPage />} />
+        {/* === Kimlik Doğrulama Rotaları === */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/admin-login" element={<AdminLoginPage />} />
 
-          {/* Blog Sayfaları */}
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/what-is-finops" element={<WhatIsFinopsPage />} />
-          <Route path="/blog/bringing-teams-together" element={<BringingTeamsTogetherPage />} />
-          <Route path="/blog/data-driven-decisions" element={<DataDrivenDecisionsPage />} />
-          
-          {/* Çözüm Sayfaları */}
-          <Route path="/solutions" element={<SolutionsPage />} />
-          <Route path="/solutions/financial-data-analysis" element={<FinansalVeriAnaliziPage />} />
-          <Route path="/solutions/cost-inventory-management" element={<MaliyetVeStokYonetimiPage />} />
-          <Route path="/solutions/cash-flow" element={<NakitAkisiPage />} />
-          <Route path="/solutions/budget-planning" element={<ButceVePlanlamaPage />} />
-          <Route path="/solutions/hr-payroll-performance" element={<IKBordoPerformansPage />} />
+        {/* === Kullanıcı Korumalı Rotalar (Giriş Yapmış Kullanıcılar) === */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard/create" element={<DashboardCreateWizardPage />} />
+        </Route>
+        
+        {/* === Yönetici Korumalı Rotalar (Sadece Yöneticiler) === */}
+        <Route path="/admin/platform-analytics" element={<AdminProtectedRoute><PlatformAnalyticsPage /></AdminProtectedRoute>} />
+        <Route path="/admin/panel" element={<AdminProtectedRoute><AdminPanelPage /></AdminProtectedRoute>} />
+        <Route path="/admin/newsletter" element={<AdminProtectedRoute><NewsletterPanelPage /></AdminProtectedRoute>} />
+        <Route path="/studio-creator" element={<AdminProtectedRoute><StudioCreatorPage /></AdminProtectedRoute>} />
+        <Route path="/business-plan" element={<AdminProtectedRoute><BusinessPlanPage /></AdminProtectedRoute>} />
+        <Route path="/marketing-plan" element={<AdminProtectedRoute><MarketingPlanPage /></AdminProtectedRoute>} />
+        <Route path="/investor-presentation" element={<AdminProtectedRoute><InvestorPresentationPage /></AdminProtectedRoute>} />
+        <Route path="/veri-rehberi" element={<AdminProtectedRoute><DataGuidePage /></AdminProtectedRoute>} />
+        <Route path="/veri-girisi" element={<AdminProtectedRoute><DataImportPage /></AdminProtectedRoute>} />
+        <Route path="/user-journey-map" element={<AdminProtectedRoute><UserJourneyMapPage /></AdminProtectedRoute>} />
 
-          {/* Veri Görselleştirme Route'ları */}
-          <Route path="/solutions/data-visualization" element={<DataVisualizationDashboardExamplesPage />} />
-          <Route path="/solutions/dashboard-examples" element={<DataVisualizationDashboardExamplesPage />} />
-          <Route path="/solutions/features" element={<DataVisualizationFeaturesPage />} />
-          <Route path="/solutions/support" element={<DataVisualizationSupportPage />} />
+        {/* === Yasal Sayfalar === */}
+        <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/legal/terms-of-service" element={<TermsOfServicePage />} />
+        <Route path="/legal/cookie-policy" element={<CookiePolicyPage />} />
 
-          {/* Hukuki Sayfa Route'ları */}
-          <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/legal/terms-of-service" element={<TermsOfServicePage />} />
-          <Route path="/legal/cookie-policy" element={<CookiePolicyPage />} />
-
-          {/* KURUMSAL KİMLİK SAYFA ROUTE'LARI EKLENDİ */}
-          <Route path="/branding" element={<BrandingKitPage />} />
-          <Route path="/business-plan" element={<BusinessPlanPage />} />
-          <Route path="/marketing-plan" element={<MarketingPlanPage />} />
-          <Route path="/project-activity-report" element={<ProjectActivityReportPage />} />
-          <Route path="/studio-creator" element={<StudioCreatorPage />} />
-        </Routes>
-      </main>
-      <Footer />
-    </div>
+      </Routes>
+    </PageLayout>
   );
-}
+};
 
 export default App;

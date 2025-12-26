@@ -1,9 +1,16 @@
 import React from 'react';
+import entegrasyonImg from "@/assets/dashboards/Entegrasyon.png";
 
-const DashboardPreview: React.FC = () => (
-  <div className="p-4 text-center border rounded-lg border-dashed border-slate-700 mt-4">
-    <p className="text-slate-400">[DashboardPreview Bileşeni]</p>
-  </div>
-);
+const DashboardPreview = () => {
+  return (
+    <div className="rounded-2xl overflow-hidden shadow-2xl">
+      <img 
+        src={entegrasyonImg} 
+        alt="Veri Entegrasyonu Paneli" 
+        className="w-full h-full object-cover" 
+      />
+    </div>
+  );
+};
 
 export default DashboardPreview;

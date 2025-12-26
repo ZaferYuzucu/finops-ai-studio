@@ -1,42 +1,45 @@
 import { BookOpen, Youtube, Users, LifeBuoy } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
-const supportLinks = [
+const getSupportLinks = (t: any) => [
   {
-    name: 'Bilgi Bankası',
+    name: t('support.links.knowledgeBase.name'),
     href: '#',
-    description: 'Platformun tüm özelliklerini detaylı anlatan makaleler, kılavuzlar ve sıkça sorulan sorular.',
+    description: t('support.links.knowledgeBase.description'),
     icon: BookOpen,
   },
   {
-    name: 'Eğitim Videoları',
+    name: t('support.links.trainingVideos.name'),
     href: '#',
-    description: 'Adım adım video eğitimleri ile veri görselleştirmenin temellerinden ileri düzey tekniklere kadar her şeyi öğrenin.',
+    description: t('support.links.trainingVideos.description'),
     icon: Youtube,
   },
   {
-    name: 'Topluluk Forumu',
+    name: t('support.links.communityForum.name'),
     href: '#',
-    description: 'Diğer kullanıcılarla bağlantı kurun, sorularınızı sorun ve en iyi uygulama ipuçlarını paylaşın.',
+    description: t('support.links.communityForum.description'),
     icon: Users,
   },
   {
-    name: 'Özel Destek Talebi',
+    name: t('support.links.customSupport.name'),
     href: '#',
-    description: 'Teknik bir sorunla mı karşılaştınız? Destek ekibimiz bir tık uzağınızda, size yardımcı olmaya hazır.',
+    description: t('support.links.customSupport.description'),
     icon: LifeBuoy,
   },
 ];
 
 const DataVisualizationSupportPage = () => {
+  const { t } = useTranslation();
+  const supportLinks = getSupportLinks(t);
   return (
     <div className="bg-white">
       {/* Hero Section */}
       <div className="bg-gray-50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Nasıl Yardımcı Olabiliriz?</h1>
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">{t('support.hero.title')}</h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Başarınıza giden yolda ihtiyacınız olan tüm destek burada. Aklınıza takılan bir soru mu var veya sadece bir merhaba mı demek istiyorsunuz? Doğru yerdesiniz.
+              {t('support.hero.subtitle')}
             </p>
           </div>
         </div>
@@ -62,20 +65,20 @@ const DataVisualizationSupportPage = () => {
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative isolate overflow-hidden bg-gray-900 px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
             <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Platformu Keşfetmeye Hazır Mısınız?
+              {t('support.cta.title')}
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
-              İlk dashboard'unuzu dakikalar içinde oluşturun. Ücretsiz deneme sürümümüzle platformun tüm gücünü deneyimleyin.
+              {t('support.cta.subtitle')}
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a
                 href="/signup"
                 className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                Ücretsiz Başla
+                {t('support.cta.startFree')}
               </a>
               <a href="/docs" className="text-sm font-semibold leading-6 text-white">
-                Dökümanları İncele <span aria-hidden="true">→</span>
+                {t('support.cta.reviewDocs')} <span aria-hidden="true">→</span>
               </a>
             </div>
             <svg

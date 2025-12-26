@@ -1,117 +1,308 @@
-import { Link, NavLink } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
-import logo from "@/assets/brand/finops-logo-dark.png";
 
-const navConfig = [
-  {
-    name: "Çözümler",
-    href: "/solutions",
-    children: [
-      { name: "Finansal Veri Analizi", href: "/solutions/financial-data-analysis" },
-      { name: "Maliyet ve Stok Yönetimi", href: "/solutions/cost-inventory-management" },
-      { name: "Nakit Akışı-Cash Flow", href: "/solutions/cash-flow" },
-      { name: "Bütçe ve Planlama", href: "/solutions/budget-planning" },
-      { name: "İK- Bordo / Performans", href: "/solutions/hr-payroll-performance" },
-    ],
-  },
-  // GÜNCELLENDİ: VERİ GÖRSELLEŞTİRME ARTIK BİR AÇILIR MENÜ
-  {
-    name: "Veri Görselleştirme",
-    href: "/solutions/data-visualization", // Ana sayfa linki
-    children: [
-        { name: "Dashboard Örnekleri", href: "/solutions/dashboard-examples" },
-        { name: "Özellikler", href: "/solutions/features" },
-        { name: "Destek", href: "/solutions/support" },
-    ]
-  },
-  {
-    name: "Kaynaklar",
-    href: "/resources",
-    children: [
-      { name: "Bilgi Merkezi", href: "/blog" },
-      { name: "Dökümanlar", href: "/docs" },
-    ],
-  },
-  { name: "Fiyatlandırma", href: "/pricing" },
-];
+import React, { useState } from 'react';
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { ChevronDown, LogOut, Globe, Menu, X } from "lucide-react";
+import logo from '@/assets/brand/finops-logo-Kalkan.png';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
+import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
+
+// Navigation config will be dynamic based on translation
 
 export default function Navbar() {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/');
+    } catch (error) {
+      console.error("Çıkış yaparken hata oluştu:", error);
+    }
+  };
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem('i18nextLng', lng);
+  };
+
+  const navConfig = [
+    {
+      name: t('nav.solutions'),
+      href: "/solutions",
+      children: [
+        { name: t('nav.financialDataAnalysis'), href: "/solutions/financial-data-analysis" },
+        { name: t('nav.costInventoryManagement'), href: "/solutions/cost-inventory-management" },
+        { name: t('nav.cashFlow'), href: "/solutions/cash-flow" },
+        { name: t('nav.budgetPlanning'), href: "/solutions/budget-planning" },
+        { name: t('nav.hrPayrollPerformance'), href: "/solutions/hr-payroll-performance" },
+      ],
+    },
+    {
+      name: t('nav.dataVisualization'),
+      href: "/solutions/data-visualization",
+      children: [
+        { name: t('nav.dashboardExamples'), href: "/solutions/dashboard-examples" },
+        { name: t('nav.features'), href: "/solutions/features" },
+        { name: t('nav.support'), href: "/solutions/support" },
+      ]
+    },
+    {
+      name: t('nav.resources'),
+      href: "#",
+      children: [
+        { name: t('nav.knowledgeBase'), href: "/blog" },
+        { name: t('nav.documents'), href: "/docs" },
+      ],
+    },
+    { name: t('nav.pricing'), href: "/pricing" },
+  ];
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
       <nav className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <Link to="/" className="flex items-center gap-2">
-              <img src={logo} alt="Finops AI Logo" className="h-7 w-auto" />
-              <span className="text-gray-800 font-semibold text-base tracking-wide">Finops AI</span>
+            <Link to="/" className="flex items-center gap-3">
+              <img src={logo} alt="Finops AI Logo" className="h-9 w-auto" />
+              <div className="flex flex-col justify-center">
+                <span className="text-lg font-bold text-gray-900 leading-tight">FINOPS</span>
+                <span className="text-[10px] font-medium text-gray-500 tracking-wider leading-tight">AI STUDIO</span>
+              </div>
             </Link>
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center space-x-2">
+            <div className="hidden md:flex items-center space-x-1">
               {navConfig.map((item) => (
-                <div key={item.name} className="relative group">
-                  {item.children ? (
-                    <>
-                      <NavLink
-                        to={item.href}
-                        className={({ isActive }) =>
-                          `px-4 py-2 flex items-center gap-1 text-sm font-medium transition-colors hover:text-blue-600 ${
-                            isActive ? "text-blue-600 font-semibold" : "text-gray-600"
-                          }`
-                        }
-                      >
-                        {item.name} <ChevronDown className="h-4 w-4" />
-                      </NavLink>
-                      <div className="absolute top-full left-0 w-64 rounded-md shadow-lg bg-white ring-1 ring-gray-200 p-2 z-10 hidden group-hover:block">
-                        {item.children.map((child) => (
-                          <NavLink
-                            key={child.name}
-                            to={child.href}
-                            className={({ isActive }) =>
-                              `block px-3 py-2 rounded-md text-sm transition-colors ${
-                                isActive ? "text-white bg-blue-600" : "text-gray-700 hover:bg-gray-100"
-                              }`
-                            }
-                          >
-                            {child.name}
-                          </NavLink>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <NavLink
-                      to={item.href}
-                      className={({ isActive }) =>
-                        `px-4 py-2 rounded-md text-sm font-medium transition-colors hover:text-blue-600 ${
-                          isActive ? "text-blue-600 font-semibold" : "text-gray-600"
-                        }`
-                      }
-                    >
-                      {item.name}
-                    </NavLink>
-                  )}
-                </div>
+                <NavItem key={item.name} {...item} />
               ))}
             </div>
 
-            <div className="flex items-center border border-gray-300 rounded-full text-sm p-0.5">
-              <button className="px-3 py-0.5 bg-gray-200 text-gray-800 rounded-full font-semibold">TR</button>
-              <button className="px-3 py-0.5 text-gray-500 hover:bg-gray-100 rounded-full">EN</button>
+            {/* Language Switcher */}
+            <div className="hidden md:flex items-center gap-2 bg-gray-100 rounded-full p-1 shadow-sm">
+              <button
+                onClick={() => changeLanguage('tr')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
+                  i18n.language === 'tr'
+                    ? 'bg-gradient-to-r from-red-600 to-red-500 text-white shadow-md'
+                    : 'text-gray-600 hover:bg-gray-200'
+                }`}
+                title="Türkçe"
+              >
+                <span className="text-base">🇹🇷</span>
+                <span>TR</span>
+              </button>
+              <button
+                onClick={() => changeLanguage('en')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
+                  i18n.language === 'en'
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-md'
+                    : 'text-gray-600 hover:bg-gray-200'
+                }`}
+                title="English"
+              >
+                <span className="text-base">🇬🇧</span>
+                <span>EN</span>
+              </button>
             </div>
 
-            <div className="flex items-center gap-x-2">
-                <Link to="/login" className="px-4 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors rounded-lg">
-                    Giriş Yap
-                </Link>
-                <Link to="/signup" className="px-4 py-1.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg shadow-sm">
-                    Kayıt Ol
-                </Link>
+            {/* Desktop Auth Buttons */}
+            <div className="hidden md:flex items-center gap-x-2">
+                {currentUser ? ( // Kullanıcı giriş yapmış mı?
+                  <>
+                    <Link 
+                      to="/dashboard"
+                      title={currentUser.email || t('nav.userPanel')}
+                      className="px-4 py-1.5 text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 transition-colors rounded-lg shadow-sm">
+                        {t('nav.userPanel')}
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      title={t('nav.logout')}
+                      className="p-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 transition-colors rounded-lg">
+                        <LogOut className="h-4 w-4"/>
+                    </button>
+                  </>
+                ) : (
+                  // Ziyaretçi ise bunları göster
+                  <>
+                    <Link to="/login" className="px-4 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors rounded-lg">
+                        {t('nav.login')}
+                    </Link>
+                    <Link to="/signup" className="px-4 py-1.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg shadow-sm">
+                        {t('nav.signUp')}
+                    </Link>
+                  </>
+                )}
             </div>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
 
           </div>
         </div>
+
+        {/* Mobile Menu Drawer */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-16 left-0 right-0 bg-white border-b border-gray-200 shadow-lg">
+            <div className="px-4 py-6 space-y-4">
+              {/* Mobile Navigation Items */}
+              {navConfig.map((item) => (
+                <div key={item.name} className="space-y-2">
+                  <div className="font-semibold text-gray-900 text-sm">{item.name}</div>
+                  {item.children && (
+                    <div className="pl-4 space-y-2">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.name}
+                          to={child.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                        >
+                          {child.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                  {!item.children && item.href && (
+                    <Link
+                      to={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                </div>
+              ))}
+
+              {/* Mobile Language Switcher */}
+              <div className="pt-4 border-t border-gray-200">
+                <div className="flex items-center gap-2 justify-center bg-gray-100 rounded-full p-1">
+                  <button
+                    onClick={() => {
+                      changeLanguage('tr');
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
+                      i18n.language === 'tr'
+                        ? 'bg-gradient-to-r from-red-600 to-red-500 text-white shadow-md'
+                        : 'text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    <span className="text-base">🇹🇷</span>
+                    <span>TR</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      changeLanguage('en');
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
+                      i18n.language === 'en'
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-md'
+                        : 'text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    <span className="text-base">🇬🇧</span>
+                    <span>EN</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Mobile Auth Buttons */}
+              <div className="pt-4 border-t border-gray-200 space-y-2">
+                {currentUser ? (
+                  <>
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full px-4 py-2 text-center text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 transition-colors rounded-lg shadow-sm"
+                    >
+                      {t('nav.userPanel')}
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="block w-full px-4 py-2 text-center text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 transition-colors rounded-lg"
+                    >
+                      {t('nav.logout')}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full px-4 py-2 text-center text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors rounded-lg border border-gray-300"
+                    >
+                      {t('nav.login')}
+                    </Link>
+                    <Link
+                      to="/signup"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full px-4 py-2 text-center text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg shadow-sm"
+                    >
+                      {t('nav.signUp')}
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
     </header>
   );
 }
+
+const NavItem: React.FC<{ name: string; href: string; children?: { name: string; href: string }[] }> = ({ name, href, children }) => (
+  <div className="relative group">
+    {children ? (
+      <>
+        <div className="px-4 py-2 flex items-center gap-1 text-sm font-medium text-gray-600 cursor-default">
+          {name} <ChevronDown className="h-4 w-4" />
+        </div>
+        <div className="absolute top-full left-0 w-64 rounded-md shadow-lg bg-white ring-1 ring-gray-200 p-2 z-10 hidden group-hover:block">
+          {children.map((child) => (
+            <NavLink
+              key={child.name}
+              to={child.href}
+              className={({ isActive }) =>
+                `block px-3 py-2 rounded-md text-sm transition-colors ${
+                  isActive ? "text-white bg-blue-600" : "text-gray-700 hover:bg-gray-100"
+                }`
+              }
+            >
+              {child.name}
+            </NavLink>
+          ))}
+        </div>
+      </>
+    ) : (
+      <NavLink
+        to={href}
+        className={({ isActive }) =>
+          `px-4 py-2 rounded-md text-sm font-medium transition-colors hover:text-blue-600 ${
+            isActive ? "text-blue-600 font-semibold" : "text-gray-600"
+          }`
+        }
+      >
+        {name}
+      </NavLink>
+    )}
+  </div>
+);

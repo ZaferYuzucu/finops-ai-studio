@@ -1,41 +1,46 @@
 import { BarChart, Database, Zap, Settings } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import dragDropImg from '../../assets/illustrations/undraw/undraw_database-tables_yft5-finops.svg';
+import dataModelImg from '../../assets/illustrations/undraw/visual-data-pana-finops.svg';
 
-const features = [
+const getFeatures = (t: any) => [
   {
-    name: 'Tüm Veri Kaynaklarınızı Bağlayın',
-    description: 'Excel, SQL veritabanları, bulut servisleri... Nerede olursa olsun, verilerinize anında bağlanın ve merkezi bir görünüm elde edin.',
+    name: t('features.features.connectDataSources.name'),
+    description: t('features.features.connectDataSources.description'),
     icon: Database,
   },
   {
-    name: 'Yapay Zeka ile Veri Dönüşümü',
-    description: 'Karmaşık veri setlerini, yapay zeka destekli araçlarımızla saniyeler içinde temizleyin, şekillendirin ve analize hazır hale getirin.',
+    name: t('features.features.aiDataTransformation.name'),
+    description: t('features.features.aiDataTransformation.description'),
     icon: Zap,
   },
   {
-    name: 'Görsel Veri Modelleme',
-    description: 'Kod yazmadan, sürükle-bırak arayüzü ile veri tablolarınız arasında ilişkiler kurun ve güçlü veri modelleri oluşturun.',
+    name: t('features.features.visualDataModeling.name'),
+    description: t('features.features.visualDataModeling.description'),
     icon: BarChart,
   },
   {
-    name: 'Hazır Dashboard Şablonları',
-    description: 'Sektörünüze özel olarak tasarlanmış onlarca hazır şablon ile veri görselleştirmeye anında başlayın ve zaman kazanın.',
+    name: t('features.features.readyTemplates.name'),
+    description: t('features.features.readyTemplates.description'),
     icon: Settings,
   },
 ];
 
 const DataVisualizationFeaturesPage = () => {
+  const { t } = useTranslation();
+  const features = getFeatures(t);
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <div className="relative bg-gray-900">
-        <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="" className="h-full w-full object-cover object-center"/>
+      <div className="relative bg-gradient-to-br from-gray-900 via-indigo-900 to-gray-900">
+        <div aria-hidden="true" className="absolute inset-0 overflow-hidden opacity-20">
+            <img src={dragDropImg} alt="" className="h-full w-full object-cover object-center"/>
         </div>
-        <div aria-hidden="true" className="absolute inset-0 bg-gray-900 opacity-50" />
+        <div aria-hidden="true" className="absolute inset-0 bg-gray-900 opacity-70" />
 
         <div className="relative mx-auto flex max-w-3xl flex-col items-center py-32 px-6 text-center lg:px-0">
-            <h1 className="text-4xl font-bold tracking-tight text-white lg:text-6xl">Verilerinizi Sanata Dönüştürün</h1>
-            <p className="mt-4 text-xl text-white">Platformumuz, en karmaşık verileri bile kolayca anlamanıza, analiz etmenize ve etkileyici görsellerle sunmanıza olanak tanır.</p>
+            <h1 className="text-4xl font-bold tracking-tight text-white lg:text-6xl">{t('features.hero.title')}</h1>
+            <p className="mt-4 text-xl text-white">{t('features.hero.subtitle')}</p>
         </div>
       </div>
 
@@ -43,12 +48,12 @@ const DataVisualizationFeaturesPage = () => {
       <div className="bg-white py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
-            <p className="text-base font-semibold leading-7 text-indigo-600">Her Şey Kontrol Altında</p>
+            <p className="text-base font-semibold leading-7 text-indigo-600">{t('features.section1.badge')}</p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Veri Hazırlamanın En Kolay Yolu
+              {t('features.section1.title')}
             </h2>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Veri analizi sürecinin en zorlu kısmı olan veri hazırlama ve temizleme adımlarını, sizin için otomatize ettik.
+              {t('features.section1.subtitle')}
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
@@ -75,20 +80,20 @@ const DataVisualizationFeaturesPage = () => {
                 <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
                 <div className="lg:pr-8 lg:pt-4">
                     <div className="lg:max-w-lg">
-                    <h2 className="text-base font-semibold leading-7 text-indigo-600">Akıllı Çözümler</h2>
-                    <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Sürükle-Bırak Kolaylığı</p>
+                    <h2 className="text-base font-semibold leading-7 text-indigo-600">{t('features.section2.badge')}</h2>
+                    <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{t('features.section2.title')}</p>
                     <p className="mt-6 text-lg leading-8 text-gray-600">
-                        Tek bir satır kod yazmadan, verilerinizi görsel arayüzümüzle yönetin. Tabloları birleştirin, yeni hesaplanmış alanlar oluşturun ve karmaşık veri modellerini kolayca inşa edin.
+                        {t('features.section2.subtitle')}
                     </p>
                     </div>
                 </div>
-                <img
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e28f81?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="Ürün ekran görüntüsü"
-                    className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0"
-                    width={2432}
-                    height={1442}
-                />
+                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl shadow-xl ring-1 ring-gray-400/10 p-8 flex items-center justify-center">
+                  <img
+                      src={dataModelImg}
+                      alt="Ürün ekran görüntüsü"
+                      className="w-full h-auto max-w-2xl"
+                  />
+                </div>
                 </div>
             </div>
         </div>
