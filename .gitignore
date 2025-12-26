@@ -1,1 +1,4 @@
 node_modules
+
+# Session tracking (local only)
+.session-tracker.json
