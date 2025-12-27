@@ -1,0 +1,45 @@
+VERCEL ENVIRONMENT VARIABLES - KOPYALA YAPIŞTIR
+=================================================
+
+🔥 FIREBASE CONFIGURATION (ZORUNLU)
+------------------------------------
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+
+🔒 RECAPTCHA (ZORUNLU)
+----------------------
+VITE_RECAPTCHA_SITE_KEY=
+
+💳 PAYMENT GATEWAYS (OPSİYONEL - Şimdilik Boş Bırakabilirsiniz)
+----------------------------------------------------------------
+VITE_IYZICO_API_KEY=
+VITE_IYZICO_SECRET_KEY=
+VITE_STRIPE_PUBLISHABLE_KEY=
+VITE_API_URL=
+
+📧 CONTACT & DOMAIN (OPSİYONEL)
+--------------------------------
+VITE_CONTACT_EMAIL=info@finops.ist
+VITE_DOMAIN=finops.ist
+VITE_APP_NAME=FINOPS AI Studio
+VITE_APP_VERSION=1.0.0
+VITE_ENVIRONMENT=production
+
+=================================================
+
+NASIL KULLANILIR:
+1. Firebase Console'dan Firebase değerlerini al ve doldur
+2. Google reCAPTCHA'dan site key'i al ve doldur
+3. Her satırı Vercel Environment Variables'a ekle
+4. Payment kısmını şimdilik boş bırak (backend sonrası)
+5. Contact bilgilerini istersen şimdi doldur
+
+ÖNEMLI:
+- Her variable için "Production" environment'ı seç
+- "VITE_" prefix'i şart (Vite kuralı)
+- Boş değer bırakma, ya doldur ya da o satırı ekleme
+
