@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 
 // Defines a single styled node in the flow diagram
-const Node = ({ icon, title, subtitle, variant, className = '' }) => {
+const Node: React.FC<{ icon: React.ReactNode; title: string; subtitle?: string; variant: string; className?: string }> = ({ icon, title, subtitle, variant, className = '' }) => {
   let variantClasses = '';
   let titleClasses = 'text-white';
   let detailElement = null;
@@ -76,7 +76,7 @@ const Node = ({ icon, title, subtitle, variant, className = '' }) => {
 };
 
 // Defines an animated SVG path with a moving dot
-const Path = ({ d, id, color }) => (
+const Path: React.FC<{ d: string; id: string; color: string }> = ({ d, id, color }) => (
   <>
     <path d={d} stroke={color} strokeWidth="2" fill="none" id={id} />
     <motion.circle r="4" fill="white">
@@ -87,11 +87,11 @@ const Path = ({ d, id, color }) => (
   </>
 );
 
-const FlowAnimation = () => {
-  const sourceIcon = { className: "w-7 h-7 text-sky-400" };
-  const processingIcon = { className: "w-7 h-7 text-purple-400" };
-  const outputIcon = { className: "w-7 h-7 text-orange-400" };
-  const outcomeIcon = { className: "w-7 h-7 text-green-400" };
+const FlowAnimation: React.FC = () => {
+  const sourceIcon: React.ComponentProps<any> = { className: "w-7 h-7 text-sky-400" };
+  const processingIcon: React.ComponentProps<any> = { className: "w-7 h-7 text-purple-400" };
+  const outputIcon: React.ComponentProps<any> = { className: "w-7 h-7 text-orange-400" };
+  const outcomeIcon: React.ComponentProps<any> = { className: "w-7 h-7 text-green-400" };
 
   return (
     <div className="bg-gradient-to-br from-gray-900/60 via-slate-900/50 to-gray-900/60 border border-slate-700 rounded-2xl p-3 sm:p-6 shadow-2xl shadow-cyan-500/10 overflow-x-auto">
