@@ -161,6 +161,56 @@ export interface SubscriptionCheckResult {
 }
 
 /**
+ * Kullanım Takibi - Gerçek Zamanlı Limit Kontrolü
+ */
+export interface UsageTracking {
+  id: string;
+  userId: string;
+  subscriptionId: string;
+  
+  // Gerçek Kullanım
+  currentUsers: number;          // Şu an tanımlı kullanıcı sayısı
+  currentBusinesses: number;     // Şu an tanımlı işletme sayısı
+  currentDashboards: number;     // Şu an oluşturulmuş dashboard sayısı
+  
+  // Limit Bilgileri (Subscription'dan kopyalanır)
+  maxUsers: number;
+  maxBusinesses: number;
+  maxDashboards: number;
+  
+  // Süre Bilgisi
+  subscriptionStartDate: Date;
+  subscriptionEndDate: Date;
+  daysRemaining: number;
+  
+  // Güncelleme
+  lastUpdated: Date;
+  
+  // Uyarı Flags
+  userLimitReached: boolean;
+  businessLimitReached: boolean;
+  dashboardLimitReached: boolean;
+  subscriptionExpiringSoon: boolean;  // 7 gün kala
+}
+
+/**
+ * Limit Kontrol Sonucu
+ */
+export interface LimitCheckResult {
+  allowed: boolean;
+  reason?: string;
+  currentUsage: number;
+  limit: number;
+  warningMessage?: string;
+  upgradeRequired: boolean;
+}
+
+/**
+ * Kullanım Limiti Tipi
+ */
+export type UsageLimitType = 'users' | 'businesses' | 'dashboards' | 'duration';
+
+/**
  * Plan Tanımları (Sabit Değerler)
  */
 export const PLAN_DEFINITIONS: Record<PlanType, PlanFeatures> = {

@@ -1,0 +1,23 @@
+{
+  "veriGorsellestirmeDetay": {
+    "aiFeature1Title": "Tek Tıkla Dashboard Oluştur",
+    "aiFeature1Desc": "AI otomatik olarak en uygun grafikleri seçer ve düzenler",
+    "aiFeature2Title": "Marka Renkleriyle Eşleştir",
+    "aiFeature2Desc": "Dashboard'unuzu kurumsal kimliğinize uygun şekilde özelleştirin",
+    "aiFeature3Title": "Çok Sayfalı Raporlar",
+    "aiFeature3Desc": "Farklı bölümler için ayrı sayfalar oluşturun",
+    "aiFeature4Title": "Tam Responsive Grafikler",
+    "aiFeature4Desc": "Mobil, tablet ve masaüstünde mükemmel görünüm",
+    "aiFeature5Title": "Bilgi veya Eğitim Gerektirmez",
+    "aiFeature5Desc": "Kod yazmadan, sürükle-bırak ile kolayca düzenleyin",
+    "dashboardEditor": "Dashboard Editör",
+    "autoGenerateBtn": "AI ile Otomatik Oluştur",
+    "chartsSubtitle": "Etkili rapor oluşturma için 24+ element. Aylık güncellemeler ile yeni elementler ekleniyor. Temel grafiklerden gelişmiş görselleştirmelere kadar geniş seçenek yelpazesi.",
+    "exploreAllElements": "Tüm Elementleri Keşfet",
+    "moreElementsTitle": "📋 Raporlarınıza Daha Fazla Element Ekleyin",
+    "moreElementsDesc": "Tablolar, resimler, HTML ve özel widget'lar ile raporlarınızı zenginleştirin. Sürükle-bırak ile istediğiniz yere ekleyin.",
+    "tryNow": "Şimdi Dene",
+    "watchDemo": "Demo İzle",
+    "learnMore": "Daha Fazla Bilgi"
+  }
+}

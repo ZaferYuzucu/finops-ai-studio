@@ -8,6 +8,10 @@
   "hrPayrollPerformance": "HR & Payroll Performance",
     "dataVisualization": "Data Visualization",
   "dashboardExamples": "Dashboard Examples",
+  "dataVisualizationPage": "Data Visualization",
+  "aiDataAnalysisPage": "AI Data Analysis",
+  "dataPreparationPage": "Data Preparation",
+  "dataSourcesPage": "Data Sources",
   "features": "Features",
   "support": "Support",
     "resources": "Resources",
@@ -162,7 +166,8 @@
       "businessPlan": "Business Plan",
       "pricing": "Pricing",
       "marketingPlan": "Marketing Plan",
-      "userJourneyMap": "User Journey Map"
+      "userJourneyMap": "User Journey Map",
+      "paymentGuide": "💳 Payment Methods Guide"
     },
     "stayUpdated": "Stay Updated",
     "stayUpdatedSubtitle": "The latest news, articles, and resources, sent to your inbox weekly.",
@@ -214,17 +219,56 @@
   },
   "heroPage": {
     "hero": {
+      "badge": "AI-Powered Financial Analysis Platform",
       "title": "From Scattered Data to Net Profit: Shape Your Financial Future",
       "subtitle": "FINOPS AI Studio helps you increase profitability and make solid decisions for the future by transforming your business's financial data into meaningful insights.",
+      "cta1": "Start Free",
+      "cta2": "Explore Features",
       "explorePlatform": "Explore Platform"
     },
+    "trust": {
+      "secure": "Secure & Encrypted",
+      "aiPowered": "AI-Powered",
+      "quickSetup": "Quick Setup"
+    },
     "dashboard": {
+      "title": "📊 Visualize Your Data",
+      "subtitle": "Transform complex financial data into understandable dashboards",
       "alt": "FINOPS AI Studio CEO Dashboard Panel"
+    },
+    "features": {
+      "title": "Why FINOPS AI Studio?",
+      "subtitle": "Modern Tools That Empower Your Business",
+      "feature1": {
+        "title": "AI-Powered Analysis",
+        "description": "Automatically analyze your data with AI and gain insights"
+      },
+      "feature2": {
+        "title": "Real-Time Dashboard",
+        "description": "Keep your finger on the pulse of your business with instant data visualization"
+      },
+      "feature3": {
+        "title": "Easy Integration",
+        "description": "Seamless integration with your existing systems"
+      },
+      "feature4": {
+        "title": "Mobile Friendly",
+        "description": "Access your data from anywhere, on any device"
+      }
     },
     "automation": {
       "badge": "Increase Efficiency",
       "title": "AI-Powered Automation Flow",
       "description": "Discover how our platform simplifies complex tasks in seconds. Your natural language commands are instantly analyzed, processed, and transformed into customized solutions by our advanced AI models."
+    },
+    "finalCta": {
+      "title": "Ready to Shape Your Financial Future?",
+      "subtitle": "Start today, see the difference tomorrow. No credit card required for free trial.",
+      "cta1": "Start Free",
+      "cta2": "Talk to Sales",
+      "trust1": "14-Day Free Trial",
+      "trust2": "No Credit Card Required",
+      "trust3": "Cancel Anytime"
     }
   },
   "solutionPages": {
@@ -485,6 +529,10 @@
     "badge": "36 Professional Panels",
     "title": "Dashboard and Report",
     "titleHighlight": "Examples",
+    "categoryPanels": "Dashboards",
+    "noResults": "No Results Found",
+    "noResultsDesc": "No dashboards matching your search criteria were found.",
+    "clearFilters": "Clear Filters",
     "subtitle": "Discover dashboard examples used by real teams and start creating KPI tracking for your business. Each example shows how you can transform your data into meaningful insights."
   },
   "features": {
@@ -1045,5 +1093,540 @@
       "subtitle": "Contact our design team for custom graphics, presentations, or marketing materials",
       "button": "Contact Design Team"
     }
+  },
+  "veriKaynaklari": {
+    "hero": {
+      "badge": "Data Connections",
+      "title": "Connect Your Data Sources",
+      "subtitle": "Combine data from different sources on a single platform. We support all your data sources from Excel to SQL, Google Sheets to APIs.",
+      "cta1": "Get Started",
+      "cta2": "Watch Live Demo"
+    },
+    "googleSheets": {
+      "badge": "Recommended",
+      "title": "Auto-Refresh Reports with Google Sheets",
+      "description": "Connect your report with your Google Sheets file and get live reporting.",
+      "feature1": "Live Reporting",
+      "feature1Desc": "Update your Google Sheets file daily and set refresh intervals",
+      "feature2": "Track On-the-Go",
+      "feature2Desc": "Track your business data from anywhere, anytime",
+      "feature3": "Easy Setup",
+      "feature3Desc": "Simple setup and maintenance for non-technical teams",
+      "feature4": "Unlimited Dashboards",
+      "feature4Desc": "Create as many dashboards and datasets as you want",
+      "feature5": "Easy Sharing",
+      "feature5Desc": "Effortless sharing and collaboration with colleagues",
+      "guideBtn": "Google Sheets Connection Guide"
+    },
+    "excel": {
+      "title": "Microsoft Excel",
+      "description": "Upload your Excel files (.xls, .xlsx, .xlsm formats supported)"
+    },
+    "csv": {
+      "title": "CSV File",
+      "description": "Import your data in universal CSV format. Copy-paste also supported."
+    },
+    "mssql": {
+      "title": "MS SQL",
+      "badge": "Advanced",
+      "description": "Connect directly to your Microsoft SQL Server database. Secure and fast data transfer."
+    },
+    "mysql": {
+      "title": "MySQL",
+      "badge": "Advanced",
+      "description": "Pull live data from your MySQL databases. Flexible connection options."
+    },
+    "postgresql": {
+      "title": "PostgreSQL",
+      "badge": "Advanced",
+      "description": "PostgreSQL database integration. Ideal for enterprise solutions."
+    },
+    "security": {
+      "title": "Security & Privacy",
+      "item1": {
+        "title": "Secure Encryption",
+        "description": "All your data is encrypted with SSL/TLS"
+      },
+      "item2": {
+        "title": "Only You Can Access",
+        "description": "Your data is private to you, no one can see it"
+      },
+      "item3": {
+        "title": "Not Used for AI Training",
+        "description": "Your data is never used for AI training"
+      },
+      "item4": {
+        "title": "Fully Deletable",
+        "description": "You can delete all data anytime"
+      },
+      "item5": {
+        "title": "Authorization",
+        "description": "Custom access controls for team members"
+      },
+      "item6": {
+        "title": "Auto Backup",
+        "description": "Your data is regularly backed up"
+      }
+    },
+    "cta": {
+      "title": "Empower Non-Technical Teams",
+      "button1": "Start Free",
+      "button2": "Pricing",
+      "note": "No credit card required"
+    }
+  },
+  "aiVeriAnalizi": {
+    "hero": {
+      "badge": "AI-Powered Data Analytics",
+      "title": "Analyze Your Data with Artificial Intelligence",
+      "subtitle": "Discover augmented analytics capabilities. Perform data analysis through conversation, auto-generate dashboards, get contextual insights and reports.",
+      "cta1": "Try Free",
+      "cta2": "Watch AI Demo"
+    },
+    "autoDashboard": {
+      "badge": "Most Popular",
+      "title": "Auto-Generate Dashboards",
+      "description": "Get logical and meaningful dashboards from your data. Choose a data model and let AI analyze the data and provide insightful charts.",
+      "feature1": "Smart Chart Selection",
+      "feature1Desc": "AI automatically selects the most suitable chart types for your data",
+      "feature2": "Ready in Seconds",
+      "feature2Desc": "In seconds instead of minutes, without requiring manual work",
+      "feature3": "Customizable",
+      "feature3Desc": "Accept AI suggestions or apply your own style",
+      "feature4": "Unlimited Dashboards",
+      "feature4Desc": "Create as many dashboards as you want for different datasets"
+    },
+    "chat": {
+      "badge": "New Feature",
+      "title": "Conversational Data Analysis",
+      "description": "Chat with your AI assistant about your data and perform deeper analysis. Get answers in minutes instead of manually sifting through mountains of data.",
+      "feature1": "Ask Questions in Natural Language",
+      "feature1Desc": "Ask questions like What was the best-selling product this month?",
+      "feature2": "Charts, Correlations, Insights",
+      "feature2Desc": "AI shows you charts, correlations, and anomalies",
+      "feature3": "Follow-up Questions",
+      "feature3Desc": "Like a conversation: How about last year?",
+      "feature4": "Instant Answers",
+      "feature4Desc": "Get responses in seconds instead of minutes"
+    },
+    "chartGenerator": {
+      "badge": "Unlimited",
+      "title": "AI Chart Generator",
+      "description": "Write your requests and create unlimited charts. AI prepares the most suitable visualization for you.",
+      "placeholder": "e.g., Show sales trend for the last 6 months as a line chart"
+    },
+    "correlations": {
+      "badge": "Advanced Analysis",
+      "title": "Correlation, Comparison and Anomaly Detection",
+      "description": "Ask AI to analyze your data and find patterns. Automatically discover hidden relationships, unexpected changes, and trends."
+    }
+  },
+  "veriGorsellestirme": {
+    "hero": {
+      "badge": "Data Visualization",
+      "title": "One-Click Reports and Custom Dashboards",
+      "subtitle": "Generate reports automatically from your data with AI. Experience the ease of reporting with a no-code editor.",
+      "cta1": "Start Free",
+      "cta2": "Live Examples"
+    },
+    "aiGenerator": {
+      "badge": "AI-Powered",
+      "title": "AI Dashboard Generator for Easier Report Building",
+      "description": "Create dashboards with AI in one click. Get professional reports without requiring any knowledge or training.",
+      "feature1": "Generate Dashboard with One Click",
+      "feature1Desc": "AI automatically selects and arranges the most suitable charts",
+      "feature2": "Match with Brand Colors",
+      "feature2Desc": "Customize your dashboard to match your corporate identity",
+      "feature3": "Multi-Page Reports",
+      "feature3Desc": "Create separate pages for different sections",
+      "feature4": "Fully Responsive Charts",
+      "feature4Desc": "Perfect view on mobile, tablet, and desktop",
+      "feature5": "No Knowledge or Training Required",
+      "feature5Desc": "Easily edit with drag-and-drop, without writing code",
+      "editorTitle": "Dashboard Editor",
+      "autoBtn": "Auto-Generate with AI"
+    },
+    "charts": {
+      "badge": "24+ Elements",
+      "title": "Charts for Your Data Visualization Needs",
+      "description": "24+ elements for efficient report building. New elements added with monthly updates.",
+      "subtitle": "24+ elements for efficient report building. New elements added with monthly updates. Wide range of options from basic charts to advanced visualizations.",
+      "exploreAll": "Explore All Elements",
+      "moreTitle": "📋 Add More Elements to Your Reports",
+      "moreDesc": "Enrich your reports with tables, images, HTML, and custom widgets. Add them anywhere with drag-and-drop.",
+      "dataTablesLabel": "Data Tables",
+      "customLayoutsLabel": "Custom Layouts",
+      "visualElementsLabel": "Visual Elements"
+    },
+    "customization": {
+      "badge": "Customization",
+      "title": "Match Dashboard with Your Brand",
+      "description": "Create professional dashboards that reflect your corporate identity. Customize with your logo and brand colors.",
+      "brandColorLabel": "Brand Color",
+      "backgroundLabel": "Background",
+      "successMessage": "Brand settings applied!",
+      "uploadLogo": "Upload Logo",
+      "uploadLogoDesc": "Upload your logo and display it on your dashboard",
+      "setBrandColors": "Set Brand Colors",
+      "setBrandColorsDesc": "Apply your corporate color palette",
+      "customizeBackground": "Customize Background",
+      "customizeBackgroundDesc": "Light, dark, or custom background colors",
+      "fontTypography": "Font & Typography",
+      "fontTypographyDesc": "Use your corporate font family",
+      "tryNowBtn": "Try Now"
+    },
+    "responsive": {
+      "badge": "Responsive Design",
+      "title": "Perfect View on Every Device",
+      "description": "Your dashboards automatically adapt to desktop, tablet, and mobile devices. Always ready to share.",
+      "desktopTitle": "Desktop",
+      "desktopDesc": "Detailed view on large screens",
+      "tabletTitle": "Tablet",
+      "tabletDesc": "Optimized for medium screens",
+      "mobileTitle": "Mobile",
+      "mobileDesc": "Easy to read on small screens"
+    },
+    "videoGuide": {
+      "badge": "Step-by-Step Guide",
+      "title": "Learn How to Visualize Your Data",
+      "description": "Access guides and tutorials to help you create your first dashboard. Quickly create and share reports.",
+      "guidesTitle": "Guides & Tutorials",
+      "guidesDesc": "Detailed documentation for dashboard setup",
+      "supportTitle": "Support Team",
+      "supportDesc": "Professional support for your data tasks",
+      "shareTitle": "Quick Share",
+      "shareDesc": "Easily create and share reports",
+      "exploreGuidesBtn": "Explore Guides",
+      "dataPreparationBtn": "Data Preparation"
+    },
+    "cta": {
+      "title": "Customize Your Reporting Process with FinOps",
+      "description": "See how easy it is. From professional dashboards to AI analytics, from AI-powered insights to live reporting.",
+      "startBtn": "Start Free",
+      "pricingBtn": "Pricing",
+      "disclaimer": "No credit card required • 14-day free trial"
+    },
+    "relatedFeatures": {
+      "title": "Explore Other Benefits and Features",
+      "overviewTitle": "Overview",
+      "overviewDesc": "Complete list of platform features",
+      "dataSourcesTitle": "Data Sources",
+      "dataSourcesDesc": "Live reporting and integration",
+      "dataPreparationTitle": "Data Preparation",
+      "dataPreparationDesc": "Cleaning and transformation features",
+      "aiAnalyticsTitle": "AI Analytics",
+      "aiAnalyticsDesc": "Meaningful dashboards and chat",
+      "exploreBtn": "Explore"
+    }
+  },
+  "finoChatWidget": {
+    "greeting": "Hello! I'm Fino",
+    "message": "Very soon I'll be analyzing your data with you!",
+    "title": "Fino",
+    "subtitle": "Your AI Assistant",
+    "status": "Coming Soon with You",
+    "comingSoon": "COMING SOON",
+    "placeholder": "Fino will be with you very soon...",
+    "typing": "Getting ready...",
+    "sendButton": "Send",
+    "infoText": "Will be active very soon!",
+    "buttonTitle": "Chat with Fino"
+  },
+  "platformAnalytics": {
+    "title": "Platform Analytics",
+    "subtitle": "Management Dashboard",
+    "pageTitle": "Platform Analytics",
+    "backstage": "Backstage",
+    "pageSubtitle": "Welcome to the system's backstage. Manage all operations from here.",
+    "timeRanges": {
+      "7d": "Last 7 Days",
+      "30d": "Last 30 Days",
+      "90d": "Last 90 Days"
+    },
+    "downloadReport": "Download Report",
+    "revenueGrowth": "Revenue Growth",
+    "planDistribution": "Plan Distribution",
+    "recentSignups": "Recent Signups",
+    "mostActiveUsers": "Most Active Users",
+    "popularDashboards": "Popular Dashboards",
+    "tabs": {
+      "admin": "🔐 Admin - Real Data",
+      "demo": "🎯 B2B Demo - Client Presentation"
+    },
+    "kpis": {
+      "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
+      "monthlyRevenue": "Monthly Revenue (MRR)",
+      "churnRate": "Churn Rate",
+      "conversionRate": "Conversion Rate",
+      "arpu": "ARPU",
+      "customerLtv": "Customer LTV",
+      "avgSession": "Avg Session",
+      "totalRevenue": "Total Revenue",
+      "dashboardCount": "Dashboard Count",
+      "dataUploads": "Data Uploads",
+      "systemUptime": "System Uptime",
+      "thisMonth": "this month",
+      "thisWeek": "this week",
+      "realFirebaseData": "🔥 Real Firebase Data",
+      "realData": "🔥 Real Calculation",
+      "mockData": "Mock Data",
+      "last30Days": "🔥 Last 30 days (Real)",
+      "arrLabel": "ARR",
+      "freeToPaid": "Free → Paid plan transition",
+      "avgPerUser": "Average per user",
+      "lifetimeValue": "Average lifetime value",
+      "avgDuration": "Average duration (minutes)",
+      "totalEarnings": "Total earnings",
+      "createdByUsers": "Created by users",
+      "last7Days": "Last 7 days",
+      "last24Hours": "Last 24 hours",
+      "uptime": "uptime"
+    },
+    "demo": {
+      "title": "🎯 B2B Demo - Client Presentation",
+      "subtitle": "For showcasing to potential clients",
+      "quickDemo": "🚀 Demo Mode - One-Click Dashboard",
+      "quickDemoDesc": "Instantly show dashboard with sample restaurant data",
+      "or": "OR MANUAL DATA INPUT",
+      "fileUpload": "📁 File Upload",
+      "urlConnect": "🌐 URL Connection",
+      "fileGuideTitle": "📘 File Upload Guide",
+      "urlGuideTitle": "🌐 URL Connection Guide",
+      "dataGuideLink": "📖 Review Data Preparation Guide"
+    },
+    "adminLogin": {
+      "title": "Admin Login",
+      "subtitle": "Access to Platform Management Dashboard",
+      "username": "Username",
+      "password": "Password",
+      "loginButton": "Log In",
+      "backToHome": "Back to Home"
+    },
+    "veriHazirlama": {
+      "hero": {
+        "badge": "Data Preparation and Visualization Center",
+        "title": "Prepare Your Data for Analysis",
+        "subtitle": "Transform your complex data into clean, structured, and analysis-ready format. Achieve deep insights with visual query builder and data preparation tools.",
+        "cta1": "Get Started",
+        "cta2": "Watch Video Guide"
+      },
+      "cleaning": {
+        "badge": "Step 1",
+        "title": "📊 Clean and Prepare Data",
+        "description": "Transform your scattered data into clean, structured, and analysis-ready format.",
+        "feature1": "Organize Data Structure",
+        "feature1Desc": "Standardize your column headers, format, and data types",
+        "feature2": "Transform and Filter Data",
+        "feature2Desc": "Optimize data for analysis with custom functions",
+        "feature3": "Clean Unnecessary Data",
+        "feature3Desc": "Remove duplicate records, fix missing data",
+        "feature4": "Prepare for Deep Insights",
+        "feature4Desc": "Optimize your data for advanced analysis and AI recommendations",
+        "checklistTitle": "✅ Data Cleaning Checklist"
+      }
+    },
+    "dataImport": {
+      "title": "📤 Data Import",
+      "subtitle": "Upload your business data or connect to external source",
+      "detailedGuideLink": "📖 Detailed Data Preparation Guide - Review all steps",
+      "tabs": {
+        "fileUpload": "File Upload",
+        "urlConnection": "URL Connection"
+      },
+      "demoMode": {
+        "button": "⚡ Demo Mode - Quick Showcase",
+        "description": "🎯 Create sample dashboard with one click to show B2B clients!"
+      },
+      "template": {
+        "download": "Download Sample Template",
+        "hint": "💡 Download template first, fill it, then upload"
+      },
+      "guideLink": "📖 Data Upload Guide",
+      "fileUpload": {
+        "dragDrop": "Upload a file",
+        "or": "or drag and drop",
+        "format": "CSV or XLSX format",
+        "guideTitle": "📖 File Upload Guide",
+        "step1": "Prepare CSV/Excel:",
+        "step1Desc": "Organize your data in Excel. First row should be column headers (Date, Product, Price, etc.)",
+        "step2": "Save File:",
+        "step2Desc": "\"Save As\" → CSV (Comma Separated) or .xlsx format",
+        "step3": "Upload:",
+        "step3Desc": "Drag file here or click \"Upload File\" button",
+        "step4": "AI Analysis:",
+        "step4Desc": "System automatically recognizes columns, detects date/number formats",
+        "exampleTitle": "✅ Sample CSV Structure:"
+      },
+      "urlConnection": {
+        "title": "Connect to Data Source",
+        "subtitle": "Enter Google Sheets, Airtable, or CSV URL",
+        "label": "Data Source URL",
+        "placeholder": "https://docs.google.com/spreadsheets/d/...",
+        "examplesTitle": "💡 Sample Data Sources:",
+        "example1": "Google Sheets (Public CSV Export)",
+        "example2": "Airtable API Endpoint",
+        "example3": "Direct CSV URL",
+        "button": "Connect to Data Source",
+        "connecting": "Connecting...",
+        "guideTitle": "📖 URL Connection Guide",
+        "googleSheets": "Google Sheets Connection:",
+        "googleSheetsStep1": "• File → Share → \"Anyone with the link can view\"",
+        "googleSheetsStep2": "• File → Download → Copy CSV (.csv) link",
+        "airtable": "Airtable API:",
+        "airtableDesc": "• API → Generate API Key → Get Base ID",
+        "directUrl": "Direct CSV/JSON URL:",
+        "directUrlDesc": "• Paste any public CSV/JSON file link",
+        "advantagesTitle": "✅ Advantages:",
+        "advantage1": "Real-time synchronization",
+        "advantage2": "Automatic updates",
+        "advantage3": "No file upload needed",
+        "advantage4": "Ideal for large datasets"
+      },
+      "selectedFiles": "Selected Files:",
+      "uploadButton": "Start Uploading 1 File",
+      "uploading": "Uploading...",
+      "processing": {
+        "title": "🤖 AI Data Analysis in Progress...",
+        "step1": "Reading file...",
+        "step2": "Analyzing data structure...",
+        "step3": "Creating dashboard..."
+      },
+      "success": {
+        "title": "Upload Successful",
+        "message": "Your file has been uploaded successfully. Redirecting to the next step (Column Mapping)."
+      }
+    },
+    "userJourneyMap": {
+      "pageTitle": "User Journey Map",
+      "title": "User Journey Map",
+      "subtitle": "Strategic Steps of a Prospect's Transformation into a Customer",
+      "downloadButton": "Download / Print as PDF",
+      "phases": {
+        "phase1": {
+          "title": "Discovery and Decision",
+          "description": "The prospect first encounters our platform and understands its potential value.",
+          "steps": {
+            "step1": {
+              "title": "First Contact",
+              "description": "The prospect reaches the website through an ad, social media post, search engine result, or recommendation."
+            },
+            "step2": {
+              "title": "Understanding Value Proposition",
+              "description": "Browses homepage, solutions, and about us pages. Evaluates the suitability of offered services to their needs."
+            },
+            "step3": {
+              "title": "Reviewing Pricing",
+              "description": "Visits pricing page to compare offered plans (Individual, Premium, Enterprise) and their features."
+            },
+            "step4": {
+              "title": "Decision Moment",
+              "description": "Decides to try the platform and clicks 'Sign Up' or 'Start Analysis' button."
+            }
+          }
+        },
+        "phase2": {
+          "title": "Registration and Authentication",
+          "description": "The prospect takes their first step into the system and their identity is verified. This is the first line of security.",
+          "steps": {
+            "step1": {
+              "title": "Registration Form",
+              "description": "User fills out the registration form by entering Full Name, Company Name, Email, and a secure password."
+            },
+            "step2": {
+              "title": "Password Confirmation",
+              "description": "System requests password entry twice to prevent typos."
+            },
+            "step3": {
+              "title": "ARMORED GATE - Email Verification",
+              "description": "A verification email is sent to the user's account. Until the user clicks this link, their account remains in 'Pending' status and cannot access critical functions."
+            },
+            "step4": {
+              "title": "CRITICAL ASSURANCE - Password Reset Infrastructure",
+              "description": "If the user forgets their password, a reset link is sent to their email address via the 'Forgot Password' link."
+            }
+          }
+        },
+        "phase3": {
+          "title": "Plan Selection and Payment",
+          "description": "The verified user selects a plan suitable for their operational needs and completes the payment process.",
+          "steps": {
+            "step1": {
+              "title": "Plan Selection Screen",
+              "description": "The user who verified their email is redirected to the plan selection page and chooses the most suitable plan."
+            },
+            "step2": {
+              "title": "OFFICIAL PROCEDURE - Digital Contract Acceptance",
+              "description": "Just before the payment step, the user is presented with 'Terms of Service' and 'Privacy Policy'. Checking the 'I have read and accept' box is mandatory. This action has the nature of a digital signature."
+            },
+            "step3": {
+              "title": "Secure Payment Gateway",
+              "description": "User is redirected to a PCI-DSS certified secure payment gateway interface such as Stripe or Iyzico to enter credit card information. Bank information is NEVER stored in our system."
+            },
+            "step4": {
+              "title": "Payment Confirmation and Invoicing",
+              "description": "After successful payment, the user is redirected back to our system. The system automatically generates an invoice and adds it to the user's panel."
+            }
+          }
+        },
+        "phase4": {
+          "title": "Activation and Integration",
+          "description": "Now a customer, the user activates their panel and integrates their first data into the system.",
+          "steps": {
+            "step1": {
+              "title": "Panel Activation",
+              "description": "With payment confirmation, the user's account moves to 'Active' status. All features and dashboard panels for their selected plan become accessible."
+            },
+            "step2": {
+              "title": "'WELCOME' PROTOCOL - User Onboarding",
+              "description": "The customer is greeted on first login with a 'Welcome' tour that guides them step by step. This tour shows how to connect their first data source or upload their first .csv/.xlsx file."
+            },
+            "step3": {
+              "title": "Data Upload / Integration",
+              "description": "The customer uploads their first dataset or sets up integration (if available) with the help of the guide."
+            },
+            "step4": {
+              "title": "First Value Generation",
+              "description": "Our software processes and organizes the uploaded data, producing meaningful and visual outputs on the customer's selected dashboard panel. This is when the customer concretely sees the value of what they paid for."
+            }
+          }
+        },
+        "phase5": {
+          "title": "Value Generation and Expansion",
+          "description": "The customer regularly uses the platform, derives value, and expands collaboration.",
+          "steps": {
+            "step1": {
+              "title": "Regular Usage and Reporting",
+              "description": "The customer regularly uses the platform to support business decisions, generates reports, and performs analyses."
+            },
+            "step2": {
+              "title": "CHAIN OF COMMAND - Team Management",
+              "description": "(Enterprise Plan) The customer invites new users from their team with different permission levels ('View Only', etc.) to the system."
+            },
+            "step3": {
+              "title": "Expansion (Upsell)",
+              "description": "A customer on the Individual plan upgrades to Premium when they need more features. The platform can detect this need and offer upgrade proposals."
+            },
+            "step4": {
+              "title": "Loyalty and Referral (Brand Ambassadorship)",
+              "description": "Highly satisfied customers recommend the service to their network, leading new prospects to enter Phase 1."
+            }
+          }
+        }
+      }
+    }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+    "goBack": "Go Back",
+    "goHome": "Go to Homepage",
+    "helpText": "Need help?",
+    "homepage": "Home",
+    "features": "Features",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "searchTitle": "Couldn't Find What You're Looking For?",
+    "searchDescription": "You can search in your dashboard or contact our support team."
   }
 }

@@ -1,4 +1,4 @@
-import { Check, Crown, Zap, Users, Star, Sparkles, TrendingUp, Building2, AlertCircle } from 'lucide-react';
+import { Check, Crown, Zap, Users, Star, Sparkles, TrendingUp, Building2, AlertCircle, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSubscription } from '../hooks/useSubscription';
@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { doc, getDoc, setDoc, updateDoc, increment } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 
 interface PricingCardProps {
   title: string;
@@ -245,6 +246,7 @@ const PricingCard = ({
 export default function PricingSection() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { currentUser } = useAuth(); // ✅ Kullanıcı kontrolü için
   const { subscription, createSubscription, changePlan, loading } = useSubscription();
   const [processingPlan, setProcessingPlan] = useState<PlanType | null>(null);
   const [betaLimitReached, setBetaLimitReached] = useState(false);
@@ -282,32 +284,76 @@ export default function PricingSection() {
     setProcessingPlan(planType);
 
     try {
-      // Beta Partner için özel kontrol
+      // ✅ 1. Beta Partner için özel e-posta başvuru sistemi
       if (planType === 'BetaPartner') {
+        setProcessingPlan(null);
+        
         if (betaLimitReached) {
           alert('❌ Üzgünüz, Lansman Partneri kontenjanı dolmuştur.');
-          setProcessingPlan(null);
           return;
         }
         
-        // Beta sayacını artır
-        const betaLimitDoc = doc(db, 'system', 'beta_limit');
-        await updateDoc(betaLimitDoc, {
-          count: increment(1),
-          lastUpdated: new Date()
-        });
-        setBetaCount(prev => prev + 1);
-        if (betaCount + 1 >= BETA_LIMIT) {
-          setBetaLimitReached(true);
-        }
-      }
-
-      // Enterprise planı için özel yönlendirme
-      if (planType === 'Enterprise') {
-        navigate('/contact');
+        // E-posta ile başvuru yönlendirmesi
+        const emailSubject = encodeURIComponent('FINOPS AI Studio - Lansman Partneri Başvurusu');
+        const emailBody = encodeURIComponent(
+          `Merhaba FINOPS AI Studio Ekibi,\n\n` +
+          `Lansman Partneri programına başvurmak istiyorum.\n\n` +
+          `Kalan Kontenjan: ${BETA_LIMIT - betaCount}/${BETA_LIMIT}\n\n` +
+          `Lütfen başvuru sürecim hakkında bilgi verebilir misiniz?\n\n` +
+          `Teşekkürler.`
+        );
+        
+        // Email client'ı aç
+        window.location.href = `mailto:info@finops.ist?subject=${emailSubject}&body=${emailBody}`;
+        
+        // Bilgilendirme mesajı
+        alert(
+          '📧 E-posta programınız açılıyor!\n\n' +
+          '✅ Başvurunuzu info@finops.ist adresine gönderin.\n' +
+          '✅ En kısa sürede size geri dönüş yapacağız.\n\n' +
+          `🎯 Kalan Kontenjan: ${BETA_LIMIT - betaCount}/${BETA_LIMIT}`
+        );
         return;
       }
 
+      // ✅ 2. Enterprise planı için e-posta yönlendirmesi
+      if (planType === 'Enterprise') {
+        setProcessingPlan(null);
+        
+        const emailSubject = encodeURIComponent('FINOPS AI Studio - Kurumsal Paket Talebi');
+        const emailBody = encodeURIComponent(
+          `Merhaba FINOPS AI Studio Ekibi,\n\n` +
+          `Kurumsal paket hakkında detaylı bilgi almak istiyorum.\n\n` +
+          `Lütfen benimle iletişime geçebilir misiniz?\n\n` +
+          `Teşekkürler.`
+        );
+        
+        // Email client'ı aç
+        window.location.href = `mailto:info@finops.ist?subject=${emailSubject}&body=${emailBody}`;
+        
+        alert(
+          '📧 E-posta programınız açılıyor!\n\n' +
+          '✅ Kurumsal paket talebinizi info@finops.ist adresine gönderin.\n' +
+          '✅ Özel fiyatlandırma ve özellikler için size geri dönüş yapacağız.'
+        );
+        return;
+      }
+
+      // ✅ 3. DİĞER PLANLAR İÇİN GİRİŞ KONTROLÜ
+      if (!currentUser) {
+        setProcessingPlan(null);
+        alert(
+          '🔐 Giriş Gerekli\n\n' +
+          'Bu paketi seçmek için önce giriş yapmanız gerekiyor.\n\n' +
+          '✅ Giriş sayfasına yönlendiriliyorsunuz...'
+        );
+        // Seçilen planı state'e kaydet (giriş sonrası kullanmak için)
+        sessionStorage.setItem('selectedPlan', planType);
+        navigate('/login');
+        return;
+      }
+
+      // ✅ 4. GİRİŞ YAPILMIŞSA NORMAL AKIŞ
       if (!subscription) {
         // Yeni abonelik oluştur
         await createSubscription(planType, 'Trial');

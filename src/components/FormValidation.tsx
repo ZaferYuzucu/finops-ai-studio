@@ -30,3 +30,10 @@ export const validatePhone = (phone: string): boolean => {
   return phoneRegex.test(phone);
 };
 
+
+
+
+
+
+
+

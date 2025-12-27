@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINOPS AI Studio - Lansman (Facebook)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            width: 1200px;
+            height: 630px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.4;
+        }
+        
+        .blob1 {
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.2);
+            top: -100px;
+            left: -100px;
+        }
+        
+        .blob2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 200, 200, 0.2);
+            bottom: -100px;
+            right: -100px;
+        }
+        
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 80px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .left {
+            flex: 1;
+            color: white;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        
+        .logo-text {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            line-height: 1;
+        }
+        
+        .tagline {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            opacity: 0.95;
+        }
+        
+        .features {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        .features div {
+            margin: 8px 0;
+        }
+        
+        .website {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 15px;
+            letter-spacing: 1px;
+        }
+        
+        .right {
+            flex: 0 0 400px;
+            margin-left: 50px;
+        }
+        
+        .highlight {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 35px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .offer-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+        
+        .offer {
+            font-size: 48px;
+            font-weight: 900;
+            margin: 15px 0;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+        
+        .offer-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-top: 15px;
+        }
+        
+        .cta {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 25px;
+            padding: 15px 40px;
+            background: white;
+            color: #667eea;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    
+    <div class="container">
+        <div class="left">
+            <div class="badge">🚀 Canlıya Alındı</div>
+            
+            <h1 class="logo-text">FINOPS AI STUDIO</h1>
+            
+            <p class="tagline">
+                Türkiye'nin İlk AI Destekli<br>
+                Finansal Operasyon Platformu
+            </p>
+            
+            <div class="features">
+                <div>✓ AI Dashboard'lar</div>
+                <div>✓ Tek Tıkla Raporlama</div>
+                <div>✓ Nakit Akışı Takibi</div>
+                <div>✓ KOBİ'lere Özel Çözümler</div>
+            </div>
+            
+            <div class="website">📍 www.finops.ist</div>
+        </div>
+        
+        <div class="right">
+            <div class="highlight">
+                <div class="offer-title">🎁 Lansman Kampanyası</div>
+                <div class="offer">1 YIL<br>ÜCRETSİZ</div>
+                <p class="offer-subtitle">
+                    Beta Partner Programı<br>
+                    <strong>Sadece İlk 20 İşletme!</strong>
+                </p>
+                <div class="cta">✨ BAŞVUR</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

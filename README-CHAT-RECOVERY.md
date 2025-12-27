@@ -219,3 +219,6 @@ Eğer hiçbir AI asistanı veya destek yoksa:
 **Amaç:** Chat kaybında proje bilgilerini korumak  
 **Durum:** ✅ HAZIR
 
+
+
+

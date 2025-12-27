@@ -115,7 +115,7 @@ const DataVisualizationDashboardExamplesPage = () => {
                 {/* Kategori Başlığı */}
                 <div className="mb-8">
                   <h2 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">
-                    {category} Panelleri
+                    {category} {t('dashboardExamples.categoryPanels')}
                   </h2>
                   <div className="h-1 w-24 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full"></div>
                 </div>
@@ -143,9 +143,9 @@ const DataVisualizationDashboardExamplesPage = () => {
               <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
                 <Sparkles className="w-10 h-10 text-gray-400" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Sonuç Bulunamadı</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('dashboardExamples.noResults')}</h3>
               <p className="text-gray-600 mb-6">
-                Arama kriterlerinize uygun dashboard bulunamadı.
+                {t('dashboardExamples.noResultsDesc')}
               </p>
               <button
                 onClick={() => {
@@ -154,7 +154,7 @@ const DataVisualizationDashboardExamplesPage = () => {
                 }}
                 className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
               >
-                Filtreleri Temizle
+                {t('dashboardExamples.clearFilters')}
               </button>
             </motion.div>
           )}

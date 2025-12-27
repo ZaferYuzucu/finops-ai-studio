@@ -62,6 +62,7 @@ const getFooterSections = (t: any) => ({
       { name: t('footer.links.pricing'), href: "/pricing" },
       { name: t('footer.links.marketingPlan'), href: "/admin-login?redirect=/marketing-plan" },
       { name: t('footer.links.userJourneyMap'), href: "/admin-login?redirect=/user-journey-map" },
+      { name: t('footer.links.paymentGuide'), href: "/admin-login?redirect=/admin/payment-guide" },
     ],
     style: {
         background: 'bg-violet-50', 

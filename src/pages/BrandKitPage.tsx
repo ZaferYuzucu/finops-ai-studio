@@ -1,5 +1,6 @@
 import React from 'react';
 import { Download, Copy } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // --- ASSET IMPORTS --- //
 import finopsLogoDark from '../assets/brand/finops-logo-dark.png';
@@ -13,10 +14,10 @@ import finopsLiBannerDark from '../assets/brand/finops-li-banner-dark.png';
 import finopsKartvizitLight from '../assets/brand/finops-kartvizit-light.png';
 import finopsKartvizitDark from '../assets/brand/finops-kartvizit-dark.png';
 import finopsQrCode from '../assets/brand/finops-qr-code.png';
-import finopsIgAnaliz from '../assets/brand/finops-ig-Analiz.png';
-import finopsIgButceLight from '../assets/brand/finops-ig-Butce-light.png';
-import finopsIgHaberlerLight from '../assets/brand/finops-ig-Haberler-light.png';
-import finopsIgIpuclari from '../assets/brand/finops-ig-Ipuclari.png';
+// import finopsIgAnaliz from '../assets/brand/finops-ig-Analiz.png';
+// import finopsIgButceLight from '../assets/brand/finops-ig-Butce-light.png';
+// import finopsIgHaberlerLight from '../assets/brand/finops-ig-Haberler-light.png';
+// import finopsIgIpuclari from '../assets/brand/finops-ig-Ipuclari.png';
 import finopsLogoKalkan from '../assets/brand/finops-logo-Kalkan.png';
 
 // --- DATA: COLORS --- //
@@ -82,21 +83,34 @@ const assetCategories = [
     ]
   },
   {
-    title: "İçerik Şablonları (Instagram)",
-    description: "Instagram paylaşımları için oluşturulmuş, marka kimliğine uygun şablonlar.",
+    title: "🎉 Lansman Bülteni & Sosyal Medya",
+    description: "Profesyonel ajans kalitesinde hazırlanmış lansman materyalleri. E-posta, sosyal medya ve bülten aboneleri için kullanıma hazır.",
     assets: [
-      { name: "Analiz (Koyu)", file: finopsIgAnaliz },
-      { name: "Bütçe (Açık)", file: finopsIgButceLight },
-      { name: "Haberler (Açık)", file: finopsIgHaberlerLight },
-      { name: "İpuçları (Koyu)", file: finopsIgIpuclari },
-    ]
+      { name: "📧 Lansman Bülteni (HTML - Email)", file: "/brand/LaunchNewsletter.html" },
+      { name: "📱 Instagram Post (1080x1080)", file: "/brand/LaunchPost_Instagram.html" },
+      { name: "👥 Facebook Post (1200x630)", file: "/brand/LaunchPost_Facebook.html" },
+      { name: "💼 LinkedIn Post (1200x627)", file: "/brand/LaunchPost_LinkedIn.html" },
+    ],
+    special: true // Özel kategori işareti
   }
+  // Instagram Şablonları geçici olarak kaldırıldı (asset dosyaları eksik)
+  // {
+  //   title: "İçerik Şablonları (Instagram)",
+  //   description: "Instagram paylaşımları için oluşturulmuş, marka kimliğine uygun şablonlar.",
+  //   assets: [
+  //     { name: "Analiz (Koyu)", file: finopsIgAnaliz },
+  //     { name: "Bütçe (Açık)", file: finopsIgButceLight },
+  //     { name: "Haberler (Açık)", file: finopsIgHaberlerLight },
+  //     { name: "İpuçları (Koyu)", file: finopsIgIpuclari },
+  //   ]
+  // }
 ];
 
 // --- HELPER COMPONENT: ASSET CARD --- //
 const AssetCard: React.FC<{ asset: { name: string; file: string } }> = ({ asset }) => {
   const isPPTX = typeof asset.file === 'string' && asset.file.toLowerCase().endsWith('.pptx');
   const isPDF = typeof asset.file === 'string' && asset.file.toLowerCase().endsWith('.pdf');
+  const isHTML = typeof asset.file === 'string' && asset.file.toLowerCase().endsWith('.html');
   
   const handleDownload = () => {
     const link = document.createElement('a');
@@ -109,27 +123,57 @@ const AssetCard: React.FC<{ asset: { name: string; file: string } }> = ({ asset 
     document.body.removeChild(link);
   };
 
-  // Use a generic icon for PPTX or a specific one if available
-  const displayImage = isPDF || isPPTX ? finopsTmColor : asset.file;
+  const handlePreview = () => {
+    window.open(asset.file, '_blank');
+  };
+
+  // Use a generic icon for PPTX/PDF or a special icon for HTML, else show actual image
+  let displayImage = asset.file;
+  let displayIcon = null;
+  
+  if (isPDF || isPPTX) {
+    displayImage = finopsTmColor;
+  } else if (isHTML) {
+    displayIcon = (
+      <div className="flex flex-col items-center justify-center gap-4">
+        <img src={finopsLogoKalkan} alt="FINOPS Logo" className="h-16 w-auto" />
+        <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-2 rounded-full text-xs font-bold shadow-lg">
+          📧 LANSMAN BÜLTENİ
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 group flex flex-col">
-      <div className="w-full h-48 bg-gray-50 flex items-center justify-center p-4 rounded-t-lg overflow-hidden">
-        <img 
-          src={displayImage} 
-          alt={asset.name} 
-          className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
-        />
+      <div className="w-full h-48 bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4 rounded-t-lg overflow-hidden">
+        {displayIcon ? displayIcon : (
+          <img 
+            src={displayImage} 
+            alt={asset.name} 
+            className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+          />
+        )}
       </div>
       <div className="p-4 bg-white rounded-b-lg flex-grow flex flex-col justify-between">
         <p className="text-sm font-semibold text-gray-800 truncate">{asset.name}</p>
-        <button
-          onClick={handleDownload}
-          className="w-full mt-3 inline-flex items-center justify-center gap-2 rounded-md bg-gray-100 px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-blue-600 hover:text-white transition-all duration-200"
-        >
-          <Download className="h-3.5 w-3.5" />
-          İndir
-        </button>
+        <div className="mt-3 flex gap-2">
+          {isHTML && (
+            <button
+              onClick={handlePreview}
+              className="flex-1 inline-flex items-center justify-center gap-2 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-2 text-xs font-semibold text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200"
+            >
+              👁️ Önizle
+            </button>
+          )}
+          <button
+            onClick={handleDownload}
+            className={`${isHTML ? 'flex-1' : 'w-full'} inline-flex items-center justify-center gap-2 rounded-md bg-gray-100 px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-blue-600 hover:text-white transition-all duration-200`}
+          >
+            <Download className="h-3.5 w-3.5" />
+            İndir
+          </button>
+        </div>
       </div>
     </div>
   );

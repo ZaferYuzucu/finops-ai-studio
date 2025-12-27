@@ -1,12 +1,20 @@
 
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { UploadCloud, File as FileIcon, X, Loader, Download, CheckCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { UploadCloud, File as FileIcon, X, Loader, Download, CheckCircle, Zap, Link as LinkIcon, Globe, Database } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const DataImportPage: React.FC = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const [files, setFiles] = useState<File[]>([]);
   const [status, setStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [importMethod, setImportMethod] = useState<'file' | 'url'>('file'); // Yeni: Yükleme metodu
+  const [dataUrl, setDataUrl] = useState(''); // Yeni: URL verisi
+  const [isConnecting, setIsConnecting] = useState(false); // Yeni: Bağlanma durumu
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(acceptedFiles);
@@ -23,66 +31,384 @@ const DataImportPage: React.FC = () => {
   const handleUpload = () => {
     if (files.length === 0) return;
     setStatus('uploading');
-    // Gerçek yükleme mantığı burada olacak.
-    // Şimdilik 2 saniyelik bir gecikme ile simüle ediyoruz.
+    setIsProcessing(true);
+    setProgress(0);
+    
+    // Progress animation
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return prev + 10;
+      });
+    }, 200);
+    
+    // Simulated upload
     setTimeout(() => {
       setStatus('success');
-    }, 2000);
+      setIsProcessing(false);
+      clearInterval(interval);
+      setProgress(100);
+      
+      // Dashboard'a yönlendir
+      setTimeout(() => {
+        navigate('/dashboard/demo-preview');
+      }, 1500);
+    }, 2500);
+  };
+
+  // 🚀 DEMO MODU - Tek tıkla örnek veri yükle
+  const handleDemoMode = () => {
+    setStatus('uploading');
+    setIsProcessing(true);
+    setProgress(0);
+    
+    // CSV verisi oluştur
+    const csvContent = `Tarih,Ürün Adı,Kategori,Sipariş Sayısı,Birim Fiyat (TL),Toplam Gelir (TL),Masraf (TL),Net Kar (TL)
+2024-01-01,Margherita Pizza,Ana Yemek,120,65,7800,2340,5460
+2024-01-01,Biftek Patates,Ana Yemek,90,95,8550,3420,5130
+2024-01-02,Margherita Pizza,Ana Yemek,135,65,8775,2633,6143`;
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const file = new File([blob], 'demo-restoran-verileri.csv', { type: 'text/csv' });
+    setFiles([file]);
+    
+    // Progress animation
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return prev + 15;
+      });
+    }, 150);
+    
+    setTimeout(() => {
+      setStatus('success');
+      setIsProcessing(false);
+      clearInterval(interval);
+      setProgress(100);
+      
+      // Dashboard'a yönlendir
+      setTimeout(() => {
+        navigate('/dashboard/demo-preview');
+      }, 1000);
+    }, 1500);
   };
 
   const removeFile = (file: File) => {
     setFiles(files.filter(f => f !== file));
   };
 
+  // 🌐 URL İLE VERİ BAĞLANTISI
+  const handleUrlConnect = async () => {
+    if (!dataUrl.trim()) {
+      alert('⚠️ Lütfen geçerli bir URL girin!');
+      return;
+    }
+
+    setIsConnecting(true);
+    setIsProcessing(true);
+    setProgress(0);
+    setStatus('uploading');
+
+    // Progress animation
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return prev + 12;
+      });
+    }, 180);
+
+    // Simulated connection
+    setTimeout(() => {
+      setStatus('success');
+      setIsProcessing(false);
+      setIsConnecting(false);
+      clearInterval(interval);
+      setProgress(100);
+      
+      // Dashboard'a yönlendir
+      setTimeout(() => {
+        navigate('/dashboard/demo-preview');
+      }, 1500);
+    }, 2000);
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl w-full space-y-8 bg-white p-10 rounded-2xl shadow-lg border border-gray-200">
+      <div className="max-w-3xl w-full space-y-8 bg-white p-10 rounded-2xl shadow-lg border border-gray-200">
         
         <div>
-          <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">📤 Veri Yükleme</h2>
+          <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">{t('dataImport.title')}</h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Günlük iş verilerinizi <code>.csv</code> veya <code>.xlsx</code> formatında yükleyin.
+            {t('dataImport.subtitle')}
           </p>
           
+          {/* Detaylı Rehber Linki */}
+          <div className="mt-4 text-center">
+            <a 
+              href="/veri-hazirlama" 
+              target="_blank"
+              className="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium hover:underline"
+            >
+              <Database size={16} />
+              <span>{t('dataImport.detailedGuideLink')}</span>
+            </a>
+          </div>
+
+          {/* 🔀 YÜKLEME YÖNTEMİ SEÇİMİ - TAB MENU */}
+          <div className="mt-6 flex justify-center">
+            <div className="inline-flex rounded-lg border-2 border-gray-200 p-1 bg-gray-50">
+              <button
+                onClick={() => setImportMethod('file')}
+                className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-md text-sm font-medium transition-all ${
+                  importMethod === 'file' 
+                    ? 'bg-blue-600 text-white shadow-md' 
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <UploadCloud size={18} />
+                <span>{t('dataImport.tabs.fileUpload')}</span>
+              </button>
+              <button
+                onClick={() => setImportMethod('url')}
+                className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-md text-sm font-medium transition-all ${
+                  importMethod === 'url' 
+                    ? 'bg-green-600 text-white shadow-md' 
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <Globe size={18} />
+                <span>{t('dataImport.tabs.urlConnection')}</span>
+              </button>
+            </div>
+          </div>
+          
           {/* Download Template Button */}
-          <div className="mt-4 flex flex-col items-center gap-2">
+          <div className="mt-4 flex flex-col items-center gap-3">
+            {/* 🚀 DEMO MODU BUTONU - B2B Sunum İçin */}
+            <button
+              onClick={handleDemoMode}
+              disabled={status === 'uploading'}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+            >
+              <Zap size={22} className="animate-pulse" />
+              <span>{t('dataImport.demoMode.button')}</span>
+            </button>
+            <p className="text-xs text-purple-600 font-medium">
+              {t('dataImport.demoMode.description')}
+            </p>
+            
+            <div className="w-full border-t border-gray-200 my-2"></div>
+            
             <a
               href="/templates/otel_verileri_ornegi.csv"
               download="otel_verileri_ornegi.csv"
               className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
             >
               <Download size={20} />
-              <span>Örnek Şablon İndir</span>
+              <span>{t('dataImport.template.download')}</span>
             </a>
             <p className="text-xs text-gray-500">
-              💡 Önce şablonu indirin, doldurun, sonra yükleyin
+              {t('dataImport.template.hint')}
             </p>
           </div>
            
            <p className="mt-4 text-center text-sm font-medium text-blue-600 hover:text-blue-500">
             <Link to="/veri-rehberi">
-              📖 Veri Yükleme Rehberi
+              {t('dataImport.guideLink')}
             </Link>
           </p>
         </div>
 
-        <div {...getRootProps()} className={`mt-8 flex justify-center rounded-lg border-2 border-dashed px-6 pt-10 pb-10 transition-colors ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'}`}>
-          <input {...getInputProps()} />
-          <div className="text-center">
-            <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
-            <div className="mt-4 flex text-sm leading-6 text-gray-600">
-              <label htmlFor="file-upload" className="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500">
-                <span>Bir dosya yükleyin</span>
-              </label>
-              <p className="pl-1">veya sürükleyip bırakın</p>
+        {/* 📁 DOSYA YÜKLEME ALANI (importMethod === 'file') */}
+        {importMethod === 'file' && (
+          <>
+            <div {...getRootProps()} className={`mt-8 flex justify-center rounded-lg border-2 border-dashed px-6 pt-10 pb-10 transition-colors ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'}`}>
+              <input {...getInputProps()} />
+              <div className="text-center">
+                <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
+                <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                  <label htmlFor="file-upload" className="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500">
+                    <span>{t('dataImport.fileUpload.dragDrop')}</span>
+                  </label>
+                  <p className="pl-1">{t('dataImport.fileUpload.or')}</p>
+                </div>
+                <p className="text-xs leading-5 text-gray-600">{t('dataImport.fileUpload.format')}</p>
+              </div>
             </div>
-            <p className="text-xs leading-5 text-gray-600">CSV veya XLSX formatında</p>
-          </div>
-        </div>
 
-        {files.length > 0 && (
+            {/* 📖 DOSYA YÜKLEME REHBERİ */}
+            <div className="mt-6 bg-blue-50 border-2 border-blue-200 rounded-xl p-5">
+              <h3 className="text-sm font-bold text-blue-900 mb-3 flex items-center gap-2">
+                <FileIcon className="text-blue-600" size={18} />
+                {t('dataImport.fileUpload.guideTitle')}
+              </h3>
+              <div className="space-y-2 text-xs text-blue-900">
+                <div className="flex items-start gap-2">
+                  <span className="font-bold">1.</span>
+                  <p><span className="font-semibold">{t('dataImport.fileUpload.step1')}</span> {t('dataImport.fileUpload.step1Desc')}</p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="font-bold">2.</span>
+                  <p><span className="font-semibold">{t('dataImport.fileUpload.step2')}</span> {t('dataImport.fileUpload.step2Desc')}</p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="font-bold">3.</span>
+                  <p><span className="font-semibold">{t('dataImport.fileUpload.step3')}</span> {t('dataImport.fileUpload.step3Desc')}</p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="font-bold">4.</span>
+                  <p><span className="font-semibold">{t('dataImport.fileUpload.step4')}</span> {t('dataImport.fileUpload.step4Desc')}</p>
+                </div>
+                <div className="bg-white border border-blue-300 rounded-lg p-3 mt-3">
+                  <p className="font-semibold mb-1">{t('dataImport.fileUpload.exampleTitle')}</p>
+                  <code className="text-xs bg-gray-100 px-2 py-1 rounded block">
+                    Tarih,Ürün,Kategori,Sipariş,Gelir<br/>
+                    2024-01-01,Pizza,Ana Yemek,120,7800<br/>
+                    2024-01-02,Salata,Meze,45,1575
+                  </code>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* 🌐 URL BAĞLANTISI ALANI (importMethod === 'url') */}
+        {importMethod === 'url' && (
+          <div className="mt-8 space-y-4">
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-2 border-green-200 p-6">
+              <div className="flex items-start gap-3 mb-4">
+                <Globe className="text-green-600 flex-shrink-0 mt-1" size={24} />
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">{t('dataImport.urlConnection.title')}</h3>
+                  <p className="text-sm text-gray-600 mt-1">{t('dataImport.urlConnection.subtitle')}</p>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <label htmlFor="data-url" className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('dataImport.urlConnection.label')}
+                  </label>
+                  <input
+                    type="url"
+                    id="data-url"
+                    value={dataUrl}
+                    onChange={(e) => setDataUrl(e.target.value)}
+                    placeholder="https://docs.google.com/spreadsheets/d/..."
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+                    disabled={isConnecting}
+                  />
+                </div>
+
+                {/* Örnek URL'ler */}
+                <div className="bg-white rounded-lg p-3 border border-gray-200">
+                  <p className="text-xs font-semibold text-gray-700 mb-2">{t('dataImport.urlConnection.examplesTitle')}</p>
+                  <div className="space-y-1 text-xs text-gray-600">
+                    <button 
+                      onClick={() => setDataUrl('https://docs.google.com/spreadsheets/d/1234/export?format=csv')}
+                      className="block hover:text-green-600 transition-colors text-left"
+                    >
+                      • {t('dataImport.urlConnection.example1')}
+                    </button>
+                    <button 
+                      onClick={() => setDataUrl('https://api.airtable.com/v0/appXXX/Table')}
+                      className="block hover:text-green-600 transition-colors text-left"
+                    >
+                      • {t('dataImport.urlConnection.example2')}
+                    </button>
+                    <button 
+                      onClick={() => setDataUrl('https://example.com/data/sales.csv')}
+                      className="block hover:text-green-600 transition-colors text-left"
+                    >
+                      • {t('dataImport.urlConnection.example3')}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleUrlConnect}
+                  disabled={!dataUrl.trim() || isConnecting}
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold transition-all shadow-md hover:shadow-lg"
+                >
+                  {isConnecting ? (
+                    <>
+                      <Loader className="animate-spin" size={20} />
+                      <span>{t('dataImport.urlConnection.connecting')}</span>
+                    </>
+                  ) : (
+                    <>
+                      <LinkIcon size={20} />
+                      <span>{t('dataImport.urlConnection.button')}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* 📖 URL BAĞLANTISI REHBERİ */}
+            <div className="mt-6 bg-green-50 border-2 border-green-200 rounded-xl p-5">
+              <h3 className="text-sm font-bold text-green-900 mb-3 flex items-center gap-2">
+                <Globe className="text-green-600" size={18} />
+                {t('dataImport.urlConnection.guideTitle')}
+              </h3>
+              <div className="space-y-2 text-xs text-green-900">
+                <div className="flex items-start gap-2">
+                  <span className="font-bold">1.</span>
+                  <div>
+                    <p className="font-semibold">{t('dataImport.urlConnection.googleSheets')}</p>
+                    <p className="text-green-800 mt-1">{t('dataImport.urlConnection.googleSheetsStep1')}</p>
+                    <p className="text-green-800">{t('dataImport.urlConnection.googleSheetsStep2')}</p>
+                    <code className="text-xs bg-white px-2 py-1 rounded block mt-1">
+                      https://docs.google.com/spreadsheets/d/[ID]/export?format=csv
+                    </code>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="font-bold">2.</span>
+                  <div>
+                    <p className="font-semibold">{t('dataImport.urlConnection.airtable')}</p>
+                    <p className="text-green-800 mt-1">{t('dataImport.urlConnection.airtableDesc')}</p>
+                    <code className="text-xs bg-white px-2 py-1 rounded block mt-1">
+                      https://api.airtable.com/v0/[BASE_ID]/[TABLE_NAME]
+                    </code>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="font-bold">3.</span>
+                  <div>
+                    <p className="font-semibold">{t('dataImport.urlConnection.directUrl')}</p>
+                    <p className="text-green-800 mt-1">{t('dataImport.urlConnection.directUrlDesc')}</p>
+                    <code className="text-xs bg-white px-2 py-1 rounded block mt-1">
+                      https://yourwebsite.com/data/sales.csv
+                    </code>
+                  </div>
+                </div>
+                <div className="bg-white border border-green-300 rounded-lg p-3 mt-3">
+                  <p className="font-semibold mb-1">{t('dataImport.urlConnection.advantagesTitle')}</p>
+                  <ul className="list-disc list-inside text-green-800 space-y-1">
+                    <li>{t('dataImport.urlConnection.advantage1')}</li>
+                    <li>{t('dataImport.urlConnection.advantage2')}</li>
+                    <li>{t('dataImport.urlConnection.advantage3')}</li>
+                    <li>{t('dataImport.urlConnection.advantage4')}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {importMethod === 'file' && files.length > 0 && (
           <div className="mt-6">
-            <h3 className="text-lg font-medium text-gray-800">Seçilen Dosyalar:</h3>
+            <h3 className="text-lg font-medium text-gray-800">{t('dataImport.selectedFiles')}</h3>
             <ul className="mt-2 divide-y divide-gray-200 border border-gray-200 rounded-md">
               {files.map(file => (
                 <li key={file.name} className="flex items-center justify-between py-3 pl-4 pr-5 text-sm">
@@ -105,8 +431,38 @@ const DataImportPage: React.FC = () => {
                     className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400"
                 >
                     {status === 'uploading' && <Loader className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" />}
-                    {status === 'uploading' ? 'Yükleniyor...' : `1 Dosyayı Yüklemeye Başla`}
+                    {status === 'uploading' ? t('dataImport.uploading') : t('dataImport.uploadButton')}
                 </button>
+            </div>
+          </div>
+        )}
+
+        {/* 📊 PROGRESS BAR - Veri İşleme Animasyonu */}
+        {isProcessing && (
+          <div className="mt-6 space-y-3 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-semibold text-gray-700">{t('dataImport.processing.title')}</span>
+              <span className="text-sm font-bold text-blue-600">{progress}%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+              <div 
+                className="bg-gradient-to-r from-blue-600 to-purple-600 h-3 rounded-full transition-all duration-300 ease-out"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            <div className="text-xs text-gray-600 space-y-1">
+              <p className="flex items-center gap-2">
+                {progress > 20 && <CheckCircle size={14} className="text-green-500" />}
+                <span className={progress > 20 ? "text-green-600 font-medium" : ""}>{t('dataImport.processing.step1')}</span>
+              </p>
+              <p className="flex items-center gap-2">
+                {progress > 50 && <CheckCircle size={14} className="text-green-500" />}
+                <span className={progress > 50 ? "text-green-600 font-medium" : ""}>{t('dataImport.processing.step2')}</span>
+              </p>
+              <p className="flex items-center gap-2">
+                {progress > 80 && <CheckCircle size={14} className="text-green-500" />}
+                <span className={progress > 80 ? "text-green-600 font-medium" : ""}>{t('dataImport.processing.step3')}</span>
+              </p>
             </div>
           </div>
         )}
@@ -120,9 +476,9 @@ const DataImportPage: React.FC = () => {
                         </svg>
                     </div>
                     <div className="ml-3">
-                        <h3 className="text-sm font-medium text-green-800">Yükleme Başarılı</h3>
+                        <h3 className="text-sm font-medium text-green-800">{t('dataImport.success.title')}</h3>
                         <div className="mt-2 text-sm text-green-700">
-                            <p>Dosyanız başarıyla yüklendi. Şimdi bir sonraki adıma (Kolon Eşleştirme) yönlendiriliyorsunuz.</p>
+                            <p>{t('dataImport.success.message')}</p>
                         </div>
                     </div>
                 </div>

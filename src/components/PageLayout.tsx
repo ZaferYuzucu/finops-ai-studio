@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import FinoChatWidget from './FinoChatWidget';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -14,6 +15,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
         {children}
       </main>
       <Footer />
+      
+      {/* Fino Chat Widget - Her sayfada sağ alt köşede */}
+      <FinoChatWidget />
     </div>
   );
 };

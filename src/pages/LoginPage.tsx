@@ -8,7 +8,7 @@ import FinopsDataFlowAnimation from '../components/FinopsDataFlowAnimation';
 import { useTranslation } from 'react-i18next';
 
 const LoginPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -18,9 +18,9 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login, signInWithGoogle } = useAuth();
 
-  // Google reCAPTCHA Site Key
-  const recaptchaSiteKey = '6LfE4jUsAAAAAOKH1f0ich9FAHIyr81efhTq5XyD';
-  const isRecaptchaEnabled = true;
+  // Google reCAPTCHA Site Key - Environment Variable
+  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
+  const isRecaptchaEnabled = !!recaptchaSiteKey;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +38,15 @@ const LoginPage: React.FC = () => {
     setError('');
     try {
       await login(email, password);
-      navigate('/dashboard');
+      
+      // ✅ Pricing'den gelen kullanıcıyı geri yönlendir
+      const selectedPlan = sessionStorage.getItem('selectedPlan');
+      if (selectedPlan) {
+        sessionStorage.removeItem('selectedPlan');
+        navigate('/pricing', { state: { autoSelectPlan: selectedPlan } });
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err: any) {
       setError(t('login.loginError'));
       console.error(err);
@@ -48,7 +56,15 @@ const LoginPage: React.FC = () => {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
-      navigate('/dashboard');
+      
+      // ✅ Pricing'den gelen kullanıcıyı geri yönlendir
+      const selectedPlan = sessionStorage.getItem('selectedPlan');
+      if (selectedPlan) {
+        sessionStorage.removeItem('selectedPlan');
+        navigate('/pricing', { state: { autoSelectPlan: selectedPlan } });
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err: any) {
       setError(t('login.googleError'));
       console.error(err);
@@ -130,6 +146,7 @@ const LoginPage: React.FC = () => {
                   ref={recaptchaRef}
                   sitekey={recaptchaSiteKey}
                   onChange={(value) => setRecaptchaValue(value)}
+                  hl={i18n.language}
                 />
               )}
             </div>

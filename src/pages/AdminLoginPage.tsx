@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const AdminLoginPage: React.FC = () => {
+  const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -16,8 +18,9 @@ const AdminLoginPage: React.FC = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
-      // Güvenlik anahtarını oturum deposuna kaydet
-      sessionStorage.setItem('isAdminAuthenticated', 'true');
+      // Güvenlik anahtarını KALICI deposuna kaydet (localStorage - sayfa yenilendiğinde silinmez!)
+      localStorage.setItem('isAdminAuthenticated', 'true');
+      sessionStorage.setItem('isAdminAuthenticated', 'true'); // Backward compatibility
       
       // URL'deki 'redirect' parametresini oku
       const queryParams = new URLSearchParams(location.search);
@@ -25,7 +28,7 @@ const AdminLoginPage: React.FC = () => {
       
       // Eğer bir yönlendirme adresi varsa o adrese git.
       // Yoksa, varsayılan olarak ana yönetici paneline yönlendir.
-      navigate(redirectPath || '/admin/panel'); 
+      navigate(redirectPath || '/admin/platform-analytics'); 
     } else {
       setError('Yanlış şifre. Lütfen tekrar deneyin.');
     }
@@ -34,10 +37,10 @@ const AdminLoginPage: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-900">Yönetici Girişi</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-900">{t('platformAnalytics.adminLogin.title')}</h2>
         <form className="space-y-6" onSubmit={handleLogin}>
           <div>
-            <label htmlFor="password" className="text-sm font-medium text-gray-700">Yönetici Şifresi</label>
+            <label htmlFor="password" className="text-sm font-medium text-gray-700">{t('platformAnalytics.adminLogin.password')}</label>
             <div className="relative">
               <input
                 id="password"
@@ -63,7 +66,7 @@ const AdminLoginPage: React.FC = () => {
               type="submit"
               className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Giriş Yap
+              {t('platformAnalytics.adminLogin.loginButton')}
             </button>
           </div>
         </form>

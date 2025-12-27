@@ -8,6 +8,10 @@
     "hrPayrollPerformance": "İK- Bordro / Performans",
     "dataVisualization": "Veri Görselleştirme",
   "dashboardExamples": "Dashboard Örnekleri",
+  "dataVisualizationPage": "Veri Görselleştirme",
+  "aiDataAnalysisPage": "AI Veri Analizi",
+  "dataPreparationPage": "Veri Hazırlama",
+  "dataSourcesPage": "Veri Kaynakları",
   "features": "Özellikler",
   "support": "Destek",
     "resources": "Kaynaklar",
@@ -162,7 +166,8 @@
       "businessPlan": "İş Planı",
       "pricing": "Fiyatlandırma",
       "marketingPlan": "Pazarlama Planı",
-      "userJourneyMap": "Kullanıcı Yol Haritası"
+      "userJourneyMap": "Kullanıcı Yol Haritası",
+      "paymentGuide": "💳 Ödeme Yöntemleri Rehberi"
     },
     "stayUpdated": "Güncel Kalın",
     "stayUpdatedSubtitle": "En son haberler, makaleler ve kaynaklar haftalık olarak gelen kutunuza gönderilir.",
@@ -214,17 +219,56 @@
   },
   "heroPage": {
     "hero": {
+      "badge": "AI Destekli Finansal Analiz Platformu",
       "title": "Dağınık Veriden Net Kâra: Finansal Geleceğinizi Şekillendirin",
       "subtitle": "FINOPS AI Studio, işletmenizin finansal verilerini anlamlı içgörülere dönüştürerek kârlılığınızı artırmanıza ve geleceğe yönelik sağlam kararlar almanıza yardımcı olur.",
+      "cta1": "Ücretsiz Başla",
+      "cta2": "Özellikleri Keşfet",
       "explorePlatform": "Platformu Keşfet"
     },
+    "trust": {
+      "secure": "Güvenli & Şifreli",
+      "aiPowered": "AI Destekli",
+      "quickSetup": "Hızlı Kurulum"
+    },
     "dashboard": {
+      "title": "📊 Verilerinizi Görselleştirin",
+      "subtitle": "Karmaşık finansal verileri anlaşılır dashboard'lara dönüştürün",
       "alt": "FINOPS AI Studio CEO Dashboard Paneli"
+    },
+    "features": {
+      "title": "Neden FINOPS AI Studio?",
+      "subtitle": "İşletmenizi Güçlendiren Modern Araçlar",
+      "feature1": {
+        "title": "AI Destekli Analiz",
+        "description": "Yapay zeka ile verilerinizi otomatik analiz edin ve içgörüler elde edin"
+      },
+      "feature2": {
+        "title": "Gerçek Zamanlı Dashboard",
+        "description": "Anlık veri görselleştirme ile işinizin nabzını tutun"
+      },
+      "feature3": {
+        "title": "Kolay Entegrasyon",
+        "description": "Mevcut sistemlerinizle sorunsuz entegrasyon"
+      },
+      "feature4": {
+        "title": "Mobil Uyumlu",
+        "description": "Her yerden, her cihazdan verilerinize erişin"
+      }
     },
     "automation": {
       "badge": "Verimliliği Artırın",
       "title": "Yapay Zeka Destekli Otomasyon Akışı",
       "description": "Platformumuzun, karmaşık görevleri nasıl saniyeler içinde basitleştirdiğini keşfedin. Doğal dil komutlarınız, gelişmiş yapay zeka modellerimiz tarafından anında analiz edilir, işlenir ve size özel çözümlere dönüştürülür."
+    },
+    "finalCta": {
+      "title": "Finansal Geleceğinizi Şekillendirmeye Hazır mısınız?",
+      "subtitle": "Bugün başlayın, yarın fark edin. Ücretsiz deneme için kredi kartı gerekmez.",
+      "cta1": "Ücretsiz Başla",
+      "cta2": "Satış Ekibiyle Görüş",
+      "trust1": "14 Gün Ücretsiz Deneme",
+      "trust2": "Kredi Kartı Gerektirmez",
+      "trust3": "İstediğiniz Zaman İptal"
     }
   },
   "solutionPages": {
@@ -484,6 +528,10 @@
   "dashboardExamples": {
     "badge": "36 Profesyonel Panel",
     "title": "Dashboard ve Rapor",
+    "categoryPanels": "Panelleri",
+    "noResults": "Sonuç Bulunamadı",
+    "noResultsDesc": "Arama kriterlerinize uygun dashboard bulunamadı.",
+    "clearFilters": "Filtreleri Temizle",
     "titleHighlight": "Örnekleri",
     "subtitle": "Gerçek ekipler tarafından kullanılan gösterge tablosu örneklerini keşfedin ve işletmeniz için KPI takibi oluşturmaya başlayın. Her bir örnek, verilerinizi nasıl anlamlı içgörülere dönüştürebileceğinizi gösterir."
   },
@@ -1045,5 +1093,540 @@
       "subtitle": "Özel grafikler, sunumlar veya pazarlama materyalleri için tasarım ekibimizle iletişime geçin",
       "button": "Tasarım Ekibiyle İletişime Geç"
     }
+  },
+  "veriKaynaklari": {
+    "hero": {
+      "badge": "Veri Bağlantıları",
+      "title": "Veri Kaynaklarınızı Bağlayın",
+      "subtitle": "Farklı kaynaklardan verilerinizi tek platformda birleştirin. Excel'den SQL'e, Google Sheets'ten API'lere kadar tüm veri kaynaklarınızı destekliyoruz.",
+      "cta1": "Hemen Başla",
+      "cta2": "Canlı Demo İzle"
+    },
+    "googleSheets": {
+      "badge": "Önerilen",
+      "title": "Google Sheets ile Otomatik Rapor Yenileme",
+      "description": "Raporunuzu Google Sheets dosyanızla bağlayın ve canlı raporlama elde edin.",
+      "feature1": "Canlı Raporlama",
+      "feature1Desc": "Google Sheets dosyanızı günlük güncelleyin ve yenileme aralığını ayarlayın",
+      "feature2": "Hareket Halinde Takip",
+      "feature2Desc": "İş verilerinizi her yerden, her zaman takip edin",
+      "feature3": "Kolay Kurulum",
+      "feature3Desc": "Teknik olmayan ekipler için basit kurulum ve bakım",
+      "feature4": "Sınırsız Dashboard",
+      "feature4Desc": "İstediğiniz kadar dashboard ve veri seti oluşturun",
+      "feature5": "Kolay Paylaşım",
+      "feature5Desc": "Meslektaşlarınızla zahmetsizce paylaşım ve işbirliği",
+      "guideBtn": "Google Sheets Bağlantı Rehberi"
+    },
+    "excel": {
+      "title": "Microsoft Excel",
+      "description": "Excel dosyalarınızı yükleyin (.xls, .xlsx, .xlsm formatları desteklenir)"
+    },
+    "csv": {
+      "title": "CSV Dosyası",
+      "description": "Evrensel CSV formatında verilerinizi içe aktarın. Kopyala-yapıştır da desteklenir."
+    },
+    "mssql": {
+      "title": "MS SQL",
+      "badge": "Gelişmiş",
+      "description": "Microsoft SQL Server veritabanınıza direkt bağlanın. Güvenli ve hızlı veri transferi."
+    },
+    "mysql": {
+      "title": "MySQL",
+      "badge": "Gelişmiş",
+      "description": "MySQL veritabanlarınızdan canlı veri çekin. Esnek bağlantı seçenekleri."
+    },
+    "postgresql": {
+      "title": "PostgreSQL",
+      "badge": "Gelişmiş",
+      "description": "PostgreSQL veritabanı entegrasyonu. Kurumsal çözümler için ideal."
+    },
+    "security": {
+      "title": "Güvenlik & Gizlilik",
+      "item1": {
+        "title": "Güvenli Şifreleme",
+        "description": "Tüm verileriniz SSL/TLS ile şifrelenir"
+      },
+      "item2": {
+        "title": "Sadece Siz Erişebilirsiniz",
+        "description": "Verileriniz size özeldir, kimse göremez"
+      },
+      "item3": {
+        "title": "AI Eğitiminde Kullanılmaz",
+        "description": "Verileriniz asla AI eğitiminde kullanılmaz"
+      },
+      "item4": {
+        "title": "Tamamen Silebilirsiniz",
+        "description": "İstediğiniz zaman tüm verileri silebilirsiniz"
+      },
+      "item5": {
+        "title": "Yetkilendirme",
+        "description": "Ekip üyelerine özel erişim kontrolleri"
+      },
+      "item6": {
+        "title": "Otomatik Yedekleme",
+        "description": "Verileriniz düzenli olarak yedeklenir"
+      }
+    },
+    "cta": {
+      "title": "Teknik Olmayan Ekipleri Güçlendirin",
+      "button1": "Ücretsiz Başla",
+      "button2": "Fiyatlandırma",
+      "note": "Kredi kartı gerektirmez"
+    }
+  },
+  "aiVeriAnalizi": {
+    "hero": {
+      "badge": "AI Destekli Veri Analitiği",
+      "title": "Yapay Zeka ile Verilerinizi Analiz Edin",
+      "subtitle": "Artırılmış analitik yeteneklerini keşfedin. Konuşarak veri analizi yapın, otomatik dashboard oluşturun, bağlamsal içgörüler ve raporlar alın.",
+      "cta1": "Ücretsiz Dene",
+      "cta2": "AI Demo İzle"
+    },
+    "autoDashboard": {
+      "badge": "En Popüler",
+      "title": "Otomatik Dashboard Oluşturma",
+      "description": "Verilerinizden mantıklı ve anlamlı dashboard'lar elde edin. Veri modelinizi seçin ve yapay zeka verileri analiz ederek içgörülü grafikler sağlasın.",
+      "feature1": "Akıllı Grafik Seçimi",
+      "feature1Desc": "AI, verilerinize en uygun grafik türlerini otomatik seçer",
+      "feature2": "Saniyeler İçinde Hazır",
+      "feature2Desc": "Manuel çalışma gerektirmeden dakikalar yerine saniyeler içinde",
+      "feature3": "Özelleştirilebilir",
+      "feature3Desc": "AI önerilerini kabul edin veya kendi stilinizi uygulayın",
+      "feature4": "Sınırsız Dashboard",
+      "feature4Desc": "Farklı veri setleri için istediğiniz kadar dashboard oluşturun"
+    },
+    "chat": {
+      "badge": "Yeni Özellik",
+      "title": "Konuşarak Veri Analizi",
+      "description": "AI asistanınızla verileriniz hakkında sohbet edin ve daha derin analiz yapın. Manuel olarak dağlar gibi veriyi eleyerek aramak yerine dakikalar içinde cevaplar alın.",
+      "feature1": "Doğal Dil İle Soru Sorun",
+      "feature1Desc": "Bu ayki en çok satan ürün hangisi? gibi sorular sorun",
+      "feature2": "Grafik, Korelasyon, İçgörü",
+      "feature2Desc": "AI size grafikler, korelasyonlar ve anomaliler gösterir",
+      "feature3": "Takip Soruları",
+      "feature3Desc": "Bir konuşma gibi: Peki geçen sene nasıldı?",
+      "feature4": "Anında Cevaplar",
+      "feature4Desc": "Dakikalar yerine saniyeler içinde yanıt alın"
+    },
+    "chartGenerator": {
+      "badge": "Sınırsız",
+      "title": "AI Grafik Oluşturucu",
+      "description": "İsteklerinizi yazın ve sınırsız sayıda grafik oluşturun. AI sizin için en uygun görselleştirmeyi hazırlar.",
+      "placeholder": "Örn: Son 6 aydaki satış trendini çizgi grafiği olarak göster"
+    },
+    "correlations": {
+      "badge": "Gelişmiş Analiz",
+      "title": "Korelasyon, Karşılaştırma ve Anomali Tespiti",
+      "description": "AI'dan verilerinizi analiz etmesini ve desenleri bulmasını isteyin. Gizli ilişkileri, beklenmedik değişimleri ve trendleri otomatik keşfedin."
+    }
+  },
+  "veriGorsellestirme": {
+    "hero": {
+      "badge": "Veri Görselleştirme",
+      "title": "Tek Tıkla Rapor ve Özel Dashboard'lar",
+      "subtitle": "AI ile verilerinizden otomatik olarak rapor oluşturun. Kod yazmadan, kolay kullanımlı editör ile raporlama deneyimini yaşayın.",
+      "cta1": "Ücretsiz Başla",
+      "cta2": "Canlı Örnekler"
+    },
+    "aiGenerator": {
+      "badge": "AI Destekli",
+      "title": "Daha Kolay Rapor Oluşturma için AI Dashboard Oluşturucu",
+      "description": "Tek tıkla AI ile dashboard oluşturun. Hiçbir bilgi veya eğitim gerektirmeden profesyonel raporlar elde edin.",
+      "feature1": "Tek Tıkla Dashboard Oluştur",
+      "feature1Desc": "AI otomatik olarak en uygun grafikleri seçer ve düzenler",
+      "feature2": "Marka Renkleriyle Eşleştir",
+      "feature2Desc": "Dashboard'unuzu kurumsal kimliğinize uygun şekilde özelleştirin",
+      "feature3": "Çok Sayfalı Raporlar",
+      "feature3Desc": "Farklı bölümler için ayrı sayfalar oluşturun",
+      "feature4": "Tam Responsive Grafikler",
+      "feature4Desc": "Mobil, tablet ve masaüstünde mükemmel görünüm",
+      "feature5": "Bilgi veya Eğitim Gerektirmez",
+      "feature5Desc": "Kod yazmadan, sürükle-bırak ile kolayca düzenleyin",
+      "editorTitle": "Dashboard Editör",
+      "autoBtn": "AI ile Otomatik Oluştur"
+    },
+    "charts": {
+      "badge": "24+ Element",
+      "title": "Veri Görselleştirme İhtiyaçlarınız İçin Grafikler",
+      "description": "Etkili rapor oluşturma için 24+ element. Aylık güncellemeler ile yeni elementler ekleniyor.",
+      "subtitle": "Etkili rapor oluşturma için 24+ element. Aylık güncellemeler ile yeni elementler ekleniyor. Temel grafiklerden gelişmiş görselleştirmelere kadar geniş seçenek yelpazesi.",
+      "exploreAll": "Tüm Elementleri Keşfet",
+      "moreTitle": "📋 Raporlarınıza Daha Fazla Element Ekleyin",
+      "moreDesc": "Tablolar, resimler, HTML ve özel widget'lar ile raporlarınızı zenginleştirin. Sürükle-bırak ile istediğiniz yere ekleyin.",
+      "dataTablesLabel": "Veri Tabloları",
+      "customLayoutsLabel": "Özel Düzenler",
+      "visualElementsLabel": "Görsel Öğeler"
+    },
+    "customization": {
+      "badge": "Özelleştirme",
+      "title": "Dashboard'u Markanızla Eşleştirin",
+      "description": "Kurumsal kimliğinizi yansıtan profesyonel dashboard'lar oluşturun. Logo ve marka renklerinizle özelleştirin.",
+      "brandColorLabel": "Marka Rengi",
+      "backgroundLabel": "Arka Plan",
+      "successMessage": "Marka ayarları uygulandı!",
+      "uploadLogo": "Logo Yükleyin",
+      "uploadLogoDesc": "Logonuzu yükleyin ve dashboard'unuzda görünsün",
+      "setBrandColors": "Marka Renklerini Ayarlayın",
+      "setBrandColorsDesc": "Kurumsal renk paletinizi uygulayın",
+      "customizeBackground": "Arka Plan Özelleştirme",
+      "customizeBackgroundDesc": "Açık, koyu veya özel arka plan renkleri",
+      "fontTypography": "Font ve Tipografi",
+      "fontTypographyDesc": "Kurumsal font ailenizi kullanın",
+      "tryNowBtn": "Şimdi Dene"
+    },
+    "responsive": {
+      "badge": "Responsive Tasarım",
+      "title": "Her Cihazda Mükemmel Görünüm",
+      "description": "Dashboard'larınız masaüstü, tablet ve mobil cihazlarda otomatik olarak uyum sağlar. Paylaşım için her zaman hazır.",
+      "desktopTitle": "Masaüstü",
+      "desktopDesc": "Büyük ekranlarda detaylı görünüm",
+      "tabletTitle": "Tablet",
+      "tabletDesc": "Orta ekranlarda optimize edilmiş",
+      "mobileTitle": "Mobil",
+      "mobileDesc": "Küçük ekranlarda kolay okunur"
+    },
+    "videoGuide": {
+      "badge": "Adım Adım Rehber",
+      "title": "Veriyi Nasıl Görselleştireceğinizi Öğrenin",
+      "description": "İlk dashboard'unuzu oluşturmanıza yardımcı olacak rehberler ve eğitimlere erişin. Hızlı bir şekilde rapor oluşturun ve paylaşın.",
+      "guidesTitle": "Rehberler & Eğitimler",
+      "guidesDesc": "Dashboard kurulumu için detaylı dokümantasyon",
+      "supportTitle": "Destek Ekibi",
+      "supportDesc": "Veri görevleriniz için profesyonel destek",
+      "shareTitle": "Hızlı Paylaşım",
+      "shareDesc": "Raporları kolayca oluşturun ve paylaşın",
+      "exploreGuidesBtn": "Rehberleri İncele",
+      "dataPreparationBtn": "Veri Hazırlama"
+    },
+    "cta": {
+      "title": "Raporlama Sürecinizi FinOps ile Özelleştirin",
+      "description": "Ne kadar kolay olduğunu görün. Profesyonel dashboard'lardan AI analitiğine, AI destekli içgörülerden canlı raporlamaya.",
+      "startBtn": "Ücretsiz Başla",
+      "pricingBtn": "Fiyatlandırma",
+      "disclaimer": "Kredi kartı gerektirmez • 14 gün ücretsiz deneme"
+    },
+    "relatedFeatures": {
+      "title": "Diğer Faydalar ve Özellikleri Keşfedin",
+      "overviewTitle": "Genel Bakış",
+      "overviewDesc": "Platform özelliklerinin tam listesi",
+      "dataSourcesTitle": "Veri Kaynakları",
+      "dataSourcesDesc": "Canlı raporlama ve entegrasyon",
+      "dataPreparationTitle": "Veri Hazırlama",
+      "dataPreparationDesc": "Temizleme ve dönüşüm özellikleri",
+      "aiAnalyticsTitle": "AI Analitik",
+      "aiAnalyticsDesc": "Anlamlı dashboard'lar ve chat",
+      "exploreBtn": "Keşfet"
+    }
+  },
+  "finoChatWidget": {
+    "greeting": "Merhaba! Ben Fino",
+    "message": "Çok yakında sizinle birlikte verilerinizi analiz edeceğim!",
+    "title": "Fino",
+    "subtitle": "Yapay Zeka Asistanınız",
+    "status": "Çok Yakında Sizinle",
+    "comingSoon": "ÇOK YAKINDA",
+    "placeholder": "Fino çok yakında sizinle olacak...",
+    "typing": "Hazırlanıyor...",
+    "sendButton": "Gönder",
+    "infoText": "Çok yakında aktif olacak!",
+    "buttonTitle": "Fino ile Sohbet Et"
+  },
+  "platformAnalytics": {
+    "title": "Platform Analitiği",
+    "subtitle": "Yönetim Paneli",
+    "pageTitle": "Platform Analytics",
+    "backstage": "Backstage",
+    "pageSubtitle": "Sistemin arka tarafına hoş geldiniz. Tüm operasyonları buradan yönetin.",
+    "timeRanges": {
+      "7d": "Son 7 Gün",
+      "30d": "Son 30 Gün",
+      "90d": "Son 90 Gün"
+    },
+    "downloadReport": "Rapor İndir",
+    "revenueGrowth": "Gelir Büyümesi",
+    "planDistribution": "Plan Dağılımı",
+    "recentSignups": "Son Kayıt Olanlar",
+    "mostActiveUsers": "En Aktif Kullanıcılar",
+    "popularDashboards": "En Popüler Dashboard'lar",
+    "tabs": {
+      "admin": "🔐 Admin - Gerçek Veriler",
+      "demo": "🎯 B2B Demo - Müşteri Sunumu"
+    },
+    "kpis": {
+      "totalUsers": "Toplam Kullanıcı",
+      "activeUsers": "Aktif Kullanıcı",
+      "monthlyRevenue": "Aylık Gelir (MRR)",
+      "churnRate": "Churn Rate",
+      "conversionRate": "Conversion Rate",
+      "arpu": "ARPU",
+      "customerLtv": "Müşteri LTV",
+      "avgSession": "Ort. Oturum",
+      "totalRevenue": "Toplam Gelir",
+      "dashboardCount": "Dashboard Sayısı",
+      "dataUploads": "Veri Yüklemeleri",
+      "systemUptime": "Sistem Çalışma Süresi",
+      "thisMonth": "bu ay",
+      "thisWeek": "bu hafta",
+      "realFirebaseData": "🔥 Gerçek Firebase Verisi",
+      "realData": "🔥 Gerçek Hesaplama",
+      "mockData": "Mock Data",
+      "last30Days": "🔥 Son 30 gün (Gerçek)",
+      "arrLabel": "ARR",
+      "freeToPaid": "Free → Ücretli plan geçişi",
+      "avgPerUser": "Kullanıcı başına ortalama",
+      "lifetimeValue": "Ortalama yaşam boyu değer",
+      "avgDuration": "Ortalama süre (dakika)",
+      "totalEarnings": "Toplam kazanç",
+      "createdByUsers": "Kullanıcılar tarafından oluşturuldu",
+      "last7Days": "Son 7 gün",
+      "last24Hours": "Son 24 saat",
+      "uptime": "çalışma süresi"
+    },
+    "demo": {
+      "title": "🎯 B2B Demo - Müşteri Sunumu",
+      "subtitle": "Potansiyel müşterilere göstermek için",
+      "quickDemo": "🚀 Demo Modu - Tek Tıkla Dashboard Oluştur",
+      "quickDemoDesc": "Örnek restoran verileriyle anında dashboard göster",
+      "or": "VEYA MANUEL VERİ GİRİŞİ",
+      "fileUpload": "📁 Dosya Yükle",
+      "urlConnect": "🌐 URL Bağlantısı",
+      "fileGuideTitle": "📘 Dosya Yükleme Rehberi",
+      "urlGuideTitle": "🌐 URL Bağlantı Rehberi",
+      "dataGuideLink": "📖 Veri Hazırlama Rehberini İncele"
+    },
+    "adminLogin": {
+      "title": "Yönetici Girişi",
+      "subtitle": "Platform Yönetim Paneline Erişim",
+      "username": "Kullanıcı Adı",
+      "password": "Şifre",
+      "loginButton": "Giriş Yap",
+      "backToHome": "Ana Sayfaya Dön"
+    },
+    "veriHazirlama": {
+      "hero": {
+        "badge": "Veri Hazırlama ve Görselleştirme Merkezi",
+        "title": "Verilerinizi Analize Hazırlayın",
+        "subtitle": "Karmaşık verilerinizi temiz, yapılandırılmış ve analize hazır hale getirin. Görsel sorgu oluşturucu ve veri hazırlama araçlarıyla derin içgörülere ulaşın.",
+        "cta1": "Hemen Başla",
+        "cta2": "Video Rehberi İzle"
+      },
+      "cleaning": {
+        "badge": "Adım 1",
+        "title": "📊 Veriyi Temizle ve Hazırla",
+        "description": "Dağınık verilerinizi temiz, yapılandırılmış ve analize hazır hale getirin.",
+        "feature1": "Veri Yapısını Düzenle",
+        "feature1Desc": "Sütun başlıkları, format ve veri tiplerinizi standartlaştırın",
+        "feature2": "Veriyi Dönüştür ve Filtrele",
+        "feature2Desc": "Özel fonksiyonlar ile veriyi analiz için optimize edin",
+        "feature3": "Gereksiz Veriyi Temizle",
+        "feature3Desc": "Tekrar eden kayıtları kaldır, eksik verileri düzenle",
+        "feature4": "Derin İçgörüler İçin Hazırla",
+        "feature4Desc": "Verinizi ileri düzey analiz ve AI önerileri için optimize edin",
+        "checklistTitle": "✅ Veri Temizleme Kontrol Listesi"
+      }
+    },
+    "dataImport": {
+      "title": "📤 Veri Yükleme",
+      "subtitle": "İş verilerinizi yükleyin veya harici kaynağa bağlanın",
+      "detailedGuideLink": "📖 Detaylı Veri Hazırlama Rehberi - Tüm adımları inceleyin",
+      "tabs": {
+        "fileUpload": "Dosya Yükle",
+        "urlConnection": "URL Bağlantısı"
+      },
+      "demoMode": {
+        "button": "⚡ Demo Modu - Hızlı Gösterim",
+        "description": "🎯 B2B müşterilere göstermek için tek tıkla örnek dashboard oluştur!"
+      },
+      "template": {
+        "download": "Örnek Şablon İndir",
+        "hint": "💡 Önce şablonu indirin, doldurun, sonra yükleyin"
+      },
+      "guideLink": "📖 Veri Yükleme Rehberi",
+      "fileUpload": {
+        "dragDrop": "Bir dosya yükleyin",
+        "or": "veya sürükleyip bırakın",
+        "format": "CSV veya XLSX formatında",
+        "guideTitle": "📖 Dosya Yükleme Rehberi",
+        "step1": "CSV/Excel Hazırlayın:",
+        "step1Desc": "Verilerinizi Excel'de düzenleyin. İlk satır kolon başlıkları olmalı (Tarih, Ürün, Fiyat vb.)",
+        "step2": "Dosyayı Kaydedin:",
+        "step2Desc": "\"Farklı Kaydet\" → CSV (Virgülle Ayrılmış) veya .xlsx formatında kaydedin",
+        "step3": "Yükleyin:",
+        "step3Desc": "Dosyayı buraya sürükleyin veya \"Dosya Yükle\" butonuna tıklayın",
+        "step4": "AI Analiz:",
+        "step4Desc": "Sistem otomatik olarak sütunları tanır, tarih/sayı formatlarını algılar",
+        "exampleTitle": "✅ Örnek CSV Yapısı:"
+      },
+      "urlConnection": {
+        "title": "Veri Kaynağına Bağlan",
+        "subtitle": "Google Sheets, Airtable, veya CSV URL'si girin",
+        "label": "Veri Kaynağı URL",
+        "placeholder": "https://docs.google.com/spreadsheets/d/...",
+        "examplesTitle": "💡 Örnek Veri Kaynakları:",
+        "example1": "Google Sheets (Public CSV Export)",
+        "example2": "Airtable API Endpoint",
+        "example3": "Direct CSV URL",
+        "button": "Veri Kaynağına Bağlan",
+        "connecting": "Bağlanıyor...",
+        "guideTitle": "📖 URL Bağlantısı Rehberi",
+        "googleSheets": "Google Sheets Bağlantısı:",
+        "googleSheetsStep1": "• Dosya → Paylaş → \"Linki olan herkes görüntüleyebilir\"",
+        "googleSheetsStep2": "• Dosya → İndir → CSV (.csv) linkini kopyalayın",
+        "airtable": "Airtable API:",
+        "airtableDesc": "• API → Generate API Key → Base ID'yi alın",
+        "directUrl": "Direkt CSV/JSON URL:",
+        "directUrlDesc": "• Herhangi bir public CSV/JSON dosyası linkini yapıştırın",
+        "advantagesTitle": "✅ Avantajları:",
+        "advantage1": "Gerçek zamanlı senkronizasyon",
+        "advantage2": "Otomatik güncelleme",
+        "advantage3": "Dosya yüklemeye gerek yok",
+        "advantage4": "Büyük veri setleri için ideal"
+      },
+      "selectedFiles": "Seçilen Dosyalar:",
+      "uploadButton": "1 Dosyayı Yüklemeye Başla",
+      "uploading": "Yükleniyor...",
+      "processing": {
+        "title": "🤖 AI Veri Analizi Yapılıyor...",
+        "step1": "Dosya okunuyor...",
+        "step2": "Veri yapısı analiz ediliyor...",
+        "step3": "Dashboard oluşturuluyor..."
+      },
+      "success": {
+        "title": "Yükleme Başarılı",
+        "message": "Dosyanız başarıyla yüklendi. Şimdi bir sonraki adıma (Kolon Eşleştirme) yönlendiriliyorsunuz."
+      }
+    },
+    "userJourneyMap": {
+      "pageTitle": "Kullanıcı Harekât Yol Haritası",
+      "title": "Kullanıcı Harekât Yol Haritası",
+      "subtitle": "Bir Adayın Müşteriye Dönüşüm Sürecinin Stratejik Adımları",
+      "downloadButton": "PDF Olarak İndir / Yazdır",
+      "phases": {
+        "phase1": {
+          "title": "Keşif ve Karar",
+          "description": "Aday, platformumuzla ilk kez tanışır ve potansiyel değeri anlar.",
+          "steps": {
+            "step1": {
+              "title": "İlk Temas",
+              "description": "Aday, bir reklam, sosyal medya gönderisi, arama motoru sonucu veya tavsiye yoluyla web sitesine ulaşır."
+            },
+            "step2": {
+              "title": "Değer Önerisini Anlama",
+              "description": "Ana sayfa, çözümler ve hakkımızda sayfalarını gezer. Sunulan hizmetlerin kendi ihtiyaçlarına uygunluğunu değerlendirir."
+            },
+            "step3": {
+              "title": "Fiyatlandırmayı İnceleme",
+              "description": "Fiyatlandırma sayfasını ziyaret ederek sunulan planları (Bireysel, Premium, Kurumsal) ve özelliklerini karşılaştırır."
+            },
+            "step4": {
+              "title": "Karar Anı",
+              "description": "Platformu denemeye karar verir ve 'Kayıt Ol' veya 'Analizi Başlat' butonuna tıklar."
+            }
+          }
+        },
+        "phase2": {
+          "title": "Kayıt ve Kimlik Doğrulama",
+          "description": "Aday, sisteme ilk adımını atar ve kimliği doğrulanır. Bu, güvenliğin ilk hattıdır.",
+          "steps": {
+            "step1": {
+              "title": "Kayıt Formu",
+              "description": "Kullanıcı, Ad-Soyad, Şirket Adı, E-posta ve güvenli bir parola bilgilerini girerek kayıt formunu doldurur."
+            },
+            "step2": {
+              "title": "Parola Teyidi",
+              "description": "Sistem, parola girişinin iki kez doğru yapılmasını isteyerek yazım hatalarını önler."
+            },
+            "step3": {
+              "title": "ZIRHLI KAPI - E-posta Doğrulama",
+              "description": "Kullanıcının hesabına bir doğrulama e-postası gönderilir. Kullanıcı bu linke tıklayana kadar hesabı 'Beklemede' statüsündedir ve kritik fonksiyonlara erişemez."
+            },
+            "step4": {
+              "title": "KRİTİK GÜVENCE - Parola Sıfırlama Altyapısı",
+              "description": "Eğer kullanıcı parolasını unutursa, 'Şifremi Unuttum' linki üzerinden e-posta adresine bir sıfırlama linki gönderilir."
+            }
+          }
+        },
+        "phase3": {
+          "title": "Plan Seçimi ve Ödeme",
+          "description": "Doğrulanmış kullanıcı, operasyonel ihtiyaçlarına uygun planı seçer ve ödeme işlemini tamamlar.",
+          "steps": {
+            "step1": {
+              "title": "Plan Seçim Ekranı",
+              "description": "E-postasını doğrulayan kullanıcı, tekrar plan seçim sayfasına yönlendirilir ve kendisine en uygun planı seçer."
+            },
+            "step2": {
+              "title": "RESMİ PROSEDÜR - Dijital Sözleşme Kabulü",
+              "description": "Ödeme adımından hemen önce, kullanıcıya 'Kullanım Koşulları' ve 'Gizlilik Politikası' sunulur. 'Okudum, kabul ediyorum' kutucuğunu işaretlemesi zorunlu tutulur. Bu eylem, dijital imza niteliğindedir."
+            },
+            "step3": {
+              "title": "Güvenli Ödeme Ağ Geçidi",
+              "description": "Kullanıcı, kredi kartı bilgilerini girmesi için Stripe veya Iyzico gibi PCI-DSS sertifikalı, güvenli ödeme ağ geçidi arayüzüne yönlendirilir. Banka bilgileri ASLA bizim sistemimize kaydedilmez."
+            },
+            "step4": {
+              "title": "Ödeme Onayı ve Faturalandırma",
+              "description": "Başarılı ödeme sonrası kullanıcı sistemimize geri yönlendirilir. Sistem, otomatik olarak bir fatura oluşturur ve kullanıcının paneline ekler."
+            }
+          }
+        },
+        "phase4": {
+          "title": "Aktivasyon ve Entegrasyon",
+          "description": "Artık bir müşteri olan kullanıcı, panelini aktif hale getirir ve ilk verilerini sisteme entegre eder.",
+          "steps": {
+            "step1": {
+              "title": "Panel Aktivasyonu",
+              "description": "Ödeme onayıyla birlikte kullanıcının hesabı 'Aktif' statüsüne geçer. Seçtiği plana ait tüm özellikler ve dashboard panelleri erişilebilir hale gelir."
+            },
+            "step2": {
+              "title": "'HOŞ GELDİN' PROTOKOLÜ - Kullanıcı Onboarding",
+              "description": "Müşteri, ilk girişinde onu adım adım yönlendiren bir 'Hoş Geldin' turu ile karşılanır. Bu tur, ilk veri kaynağını nasıl bağlayacağını veya ilk .csv/.xlsx dosyasını nasıl yükleyeceğini gösterir."
+            },
+            "step3": {
+              "title": "Veri Yükleme / Entegrasyon",
+              "description": "Müşteri, rehber yardımıyla ilk veri setini yükler veya (varsa) entegrasyonu kurar."
+            },
+            "step4": {
+              "title": "İlk Değer Üretimi",
+              "description": "Bizim yazılımımız, yüklenen veriyi işler, düzenler ve müşterinin seçtiği dashboard panelinde anlamlı ve görsel çıktılar üretir. Müşteri, ödediği ücretin karşılığını ilk kez bu anda somut olarak görür."
+            }
+          }
+        },
+        "phase5": {
+          "title": "Değer Üretimi ve Genişleme",
+          "description": "Müşteri, platformu düzenli olarak kullanır, değer elde eder ve işbirliğini genişletir.",
+          "steps": {
+            "step1": {
+              "title": "Düzenli Kullanım ve Raporlama",
+              "description": "Müşteri, iş kararlarını desteklemek için platformu düzenli olarak kullanır, raporlar alır ve analizler yapar."
+            },
+            "step2": {
+              "title": "KOMUTA ZİNCİRİ - Takım Yönetimi",
+              "description": "(Kurumsal Plan) Müşteri, kendi ekibinden yeni kullanıcıları farklı yetki seviyeleriyle ('Sadece Görüntüleme' vb.) sisteme davet eder."
+            },
+            "step3": {
+              "title": "Genişleme (Upsell)",
+              "description": "Bireysel plandaki bir müşteri, daha fazla özelliğe ihtiyaç duyduğunda Premium plana geçer. Platform, bu ihtiyacı tespit edip ona yükseltme teklifleri sunabilir."
+            },
+            "step4": {
+              "title": "Sadakat ve Tavsiye (Marka Elçiliği)",
+              "description": "Platformdan yüksek memnuniyet duyan müşteri, hizmeti kendi çevresine tavsiye ederek yeni adayların 1. Faza girmesini sağlar."
+            }
+          }
+        }
+      }
+    }
+  },
+  "notFound": {
+    "title": "Sayfa Bulunamadı",
+    "description": "Aradığınız sayfa kaldırılmış, adı değiştirilmiş veya geçici olarak kullanılamıyor olabilir.",
+    "goBack": "Geri Dön",
+    "goHome": "Ana Sayfaya Git",
+    "helpText": "Yardıma mı ihtiyacınız var?",
+    "homepage": "Ana Sayfa",
+    "features": "Özellikler",
+    "pricing": "Fiyatlandırma",
+    "contact": "İletişim",
+    "searchTitle": "Aradığınızı Bulamadınız mı?",
+    "searchDescription": "Dashboard'unuzda arama yapabilir veya destek ekibimizle iletişime geçebilirsiniz."
   }
 }

@@ -2,84 +2,89 @@
 import React from 'react';
 import { FileDown } from 'lucide-react';
 import PageLayout from '@/components/PageLayout';
+import { useTranslation } from 'react-i18next';
 
 // Bu bileşen, PDF'e dönüştürülecek olan ana içeriktir.
-const RoadmapContent = () => (
+const RoadmapContent = () => {
+  const { t } = useTranslation();
+  
+  return (
   <div id="user-journey-map-content" className="bg-white p-8 sm:p-12 shadow-lg rounded-2xl border border-gray-200">
     
     <div className="text-center mb-12">
-      <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Kullanıcı Harekât Yol Haritası</h1>
-      <p className="mt-4 text-xl text-gray-600">Bir Adayın Müşteriye Dönüşüm Sürecinin Stratejik Adımları</p>
+      <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">{t('userJourneyMap.title')}</h1>
+      <p className="mt-4 text-xl text-gray-600">{t('userJourneyMap.subtitle')}</p>
     </div>
 
     <div className="space-y-16">
       {/* FAZ 1: Keşif ve Karar */}
       <Phase
         phaseNumber="1"
-        title="Keşif ve Karar"
-        description="Aday, platformumuzla ilk kez tanışır ve potansiyel değeri anlar."
+        title={t('userJourneyMap.phases.phase1.title')}
+        description={t('userJourneyMap.phases.phase1.description')}
         steps={[
-          { title: "İlk Temas", description: "Aday, bir reklam, sosyal medya gönderisi, arama motoru sonucu veya tavsiye yoluyla web sitesine ulaşır." },
-          { title: "Değer Önerisini Anlama", description: "Ana sayfa, çözümler ve hakkımızda sayfalarını gezer. Sunulan hizmetlerin kendi ihtiyaçlarına uygunluğunu değerlendirir." },
-          { title: "Fiyatlandırmayı İnceleme", description: "Fiyatlandırma sayfasını ziyaret ederek sunulan planları (Bireysel, Premium, Kurumsal) ve özelliklerini karşılaştırır." },
-          { title: "Karar Anı", description: "Platformu denemeye karar verir ve 'Kayıt Ol' veya 'Analizi Başlat' butonuna tıklar." }
+          { title: t('userJourneyMap.phases.phase1.steps.step1.title'), description: t('userJourneyMap.phases.phase1.steps.step1.description') },
+          { title: t('userJourneyMap.phases.phase1.steps.step2.title'), description: t('userJourneyMap.phases.phase1.steps.step2.description') },
+          { title: t('userJourneyMap.phases.phase1.steps.step3.title'), description: t('userJourneyMap.phases.phase1.steps.step3.description') },
+          { title: t('userJourneyMap.phases.phase1.steps.step4.title'), description: t('userJourneyMap.phases.phase1.steps.step4.description') }
         ]}
       />
 
       {/* FAZ 2: Kayıt ve Kimlik Doğrulama */}
       <Phase
         phaseNumber="2"
-        title="Kayıt ve Kimlik Doğrulama"
-        description="Aday, sisteme ilk adımını atar ve kimliği doğrulanır. Bu, güvenliğin ilk hattıdır."
+        title={t('userJourneyMap.phases.phase2.title')}
+        description={t('userJourneyMap.phases.phase2.description')}
         steps={[
-          { title: "Kayıt Formu", description: "Kullanıcı, Ad-Soyad, Şirket Adı, E-posta ve güvenli bir parola bilgilerini girerek kayıt formunu doldurur." },
-          { title: "Parola Teyidi", description: "Sistem, parola girişinin iki kez doğru yapılmasını isteyerek yazım hatalarını önler." },
-          { title: "ZIRHLI KAPI - E-posta Doğrulama", description: "Kullanıcının hesabına bir doğrulama e-postası gönderilir. Kullanıcı bu linke tıklayana kadar hesabı 'Beklemede' statüsündedir ve kritik fonksiyonlara erişemez." },
-          { title: "KRİTİK GÜVENCE - Parola Sıfırlama Altyapısı", description: "Eğer kullanıcı parolasını unutursa, 'Şifremi Unuttum' linki üzerinden e-posta adresine bir sıfırlama linki gönderilir." }
+          { title: t('userJourneyMap.phases.phase2.steps.step1.title'), description: t('userJourneyMap.phases.phase2.steps.step1.description') },
+          { title: t('userJourneyMap.phases.phase2.steps.step2.title'), description: t('userJourneyMap.phases.phase2.steps.step2.description') },
+          { title: t('userJourneyMap.phases.phase2.steps.step3.title'), description: t('userJourneyMap.phases.phase2.steps.step3.description') },
+          { title: t('userJourneyMap.phases.phase2.steps.step4.title'), description: t('userJourneyMap.phases.phase2.steps.step4.description') }
         ]}
       />
 
       {/* FAZ 3: Plan Seçimi ve Ödeme */}
       <Phase
         phaseNumber="3"
-        title="Plan Seçimi ve Ödeme"
-        description="Doğrulanmış kullanıcı, operasyonel ihtiyaçlarına uygun planı seçer ve ödeme işlemini tamamlar."
+        title={t('userJourneyMap.phases.phase3.title')}
+        description={t('userJourneyMap.phases.phase3.description')}
         steps={[
-          { title: "Plan Seçim Ekranı", description: "E-postasını doğrulayan kullanıcı, tekrar plan seçim sayfasına yönlendirilir ve kendisine en uygun planı seçer." },
-          { title: "RESMİ PROSEDÜR - Dijital Sözleşme Kabulü", description: "Ödeme adımından hemen önce, kullanıcıya 'Kullanım Koşulları' ve 'Gizlilik Politikası' sunulur. 'Okudum, kabul ediyorum' kutucuğunu işaretlemesi zorunlu tutulur. Bu eylem, dijital imza niteliğindedir." },
-          { title: "Güvenli Ödeme Ağ Geçidi", description: "Kullanıcı, kredi kartı bilgilerini girmesi için Stripe veya Iyzico gibi PCI-DSS sertifikalı, güvenli ödeme ağ geçidi arayüzüne yönlendirilir. Banka bilgileri ASLA bizim sistemimize kaydedilmez." },
-          { title: "Ödeme Onayı ve Faturalandırma", description: "Başarılı ödeme sonrası kullanıcı sistemimize geri yönlendirilir. Sistem, otomatik olarak bir fatura oluşturur ve kullanıcının paneline ekler." }
+          { title: t('userJourneyMap.phases.phase3.steps.step1.title'), description: t('userJourneyMap.phases.phase3.steps.step1.description') },
+          { title: t('userJourneyMap.phases.phase3.steps.step2.title'), description: t('userJourneyMap.phases.phase3.steps.step2.description') },
+          { title: t('userJourneyMap.phases.phase3.steps.step3.title'), description: t('userJourneyMap.phases.phase3.steps.step3.description') },
+          { title: t('userJourneyMap.phases.phase3.steps.step4.title'), description: t('userJourneyMap.phases.phase3.steps.step4.description') }
         ]}
       />
 
       {/* FAZ 4: Aktivasyon ve Entegrasyon */}
       <Phase
         phaseNumber="4"
-        title="Aktivasyon ve Entegrasyon"
-        description="Artık bir müşteri olan kullanıcı, panelini aktif hale getirir ve ilk verilerini sisteme entegre eder."
+        title={t('userJourneyMap.phases.phase4.title')}
+        description={t('userJourneyMap.phases.phase4.description')}
         steps={[
-          { title: "Panel Aktivasyonu", description: "Ödeme onayıyla birlikte kullanıcının hesabı 'Aktif' statüsüne geçer. Seçtiği plana ait tüm özellikler ve dashboard panelleri erişilebilir hale gelir." },
-          { title: "'HOŞ GELDİN' PROTOKOLÜ - Kullanıcı Onboarding", description: "Müşteri, ilk girişinde onu adım adım yönlendiren bir 'Hoş Geldin' turu ile karşılanır. Bu tur, ilk veri kaynağını nasıl bağlayacağını veya ilk .csv/.xlsx dosyasını nasıl yükleyeceğini gösterir." },
-          { title: "Veri Yükleme / Entegrasyon", description: "Müşteri, rehber yardımıyla ilk veri setini yükler veya (varsa) entegrasyonu kurar." },
-          { title: "İlk Değer Üretimi", description: "Bizim yazılımımız, yüklenen veriyi işler, düzenler ve müşterinin seçtiği dashboard panelinde anlamlı ve görsel çıktılar üretir. Müşteri, ödediği ücretin karşılığını ilk kez bu anda somut olarak görür." }
+          { title: t('userJourneyMap.phases.phase4.steps.step1.title'), description: t('userJourneyMap.phases.phase4.steps.step1.description') },
+          { title: t('userJourneyMap.phases.phase4.steps.step2.title'), description: t('userJourneyMap.phases.phase4.steps.step2.description') },
+          { title: t('userJourneyMap.phases.phase4.steps.step3.title'), description: t('userJourneyMap.phases.phase4.steps.step3.description') },
+          { title: t('userJourneyMap.phases.phase4.steps.step4.title'), description: t('userJourneyMap.phases.phase4.steps.step4.description') }
         ]}
       />
 
         {/* FAZ 5: Değer Üretimi ve Genişleme */}
       <Phase
         phaseNumber="5"
-        title="Değer Üretimi ve Genişleme"
-        description="Müşteri, platformu düzenli olarak kullanır, değer elde eder ve işbirliğini genişletir."
+        title={t('userJourneyMap.phases.phase5.title')}
+        description={t('userJourneyMap.phases.phase5.description')}
         steps={[
-          { title: "Düzenli Kullanım ve Raporlama", description: "Müşteri, iş kararlarını desteklemek için platformu düzenli olarak kullanır, raporlar alır ve analizler yapar." },
-          { title: "KOMUTA ZİNCİRİ - Takım Yönetimi", description: "(Kurumsal Plan) Müşteri, kendi ekibinden yeni kullanıcıları farklı yetki seviyeleriyle ('Sadece Görüntüleme' vb.) sisteme davet eder." },
-          { title: "Genişleme (Upsell)", description: "Bireysel plandaki bir müşteri, daha fazla özelliğe ihtiyaç duyduğunda Premium plana geçer. Platform, bu ihtiyacı tespit edip ona yükseltme teklifleri sunabilir." },
-          { title: "Sadakat ve Tavsiye (Marka Elçiliği)", description: "Platformdan yüksek memnuniyet duyan müşteri, hizmeti kendi çevresine tavsiye ederek yeni adayların 1. Faza girmesini sağlar." }
+          { title: t('userJourneyMap.phases.phase5.steps.step1.title'), description: t('userJourneyMap.phases.phase5.steps.step1.description') },
+          { title: t('userJourneyMap.phases.phase5.steps.step2.title'), description: t('userJourneyMap.phases.phase5.steps.step2.description') },
+          { title: t('userJourneyMap.phases.phase5.steps.step3.title'), description: t('userJourneyMap.phases.phase5.steps.step3.description') },
+          { title: t('userJourneyMap.phases.phase5.steps.step4.title'), description: t('userJourneyMap.phases.phase5.steps.step4.description') }
         ]}
       />
     </div>
   </div>
 );
+};
 
 // Faz Bileşeni
 const Phase: React.FC<{ phaseNumber: string; title: string; description: string; steps: { title: string; description: string }[] }> = ({ phaseNumber, title, description, steps }) => (
@@ -109,12 +114,14 @@ const Phase: React.FC<{ phaseNumber: string; title: string; description: string;
 
 
 const UserJourneyMapPage: React.FC = () => {
+  const { t } = useTranslation();
+  
   const handlePrint = () => {
     window.print();
   };
 
   return (
-    <PageLayout title="Kullanıcı Harekât Yol Haritası">
+    <PageLayout title={t('userJourneyMap.pageTitle')}>
         <div className="container mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex justify-end mb-8">
             <button
@@ -122,7 +129,7 @@ const UserJourneyMapPage: React.FC = () => {
             className="inline-flex items-center gap-2 rounded-md bg-gray-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
             >
             <FileDown size={18} />
-            PDF Olarak İndir / Yazdır
+            {t('userJourneyMap.downloadButton')}
             </button>
         </div>
 

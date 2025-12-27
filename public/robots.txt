@@ -1,0 +1,28 @@
+# FINOPS AI Studio - Robots.txt
+# https://finops-ai-studio.vercel.app/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://finops-ai-studio.vercel.app/sitemap.xml
+
+# Crawl Delay
+Crawl-delay: 1
+
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+
+
+

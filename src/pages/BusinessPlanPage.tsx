@@ -17,9 +17,14 @@ import {
   Lock,
   DollarSign,
   Calendar,
-  Shield
+  Shield,
+  Download,
+  Presentation
 } from 'lucide-react';
+import html2pdf from 'html2pdf.js';
+import pptxgen from 'pptxgenjs';
 import PricingSection from '../components/PricingSection'; // YENİ FİYATLANDIRMA BİLEŞENİ
+import { useTranslation } from 'react-i18next';
 
 // --- Yardımcı Bileşenler (Değişiklik yok) ---
 
@@ -90,8 +95,805 @@ const HighlightNote: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 const BusinessPlanPage: React.FC = () => {
   const [frequency, setFrequency] = useState('monthly');
 
+  // PDF İndirme Fonksiyonu
+  const handleDownloadPDF = () => {
+    const element = document.getElementById('business-plan-content');
+    
+    const opt = {
+      margin: [10, 10, 10, 10],
+      filename: 'FINOPS_Is_Plani_2026-2028.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+  };
+
+  // PPTX Sunum Oluşturma Fonksiyonu - TEKNOKENT JÜRİSİ (V2 - PROFESYONEL)
+  const handleDownloadPPTX = () => {
+    const pptx = new pptxgen();
+    
+    // Tema Renkleri
+    const PRIMARY = '4F46E5';
+    const SECONDARY = '9333EA';
+    const ACCENT = 'EC4899';
+    const SUCCESS = '10B981';
+    const WARNING = 'F59E0B';
+    const DARK = '1F2937';
+    const LIGHT = 'F9FAFB';
+    const TECH_BG = '0F172A'; // Teknolojik koyu arka plan
+    
+    // Logo ve Marka Fonksiyonu (Her slayta eklenecek)
+    const addLogoAndBrand = (slide: any) => {
+      // Sol üst köşe - Shield Logo + FINOPS AI Studio
+      slide.addShape(pptx.ShapeType.rect, {
+        x: 0.2, y: 0.15, w: 2.5, h: 0.45,
+        fill: { color: 'FFFFFF', transparency: 90 },
+        line: { color: PRIMARY, width: 1 }
+      });
+      
+      // Shield emoji (logo placeholder)
+      slide.addText('🛡️', {
+        x: 0.25, y: 0.17, w: 0.4, h: 0.4,
+        fontSize: 20
+      });
+      
+      // FINOPS AI Studio yazısı
+      slide.addText('FINOPS AI Studio', {
+        x: 0.7, y: 0.22, w: 1.9, h: 0.3,
+        fontSize: 14, bold: true, color: PRIMARY
+      });
+    };
+    
+    // Teknolojik Arka Plan Fonksiyonu
+    const addTechBackground = (slide: any, isDark = false) => {
+      if (isDark) {
+        slide.background = { fill: TECH_BG };
+        // Gradient overlay
+        slide.addShape(pptx.ShapeType.rect, {
+          x: 0, y: 0, w: 10, h: 7.5,
+          fill: { 
+            type: 'solid',
+            color: PRIMARY,
+            transparency: 95
+          }
+        });
+      } else {
+        // Açık tema - gradient arka plan
+        slide.addShape(pptx.ShapeType.rect, {
+          x: 0, y: 0, w: 10, h: 7.5,
+          fill: { 
+            type: 'solid',
+            color: 'F0F4FF',
+            transparency: 0
+          }
+        });
+        
+        // Teknolojik pattern (köşe aksentleri)
+        slide.addShape(pptx.ShapeType.rect, {
+          x: 7, y: 0, w: 3, h: 0.5,
+          fill: { color: PRIMARY, transparency: 90 }
+        });
+        slide.addShape(pptx.ShapeType.rect, {
+          x: 0, y: 7, w: 3, h: 0.5,
+          fill: { color: SECONDARY, transparency: 90 }
+        });
+      }
+    };
+
+    // SLAYT 1: KAPAK
+    let slide1 = pptx.addSlide();
+    addTechBackground(slide1, true);
+    
+    // Büyük Shield Logo
+    slide1.addText('🛡️', {
+      x: 4.2, y: 1.2, w: 1.6, h: 1.6,
+      fontSize: 80, align: 'center'
+    });
+    
+    slide1.addText('FINOPS AI STUDIO', {
+      x: 1, y: 3, w: 8, h: 0.8,
+      fontSize: 44, bold: true, color: 'FFFFFF',
+      align: 'center'
+    });
+    slide1.addText('Türkiye KOBİ\'leri İçin İlk Yerli\nYapay Zekâ Destekli Finansal Dashboard Platformu', {
+      x: 1, y: 4, w: 8, h: 1,
+      fontSize: 18, color: 'FFFFFF',
+      align: 'center', valign: 'middle'
+    });
+    slide1.addText('Teknokent Kuluçka Başvurusu | 2026-2028', {
+      x: 1, y: 5.5, w: 8, h: 0.5,
+      fontSize: 14, color: ACCENT,
+      align: 'center', italic: true
+    });
+
+    // SLAYT 2: PROBLEM - KOBİ'LERİN FİNANSAL ZORLUKLARI
+    let slide2 = pptx.addSlide();
+    addTechBackground(slide2);
+    addLogoAndBrand(slide2);
+    
+    slide2.addText('KOBİ\'lerin Finansal Zorlukları', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    
+    // Problem kutuları
+    const problems = [
+      {
+        icon: '📊',
+        title: 'Finansal Veriyi Anlamakta Zorluk',
+        items: ['Excel\'de saatlerce manuel çalışma', 'Veriler dağınık: Banka, POS, e-fatura']
+      },
+      {
+        icon: '💸',
+        title: 'Nakit Akışı Krizi',
+        items: ['Ödemelerin ne zaman geleceği belirsiz', 'Ani giderlere hazırlıksız yakalanma']
+      },
+      {
+        icon: '💰',
+        title: 'Yüksek Danışmanlık Maliyetleri',
+        items: ['Aylık 5.000-15.000 TL mali müşavir', 'Anlık karar desteği yok']
+      }
+    ];
+    
+    problems.forEach((prob, i) => {
+      slide2.addShape(pptx.ShapeType.rect, {
+        x: 0.5, y: 1.7 + i * 1.7, w: 9, h: 1.4,
+        fill: { color: 'FFFFFF' },
+        line: { color: 'DC2626', width: 2 }
+      });
+      
+      slide2.addText(prob.icon, {
+        x: 0.7, y: 1.85 + i * 1.7, w: 0.5, h: 0.5,
+        fontSize: 24
+      });
+      
+      slide2.addText(prob.title, {
+        x: 1.3, y: 1.85 + i * 1.7, w: 7.5, h: 0.4,
+        fontSize: 16, bold: true, color: 'DC2626'
+      });
+      
+      slide2.addText(prob.items.map(item => '• ' + item).join('\n'), {
+        x: 1.3, y: 2.3 + i * 1.7, w: 7.5, h: 0.6,
+        fontSize: 12, color: '4B5563'
+      });
+    });
+
+    // SLAYT 3: PAZAR BOŞLUĞU - MÜNHASİRAN İLK YERLI SAAS
+    let slide3 = pptx.addSlide();
+    addTechBackground(slide3);
+    addLogoAndBrand(slide3);
+    
+    slide3.addText('Pazar Boşluğu: Münhasır Fırsat', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    
+    // BÜYÜK SARI VURGU KUTUSU
+    slide3.addShape(pptx.ShapeType.rect, {
+      x: 1, y: 1.7, w: 8, h: 2.3,
+      fill: { color: 'FEF3C7' },
+      line: { color: WARNING, width: 3 }
+    });
+    slide3.addText('⚠', {
+      x: 1.5, y: 1.9, w: 0.6, h: 0.6,
+      fontSize: 32
+    });
+    slide3.addText('Türkiye\'de KOBİ\'lerin finansal verisini:\n• Otomatik toplayan\n• Yapay zekâ ile sınıflandıran\n• Anlaşılır dashboard + içgörü üreten\n\nYERLİ, SELF-SERVICE SAAS PLATFORM YOKTUR.', {
+      x: 1.5, y: 2.1, w: 7, h: 1.7,
+      fontSize: 14, bold: true, color: '92400E',
+      align: 'center', valign: 'middle'
+    });
+    
+    slide3.addText('Mevcut Çözümler:', {
+      x: 0.5, y: 4.3, w: 9, h: 0.4,
+      fontSize: 18, bold: true, color: DARK
+    });
+    slide3.addText('• Muhasebe yazılımları → Sadece kayıt, analiz yok\n• ERP sistemleri → Karmaşık, pahalı, KOBİ\'ye uygun değil\n• Global araçlar → Türkçe destek zayıf, yerel entegrasyon yok\n• Danışmanlar → Pahalı, gerçek zamanlı değil', {
+      x: 1, y: 4.8, w: 8, h: 1.5,
+      fontSize: 12, color: '4B5563', bullet: true
+    });
+
+    // SLAYT 4: ÇÖZÜM - FINOPS AI STUDIO
+    let slide4 = pptx.addSlide();
+    addTechBackground(slide4);
+    addLogoAndBrand(slide4);
+    
+    slide4.addText('Çözüm: FINOPS AI Studio', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    slide4.addText('Türkiye\'nin İLK ve TEK Yerli SaaS Platformu', {
+      x: 0.5, y: 1.5, w: 9, h: 0.4,
+      fontSize: 16, bold: true, color: SUCCESS,
+      align: 'center'
+    });
+    
+    // 4 Kutu - KÜÇÜLTÜLMÜŞ
+    const boxes = [
+      { icon: '🤖', title: 'Yapay Zeka', text: 'Otomatik veri toplama\nAkıllı sınıflandırma', color: '3B82F6' },
+      { icon: '📊', title: 'Dashboard', text: 'Görselleştirme\nTek bakışta karar', color: '8B5CF6' },
+      { icon: '⚡', title: 'Gerçek Zamanlı', text: 'Anlık uyarılar\nErken müdahale', color: 'EC4899' },
+      { icon: '🇹🇷', title: 'Yerli', text: 'Logo/Netsis entegre\nTürkçe destek 7/24', color: '10B981' }
+    ];
+    
+    boxes.forEach((box, i) => {
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      slide4.addShape(pptx.ShapeType.rect, {
+        x: 0.5 + col * 4.8, y: 2.1 + row * 1.9, w: 4.4, h: 1.7,
+        fill: { color: box.color }
+      });
+      slide4.addText(box.icon, {
+        x: 0.5 + col * 4.8, y: 2.2 + row * 1.9, w: 4.4, h: 0.4,
+        fontSize: 20, align: 'center'
+      });
+      slide4.addText(box.title, {
+        x: 0.5 + col * 4.8, y: 2.6 + row * 1.9, w: 4.4, h: 0.4,
+        fontSize: 16, bold: true, color: 'FFFFFF',
+        align: 'center'
+      });
+      slide4.addText(box.text, {
+        x: 0.5 + col * 4.8, y: 3.1 + row * 1.9, w: 4.4, h: 0.6,
+        fontSize: 11, color: 'FFFFFF',
+        align: 'center', valign: 'middle'
+      });
+    });
+
+    // SLAYT 5: YAPAY ZEKA OTOMASYON AKIŞI
+    let slide5 = pptx.addSlide();
+    addTechBackground(slide5);
+    addLogoAndBrand(slide5);
+    
+    slide5.addText('Yapay Zeka Destekli Otomasyon Akışı', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 24, bold: true, color: PRIMARY
+    });
+    
+    // Akış diyagramı - DİKEY YERLEŞİM
+    const flow = [
+      { num: '1', title: 'VERİ TOPLAMA', desc: 'Banka • POS • e-Fatura\nLogo • Netsis • Excel', color: '3B82F6' },
+      { num: '2', title: 'AI SINIFLANDIRMA', desc: 'Gider/Gelir otomatik\nKategori tanıma', color: '8B5CF6' },
+      { num: '3', title: 'ANALİZ', desc: 'Nakit akışı tahmini\nTrend analizi', color: 'EC4899' },
+      { num: '4', title: 'DASHBOARD', desc: 'Görsel raporlar\nAnlık içgörüler', color: '10B981' },
+      { num: '5', title: 'UYARI', desc: 'Erken uyarı sistemi\nAksiyon önerileri', color: 'F59E0B' }
+    ];
+    
+    flow.forEach((step, i) => {
+      slide5.addShape(pptx.ShapeType.rect, {
+        x: 0.7 + i * 1.82, y: 1.8, w: 1.7, h: 2.8,
+        fill: { color: step.color },
+        line: { color: 'FFFFFF', width: 2 }
+      });
+      
+      // Numara
+      slide5.addShape(pptx.ShapeType.ellipse, {
+        x: 1.2 + i * 1.82, y: 1.95, w: 0.6, h: 0.6,
+        fill: { color: 'FFFFFF' }
+      });
+      slide5.addText(step.num, {
+        x: 1.2 + i * 1.82, y: 1.95, w: 0.6, h: 0.6,
+        fontSize: 18, bold: true, color: step.color,
+        align: 'center', valign: 'middle'
+      });
+      
+      slide5.addText(step.title, {
+        x: 0.7 + i * 1.82, y: 2.65, w: 1.7, h: 0.5,
+        fontSize: 10, bold: true, color: 'FFFFFF',
+        align: 'center'
+      });
+      slide5.addText(step.desc, {
+        x: 0.75 + i * 1.82, y: 3.2, w: 1.6, h: 1.2,
+        fontSize: 8, color: 'FFFFFF',
+        align: 'center', valign: 'middle'
+      });
+      
+      // Ok işareti
+      if (i < 4) {
+        slide5.addText('→', {
+          x: 2.32 + i * 1.82, y: 3.05, w: 0.25, h: 0.4,
+          fontSize: 20, bold: true, color: DARK
+        });
+      }
+    });
+    
+    slide5.addText('⏱ Süre: Saniyeler içinde tamamlanır!', {
+      x: 0.5, y: 5.2, w: 9, h: 0.4,
+      fontSize: 14, bold: true, color: SUCCESS,
+      align: 'center'
+    });
+
+    // SLAYT 6: TEMEL ÖZELLİKLER
+    let slide6 = pptx.addSlide();
+    addTechBackground(slide6);
+    addLogoAndBrand(slide6);
+    
+    slide6.addText('Platform Özellikleri', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    
+    const features = [
+      { icon: '📊', title: 'Finansal Dashboard\'lar', desc: 'Gelir, gider, kâr marjı, nakit akışı tek ekranda' },
+      { icon: '🤖', title: 'AI Finans Asistanı', desc: '"Bu ay kârım neden düştü?" → Anında yanıt' },
+      { icon: '📈', title: 'Tahmine Dayalı Analiz', desc: 'Gelecek 3 ay nakit akışı tahmini' },
+      { icon: '⚠️', title: 'Erken Uyarı Sistemi', desc: 'Stok maliyeti artışı, nakit darboğazı uyarıları' },
+      { icon: '🔗', title: 'Logo & Netsis Entegrasyonu', desc: 'Türkiye\'nin en yaygın ERP\'leri ile otomatik senkronizasyon' },
+      { icon: '📱', title: 'Mobil Uyumlu', desc: 'Her yerden, her cihazdan erişim' }
+    ];
+    
+    features.forEach((feat, i) => {
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      slide6.addText(feat.icon, {
+        x: 0.5 + col * 4.8, y: 1.6 + row * 1.4, w: 0.4, h: 0.4,
+        fontSize: 18
+      });
+      slide6.addText(feat.title, {
+        x: 1 + col * 4.8, y: 1.6 + row * 1.4, w: 3.8, h: 0.4,
+        fontSize: 14, bold: true, color: DARK
+      });
+      slide6.addText(feat.desc, {
+        x: 1 + col * 4.8, y: 2.05 + row * 1.4, w: 3.8, h: 0.4,
+        fontSize: 10, color: '6B7280'
+      });
+    });
+
+    // SLAYT 7: VERİ GÖRSELLEŞTİRME ÖRNEKLER
+    let slide7 = pptx.addSlide();
+    addTechBackground(slide7);
+    addLogoAndBrand(slide7);
+    
+    slide7.addText('Dashboard Örnekleri', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    
+    const dashboards = [
+      { title: 'Nakit Akışı', desc: 'Günlük/haftalık/aylık giriş-çıkış' },
+      { title: 'Gelir Analizi', desc: 'Ürün/hizmet bazlı kârlılık' },
+      { title: 'Gider Takibi', desc: 'Kategori bazlı maliyet dağılımı' },
+      { title: 'Stok Maliyeti', desc: 'FIFO/LIFO analizi, uyarılar' }
+    ];
+    
+    dashboards.forEach((dash, i) => {
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      slide7.addShape(pptx.ShapeType.rect, {
+        x: 0.8 + col * 4.6, y: 1.7 + row * 2, w: 4.2, h: 1.7,
+        fill: { color: LIGHT },
+        line: { color: PRIMARY, width: 2 }
+      });
+      slide7.addText(dash.title, {
+        x: 1 + col * 4.6, y: 1.9 + row * 2, w: 3.8, h: 0.4,
+        fontSize: 16, bold: true, color: PRIMARY
+      });
+      slide7.addText(dash.desc, {
+        x: 1 + col * 4.6, y: 2.4 + row * 2, w: 3.8, h: 0.7,
+        fontSize: 11, color: '6B7280'
+      });
+    });
+    
+    slide7.addText('💡 Tek tıkla rapor oluşturma, Excel\'e aktarma', {
+      x: 0.5, y: 5.8, w: 9, h: 0.4,
+      fontSize: 12, color: SUCCESS,
+      align: 'center', italic: true
+    });
+
+    // SLAYT 8: HEDEF PAZAR
+    let slide8 = pptx.addSlide();
+    addTechBackground(slide8);
+    addLogoAndBrand(slide8);
+    
+    slide8.addText('Hedef Pazar: 300.000 KOBİ', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    
+    slide8.addShape(pptx.ShapeType.rect, {
+      x: 1.5, y: 1.8, w: 7, h: 3.5,
+      fill: { color: 'EEF2FF' }
+    });
+    
+    slide8.addText('Türkiye\'de Toplam KOBİ:', {
+      x: 2, y: 2.2, w: 6, h: 0.5,
+      fontSize: 20, bold: true, color: DARK
+    });
+    slide8.addText('~4.000.000', {
+      x: 2, y: 2.8, w: 6, h: 0.8,
+      fontSize: 48, bold: true, color: PRIMARY,
+      align: 'center'
+    });
+    
+    slide8.addText('Hedef Pazar (SAM):', {
+      x: 2, y: 3.8, w: 6, h: 0.5,
+      fontSize: 20, bold: true, color: DARK
+    });
+    slide8.addText('300.000 KOBİ', {
+      x: 2, y: 4.3, w: 6, h: 0.7,
+      fontSize: 40, bold: true, color: SUCCESS,
+      align: 'center'
+    });
+    
+    slide8.addText('Finansal verisi düzenli, banka/POS/e-fatura kullanan,\ndijital çözüme açık işletmeler', {
+      x: 1.5, y: 5.5, w: 7, h: 0.8,
+      fontSize: 12, color: '6B7280',
+      align: 'center', italic: true
+    });
+
+    // SLAYT 9: REKABET AVANTAJI
+    let slide9 = pptx.addSlide();
+    addTechBackground(slide9);
+    addLogoAndBrand(slide9);
+    
+    slide9.addText('Rekabet Avantajlarımız', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    
+    const advantages = [
+      { title: '🇹🇷 Yerli ERP Entegrasyonu', desc: 'Logo, Netsis ile DOĞRUDAN entegrasyon\nGlobal rakipler bu entegrasyonu sunmuyor' },
+      { title: '💬 Türkçe AI Asistanı', desc: 'Doğal Türkçe ile soru-cevap\n"Geçen ay hangi ürün en çok kâr etti?"' },
+      { title: '🏦 Yerel Banka Entegrasyonu', desc: 'Türk bankalarının API\'leri ile otomatik senkronizasyon' },
+      { title: '💰 Uygun Fiyat', desc: '599 TL/ay (Global rakipler $50-200/ay)\nKOBİ bütçesine uygun' },
+      { title: '🛡️ KVKK Uyumlu', desc: 'Veriler Türkiye\'de saklanır\nTam KVKK uyumluluğu' },
+      { title: '👨‍💼 Yerel Destek', desc: '7/24 Türkçe müşteri desteği\nAnlık çözüm, yerel anlayış' }
+    ];
+    
+    advantages.forEach((adv, i) => {
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      slide9.addText(adv.title.substring(0, 2), {
+        x: 0.5 + col * 4.8, y: 1.6 + row * 1.5, w: 0.4, h: 0.4,
+        fontSize: 16
+      });
+      slide9.addText(adv.title.substring(3), {
+        x: 1 + col * 4.8, y: 1.6 + row * 1.5, w: 3.8, h: 0.4,
+        fontSize: 13, bold: true, color: PRIMARY
+      });
+      slide9.addText(adv.desc, {
+        x: 1 + col * 4.8, y: 2.05 + row * 1.5, w: 3.8, h: 0.6,
+        fontSize: 9, color: '4B5563'
+      });
+    });
+
+    // SLAYT 10: FİYATLANDIRMA
+    let slide10 = pptx.addSlide();
+    addTechBackground(slide10);
+    addLogoAndBrand(slide10);
+    
+    slide10.addText('Fiyatlandırma', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    
+    // İşletme Dostu Paketi
+    slide10.addShape(pptx.ShapeType.rect, {
+      x: 1, y: 2, w: 4, h: 3.5,
+      fill: { color: '3B82F6' }
+    });
+    slide10.addText('İşletme Dostu', {
+      x: 1, y: 2.2, w: 4, h: 0.5,
+      fontSize: 20, bold: true, color: 'FFFFFF',
+      align: 'center'
+    });
+    slide10.addText('599 TL', {
+      x: 1, y: 2.8, w: 4, h: 0.8,
+      fontSize: 48, bold: true, color: 'FFFFFF',
+      align: 'center'
+    });
+    slide10.addText('/ay', {
+      x: 1, y: 3.5, w: 4, h: 0.3,
+      fontSize: 18, color: 'FFFFFF',
+      align: 'center'
+    });
+    slide10.addText('✓ 5 Kullanıcı\n✓ Temel Dashboard\'lar\n✓ 1 ERP Entegrasyonu\n✓ Email Destek', {
+      x: 1.2, y: 4, w: 3.6, h: 1.2,
+      fontSize: 12, color: 'FFFFFF',
+      bullet: false
+    });
+    
+    // Premium Paketi
+    slide10.addShape(pptx.ShapeType.rect, {
+      x: 5.5, y: 1.5, w: 4, h: 4,
+      fill: { color: '8B5CF6' }
+    });
+    slide10.addText('⭐ Premium', {
+      x: 5.5, y: 1.7, w: 4, h: 0.5,
+      fontSize: 22, bold: true, color: 'FFFFFF',
+      align: 'center'
+    });
+    slide10.addText('1.799 TL', {
+      x: 5.5, y: 2.4, w: 4, h: 0.8,
+      fontSize: 48, bold: true, color: 'FFFFFF',
+      align: 'center'
+    });
+    slide10.addText('/ay', {
+      x: 5.5, y: 3.1, w: 4, h: 0.3,
+      fontSize: 18, color: 'FFFFFF',
+      align: 'center'
+    });
+    slide10.addText('✓ Sınırsız Kullanıcı\n✓ Tüm Dashboard\'lar\n✓ Çoklu ERP Entegrasyonu\n✓ AI Finans Asistanı\n✓ 7/24 Öncelikli Destek\n✓ Özel Rapor Tasarımı', {
+      x: 5.7, y: 3.6, w: 3.6, h: 1.6,
+      fontSize: 11, color: 'FFFFFF',
+      bullet: false
+    });
+    
+    slide10.addText('📊 Ortalama Gelir (ARPU): 959 TL/ay', {
+      x: 0.5, y: 6, w: 9, h: 0.4,
+      fontSize: 13, bold: true, color: SUCCESS,
+      align: 'center'
+    });
+
+    // SLAYT 11: TABLO-9 FİNANSAL PROJEKSİYON
+    let slide11 = pptx.addSlide();
+    addTechBackground(slide11);
+    addLogoAndBrand(slide11);
+    
+    slide11.addText('3 Yıllık Finansal Projeksiyon', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 26, bold: true, color: PRIMARY
+    });
+    
+    const tableData = [
+      [
+        { text: 'Metrik', options: { bold: true, color: 'FFFFFF', fill: PRIMARY } },
+        { text: '2026', options: { bold: true, color: 'FFFFFF', fill: PRIMARY } },
+        { text: '2027', options: { bold: true, color: 'FFFFFF', fill: PRIMARY } },
+        { text: '2028', options: { bold: true, color: 'FFFFFF', fill: PRIMARY } }
+      ],
+      ['Ödeyen Kullanıcı', '15.000', '30.000', '45.000'],
+      ['Penetrasyon', '%5', '%10', '%15'],
+      ['Yıllık Gelir (TL)', '172.620', '345.240', '517.860'],
+      ['Yıllık Gider (TL)', '8.000', '20.000', '35.000'],
+      [
+        { text: 'Net Kâr (TL)', options: { bold: true, fill: 'DCFCE7' } },
+        { text: '164.620', options: { bold: true, fill: 'DCFCE7', color: SUCCESS } },
+        { text: '325.240', options: { bold: true, fill: 'DCFCE7', color: SUCCESS } },
+        { text: '482.860', options: { bold: true, fill: 'DCFCE7', color: SUCCESS } }
+      ],
+      ['Kâr Marjı', '%95.4', '%94.2', '%93.2']
+    ];
+    
+    slide11.addTable(tableData, {
+      x: 0.5, y: 1.6, w: 9, h: 3.2,
+      fontSize: 12,
+      border: { type: 'solid', color: PRIMARY, pt: 1 },
+      align: 'center',
+      valign: 'middle'
+    });
+    
+    slide11.addText('🎯 Toplam 3 Yıllık Kümülatif Kâr: 972.720 TL', {
+      x: 0.5, y: 5.2, w: 9, h: 0.5,
+      fontSize: 18, bold: true, color: SUCCESS,
+      align: 'center'
+    });
+    slide11.addText('✅ İlk yıldan itibaren pozitif nakit akışı!', {
+      x: 0.5, y: 5.8, w: 9, h: 0.4,
+      fontSize: 14, color: DARK,
+      align: 'center', italic: true
+    });
+
+    // SLAYT 12: BÜYÜME POTANSİYELİ
+    let slide12 = pptx.addSlide();
+    addTechBackground(slide12);
+    addLogoAndBrand(slide12);
+    
+    slide12.addText('Büyüme Potansiyeli', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    
+    slide12.addText('Yıllık Büyüme Oranları:', {
+      x: 0.5, y: 1.5, w: 9, h: 0.5,
+      fontSize: 22, bold: true, color: DARK
+    });
+    
+    // Büyüme barları
+    const growthData = [
+      { year: '2026 → 2027', growth: '%100', desc: 'Kullanıcı sayısı 2 katına çıkıyor' },
+      { year: '2027 → 2028', growth: '%50', desc: 'Organik büyüme devam ediyor' }
+    ];
+    
+    growthData.forEach((data, i) => {
+      slide12.addShape(pptx.ShapeType.rect, {
+        x: 1, y: 2.5 + i * 1.8, w: 8, h: 1.3,
+        fill: { color: i === 0 ? '3B82F6' : '8B5CF6' }
+      });
+      slide12.addText(data.year, {
+        x: 1.2, y: 2.7 + i * 1.8, w: 2.5, h: 0.4,
+        fontSize: 18, bold: true, color: 'FFFFFF'
+      });
+      slide12.addText(data.growth, {
+        x: 4, y: 2.6 + i * 1.8, w: 1.5, h: 0.6,
+        fontSize: 32, bold: true, color: 'FFFFFF',
+        align: 'center'
+      });
+      slide12.addText(data.desc, {
+        x: 5.8, y: 2.7 + i * 1.8, w: 3, h: 0.4,
+        fontSize: 14, color: 'FFFFFF'
+      });
+    });
+    
+    slide12.addText('🌍 Gelecek Planlar:', {
+      x: 0.5, y: 5.5, w: 9, h: 0.4,
+      fontSize: 16, bold: true, color: DARK
+    });
+    slide12.addText('• MENA Bölgesi Ekspansiyonu\n• Türki Cumhuriyetler Pazarı\n• Yeni Sektör Entegrasyonları (E-ticaret, Lojistik)', {
+      x: 1, y: 6, w: 8, h: 1,
+      fontSize: 11, color: '4B5563',
+      bullet: true
+    });
+
+    // SLAYT 13: TEKNOKENT & EKİP
+    let slide13 = pptx.addSlide();
+    addTechBackground(slide13);
+    addLogoAndBrand(slide13);
+    
+    slide13.addText('Teknokent Kuluçka & Ekip', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    
+    slide13.addText('🎓 Teknokent Avantajları:', {
+      x: 0.5, y: 1.5, w: 9, h: 0.5,
+      fontSize: 22, bold: true, color: DARK
+    });
+    slide13.addText('✓ Düşük ofis gideri\n✓ Mentörlük desteği\n✓ Networking fırsatları\n✓ Yatırımcı erişimi', {
+      x: 1, y: 2.1, w: 4, h: 1.5,
+      fontSize: 16, color: '4B5563',
+      bullet: false
+    });
+    
+    slide13.addText('👥 Ekip Yapısı:', {
+      x: 5.5, y: 1.5, w: 4, h: 0.5,
+      fontSize: 22, bold: true, color: DARK
+    });
+    slide13.addText('• Çekirdek Ekip: 3 kişi\n• Full-Stack Developer\n• AI/ML Engineer\n• İş Geliştirme Uzmanı', {
+      x: 5.5, y: 2.1, w: 4, h: 1.5,
+      fontSize: 16, color: '4B5563',
+      bullet: true
+    });
+    
+    slide13.addText('💼 Operasyonel Maliyet:', {
+      x: 0.5, y: 4, w: 9, h: 0.5,
+      fontSize: 22, bold: true, color: DARK
+    });
+    slide13.addShape(pptx.ShapeType.rect, {
+      x: 1.5, y: 4.7, w: 7, h: 1.8,
+      fill: { color: 'FEF3C7' }
+    });
+    slide13.addText('2026: 8.000 TL/yıl\n2027: 20.000 TL/yıl\n2028: 35.000 TL/yıl', {
+      x: 1.5, y: 4.9, w: 7, h: 1.4,
+      fontSize: 18, bold: true, color: '92400E',
+      align: 'center', valign: 'middle'
+    });
+    
+    slide13.addText('🌱 Bulut ve AI maliyetleri ölçeklenebilir yapıdadır', {
+      x: 0.5, y: 6.2, w: 9, h: 0.4,
+      fontSize: 11, color: '6B7280',
+      align: 'center', italic: true
+    });
+
+    // SLAYT 14: YOL HARİTASI
+    let slide14 = pptx.addSlide();
+    addTechBackground(slide14);
+    addLogoAndBrand(slide14);
+    
+    slide14.addText('Yol Haritası (2026-2028)', {
+      x: 0.5, y: 0.8, w: 9, h: 0.6,
+      fontSize: 28, bold: true, color: PRIMARY
+    });
+    
+    const roadmap = [
+      { 
+        quarter: 'Q1 2026', 
+        title: 'MVP & Beta', 
+        items: '• Platform geliştirme\n• Logo/Netsis entegrasyonu\n• 50 beta kullanıcısı',
+        color: '3B82F6'
+      },
+      { 
+        quarter: 'Q2-Q3 2026', 
+        title: 'Piyasa Lansmanı', 
+        items: '• Resmi lansman\n• İlk 1.000 kullanıcı\n• Pazarlama kampanyaları',
+        color: '8B5CF6'
+      },
+      { 
+        quarter: 'Q4 2026', 
+        title: 'Büyüme', 
+        items: '• 5.000 kullanıcıya ulaşma\n• AI asistanı geliştirme\n• Mobil uygulama',
+        color: 'EC4899'
+      },
+      { 
+        quarter: '2027', 
+        title: 'Ölçeklendirme', 
+        items: '• 30.000 ödeyen kullanıcı\n• Yeni sektör entegrasyonları\n• İkinci ofis',
+        color: '10B981'
+      },
+      { 
+        quarter: '2028', 
+        title: 'Uluslararası', 
+        items: '• 45.000 ödeyen kullanıcı\n• MENA ekspansiyonu\n• Seri A yatırım',
+        color: 'F59E0B'
+      }
+    ];
+    
+    roadmap.forEach((phase, i) => {
+      slide14.addShape(pptx.ShapeType.rect, {
+        x: 0.5 + i * 1.9, y: 1.8, w: 1.7, h: 3.8,
+        fill: { color: phase.color }
+      });
+      slide14.addText(phase.quarter, {
+        x: 0.5 + i * 1.9, y: 1.9, w: 1.7, h: 0.4,
+        fontSize: 12, bold: true, color: 'FFFFFF',
+        align: 'center'
+      });
+      slide14.addText(phase.title, {
+        x: 0.5 + i * 1.9, y: 2.4, w: 1.7, h: 0.5,
+        fontSize: 14, bold: true, color: 'FFFFFF',
+        align: 'center'
+      });
+      slide14.addText(phase.items, {
+        x: 0.6 + i * 1.9, y: 3.1, w: 1.5, h: 2.3,
+        fontSize: 9, color: 'FFFFFF',
+        valign: 'top'
+      });
+    });
+    
+    slide14.addText('🚀 Her aşamada ölçülebilir hedefler ve kontrol noktaları', {
+      x: 0.5, y: 6, w: 9, h: 0.4,
+      fontSize: 11, color: '6B7280',
+      align: 'center', italic: true
+    });
+
+    // SLAYT 15: SON SLAYT - İLETİŞİM & TEŞEKKÜR
+    let slide15 = pptx.addSlide();
+    addTechBackground(slide15, true);
+    
+    slide15.addText('TEŞEKKÜR EDERİZ', {
+      x: 0.5, y: 1.5, w: 9, h: 1,
+      fontSize: 44, bold: true, color: 'FFFFFF',
+      align: 'center'
+    });
+    
+    slide15.addText('FINOPS AI STUDIO', {
+      x: 0.5, y: 2.8, w: 9, h: 0.8,
+      fontSize: 32, bold: true, color: ACCENT,
+      align: 'center'
+    });
+    
+    slide15.addText('Türkiye KOBİ\'lerinin Finansal Geleceği', {
+      x: 0.5, y: 3.7, w: 9, h: 0.6,
+      fontSize: 20, color: 'FFFFFF',
+      align: 'center', italic: true
+    });
+    
+    slide15.addShape(pptx.ShapeType.rect, {
+      x: 2, y: 4.8, w: 6, h: 1.5,
+      fill: { color: 'FFFFFF', transparency: 10 }
+    });
+    
+    slide15.addText('📧 info@finops.ist\n🌐 www.finops.ist\n📱 +90 (XXX) XXX XX XX', {
+      x: 2, y: 4.9, w: 6, h: 1.3,
+      fontSize: 16, color: 'FFFFFF',
+      align: 'center', valign: 'middle',
+      bold: true
+    });
+    
+    slide15.addText('💡 Sorularınız için hazırız!', {
+      x: 0.5, y: 6.3, w: 9, h: 0.5,
+      fontSize: 18, color: 'FFFFFF',
+      align: 'center'
+    });
+
+    // PPTX'i kaydet
+    pptx.writeFile({ fileName: 'FINOPS_Teknokent_Sunum_V2_Profesyonel.pptx' });
+  };
+
   return (
     <div className="bg-gradient-to-br from-gray-50 via-white to-indigo-50 text-gray-900 min-h-screen">
+      <div id="business-plan-content">
       {/* Hero Bölümü */}
       <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white py-20">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -306,78 +1108,15 @@ const BusinessPlanPage: React.FC = () => {
           </section>
           {/* ----- BİTİŞ ----- */}
 
-          <section id="financials" className="bg-white p-10 rounded-2xl shadow-xl border border-gray-200 mt-8">
-            <SectionTitle icon={TrendingUp}>5. Finansal Fizibilite (Kötümser Senaryo)</SectionTitle>
-            <SectionParagraph>
-              Bu projeksiyon, şirketin 3 yıllık (2026-2028) finansal performansını kötümser bir senaryo altında modellemektedir. Model, Türkiye'deki potansiyel kullanıcı tabanının sadece küçük bir yüzdesine ulaşılacağı ve rekabetin yoğun olacağı varsayımına dayanmaktadır. Gelirler, kullanıcı başına ortalama abonelik ücretine göre hesaplanmış, masraflar ise cironun %20'si olarak öngörülmüştür.
-            </SectionParagraph>
-             <div className="overflow-x-auto mt-6 shadow-lg rounded-lg bg-white ring-1 ring-gray-200">
-                <table className="w-full text-sm text-left text-gray-600">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
-                            <th className="px-4 py-3">Yıl</th>
-                            <th className="px-4 py-3">Kur (Tahmini)</th>
-                            <th className="px-4 py-3">TR Hedef (K)</th>
-                            <th className="px-4 py-3">Hedef %</th>
-                            <th className="px-4 py-3">Hedef Abone</th>
-                            <th className="px-4 py-3">Aylık Fiyat ($)</th>
-                            <th className="px-4 py-3">Yıllık Ciro ($ Mio)</th>
-                            <th className="px-4 py-3">Ciro (Mio TL)</th>
-                            <th className="px-4 py-3">Masraf (Mio TL)</th>
-                            <th className="px-4 py-3">Net Kazanç (Mio TL)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr className="border-b border-gray-200">
-                            <td className="px-4 py-4 font-semibold text-gray-900">2026</td>
-                            <td className="px-4 py-4">48.0</td>
-                            <td className="px-4 py-4">300</td>
-                            <td className="px-4 py-4">0.83%</td>
-                            <td className="px-4 py-4">2,500</td>
-                            <td className="px-4 py-4">$40</td>
-                            <td className="px-4 py-4">$1.20</td>
-                            <td className="px-4 py-4">₺57.6</td>
-                            <td className="px-4 py-4 text-red-500">-₺11.5</td>
-                            <td className="px-4 py-4 font-bold text-green-500">₺46.1</td>
-                        </tr>
-                        <tr className="border-b border-gray-200">
-                            <td className="px-4 py-4 font-semibold text-gray-900">2027</td>
-                            <td className="px-4 py-4">58.0</td>
-                            <td className="px-4 py-4">300</td>
-                            <td className="px-4 py-4">2.00%</td>
-                            <td className="px-4 py-4">6,000</td>
-                            <td className="px-4 py-4">$40</td>
-                            <td className="px-4 py-4">$2.88</td>
-                            <td className="px-4 py-4">₺167.0</td>
-                            <td className="px-4 py-4 text-red-500">-₺33.4</td>
-                            <td className="px-4 py-4 font-bold text-green-500">₺133.6</td>
-                        </tr>
-                        <tr>
-                            <td className="px-4 py-4 font-semibold text-gray-900">2028</td>
-                            <td className="px-4 py-4">70.0</td>
-                            <td className="px-4 py-4">300</td>
-                            <td className="px-4 py-4">4.00%</td>
-                            <td className="px-4 py-4">12,000</td>
-                            <td className="px-4 py-4">$40</td>
-                            <td className="px-4 py-4">$5.76</td>
-                            <td className="px-4 py-4">₺403.2</td>
-                            <td className="px-4 py-4 text-red-500">-₺80.6</td>
-                            <td className="px-4 py-4 font-bold text-green-500">₺322.6</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-          </section>
-          
           <section id="competitor-analysis" className="bg-white p-10 rounded-2xl shadow-xl border border-gray-200 mt-8">
-            <SectionTitle icon={ClipboardList}>6. Türkiye'de Rakip Analizi</SectionTitle>
+            <SectionTitle icon={ClipboardList}>5. Türkiye'de Rakip Analizi</SectionTitle>
             <SectionParagraph>
                 FINOPS AI Studio’nun "doğal dilden anında Excel formülü ve kodu üretme" işlevi, günümüzde genellikle global teknoloji devlerinin (Microsoft, Google, OpenAI) veya bazı küresel niş firmaların sunduğu bir hizmettir. Türkiye'de bu işlevi tam anlamıyla bağımsız olarak yerine getiren ve öne çıkan bir işletme şu an için bulunmamaktadır; ancak Türk kullanıcılar bu ihtiyacı global YZ araçları veya yerel RPA çözümleri aracılığıyla giderebilmektedir.
             </SectionParagraph>
           </section>
 
           <section id="swot" className="mt-8">
-            <SectionTitle icon={LayoutGrid}>7. SWOT Analizi</SectionTitle>
+            <SectionTitle icon={LayoutGrid}>6. SWOT Analizi</SectionTitle>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <SwotBox 
                     title="Güçlü Yönler"
@@ -427,7 +1166,7 @@ const BusinessPlanPage: React.FC = () => {
           </section>
 
           <section id="market-share" className="bg-white p-10 rounded-2xl shadow-xl border border-gray-200 mt-8">
-            <SectionTitle icon={PieChart}>8. Türkiye ERP ve Muhasebe Yazılımı Pazar Payı Dağılımı</SectionTitle>
+            <SectionTitle icon={PieChart}>7. Türkiye ERP ve Muhasebe Yazılımı Pazar Payı Dağılımı</SectionTitle>
             <SectionParagraph>
                Türkiye'deki muhasebe ve finansal veri yazılımı pazarı, Kurumsal Kaynak Planlaması (ERP) ve ön/genel muhasebe yazılımları olarak ele alınır. Pazar liderleri ve tahmini pazar payı dağılımı şöyledir. Yerel oyuncular, mevzuat uyumu ve yerel destek ağı avantajlarıyla pazarda baskın konumdadır.
             </SectionParagraph>
@@ -460,8 +1199,448 @@ const BusinessPlanPage: React.FC = () => {
                 </table>
             </div>
           </section>
+
+          {/* FİNANSAL FİZİBİLİTE BÖLÜMÜ */}
+          <section id="finansal-fizibilite" className="bg-gradient-to-br from-green-50 to-emerald-50 p-10 rounded-2xl shadow-xl border-2 border-green-200 mt-12">
+            <SectionTitle icon={DollarSign}>8. Finansal Fizibilite</SectionTitle>
+            
+            <HighlightNote>
+              <p className="font-bold text-lg text-gray-900 mb-2">
+                TÜRKİYE KOBİ'LERİ İÇİN YAPAY ZEKÂ DESTEKLİ FİNANSAL DASHBOARD PLATFORMU
+              </p>
+              <p className="font-semibold text-gray-700">
+                Finansal Fizibilite Raporu (1–10)
+              </p>
+            </HighlightNote>
+
+            {/* 1. PROJE TANIMI */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">1</span>
+                Proje Tanımı
+              </h3>
+              <p className="text-gray-700 leading-relaxed text-lg">
+                Bu proje, Türkiye'de faaliyet gösteren KOBİ'lerin finansal verilerini otomatik toplayan,
+                yapay zekâ ile sınıflandıran ve anlaşılır, aksiyon alınabilir dashboardlar üzerinden
+                karar desteği sunan yerli bir SaaS platformudur.
+              </p>
+            </div>
+
+            {/* 2. ÜRÜN KAPSAMI */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">2</span>
+                Ürün Kapsamı ve Münhasır Yetkinlik
+              </h3>
+              <p className="text-gray-700 mb-4">Platform münhasıran aşağıdaki fonksiyonları sunar:</p>
+              <ul className="space-y-3">
+                <ListItem>Otomatik finansal veri toplama</ListItem>
+                <ListItem>Yapay zekâ ile gider ve gelir sınıflandırması</ListItem>
+                <ListItem>Modern ve anlaşılır finansal dashboardlar</ListItem>
+                <ListItem>Nakit akışı, maliyet ve kârlılık için erken uyarılar</ListItem>
+                <ListItem>Doğal dilde çalışan AI finans asistanı</ListItem>
+              </ul>
+            </div>
+
+            {/* 3. TÜRKİYE KOBİ GERÇEĞİ */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">3</span>
+                Türkiye KOBİ Gerçeği – Pazar Öngörüleri
+              </h3>
+              
+              <div className="space-y-6">
+                <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-600">
+                  <h4 className="font-bold text-lg text-blue-900 mb-3">Öngörü-1 | Türkiye KOBİ Ölçeği</h4>
+                  <p className="text-gray-700 leading-relaxed mb-2">
+                    Türkiye'de toplam KOBİ sayısı ≈ <strong className="text-blue-600">4.000.000</strong>
+                  </p>
+                  <p className="text-gray-700 leading-relaxed mb-2">
+                    Finansal verisi düzenli, banka/POS/e-fatura kullanan, dijital çözüme açık
+                    gerçekçi KOBİ havuzu ≈ <strong className="text-blue-600">300.000</strong>
+                  </p>
+                  <p className="text-sm text-gray-600 italic">
+                    Bu çalışma TAM değil, SAM (Serviceable Addressable Market) bazlıdır.
+                  </p>
+                </div>
+
+                <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-600">
+                  <h4 className="font-bold text-lg text-purple-900 mb-3">Öngörü-2 | Mevcut Boşluk</h4>
+                  <p className="text-gray-700 leading-relaxed mb-3">
+                    Türkiye'de KOBİ'lerin finansal verisini:
+                  </p>
+                  <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
+                    <li>otomatik toplayan</li>
+                    <li>yapay zekâ ile sınıflandıran</li>
+                    <li>anlaşılır dashboard + içgörü üreten</li>
+                  </ul>
+                  <p className="text-gray-700 leading-relaxed mt-3">
+                    <strong>yerli, self-service SaaS platform yoktur.</strong>
+                  </p>
+                  <p className="text-sm text-gray-600 italic mt-2">
+                    Mevcut çözümler ya muhasebe, ya ERP, ya da danışmanlık odaklıdır.
+                  </p>
+                </div>
+
+                <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-600">
+                  <h4 className="font-bold text-lg text-green-900 mb-3">Öngörü-3 | Davranış Gerçeği</h4>
+                  <p className="text-gray-700 leading-relaxed mb-3">KOBİ'ler:</p>
+                  <div className="space-y-2 text-gray-700">
+                    <p>"Rapor" değil → <strong className="text-green-700">karar</strong></p>
+                    <p>"Excel" değil → <strong className="text-green-700">otomatik dashboard</strong></p>
+                    <p>"Danışman" değil → <strong className="text-green-700">erişilebilir SaaS</strong> ister</p>
+                  </div>
+                  <p className="text-sm text-gray-600 italic mt-3">
+                    Ajelix / Julius gibi örnekler bu ihtiyacın global ölçekte doğrulandığını göstermektedir.
+                  </p>
+                </div>
+
+                <div className="bg-orange-50 p-6 rounded-lg border-l-4 border-orange-600">
+                  <h4 className="font-bold text-lg text-orange-900 mb-3">Öngörü-4 | Türkiye'ye Uygun Fiyat Eşiği</h4>
+                  <p className="text-gray-700 leading-relaxed mb-2">
+                    2026 Türkiye koşullarında:
+                  </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    <strong className="text-orange-700">500–1.000 TL / ay</strong> bandı psikolojik kabul eşiğidir
+                  </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    Ürün değer üretirse Premium fiyatlama mümkündür
+                  </p>
+                  <p className="text-sm text-gray-600 italic mt-2">
+                    Bu fizibilite kötümser ve temkinli fiyat varsayımlarıyla hazırlanmıştır.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. HEDEF PAZAR */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">4</span>
+                Hedef Pazar Tanımı
+              </h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-indigo-50 p-6 rounded-lg text-center">
+                  <p className="text-sm text-indigo-600 font-semibold mb-2">Hedef Pazar (SAM)</p>
+                  <p className="text-4xl font-bold text-indigo-900">300.000</p>
+                  <p className="text-sm text-gray-600 mt-1">KOBİ</p>
+                </div>
+                <div className="bg-purple-50 p-6 rounded-lg text-center">
+                  <p className="text-sm text-purple-600 font-semibold mb-2">Ödeyen Penetrasyon</p>
+                  <p className="text-4xl font-bold text-purple-900">%5</p>
+                  <p className="text-sm text-gray-600 mt-1">Varsayım</p>
+                </div>
+                <div className="bg-pink-50 p-6 rounded-lg text-center">
+                  <p className="text-sm text-pink-600 font-semibold mb-2">Ödeyen Kullanıcı</p>
+                  <p className="text-4xl font-bold text-pink-900">15.000</p>
+                  <p className="text-sm text-gray-600 mt-1">İşletme</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 5. FİYATLANDIRMA */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">5</span>
+                Fiyatlandırma Modeli
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg">
+                  <span className="text-gray-700 font-semibold">İşletme Dostu</span>
+                  <span className="text-2xl font-bold text-indigo-600">599 TL / ay</span>
+                </div>
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
+                  <span className="text-gray-700 font-semibold">Premium</span>
+                  <span className="text-2xl font-bold text-purple-600">1.799 TL / ay</span>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-700"><span className="font-semibold">Paket dağılımı (kötümser):</span> %70 / %30</p>
+                  <p className="text-gray-700 mt-2"><span className="font-semibold">Ortalama aylık gelir (ARPU):</span> <span className="text-green-600 font-bold text-xl">959 TL</span></p>
+                </div>
+              </div>
+            </div>
+
+            {/* 6. GELİR VARSAYIMLARI */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">6</span>
+                Gelir Varsayımları
+              </h3>
+              <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-600">
+                <p className="text-gray-700 text-lg"><span className="font-semibold">Kur varsayımı:</span> 1 USD = <strong className="text-yellow-700">43 TL</strong></p>
+                <p className="text-sm text-gray-600 mt-2 italic">Tüm hesaplamalar yıllık bazda yapılmıştır.</p>
+              </div>
+            </div>
+
+            {/* 7. TABLO-9 | 3 YILLIK FİNANSAL FİZİBİLİTE */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">7</span>
+                TABLO-9 | 3 Yıllık Finansal Fizibilite (2026-2028)
+              </h3>
+              
+              <div className="overflow-x-auto shadow-2xl rounded-xl">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                      <th className="px-6 py-4 text-left font-bold text-base">Metrik</th>
+                      <th className="px-6 py-4 text-center font-bold text-base">2026</th>
+                      <th className="px-6 py-4 text-center font-bold text-base">2027</th>
+                      <th className="px-6 py-4 text-center font-bold text-base">2028</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {/* A) GELİRLER */}
+                    <tr className="bg-gradient-to-r from-green-50 to-emerald-50">
+                      <td colSpan={4} className="px-6 py-4 font-bold text-lg text-green-800">
+                        A) GELİRLER
+                      </td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Hedef Pazar (KOBİ)</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300.000</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300.000</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300.000</td>
+                    </tr>
+                    <tr className="bg-gray-50 hover:bg-gray-100">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Ödeyen Penetrasyon</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">%5</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">%10</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">%15</td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Ödeyen Kullanıcı</td>
+                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">15.000</td>
+                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">30.000</td>
+                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">45.000</td>
+                    </tr>
+                    <tr className="bg-gray-50 hover:bg-gray-100">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Toplam Kullanıcı (≈×20)</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300.000</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">600.000</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">900.000</td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Ortalama Aylık Gelir (ARPU - TL)</td>
+                      <td className="px-6 py-3 text-center font-bold text-green-600">959</td>
+                      <td className="px-6 py-3 text-center font-bold text-green-600">959</td>
+                      <td className="px-6 py-3 text-center font-bold text-green-600">959</td>
+                    </tr>
+                    <tr className="bg-green-100 hover:bg-green-200">
+                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Yıllık Brüt Gelir (TL)</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">172.620</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">345.240</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">517.860</td>
+                    </tr>
+                    <tr className="bg-green-100 hover:bg-green-200">
+                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Yıllık Brüt Gelir (USD)</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">4.015</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">8.030</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">12.045</td>
+                    </tr>
+
+                    {/* B) MALİYETLER */}
+                    <tr className="bg-gradient-to-r from-orange-50 to-red-50">
+                      <td colSpan={4} className="px-6 py-4 font-bold text-lg text-orange-800">
+                        B) MALİYETLER
+                      </td>
+                    </tr>
+                    <tr className="bg-orange-50 hover:bg-orange-100">
+                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Toplam Yıllık Gider (TL)</td>
+                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">8.000</td>
+                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">20.000</td>
+                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">35.000</td>
+                    </tr>
+                    <tr className="bg-orange-50 hover:bg-orange-100">
+                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Toplam Yıllık Gider (USD)</td>
+                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">186</td>
+                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">465</td>
+                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">814</td>
+                    </tr>
+
+                    {/* C) KÂR / ZARAR */}
+                    <tr className="bg-gradient-to-r from-emerald-100 to-green-100">
+                      <td colSpan={4} className="px-6 py-4 font-bold text-lg text-emerald-800">
+                        C) KÂR / ZARAR
+                      </td>
+                    </tr>
+                    <tr className="bg-gradient-to-r from-emerald-200 to-green-200 hover:from-emerald-300 hover:to-green-300">
+                      <td className="px-6 py-5 text-gray-900 font-bold text-base">Net Kâr (TL)</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">164.620</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">325.240</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">482.860</td>
+                    </tr>
+                    <tr className="bg-gradient-to-r from-emerald-200 to-green-200 hover:from-emerald-300 hover:to-green-300">
+                      <td className="px-6 py-5 text-gray-900 font-bold text-base">Net Kâr (USD)</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">3.829</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">7.565</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">11.231</td>
+                    </tr>
+                    
+                    {/* D) BÜYÜME METRİKLERİ */}
+                    <tr className="bg-gradient-to-r from-blue-50 to-indigo-50">
+                      <td colSpan={4} className="px-6 py-4 font-bold text-lg text-blue-800">
+                        D) BÜYÜME METRİKLERİ
+                      </td>
+                    </tr>
+                    <tr className="bg-blue-50 hover:bg-blue-100">
+                      <td className="px-6 py-4 text-gray-900 font-bold">Yıllık Büyüme Oranı (Gelir)</td>
+                      <td className="px-6 py-4 text-center font-bold text-blue-700">—</td>
+                      <td className="px-6 py-4 text-center font-bold text-blue-700 text-lg">%100</td>
+                      <td className="px-6 py-4 text-center font-bold text-blue-700 text-lg">%50</td>
+                    </tr>
+                    <tr className="bg-blue-50 hover:bg-blue-100">
+                      <td className="px-6 py-4 text-gray-900 font-bold">Kâr Marjı</td>
+                      <td className="px-6 py-4 text-center font-bold text-blue-700 text-lg">%95.4</td>
+                      <td className="px-6 py-4 text-center font-bold text-blue-700 text-lg">%94.2</td>
+                      <td className="px-6 py-4 text-center font-bold text-blue-700 text-lg">%93.2</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="mt-6 grid md:grid-cols-3 gap-4">
+                <div className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border-2 border-green-300">
+                  <p className="text-sm text-gray-600 mb-2">2026 - İlk Yıl</p>
+                  <p className="text-3xl font-bold text-green-700">164.620 TL</p>
+                  <p className="text-xs text-gray-600 mt-1">Net Kâr</p>
+                </div>
+                <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-300">
+                  <p className="text-sm text-gray-600 mb-2">2027 - İkinci Yıl</p>
+                  <p className="text-3xl font-bold text-blue-700">325.240 TL</p>
+                  <p className="text-xs text-gray-600 mt-1">Net Kâr (%98 artış)</p>
+                </div>
+                <div className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border-2 border-purple-300">
+                  <p className="text-sm text-gray-600 mb-2">2028 - Üçüncü Yıl</p>
+                  <p className="text-3xl font-bold text-purple-700">482.860 TL</p>
+                  <p className="text-xs text-gray-600 mt-1">Net Kâr (%48 artış)</p>
+                </div>
+              </div>
+
+              <div className="mt-6 p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-2 border-green-300">
+                <div className="flex items-center gap-4">
+                  <Check className="w-12 h-12 text-green-600 flex-shrink-0" />
+                  <div>
+                    <p className="text-gray-700 font-semibold text-lg mb-2">
+                      İlk yıldan itibaren <span className="text-green-700 font-bold">pozitif nakit akışı</span> ile sürdürülebilir büyüme
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      3 yıl sonunda toplam <span className="font-bold text-green-700">972.720 TL</span> kümülatif net kâr projeksiyonu
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 8. OPERASYONEL YAPI */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">9</span>
+                Operasyonel Yapı
+              </h3>
+              <ul className="space-y-3">
+                <ListItem>Teknokent kuluçka kapsamında düşük ofis gideri</ListItem>
+                <ListItem>3 kişilik çekirdek ekip</ListItem>
+                <ListItem>Bulut ve AI maliyetleri ölçeklenebilir yapıdadır</ListItem>
+              </ul>
+            </div>
+
+            {/* 10. FİNANSAL DEĞERLENDİRME */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">10</span>
+                Finansal Değerlendirme
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-600">
+                  <Check className="w-6 h-6 text-green-600 mt-1 flex-shrink-0" />
+                  <p className="text-gray-700 leading-relaxed">
+                    Proje, ilk yıldan itibaren <strong className="text-green-700">pozitif nakit akışı</strong> üretmektedir.
+                  </p>
+                </div>
+                <div className="flex items-start gap-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-600">
+                  <Check className="w-6 h-6 text-green-600 mt-1 flex-shrink-0" />
+                  <p className="text-gray-700 leading-relaxed">
+                    Yüksek <strong className="text-green-700">kârlılık</strong> ve <strong className="text-green-700">ölçeklenebilirlik</strong> potansiyeline sahiptir.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 11. SONUÇ */}
+            <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 p-8 rounded-xl shadow-xl border-4 border-white mt-6">
+              <div className="bg-white/95 backdrop-blur-sm p-8 rounded-xl">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                  <span className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">11</span>
+                  Sonuç
+                </h3>
+                <p className="text-gray-700 leading-relaxed text-lg">
+                  Bu girişim, Türkiye'de KOBİ'lerin finansal verisini yapay zekâ ile anlaşılır,
+                  aksiyon alınabilir ve gerçek zamanlı kararlara dönüştüren <strong className="text-indigo-700">ilk yerli SaaS platformudur</strong>.
+                </p>
+                <div className="mt-6 grid md:grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-green-50 rounded-lg">
+                    <p className="text-3xl font-bold text-green-600 mb-1">164.620 TL</p>
+                    <p className="text-sm text-gray-600">Yıllık Net Kâr</p>
+                  </div>
+                  <div className="text-center p-4 bg-blue-50 rounded-lg">
+                    <p className="text-3xl font-bold text-blue-600 mb-1">15.000</p>
+                    <p className="text-sm text-gray-600">Ödeyen Müşteri</p>
+                  </div>
+                  <div className="text-center p-4 bg-purple-50 rounded-lg">
+                    <p className="text-3xl font-bold text-purple-600 mb-1">%5</p>
+                    <p className="text-sm text-gray-600">Pazar Penetrasyonu</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Geçiş Notu */}
+            <div className="mt-8 p-6 bg-white rounded-xl shadow-md border-2 border-indigo-200">
+              <div className="flex items-start gap-4">
+                <Shield className="w-8 h-8 text-indigo-600 mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-gray-700 leading-relaxed mb-3">
+                    Yukarıdaki finansal fizibilite analizi, projenin <strong className="text-indigo-700">ekonomik sürdürülebilirliğini</strong> ve 
+                    <strong className="text-indigo-700"> ölçeklenebilirlik potansiyelini</strong> somut verilerle ortaya koymaktadır.
+                  </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    Teknokent kuluçka desteği ve inovatif iş modeli sayesinde, platform ilk günden itibaren 
+                    <strong className="text-green-700"> pozitif nakit akışı</strong> yaratarak büyüme yolculuğuna başlamaktadır.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* PDF & PPTX İNDİRME BUTONLARI */}
+            <div className="mt-12 flex flex-col md:flex-row justify-center gap-6">
+              <button
+                onClick={handleDownloadPDF}
+                className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold text-lg rounded-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3 justify-center"
+              >
+                <Download className="w-6 h-6 group-hover:animate-bounce" />
+                <span>İş Planını PDF Olarak İndir</span>
+              </button>
+
+              <button
+                onClick={handleDownloadPPTX}
+                className="group relative px-8 py-4 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white font-bold text-lg rounded-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3 justify-center"
+              >
+                <Presentation className="w-6 h-6 group-hover:animate-bounce" />
+                <span>Teknokent Sunumunu İndir (PPTX)</span>
+              </button>
+            </div>
+
+            <p className="text-center text-sm text-gray-500 mt-4">
+              📄 PDF: Detaylı iş planı • 🎤 PPTX: 15 slayt Teknokent sunumu
+            </p>
+            <p className="text-center text-xs text-gray-400 mt-2">
+              Dosyalar otomatik olarak "İndirilenler" klasörünüze kaydedilecektir
+            </p>
+          </section>
         </div>
 
+      </div>
       </div>
     </div>
   );

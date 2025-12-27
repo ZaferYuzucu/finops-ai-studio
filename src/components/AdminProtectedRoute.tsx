@@ -8,10 +8,14 @@ interface AdminProtectedRouteProps {
 }
 
 const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({ children }) => {
-  const isAuthenticated = sessionStorage.getItem('isAdminAuthenticated');
+  // localStorage'dan kontrol et (kalıcı - sayfa yenilendiğinde silinmez!)
+  const isAuthenticatedLocal = localStorage.getItem('isAdminAuthenticated');
+  const isAuthenticatedSession = sessionStorage.getItem('isAdminAuthenticated');
+  
+  const isAuthenticated = isAuthenticatedLocal === 'true' || isAuthenticatedSession === 'true';
 
   // Eğer yönetici girişi yapılmışsa, korunan sayfayı (children) göster.
-  if (isAuthenticated === 'true') {
+  if (isAuthenticated) {
     return <>{children}</>;
   }
 

@@ -208,9 +208,18 @@ export const summaryStats = {
   inactiveUsers: mockUsers.filter(u => u.status === 'inactive').length,
   churnedUsers: mockUsers.filter(u => u.status === 'churned').length,
   currentMRR: mockRevenue[mockRevenue.length - 1].mrr,
+  
+  // 🆕 YENİ KPI'LAR
+  conversionRate: 24.5, // % (Free'den ücretli plana geçiş oranı)
+  avgRevenuePerUser: 45000, // TL (Kullanıcı başına ortalama gelir)
+  customerLifetimeValue: 180000, // TL (Müşteri yaşam boyu değeri)
+  avgSessionDuration: 18.5, // dakika (Ortalama oturum süresi)
+  totalRevenue: 856250, // TL (Toplam gelir)
+  dashboardCount: 147, // Oluşturulan dashboard sayısı
+  totalDataUploads: 3420, // Toplam veri yükleme sayısı
+  systemUptime: 99.8, // % (Sistem çalışma süresi)
   currentARR: mockRevenue[mockRevenue.length - 1].arr,
   churnRate: ((mockUsers.filter(u => u.status === 'churned').length / mockUsers.length) * 100).toFixed(1),
-  avgSessionDuration: Math.round(mockUsers.reduce((acc, u) => acc + (u.totalUsageMinutes / u.sessionCount), 0) / mockUsers.length),
   planDistribution: {
     Free: mockUsers.filter(u => u.plan === 'Free').length,
     Pro: mockUsers.filter(u => u.plan === 'Pro').length,

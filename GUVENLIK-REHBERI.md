@@ -170,3 +170,10 @@ git status
 **🛡️ GÜVENLİK İPUCU:**  
 Şüphe duyduğunda, değişiklik yapmadan önce checkpoint oluştur!
 
+
+
+
+
+
+
+

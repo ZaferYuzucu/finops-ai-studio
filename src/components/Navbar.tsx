@@ -47,7 +47,10 @@ export default function Navbar() {
       href: "/solutions/data-visualization",
       children: [
         { name: t('nav.dashboardExamples'), href: "/solutions/dashboard-examples" },
-        { name: t('nav.features'), href: "/solutions/features" },
+        { name: `📈 ${t('nav.dataVisualizationPage')}`, href: "/veri-gorsellestirme" },
+        { name: `🤖 ${t('nav.aiDataAnalysisPage')}`, href: "/ai-veri-analizi" },
+        { name: `📊 ${t('nav.dataPreparationPage')}`, href: "/veri-hazirlama" },
+        { name: `🔌 ${t('nav.dataSourcesPage')}`, href: "/veri-kaynaklari" },
         { name: t('nav.support'), href: "/solutions/support" },
       ]
     },
@@ -164,14 +167,23 @@ export default function Navbar() {
                   {item.children && (
                     <div className="pl-4 space-y-2">
                       {item.children.map((child) => (
-                        <Link
-                          key={child.name}
-                          to={child.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
-                        >
-                          {child.name}
-                        </Link>
+                        child.isHeader ? (
+                          <div
+                            key={child.name}
+                            className="text-xs font-bold text-gray-500 uppercase tracking-wider py-2 border-t border-gray-200 mt-2"
+                          >
+                            {child.name}
+                          </div>
+                        ) : (
+                          <Link
+                            key={child.name}
+                            to={child.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                          >
+                            {child.name}
+                          </Link>
+                        )
                       ))}
                     </div>
                   )}
@@ -269,7 +281,7 @@ export default function Navbar() {
   );
 }
 
-const NavItem: React.FC<{ name: string; href: string; children?: { name: string; href: string }[] }> = ({ name, href, children }) => (
+const NavItem: React.FC<{ name: string; href: string; children?: { name: string; href: string; isHeader?: boolean }[] }> = ({ name, href, children }) => (
   <div className="relative group">
     {children ? (
       <>
@@ -278,17 +290,26 @@ const NavItem: React.FC<{ name: string; href: string; children?: { name: string;
         </div>
         <div className="absolute top-full left-0 w-64 rounded-md shadow-lg bg-white ring-1 ring-gray-200 p-2 z-10 hidden group-hover:block">
           {children.map((child) => (
-            <NavLink
-              key={child.name}
-              to={child.href}
-              className={({ isActive }) =>
-                `block px-3 py-2 rounded-md text-sm transition-colors ${
-                  isActive ? "text-white bg-blue-600" : "text-gray-700 hover:bg-gray-100"
-                }`
-              }
-            >
-              {child.name}
-            </NavLink>
+            child.isHeader ? (
+              <div
+                key={child.name}
+                className="px-3 py-2 text-xs font-bold text-gray-500 uppercase tracking-wider border-t border-b border-gray-200 mt-2 mb-1 bg-gray-50"
+              >
+                {child.name}
+              </div>
+            ) : (
+              <NavLink
+                key={child.name}
+                to={child.href}
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md text-sm transition-colors ${
+                    isActive ? "text-white bg-blue-600" : "text-gray-700 hover:bg-gray-100"
+                  }`
+                }
+              >
+                {child.name}
+              </NavLink>
+            )
           ))}
         </div>
       </>

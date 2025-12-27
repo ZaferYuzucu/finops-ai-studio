@@ -4,15 +4,20 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Firebase yapılandırması, kullanıcı tarafından sağlanan bilgilerle tamamlandı.
+// Firebase yapılandırması - Environment variables kullanılıyor
 const firebaseConfig = {
-  apiKey: "AIzaSyCUNupPVu-FxXaJW9jfyZ1PvWJRcp2-tcQ",
-  authDomain: "finops-ai-studio-8576334-ece74.firebaseapp.com",
-  projectId: "finops-ai-studio-8576334-ece74",
-  storageBucket: "finops-ai-studio-8576334-ece74.appspot.com",
-  messagingSenderId: "854112920936",
-  appId: "1:854112920936:web:7b1f44d8621aa8144a62dd"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
+
+// Firebase config validation
+if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  throw new Error('Firebase configuration is missing. Please check your .env file.');
+}
 
 // Firebase uygulamasını başlat
 const app = initializeApp(firebaseConfig);

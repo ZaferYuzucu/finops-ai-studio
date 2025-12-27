@@ -1,0 +1,25 @@
+{
+  "veriHazirlama": {
+    "hero": {
+      "badge": "Veri Hazırlama ve Görselleştirme Merkezi",
+      "title": "Verilerinizi Analize Hazırlayın",
+      "subtitle": "Karmaşık verilerinizi temiz, yapılandırılmış ve analize hazır hale getirin. Görsel sorgu oluşturucu ve veri hazırlama araçlarıyla derin içgörülere ulaşın.",
+      "cta1": "Hemen Başla",
+      "cta2": "Video Rehberi İzle"
+    },
+    "cleaning": {
+      "badge": "Adım 1",
+      "title": "📊 Veriyi Temizle ve Hazırla",
+      "description": "Dağınık verilerinizi temiz, yapılandırılmış ve analize hazır hale getirin.",
+      "feature1": "Veri Yapısını Düzenle",
+      "feature1Desc": "Sütun başlıkları, format ve veri tiplerinizi standartlaştırın",
+      "feature2": "Veriyi Dönüştür ve Filtrele",
+      "feature2Desc": "Özel fonksiyonlar ile veriyi analiz için optimize edin",
+      "feature3": "Gereksiz Veriyi Temizle",
+      "feature3Desc": "Tekrar eden kayıtları kaldır, eksik verileri düzenle",
+      "feature4": "Derin İçgörüler İçin Hazırla",
+      "feature4Desc": "Verinizi ileri düzey analiz ve AI önerileri için optimize edin",
+      "checklistTitle": "✅ Veri Temizleme Kontrol Listesi"
+    }
+  }
+}

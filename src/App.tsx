@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import PageLayout from './components/PageLayout';
+import LoadingSpinner from './components/LoadingSpinner';
 
 // Sayfaları ve Bileşenleri Import Et
 import HeroPage from './pages/HeroPage';
@@ -23,10 +24,10 @@ import DocsPage from './pages/DocsPage';
 import GetStartedDocPage from './pages/docs/GetStartedDocPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
-// import BrandKitPage from './pages/BrandKitPage'; // TEMPORARILY DISABLED - missing assets
+import BrandKitPage from './pages/BrandKitPage'; // ✅ DÜZELTİLDİ - Eksik asset'ler kaldırıldı
 import ProjectActivityReportPage from './pages/ProjectActivityReportPage';
-// import IllustrationDemoPage from './pages/IllustrationDemoPage'; // TEMPORARILY DISABLED - missing assets
-// import UndrawComparisonPage from './pages/UndrawComparisonPage'; // TEMPORARILY DISABLED - missing assets
+// import IllustrationDemoPage from './pages/IllustrationDemoPage'; // ❌ HATALI DOSYA - GEÇİCİ OLARAK KAPALI
+// import UndrawComparisonPage from './pages/UndrawComparisonPage'; // ❌ HATALI DOSYA - GEÇİCİ OLARAK KAPALI
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import AdminLoginPage from './pages/AdminLoginPage';
@@ -35,7 +36,14 @@ import TermsOfServicePage from './pages/legal/TermsOfServicePage';
 import CookiePolicyPage from './pages/legal/CookiePolicyPage';
 import DataGuidePage from './pages/DataGuidePage';
 import DataImportPage from './pages/DataImportPage';
-import UserJourneyMapPage from './pages/UserJourneyMapPage'; 
+import UserJourneyMapPage from './pages/UserJourneyMapPage';
+import DemoDashboardPreview from './pages/DemoDashboardPreview';
+import VeriHazirlamaRehberiPage from './pages/VeriHazirlamaRehberiPage'; 
+import VeriKaynaklariPage from './pages/VeriKaynaklariPage';
+import AIVeriAnaliziPage from './pages/AIVeriAnaliziPage';
+import VeriGorsellestirmePage from './pages/VeriGorsellestirmePage';
+import NotFoundPage from './pages/NotFoundPage';
+import PaymentCheckoutPage from './pages/PaymentCheckoutPage';
 
 // Koruma Bileşenleri ve Korunan Sayfalar
 import ProtectedRoute from './components/ProtectedRoute';
@@ -44,6 +52,8 @@ import DashboardPage from './pages/DashboardPage';
 import AdminPanelPage from './pages/AdminPanelPage';
 import NewsletterPanelPage from './pages/admin/NewsletterPanelPage';
 import PlatformAnalyticsPage from './pages/admin/PlatformAnalyticsPage';
+import PlatformAnalyticsDashboard from './pages/admin/PlatformAnalyticsDashboard';
+import PaymentGuideAdminPage from './pages/admin/PaymentGuideAdminPage';
 import StudioCreatorPage from './pages/StudioCreatorPage';
 import BusinessPlanPage from './pages/BusinessPlanPage';
 import MarketingPlanPage from './pages/MarketingPlanPage';
@@ -54,10 +64,12 @@ import DashboardCreateWizardPage from './pages/DashboardCreateWizardPage';
 const App: React.FC = () => {
   return (
     <PageLayout>
-      <Routes>
+      <Suspense fallback={<LoadingSpinner fullScreen message="Sayfa yükleniyor..." />}>
+        <Routes>
         {/* === Genel ve Halka Açık Rotalar === */}
         <Route path="/" element={<HeroPage />} />
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/payment/checkout" element={<PaymentCheckoutPage />} />
         <Route path="/solutions/financial-data-analysis" element={<FinancialDataAnalysisPage />} />
         <Route path="/solutions/cost-inventory-management" element={<CostInventoryManagementPage />} />
         <Route path="/solutions/cash-flow" element={<CashFlowPage />} />
@@ -75,7 +87,7 @@ const App: React.FC = () => {
         <Route path="/docs/get-started" element={<GetStartedDocPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
-        {/* <Route path="/brand-kit" element={<AdminProtectedRoute><BrandKitPage /></AdminProtectedRoute>} /> */}
+        <Route path="/brand-kit" element={<AdminProtectedRoute><BrandKitPage /></AdminProtectedRoute>} />
         <Route path="/project-activity-report" element={<ProjectActivityReportPage />} />
         {/* <Route path="/illustration-demo" element={<IllustrationDemoPage />} /> */}
         {/* <Route path="/undraw-comparison" element={<UndrawComparisonPage />} /> */}
@@ -88,19 +100,26 @@ const App: React.FC = () => {
         {/* === Kullanıcı Korumalı Rotalar (Giriş Yapmış Kullanıcılar) === */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/dashboard/create" element={<DashboardCreateWizardPage />} />
+          <Route path="/veri-girisi" element={<DataImportPage />} />
+          <Route path="/dashboard/demo-preview" element={<DemoDashboardPreview />} />
         </Route>
         
         {/* === Yönetici Korumalı Rotalar (Sadece Yöneticiler) === */}
         <Route path="/admin/platform-analytics" element={<AdminProtectedRoute><PlatformAnalyticsPage /></AdminProtectedRoute>} />
+        <Route path="/admin/dashboard" element={<AdminProtectedRoute><PlatformAnalyticsDashboard /></AdminProtectedRoute>} />
         <Route path="/admin/panel" element={<AdminProtectedRoute><AdminPanelPage /></AdminProtectedRoute>} />
         <Route path="/admin/newsletter" element={<AdminProtectedRoute><NewsletterPanelPage /></AdminProtectedRoute>} />
+        <Route path="/admin/payment-guide" element={<AdminProtectedRoute><PaymentGuideAdminPage /></AdminProtectedRoute>} />
+        <Route path="/dashboard/create" element={<AdminProtectedRoute><DashboardCreateWizardPage /></AdminProtectedRoute>} />
         <Route path="/studio-creator" element={<AdminProtectedRoute><StudioCreatorPage /></AdminProtectedRoute>} />
         <Route path="/business-plan" element={<AdminProtectedRoute><BusinessPlanPage /></AdminProtectedRoute>} />
         <Route path="/marketing-plan" element={<AdminProtectedRoute><MarketingPlanPage /></AdminProtectedRoute>} />
         <Route path="/investor-presentation" element={<AdminProtectedRoute><InvestorPresentationPage /></AdminProtectedRoute>} />
         <Route path="/veri-rehberi" element={<AdminProtectedRoute><DataGuidePage /></AdminProtectedRoute>} />
-        <Route path="/veri-girisi" element={<AdminProtectedRoute><DataImportPage /></AdminProtectedRoute>} />
+        <Route path="/veri-hazirlama" element={<VeriHazirlamaRehberiPage />} />
+        <Route path="/veri-kaynaklari" element={<VeriKaynaklariPage />} />
+        <Route path="/ai-veri-analizi" element={<AIVeriAnaliziPage />} />
+        <Route path="/veri-gorsellestirme" element={<VeriGorsellestirmePage />} />
         <Route path="/user-journey-map" element={<AdminProtectedRoute><UserJourneyMapPage /></AdminProtectedRoute>} />
 
         {/* === Yasal Sayfalar === */}
@@ -108,7 +127,11 @@ const App: React.FC = () => {
         <Route path="/legal/terms-of-service" element={<TermsOfServicePage />} />
         <Route path="/legal/cookie-policy" element={<CookiePolicyPage />} />
 
-      </Routes>
+        {/* === 404 Not Found - Catch All Route === */}
+        <Route path="*" element={<NotFoundPage />} />
+
+        </Routes>
+      </Suspense>
     </PageLayout>
   );
 };
