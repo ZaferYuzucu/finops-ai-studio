@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FiFileText, FiGrid } from 'react-icons/fi';
+import { FileText, Grid } from 'lucide-react';
 import './FinopsAnimation.css';
 
 const FinopsAnimation = () => {
@@ -71,10 +71,10 @@ const FinopsAnimation = () => {
           <text x="0" y="3" className="icon-text">API</text>
         </g>
         <foreignObject x="225" y="90" width="30" height="30">
-            <div className="icon-wrapper icon-bg-green"><FiFileText color="white" size={14} /></div>
+            <div className="icon-wrapper icon-bg-green"><FileText color="white" size={14} /></div>
         </foreignObject>
         <foreignObject x="215" y="165" width="30" height="30">
-            <div className="icon-wrapper icon-bg-teal"><FiGrid color="white" size={14} /></div>
+            <div className="icon-wrapper icon-bg-teal"><Grid color="white" size={14} /></div>
         </foreignObject>
         
         {/* ======================================================= */}
