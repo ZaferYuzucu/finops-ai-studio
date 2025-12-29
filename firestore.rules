@@ -1,0 +1,93 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return request.auth != null && 
+             exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      // Kullanıcı kendi verisini okuyabilir
+      allow read: if isAuthenticated() && isOwner(userId);
+      
+      // Kullanıcı kendi verisini oluşturabilir (ilk kayıt)
+      allow create: if isAuthenticated() && isOwner(userId);
+      
+      // Kullanıcı kendi verisini güncelleyebilir
+      allow update: if isAuthenticated() && isOwner(userId);
+      
+      // Kullanıcı kendi verisini silemez (sadece admin)
+      allow delete: if isAdmin();
+      
+      // Alt koleksiyonlar
+      match /usage/{document=**} {
+        allow read, write: if isAuthenticated() && isOwner(userId);
+      }
+      
+      match /businesses/{businessId} {
+        allow read, write: if isAuthenticated() && isOwner(userId);
+      }
+      
+      match /dashboards/{dashboardId} {
+        allow read, write: if isAuthenticated() && isOwner(userId);
+      }
+    }
+    
+    // Newsletter subscriptions (public write, admin read)
+    match /newsletter/{email} {
+      allow create: if true; // Herkes abone olabilir
+      allow read, update, delete: if isAdmin(); // Sadece admin okuyabilir
+    }
+    
+    // Beta applications (public write, admin read)
+    match /betaApplications/{applicationId} {
+      allow create: if true; // Herkes başvuru yapabilir
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // Payment transactions (user can read own, admin can read all)
+    match /payments/{paymentId} {
+      allow read: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+    
+    // Bank transfer receipts
+    match /bankTransfers/{transferId} {
+      allow read: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+    
+    // Admins collection (sadece okuma, yazma backend'den)
+    match /admins/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Backend'den yapılmalı
+    }
+    
+    // Analytics data (sadece admin)
+    match /analytics/{document=**} {
+      allow read, write: if isAdmin();
+    }
+    
+    // Default: Her şey yasak
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+

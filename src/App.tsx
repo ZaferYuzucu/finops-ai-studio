@@ -44,6 +44,7 @@ import AIVeriAnaliziPage from './pages/AIVeriAnaliziPage';
 import VeriGorsellestirmePage from './pages/VeriGorsellestirmePage';
 import NotFoundPage from './pages/NotFoundPage';
 import PaymentCheckoutPage from './pages/PaymentCheckoutPage';
+import DataSecurityPage from './pages/DataSecurityPage';
 
 // Koruma Bileşenleri ve Korunan Sayfalar
 import ProtectedRoute from './components/ProtectedRoute';
@@ -126,6 +127,7 @@ const App: React.FC = () => {
         <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/legal/terms-of-service" element={<TermsOfServicePage />} />
         <Route path="/legal/cookie-policy" element={<CookiePolicyPage />} />
+        <Route path="/veri-guvenligi" element={<DataSecurityPage />} />
 
         {/* === 404 Not Found - Catch All Route === */}
         <Route path="*" element={<NotFoundPage />} />

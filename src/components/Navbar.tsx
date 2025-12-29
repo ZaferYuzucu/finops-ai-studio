@@ -60,6 +60,7 @@ export default function Navbar() {
       children: [
         { name: t('nav.knowledgeBase'), href: "/blog" },
         { name: t('nav.documents'), href: "/docs" },
+        { name: "🔐 Veri Güvenliği", href: "/veri-guvenligi" },
       ],
     },
     { name: t('nav.pricing'), href: "/pricing" },
