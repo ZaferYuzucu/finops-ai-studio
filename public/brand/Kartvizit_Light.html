@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINOPS AI Studio - Kartvizit (Zafer YÜZÜCÜ)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .business-card {
+            width: 1050px;
+            height: 600px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* Decorative Elements */
+        .decoration {
+            position: absolute;
+            opacity: 0.05;
+        }
+
+        .decoration.circle1 {
+            width: 300px;
+            height: 300px;
+            background: #667eea;
+            border-radius: 50%;
+            top: -150px;
+            right: -100px;
+        }
+
+        .decoration.circle2 {
+            width: 200px;
+            height: 200px;
+            background: #764ba2;
+            border-radius: 50%;
+            bottom: -100px;
+            left: -50px;
+        }
+
+        /* Left Side - Brand Section */
+        .left-section {
+            width: 40%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            gap: 50px;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .logo-brand-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .brand-line1 {
+            color: white;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .brand-line2 {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            line-height: 1;
+        }
+
+        .tagline {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+
+        /* Right Side - Info Section */
+        .right-section {
+            width: 60%;
+            padding: 60px 50px 50px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .person-info {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+            text-align: right;
+            width: 100%;
+        }
+
+        .name {
+            font-size: 32px;
+            font-weight: 900;
+            color: #111827;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            font-weight: 600;
+            color: #6b7280;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-direction: row-reverse;
+        }
+
+        .contact-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .contact-text {
+            font-size: 15px;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .download-btn {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            border: none;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.6);
+        }
+
+        #loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 30px 50px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            z-index: 2000;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="business-card">
+        <div class="decoration circle1"></div>
+        <div class="decoration circle2"></div>
+
+        <!-- Left Section: Brand -->
+        <div class="left-section">
+            <div class="logo-section">
+                <div class="logo-brand-row">
+                    <div class="logo-container">
+                        <img src="./finops-logo-Kalkan.png" alt="FINOPS AI Logo">
+                    </div>
+                    <div class="brand-name">
+                        <div class="brand-line1">FINOPS</div>
+                        <div class="brand-line2">AI STUDIO</div>
+                    </div>
+                </div>
+                <div class="tagline">
+                    Yapay Zeka Destekli<br>
+                    Finansal Operasyon Platformu
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section: Contact Info -->
+        <div class="right-section">
+            <div class="person-info">
+                <div class="name">Zafer YÜZÜCÜ</div>
+                <div class="title">Kurucu Ortak</div>
+                <div class="subtitle">Co-Founder | Technology & Innovation</div>
+            </div>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">🌐</div>
+                    <div class="contact-text">www.finops.ist</div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-text">info@finops.ist</div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-text">+90 532 455 10 45</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="download-btn" onclick="downloadPNG()">
+        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        PNG İndir
+    </button>
+
+    <div id="loading">
+        <div>PNG Oluşturuluyor...</div>
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        async function downloadPNG() {
+            const loadingDiv = document.getElementById('loading');
+            const downloadBtn = document.querySelector('.download-btn');
+            
+            // Butonu gizle, loading göster
+            loadingDiv.style.display = 'flex';
+            downloadBtn.style.display = 'none';
+            
+            try {
+                const card = document.querySelector('.business-card');
+                
+                // html2canvas ile PNG oluştur
+                const canvas = await html2canvas(card, {
+                    scale: 2,
+                    backgroundColor: null,
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true
+                });
+                
+                // PNG olarak indir
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'FINOPS_Kartvizit_Zafer_YUZUCU.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    // Loading gizle, butonu tekrar göster
+                    loadingDiv.style.display = 'none';
+                    downloadBtn.style.display = 'flex';
+                });
+            } catch (error) {
+                console.error('PNG oluşturma hatası:', error);
+                alert('PNG oluşturulurken bir hata oluştu.');
+                loadingDiv.style.display = 'none';
+                downloadBtn.style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -43,3 +43,9 @@ NASIL KULLANILIR:
 - "VITE_" prefix'i şart (Vite kuralı)
 - Boş değer bırakma, ya doldur ya da o satırı ekleme
 
+
+
+
+
+
+

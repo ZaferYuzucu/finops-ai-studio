@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Post 1 - FINOPS AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .linkedin-post {
+            width: 1080px;
+            height: 1080px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            border-radius: 0;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .pattern-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.03) 35px, rgba(255,255,255,.03) 70px);
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 80px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .logo-container {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            line-height: 1.1;
+        }
+
+        .brand-line1 {
+            color: white;
+            font-size: 56px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand-line2 {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-top: 5px;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .main-text {
+            color: white;
+            font-size: 58px;
+            font-weight: 700;
+            line-height: 1.3;
+            text-align: left;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .quote {
+            font-size: 80px;
+            line-height: 1;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: Georgia, serif;
+            vertical-align: top;
+            margin: 0 10px 0 0;
+        }
+
+        .highlight {
+            color: #fbbf24;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-top: 40px;
+            border-top: 3px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .website-link {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .arrow-icon {
+            font-size: 36px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(10px);
+            }
+        }
+
+        .slogan-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px 40px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .slogan-text {
+            color: white;
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .icon-wrapper {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .decoration-dots {
+            position: absolute;
+            top: 80px;
+            right: 80px;
+            display: grid;
+            grid-template-columns: repeat(3, 20px);
+            gap: 15px;
+            opacity: 0.3;
+        }
+
+        .dot {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .linkedin-post {
+                box-shadow: none;
+            }
+        }
+
+        .download-btn {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            border: none;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.6);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        #loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 40px 60px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: 600;
+            z-index: 2000;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="linkedin-post">
+        <div class="pattern-overlay"></div>
+        
+        <div class="decoration-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="logo-section">
+                <div class="logo-container">
+                    <img src="finops-logo-Kalkan.png" alt="FINOPS AI Logo">
+                </div>
+                <div class="brand-name">
+                    <div class="brand-line1">FINOPS</div>
+                    <div class="brand-line2">AI STUDIO</div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="main-text">
+                    <span class="quote">"</span>Excel rapor üretir,<br>
+                    <span class="highlight">karar vermez.</span><br><br>
+                    Bir işletme kârlı görünüp<br>
+                    neden nakitte zorlanır?<br><br>
+                    Çünkü tablo doğru,<br>
+                    <span class="highlight">okuma yanlış.</span><span class="quote">"</span>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <div class="slogan-box">
+                    <div class="slogan-text">Rapor değil, karar üret.</div>
+                </div>
+                <div class="website-link">
+                    <span class="arrow-icon">→</span>
+                    <span>www.finops.ist</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="download-btn" onclick="downloadPNG()">
+        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        PNG İndir
+    </button>
+
+    <div id="loading">
+        <div>PNG Oluşturuluyor...</div>
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        async function downloadPNG() {
+            const loadingDiv = document.getElementById('loading');
+            const downloadBtn = document.querySelector('.download-btn');
+            
+            // Butonu gizle, loading göster
+            loadingDiv.style.display = 'block';
+            downloadBtn.style.display = 'none';
+            
+            // Görseli seç
+            const element = document.querySelector('.linkedin-post');
+            
+            try {
+                // HTML2Canvas ile PNG'ye çevir
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null,
+                    logging: false,
+                    width: 1080,
+                    height: 1080,
+                    onclone: function(clonedDoc) {
+                        // Clone'da da görsel düzgün görünsün
+                        const clonedElement = clonedDoc.querySelector('.linkedin-post');
+                        if (clonedElement) {
+                            clonedElement.style.transform = 'scale(1)';
+                        }
+                    }
+                });
+                
+                // Canvas'ı PNG'ye çevir ve indir
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'FINOPS-LinkedIn-Post-1.png';
+                    link.href = url;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                    
+                    // Loading gizle, butonu göster
+                    setTimeout(() => {
+                        loadingDiv.style.display = 'none';
+                        downloadBtn.style.display = 'flex';
+                    }, 500);
+                }, 'image/png', 1.0);
+                
+            } catch (error) {
+                console.error('PNG oluşturma hatası:', error);
+                alert('PNG oluşturulurken hata oluştu. Lütfen tekrar deneyin.');
+                loadingDiv.style.display = 'none';
+                downloadBtn.style.display = 'flex';
+            }
+        }
+
+        // Sayfa yüklendiğinde konsola bilgi ver
+        console.log('✅ LinkedIn Post 1 hazır! PNG indirmek için yeşil butona tıklayın.');
+    </script>
+</body>
+</html>
+

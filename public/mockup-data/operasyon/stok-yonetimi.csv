@@ -1,0 +1,61 @@
+Tarih,Urun_Adi,Kategori,Stok_Miktari,Birim_Maliyet,Toplam_Deger,Guvenlik_Stoku,Yeniden_Siparis_Noktasi,Stok_Devir_Hizi,Stok_Gun,Tedarikci,Teslimat_Suresi_Gun,Zamaninda_Teslimat_Orani,ABC_Sinifi
+2024-01-15,Ham Madde A1,Ham Madde,2500,125.00,312500,400,600,8.5,43,Tedarikçi A,7,98.0,A
+2024-01-15,Parca B2,Yarı Mamul,1800,85.00,153000,300,450,12.0,30,Tedarikçi B,5,97.5,A
+2024-01-15,Malzeme C3,Sarf Malzemesi,5000,22.00,110000,800,1200,15.0,24,Tedarikçi C,3,99.0,B
+2024-01-15,Komponent D4,Yarı Mamul,1200,145.00,174000,200,350,10.0,37,Tedarikçi D,10,96.0,A
+2024-01-15,Ambalaj E5,Ambalaj,8000,8.50,68000,1200,1800,20.0,18,Tedarikçi E,2,99.5,C
+2024-02-20,Ham Madde A1,Ham Madde,2650,128.00,339200,400,600,8.8,41,Tedarikçi A,7,98.2,A
+2024-02-20,Parca B2,Yarı Mamul,1900,87.00,165300,300,450,12.5,29,Tedarikçi B,5,97.8,A
+2024-02-20,Malzeme C3,Sarf Malzemesi,5200,23.00,119600,800,1200,15.5,24,Tedarikçi C,3,99.2,B
+2024-02-20,Komponent D4,Yarı Mamul,1250,148.00,185000,200,350,10.5,35,Tedarikçi D,10,96.5,A
+2024-02-20,Ambalaj E5,Ambalaj,8300,8.75,72625,1200,1800,21.0,17,Tedarikçi E,2,99.6,C
+2024-03-25,Ham Madde A1,Ham Madde,2800,130.00,364000,400,600,9.0,40,Tedarikçi A,7,98.5,A
+2024-03-25,Parca B2,Yarı Mamul,2000,89.00,178000,300,450,13.0,28,Tedarikçi B,5,98.0,A
+2024-03-25,Malzeme C3,Sarf Malzemesi,5400,24.00,129600,800,1200,16.0,23,Tedarikçi C,3,99.3,B
+2024-03-25,Komponent D4,Yarı Mamul,1300,150.00,195000,200,350,11.0,33,Tedarikçi D,10,97.0,A
+2024-03-25,Ambalaj E5,Ambalaj,8500,9.00,76500,1200,1800,22.0,17,Tedarikçi E,2,99.7,C
+2024-04-30,Ham Madde A1,Ham Madde,2700,132.00,356400,400,600,9.2,40,Tedarikçi A,7,98.3,A
+2024-04-30,Parca B2,Yarı Mamul,1950,90.00,175500,300,450,12.8,29,Tedarikçi B,5,97.9,A
+2024-04-30,Malzeme C3,Sarf Malzemesi,5300,24.50,129850,800,1200,15.8,23,Tedarikçi C,3,99.4,B
+2024-04-30,Komponent D4,Yarı Mamul,1275,152.00,193800,200,350,10.8,34,Tedarikçi D,10,96.8,A
+2024-04-30,Ambalaj E5,Ambalaj,8400,9.10,76440,1200,1800,21.5,17,Tedarikçi E,2,99.6,C
+2024-05-15,Ham Madde A1,Ham Madde,2900,134.00,388600,400,600,9.5,38,Tedarikçi A,7,98.7,A
+2024-05-15,Parca B2,Yarı Mamul,2100,92.00,193200,300,450,13.5,27,Tedarikçi B,5,98.2,A
+2024-05-15,Malzeme C3,Sarf Malzemesi,5600,25.00,140000,800,1200,16.5,22,Tedarikçi C,3,99.5,B
+2024-05-15,Komponent D4,Yarı Mamul,1350,155.00,209250,200,350,11.5,32,Tedarikçi D,10,97.2,A
+2024-05-15,Ambalaj E5,Ambalaj,8700,9.25,80475,1200,1800,23.0,16,Tedarikçi E,2,99.8,C
+2024-06-20,Ham Madde A1,Ham Madde,3000,136.00,408000,400,600,9.8,37,Tedarikçi A,7,98.9,A
+2024-06-20,Parca B2,Yarı Mamul,2200,94.00,206800,300,450,14.0,26,Tedarikçi B,5,98.4,A
+2024-06-20,Malzeme C3,Sarf Malzemesi,5800,25.50,147900,800,1200,17.0,21,Tedarikçi C,3,99.6,B
+2024-06-20,Komponent D4,Yarı Mamul,1400,158.00,221200,200,350,12.0,30,Tedarikçi D,10,97.5,A
+2024-06-20,Ambalaj E5,Ambalaj,9000,9.40,84600,1200,1800,24.0,15,Tedarikçi E,2,99.9,C
+2024-07-25,Ham Madde A1,Ham Madde,3100,138.00,427800,400,600,10.0,37,Tedarikçi A,7,99.0,A
+2024-07-25,Parca B2,Yarı Mamul,2300,96.00,220800,300,450,14.5,25,Tedarikçi B,5,98.6,A
+2024-07-25,Malzeme C3,Sarf Malzemesi,6000,26.00,156000,800,1200,17.5,21,Tedarikçi C,3,99.7,B
+2024-07-25,Komponent D4,Yarı Mamul,1450,160.00,232000,200,350,12.5,29,Tedarikçi D,10,97.8,A
+2024-07-25,Ambalaj E5,Ambalaj,9200,9.55,87860,1200,1800,25.0,15,Tedarikçi E,2,99.9,C
+2024-08-30,Ham Madde A1,Ham Madde,3050,139.00,423950,400,600,9.9,37,Tedarikçi A,7,98.9,A
+2024-08-30,Parca B2,Yarı Mamul,2250,97.00,218250,300,450,14.2,26,Tedarikçi B,5,98.5,A
+2024-08-30,Malzeme C3,Sarf Malzemesi,5900,26.50,156350,800,1200,17.2,21,Tedarikçi C,3,99.7,B
+2024-08-30,Komponent D4,Yarı Mamul,1425,161.00,229425,200,350,12.2,30,Tedarikçi D,10,97.6,A
+2024-08-30,Ambalaj E5,Ambalaj,9100,9.60,87360,1200,1800,24.5,15,Tedarikçi E,2,99.9,C
+2024-09-15,Ham Madde A1,Ham Madde,3150,140.00,441000,400,600,10.2,36,Tedarikçi A,7,99.1,A
+2024-09-15,Parca B2,Yarı Mamul,2350,98.00,230300,300,450,14.8,25,Tedarikçi B,5,98.7,A
+2024-09-15,Malzeme C3,Sarf Malzemesi,6100,27.00,164700,800,1200,18.0,20,Tedarikçi C,3,99.8,B
+2024-09-15,Komponent D4,Yarı Mamul,1475,163.00,240425,200,350,12.8,29,Tedarikçi D,10,98.0,A
+2024-09-15,Ambalaj E5,Ambalaj,9300,9.75,90675,1200,1800,26.0,14,Tedarikçi E,2,100.0,C
+2024-10-20,Ham Madde A1,Ham Madde,3200,142.00,454400,400,600,10.5,35,Tedarikçi A,7,99.2,A
+2024-10-20,Parca B2,Yarı Mamul,2400,99.00,237600,300,450,15.0,24,Tedarikçi B,5,98.8,A
+2024-10-20,Malzeme C3,Sarf Malzemesi,6200,27.50,170500,800,1200,18.5,20,Tedarikçi C,3,99.9,B
+2024-10-20,Komponent D4,Yarı Mamul,1500,165.00,247500,200,350,13.0,28,Tedarikçi D,10,98.2,A
+2024-10-20,Ambalaj E5,Ambalaj,9400,9.90,93060,1200,1800,27.0,14,Tedarikçi E,2,100.0,C
+2024-11-25,Ham Madde A1,Ham Madde,3180,143.00,454740,400,600,10.3,35,Tedarikçi A,7,99.1,A
+2024-11-25,Parca B2,Yarı Mamul,2380,100.00,238000,300,450,14.7,25,Tedarikçi B,5,98.7,A
+2024-11-25,Malzeme C3,Sarf Malzemesi,6150,28.00,172200,800,1200,18.2,20,Tedarikçi C,3,99.8,B
+2024-11-25,Komponent D4,Yarı Mamul,1490,166.00,247340,200,350,12.9,28,Tedarikçi D,10,98.1,A
+2024-11-25,Ambalaj E5,Ambalaj,9350,10.00,93500,1200,1800,26.5,14,Tedarikçi E,2,100.0,C
+2024-12-30,Ham Madde A1,Ham Madde,3250,145.00,471250,400,600,10.8,34,Tedarikçi A,7,99.3,A
+2024-12-30,Parca B2,Yarı Mamul,2450,102.00,249900,300,450,15.5,24,Tedarikçi B,5,99.0,A
+2024-12-30,Malzeme C3,Sarf Malzemesi,6300,28.50,179550,800,1200,19.0,19,Tedarikçi C,3,100.0,B
+2024-12-30,Komponent D4,Yarı Mamul,1525,168.00,256200,200,350,13.5,27,Tedarikçi D,10,98.5,A
+2024-12-30,Ambalaj E5,Ambalaj,9500,10.10,95950,1200,1800,28.0,13,Tedarikçi E,2,100.0,C

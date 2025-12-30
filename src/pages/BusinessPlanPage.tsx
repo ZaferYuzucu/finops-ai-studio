@@ -940,7 +940,7 @@ const BusinessPlanPage: React.FC = () => {
           <section id="tools-features" className="bg-white p-10 rounded-2xl shadow-xl border border-gray-200 mt-8">
             <SectionTitle icon={Wrench}>2. Temel Araçlar ve Özellikler</SectionTitle>
              <ul className="list-none p-0 space-y-4">
-                <ListItem><strong>Formül Üretici (AI Formula Generator):</strong> Kullanıcı, yapmak istediği işlemi doğal dilde yazar. Ajelix, bu isteği anında doğru Excel veya Google Sheets formülüne dönüştürür.</ListItem>
+                <ListItem><strong>Formül Üretici (AI Formula Generator):</strong> Kullanıcı, yapmak istediği işlemi doğal dilde yazar. Sistem, bu isteği anında doğru Excel veya Google Sheets formülüne dönüştürür.</ListItem>
                 <ListItem><strong>VBA/Komut Dosyası Üretici:</strong> Daha karmaşık otomasyon görevleri için gerekli olan Visual Basic for Applications (VBA) veya Google Apps Script kodlarını otomatik olarak oluşturur.</ListItem>                
                 <ListItem><strong>Veri Analizi:</strong> Veri setlerini analiz eder, eğilimleri tespit eder ve bu eğilimler hakkında özetler çıkarır.</ListItem>
                 <ListItem><strong>Veri Görselleştirme (BI):</strong> Veri setlerinden otomatik olarak iş zekası (Business Intelligence) panoları ve görselleştirmeler oluşturmaya yardımcı olur.</ListItem>
@@ -1291,7 +1291,7 @@ const BusinessPlanPage: React.FC = () => {
                     <p>"Danışman" değil → <strong className="text-green-700">erişilebilir SaaS</strong> ister</p>
                   </div>
                   <p className="text-sm text-gray-600 italic mt-3">
-                    Ajelix / Julius gibi örnekler bu ihtiyacın global ölçekte doğrulandığını göstermektedir.
+                    Global SaaS örnekleri bu ihtiyacın dünya çapında doğrulandığını göstermektedir.
                   </p>
                 </div>
 

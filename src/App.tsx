@@ -50,14 +50,16 @@ import DataSecurityPage from './pages/DataSecurityPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import DashboardPage from './pages/DashboardPage';
+import ProfessionalDashboardsPage from './pages/ProfessionalDashboardsPage';
 import AdminPanelPage from './pages/AdminPanelPage';
 import NewsletterPanelPage from './pages/admin/NewsletterPanelPage';
 import PlatformAnalyticsPage from './pages/admin/PlatformAnalyticsPage';
 import PlatformAnalyticsDashboard from './pages/admin/PlatformAnalyticsDashboard';
 import PaymentGuideAdminPage from './pages/admin/PaymentGuideAdminPage';
-import StudioCreatorPage from './pages/StudioCreatorPage';
+import FinOpsTheatrePage from './pages/FinOpsTheatrePage';
 import BusinessPlanPage from './pages/BusinessPlanPage';
 import MarketingPlanPage from './pages/MarketingPlanPage';
+import LaunchRoadmapPage from './pages/LaunchRoadmapPage';
 import InvestorPresentationPage from './pages/InvestorPresentationPage';
 import DashboardCreateWizardPage from './pages/DashboardCreateWizardPage';
 
@@ -101,6 +103,7 @@ const App: React.FC = () => {
         {/* === Kullanıcı Korumalı Rotalar (Giriş Yapmış Kullanıcılar) === */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/professional-dashboards" element={<ProfessionalDashboardsPage />} />
           <Route path="/veri-girisi" element={<DataImportPage />} />
           <Route path="/dashboard/demo-preview" element={<DemoDashboardPreview />} />
         </Route>
@@ -112,9 +115,10 @@ const App: React.FC = () => {
         <Route path="/admin/newsletter" element={<AdminProtectedRoute><NewsletterPanelPage /></AdminProtectedRoute>} />
         <Route path="/admin/payment-guide" element={<AdminProtectedRoute><PaymentGuideAdminPage /></AdminProtectedRoute>} />
         <Route path="/dashboard/create" element={<AdminProtectedRoute><DashboardCreateWizardPage /></AdminProtectedRoute>} />
-        <Route path="/studio-creator" element={<AdminProtectedRoute><StudioCreatorPage /></AdminProtectedRoute>} />
+        <Route path="/finops-theatre" element={<AdminProtectedRoute><FinOpsTheatrePage /></AdminProtectedRoute>} />
         <Route path="/business-plan" element={<AdminProtectedRoute><BusinessPlanPage /></AdminProtectedRoute>} />
         <Route path="/marketing-plan" element={<AdminProtectedRoute><MarketingPlanPage /></AdminProtectedRoute>} />
+        <Route path="/launch-roadmap" element={<AdminProtectedRoute><LaunchRoadmapPage /></AdminProtectedRoute>} />
         <Route path="/investor-presentation" element={<AdminProtectedRoute><InvestorPresentationPage /></AdminProtectedRoute>} />
         <Route path="/veri-rehberi" element={<AdminProtectedRoute><DataGuidePage /></AdminProtectedRoute>} />
         <Route path="/veri-hazirlama" element={<VeriHazirlamaRehberiPage />} />

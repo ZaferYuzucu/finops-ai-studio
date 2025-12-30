@@ -11,8 +11,6 @@ import finopsProfileLight from '../assets/brand/finops-profile-light.png';
 import finopsProfileDark from '../assets/brand/finops-profile-dark.png';
 import finopsLiBannerLight from '../assets/brand/finops-li-banner-light.png';
 import finopsLiBannerDark from '../assets/brand/finops-li-banner-dark.png';
-import finopsKartvizitLight from '../assets/brand/finops-kartvizit-light.png';
-import finopsKartvizitDark from '../assets/brand/finops-kartvizit-dark.png';
 import finopsQrCode from '../assets/brand/finops-qr-code.png';
 // import finopsIgAnaliz from '../assets/brand/finops-ig-Analiz.png';
 // import finopsIgButceLight from '../assets/brand/finops-ig-Butce-light.png';
@@ -77,8 +75,7 @@ const assetCategories = [
     assets: [
       { name: "İş Planı (PDF)", file: "/FINOPS-BusinessPlan.pdf" },
       { name: "Yatırımcı Sunumu (PPTX)", file: "/YatirimciSunumu_v2.pptx" },
-      { name: "Kartvizit (Açık Tasarım)", file: finopsKartvizitLight },
-      { name: "Kartvizit (Koyu Tasarım)", file: finopsKartvizitDark },
+      { name: "💼 Kartvizit (Kurucu Ortak)", file: "/brand/Kartvizit_Light.html" },
       { name: "QR Kod", file: finopsQrCode },
     ]
   },

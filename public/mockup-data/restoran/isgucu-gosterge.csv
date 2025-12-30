@@ -1,0 +1,61 @@
+Ay,Personel_Adi,Pozisyon,Calisma_Saati,Maas,Fazla_Mesai_Saat,Toplam_Ucret,Vardiya,Verimlilik_Skoru,Devamsizlik_Gun,Toplam_Satis_Katkisi
+Ocak,Ahmet Yılmaz,Şef Aşçı,200,28000,12,30400,Gündüz,92,0,185000
+Ocak,Mehmet Kara,Komis,180,18000,8,19600,Gündüz,88,1,145000
+Ocak,Ayşe Demir,Garson,190,16000,10,18000,Gündüz,90,0,125000
+Ocak,Fatma Öztürk,Garson,185,16000,8,17600,Akşam,89,1,118000
+Ocak,Can Aydın,Bulaşıkçı,175,14000,5,14875,Gündüz,85,2,0
+Şubat,Ahmet Yılmaz,Şef Aşçı,205,28500,15,31375,Gündüz,93,0,192000
+Şubat,Mehmet Kara,Komis,182,18200,10,20200,Gündüz,89,0,150000
+Şubat,Ayşe Demir,Garson,192,16200,12,18600,Gündüz,91,0,130000
+Şubat,Fatma Öztürk,Garson,188,16200,10,18200,Akşam,90,0,123000
+Şubat,Can Aydın,Bulaşıkçı,178,14200,6,15075,Gündüz,86,1,0
+Mart,Ahmet Yılmaz,Şef Aşçı,210,29000,18,32600,Gündüz,94,0,205000
+Mart,Mehmet Kara,Komis,185,18500,12,20750,Gündüz,90,0,160000
+Mart,Ayşe Demir,Garson,195,16500,14,19300,Gündüz,92,0,138000
+Mart,Fatma Öztürk,Garson,190,16500,12,18900,Akşam,91,0,128000
+Mart,Can Aydın,Bulaşıkçı,180,14500,8,15700,Gündüz,87,1,0
+Nisan,Ahmet Yılmaz,Şef Aşçı,208,29200,16,32000,Gündüz,93,0,198000
+Nisan,Mehmet Kara,Komis,183,18600,10,20350,Gündüz,89,1,152000
+Nisan,Ayşe Demir,Garson,193,16600,12,18800,Gündüz,91,0,132000
+Nisan,Fatma Öztürk,Garson,189,16600,10,18400,Akşam,90,0,125000
+Nisan,Can Aydın,Bulaşıkçı,179,14600,7,15387,Gündüz,86,1,0
+Mayıs,Ahmet Yılmaz,Şef Aşçı,215,29500,20,33500,Gündüz,95,0,212000
+Mayıs,Mehmet Kara,Komis,188,18800,14,21600,Gündüz,91,0,165000
+Mayıs,Ayşe Demir,Garson,198,16800,16,20000,Gündüz,93,0,145000
+Mayıs,Fatma Öztürk,Garson,193,16800,14,19600,Akşam,92,0,135000
+Mayıs,Can Aydın,Bulaşıkçı,183,14800,9,16012,Gündüz,88,0,0
+Haziran,Ahmet Yılmaz,Şef Aşçı,220,30000,22,34400,Gündüz,96,0,225000
+Haziran,Mehmet Kara,Komis,192,19000,16,22200,Gündüz,92,0,172000
+Haziran,Ayşe Demir,Garson,202,17000,18,20600,Gündüz,94,0,152000
+Haziran,Fatma Öztürk,Garson,197,17000,16,20200,Akşam,93,0,142000
+Haziran,Can Aydın,Bulaşıkçı,187,15000,10,16375,Gündüz,89,0,0
+Temmuz,Ahmet Yılmaz,Şef Aşçı,225,30500,25,35625,Gündüz,97,0,238000
+Temmuz,Mehmet Kara,Komis,195,19200,18,22800,Gündüz,93,0,180000
+Temmuz,Ayşe Demir,Garson,205,17200,20,21400,Gündüz,95,0,158000
+Temmuz,Fatma Öztürk,Garson,200,17200,18,20800,Akşam,94,0,148000
+Temmuz,Can Aydın,Bulaşıkçı,190,15200,12,16900,Gündüz,90,0,0
+Ağustos,Ahmet Yılmaz,Şef Aşçı,222,30700,23,34810,Gündüz,96,0,232000
+Ağustos,Mehmet Kara,Komis,193,19300,17,22475,Gündüz,92,0,176000
+Ağustos,Ayşe Demir,Garson,203,17300,19,20900,Gündüz,94,0,154000
+Ağustos,Fatma Öztürk,Garson,198,17300,17,20425,Akşam,93,0,145000
+Ağustos,Can Aydın,Bulaşıkçı,188,15300,11,16575,Gündüz,89,0,0
+Eylül,Ahmet Yılmaz,Şef Aşçı,228,31000,26,36200,Gündüz,97,0,245000
+Eylül,Mehmet Kara,Komis,197,19500,19,23375,Gündüz,93,0,185000
+Eylül,Ayşe Demir,Garson,207,17500,21,21875,Gündüz,95,0,162000
+Eylül,Fatma Öztürk,Garson,202,17500,19,21125,Akşam,94,0,152000
+Eylül,Can Aydın,Bulaşıkçı,192,15500,13,17262,Gündüz,90,0,0
+Ekim,Ahmet Yılmaz,Şef Aşçı,230,31500,28,37100,Gündüz,98,0,252000
+Ekim,Mehmet Kara,Komis,200,19700,20,23700,Gündüz,94,0,190000
+Ekim,Ayşe Demir,Garson,210,17700,22,22300,Gündüz,96,0,168000
+Ekim,Fatma Öztürk,Garson,205,17700,20,21500,Akşam,95,0,158000
+Ekim,Can Aydın,Bulaşıkçı,195,15700,14,17675,Gündüz,91,0,0
+Kasım,Ahmet Yılmaz,Şef Aşçı,227,31700,26,36380,Gündüz,97,0,248000
+Kasım,Mehmet Kara,Komis,198,19800,19,23550,Gündüz,93,0,187000
+Kasım,Ayşe Demir,Garson,208,17800,21,22100,Gündüz,95,0,165000
+Kasım,Fatma Öztürk,Garson,203,17800,19,21250,Akşam,94,0,155000
+Kasım,Can Aydın,Bulaşıkçı,193,15800,13,17337,Gündüz,90,0,0
+Aralık,Ahmet Yılmaz,Şef Aşçı,235,32000,30,38000,Gündüz,98,0,260000
+Aralık,Mehmet Kara,Komis,203,20000,22,24400,Gündüz,95,0,195000
+Aralık,Ayşe Demir,Garson,213,18000,24,23200,Gündüz,96,0,172000
+Aralık,Fatma Öztürk,Garson,208,18000,22,22400,Akşam,95,0,162000
+Aralık,Can Aydın,Bulaşıkçı,198,16000,15,18225,Gündüz,92,0,0

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Target, Search, BarChart2, DollarSign, BrainCircuit, Users, FileText, TrendingUp, Presentation, Lightbulb } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Target, Search, BarChart2, DollarSign, BrainCircuit, Users, FileText, TrendingUp, Presentation, Lightbulb, Rocket } from 'lucide-react';
 
 const Section: React.FC<{ title: string; icon: React.ElementType; children: React.ReactNode }> = ({ title, icon: Icon, children }) => (
     <section className="mb-16">
@@ -50,6 +51,24 @@ const MarketingPlanPage: React.FC = () => {
                     <p className="mt-6 max-w-3xl mx-auto text-lg text-gray-500">
                         Türkiye ve komşu pazarlarda sürdürülebilir büyüme ve pazar liderliği için yol haritası.
                     </p>
+                    
+                    {/* İki Buton Yan Yana */}
+                    <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <button className="flex items-center gap-2 px-8 py-4 bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:bg-blue-700 transition-all transform hover:scale-105">
+                            <Target className="h-6 w-6" />
+                            Pazarlama Planı
+                            <span className="ml-2 px-2 py-1 bg-blue-500 text-xs rounded-full">Aktif</span>
+                        </button>
+                        
+                        <Link 
+                            to="/launch-roadmap"
+                            className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105"
+                        >
+                            <Rocket className="h-6 w-6" />
+                            Lansman Yol Haritası
+                            <span className="ml-2 px-2 py-1 bg-yellow-400 text-purple-900 text-xs rounded-full font-bold">YENİ!</span>
+                        </Link>
+                    </div>
                 </header>
 
                 <Section title="1. Stratejik Özet ve Amaç" icon={Target}>
@@ -57,7 +76,7 @@ const MarketingPlanPage: React.FC = () => {
                 </Section>
 
                 <Section title="2. Rakip Analizi ve Stratejik Çıkarımlar" icon={Search}>
-                    <h3 className="text-2xl font-semibold text-gray-800 mb-4">Global Rakipler (Örn: Ajelix.com, Julius.ai)</h3>
+                    <h3 className="text-2xl font-semibold text-gray-800 mb-4">Global Rakipler ve Pazar Analizi</h3>
                     <div className="grid md:grid-cols-2 gap-6 mb-8">
                        <InfoCard 
                           icon={Lightbulb}

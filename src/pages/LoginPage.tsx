@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
   const { login, signInWithGoogle } = useAuth();
 
   // Google reCAPTCHA Site Key - Environment Variable
-  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
+  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LfE4jUsAAAAAOKH1f0ich9FAHIyr81efhTq5XyD';
   const isRecaptchaEnabled = !!recaptchaSiteKey;
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FINOPS AI Studio - Lansman (LinkedIn)</title>
+    <title>FINOPS AI Studio - LinkedIn Post (1200x627)</title>
     <style>
         * {
             margin: 0;
@@ -12,236 +12,223 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .post-container {
             width: 1200px;
             height: 627px;
+            background: linear-gradient(135deg, #0077B5 0%, #00405C 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 60px 80px;
+            position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #0077B5 0%, #00A0DC 100%);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .post-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 1;
+        }
+        
+        .logo-container {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
         
-        .pattern {
-            position: absolute;
+        .logo-container img {
             width: 100%;
             height: 100%;
-            opacity: 0.1;
-            background-image: 
-                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
+            object-fit: contain;
         }
         
-        .container {
+        .brand-name {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            line-height: 1.1;
+        }
+        
+        .brand-line1 {
+            color: white;
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        
+        .brand-line2 {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-top: 3px;
+        }
+        
+        .content {
+            z-index: 1;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 50px 70px;
-            width: 100%;
-            position: relative;
-            z-index: 10;
+            gap: 60px;
         }
         
-        .left {
+        .left-content {
             flex: 1;
             color: white;
         }
         
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-        }
-        
-        .logo-text {
-            font-size: 52px;
+        .title {
+            font-size: 64px;
             font-weight: 900;
-            margin-bottom: 12px;
-            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
-            line-height: 1;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
         }
         
-        .tagline {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 25px;
-            line-height: 1.3;
-            opacity: 0.95;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 25px 0;
-        }
-        
-        .stat {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 15px;
-            border-radius: 12px;
-            backdrop-filter: blur(5px);
-        }
-        
-        .stat-number {
-            font-size: 28px;
-            font-weight: 900;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-        
-        .website {
+        .description {
             font-size: 22px;
-            font-weight: bold;
-            margin-top: 20px;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 500;
         }
         
-        .right {
-            flex: 0 0 420px;
-            margin-left: 50px;
+        .right-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
         .highlight {
-            background: white;
-            padding: 40px;
+            font-size: 32px;
+            font-weight: 700;
+            font-style: italic;
+            padding: 30px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-        }
-        
-        .offer-badge {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: 3px solid rgba(255,255,255,0.3);
+            text-align: center;
             color: white;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            margin-bottom: 30px;
         }
         
-        .offer {
-            font-size: 42px;
+        .website {
+            display: inline-block;
+            background: white;
+            color: #0077B5;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 28px;
             font-weight: 900;
-            margin: 15px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
         
-        .offer-subtitle {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 20px;
-            line-height: 1.5;
+        .beta-badge {
+            background: rgba(254, 243, 199, 0.95);
+            color: #92400e;
+            padding: 18px 30px;
+            border-radius: 15px;
+            font-size: 17px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 25px;
+            border: 2px solid #f59e0b;
         }
         
-        .offer-features {
-            font-size: 14px;
-            color: #333;
-            margin: 15px 0;
-            line-height: 1.8;
-        }
-        
-        .offer-features div {
-            margin: 6px 0;
-        }
-        
-        .cta {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
-            padding: 14px 35px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        .professional-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
             border-radius: 50px;
-            display: inline-block;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            z-index: 2;
         }
     </style>
 </head>
 <body>
-    <div class="pattern"></div>
-    
-    <div class="container">
-        <div class="left">
-            <div class="badge">
-                <span>🚀</span>
-                <span>Resmi Lansman</span>
+    <div class="post-container">
+        <!-- Professional Badge -->
+        <div class="professional-badge">🚀 LANSMAN</div>
+        
+        <!-- Logo -->
+        <div class="logo-section">
+            <div class="logo-container">
+                <img src="finops-logo-Kalkan.png" alt="FINOPS AI Logo">
             </div>
-            
-            <h1 class="logo-text">FINOPS AI STUDIO</h1>
-            
-            <p class="tagline">
-                Türkiye'nin İlk ve Tek<br>
-                AI Destekli FinOps Platformu
-            </p>
-            
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-number">5 DK</div>
-                    <div class="stat-label">Kurulum Süresi</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">%40</div>
-                    <div class="stat-label">Maliyet Tasarrufu</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">7/24</div>
-                    <div class="stat-label">AI Analiz</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">50+</div>
-                    <div class="stat-label">Dashboard Şablonu</div>
-                </div>
-            </div>
-            
-            <div class="website">
-                <span>🌐</span>
-                <span>www.finops.ist</span>
+            <div class="brand-name">
+                <div class="brand-line1">FINOPS</div>
+                <div class="brand-line2">AI STUDIO</div>
             </div>
         </div>
         
-        <div class="right">
-            <div class="highlight">
-                <div class="offer-badge">🎁 Lansman Kampanyası</div>
-                <div class="offer">1 YIL<br>TAMAMEN<br>ÜCRETSİZ</div>
-                <p class="offer-subtitle">
-                    <strong>Beta Partner Programı</strong><br>
-                    Sadece ilk 20 işletme için geçerli
-                </p>
-                <div class="offer-features">
-                    <div>✓ Sınırsız kullanıcı</div>
-                    <div>✓ Sınırsız dashboard</div>
-                    <div>✓ Öncelikli destek</div>
-                    <div>✓ 2. yılda %75 indirim</div>
+        <!-- Main Content -->
+        <div class="content">
+            <div class="left-content">
+                <div class="title">Yayında</div>
+                <div class="description">
+                    <strong>KOBİ'ler için geliştirilen,</strong><br>
+                    finansal verileri otomatik toplayan<br>
+                    ve yapay zekâ ile karar netliğine dönüştüren<br>
+                    <strong>yeni nesil bir platform.</strong>
                 </div>
-                <div class="cta">🚀 HEMEN BAŞVUR</div>
+                <div class="beta-badge">
+                    🎯 Sınırlı sayıda Beta / Partner Programı
+                </div>
+            </div>
+            
+            <div class="right-content">
+                <div class="highlight">
+                    "Excel ve klasik raporların ötesinde:<br>
+                    Şimdi ne yapmalıyım?"
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 20px; color: white; font-weight: 600; margin-bottom: 15px;">
+                        👉 Detaylı bilgi ve demo
+                    </div>
+                    <div class="website">www.finops.ist</div>
+                </div>
             </div>
         </div>
+        
+        <!-- Empty div for spacing -->
+        <div></div>
     </div>
 </body>
 </html>
-
-
-
