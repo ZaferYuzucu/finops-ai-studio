@@ -1321,14 +1321,14 @@
     }
   },
   "finoChatWidget": {
-    "greeting": "Hello! I'm Fino",
-    "message": "Very soon I'll be analyzing your data with you!",
+    "greeting": "Hello! I'm Fino 🐕",
+    "message": "I can answer your questions about FinOps AI Studio. What would you like to learn?",
     "title": "Fino",
     "subtitle": "Your AI Assistant",
-    "status": "Coming Soon with You",
+    "status": "Active",
     "comingSoon": "COMING SOON",
-    "placeholder": "Fino will be with you very soon...",
-    "typing": "Getting ready...",
+    "placeholder": "Type your message...",
+    "typing": "Typing...",
     "sendButton": "Send",
     "infoText": "Will be active very soon!",
     "buttonTitle": "Chat with Fino"

@@ -1321,14 +1321,14 @@
     }
   },
   "finoChatWidget": {
-    "greeting": "Merhaba! Ben Fino",
-    "message": "Çok yakında sizinle birlikte verilerinizi analiz edeceğim!",
+    "greeting": "Merhaba! Ben Fino 🐕",
+    "message": "FinOps AI Studio hakkında sorularını cevaplayabilirim. Ne öğrenmek istersin?",
     "title": "Fino",
     "subtitle": "Yapay Zeka Asistanınız",
-    "status": "Çok Yakında Sizinle",
+    "status": "Aktif",
     "comingSoon": "ÇOK YAKINDA",
-    "placeholder": "Fino çok yakında sizinle olacak...",
-    "typing": "Hazırlanıyor...",
+    "placeholder": "Mesajını yaz...",
+    "typing": "Yazıyor...",
     "sendButton": "Gönder",
     "infoText": "Çok yakında aktif olacak!",
     "buttonTitle": "Fino ile Sohbet Et"

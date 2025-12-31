@@ -1,0 +1,65 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2024-12-31",
+  "documents": [
+    {
+      "id": "product",
+      "title": "Ürün Özellikleri",
+      "description": "FinOps AI Studio platform özellikleri ve modülleri",
+      "file": "product.md",
+      "category": "product",
+      "keywords": ["dashboard", "excel", "csv", "ai", "yapay zeka", "modül", "özellik", "finops theatre", "karar kartları"],
+      "priority": 1
+    },
+    {
+      "id": "pricing",
+      "title": "Fiyatlandırma",
+      "description": "Planlar, fiyatlar, beta partner programı",
+      "file": "pricing.md",
+      "category": "pricing",
+      "keywords": ["fiyat", "plan", "ödeme", "beta", "partner", "lansman", "ücretsiz", "deneme", "kredi kartı"],
+      "priority": 2
+    },
+    {
+      "id": "faq",
+      "title": "Sıkça Sorulan Sorular",
+      "description": "Genel sorular, veri güvenliği, özellikler, destek",
+      "file": "faq.md",
+      "category": "support",
+      "keywords": ["sss", "faq", "soru", "güvenlik", "veri", "nasıl", "destek", "yardım"],
+      "priority": 3
+    },
+    {
+      "id": "sectors",
+      "title": "Sektörel Çözümler",
+      "description": "Üretim, restoran, tarım, e-ticaret için özel çözümler",
+      "file": "sectors.md",
+      "category": "solutions",
+      "keywords": ["sektör", "üretim", "restoran", "tarım", "e-ticaret", "insan kaynakları", "otel", "finans", "satış"],
+      "priority": 2
+    }
+  ],
+  "categories": [
+    {
+      "id": "product",
+      "name": "Ürün",
+      "description": "Platform özellikleri ve modüller"
+    },
+    {
+      "id": "pricing",
+      "name": "Fiyatlandırma",
+      "description": "Planlar ve ödeme"
+    },
+    {
+      "id": "support",
+      "name": "Destek",
+      "description": "Yardım ve dokümantasyon"
+    },
+    {
+      "id": "solutions",
+      "name": "Çözümler",
+      "description": "Sektörel çözümler"
+    }
+  ]
+}
+
