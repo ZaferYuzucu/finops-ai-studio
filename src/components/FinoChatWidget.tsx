@@ -1,17 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, MessageCircle, Minimize2, Send } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { processFinoChat, getConversationStarters } from '../services/finoRagService';
 import type { ChatMessage } from '../types/fino';
 import rateLimiter, { validateChatInput } from '../utils/rateLimiter';
 import finoLogger from '../utils/finoLogger';
 
 const FinoChatWidget: React.FC = () => {
-  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    { role: 'ai', text: t('finoChatWidget.greeting'), timestamp: Date.now() },
-    { role: 'ai', text: t('finoChatWidget.message'), timestamp: Date.now() }
+    { role: 'ai', text: 'Merhaba! Ben Fino 🐕', timestamp: Date.now() },
+    { role: 'ai', text: 'FinOps AI Studio hakkında sorularınızı yanıtlayabilirim.', timestamp: Date.now() }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -133,8 +131,8 @@ const FinoChatWidget: React.FC = () => {
 
   const clearHistory = () => {
     setChatMessages([
-      { role: 'ai', text: t('finoChatWidget.greeting'), timestamp: Date.now() },
-      { role: 'ai', text: t('finoChatWidget.message'), timestamp: Date.now() }
+      { role: 'ai', text: 'Merhaba! Ben Fino 🐕', timestamp: Date.now() },
+      { role: 'ai', text: 'FinOps AI Studio hakkında sorularınızı yanıtlayabilirim.', timestamp: Date.now() }
     ]);
     setShowStarters(true);
     localStorage.removeItem('fino-chat-history');
@@ -154,10 +152,10 @@ const FinoChatWidget: React.FC = () => {
               </div>
               <div>
                 <h4 className="font-bold text-white text-lg flex items-center gap-2">
-                  {t('finoChatWidget.title')}
+                  Fino
                   <span className="text-xs bg-white/30 backdrop-blur-sm text-white px-2 py-0.5 rounded-full font-semibold">AI</span>
                 </h4>
-                <p className="text-xs text-white/90 font-medium">{t('finoChatWidget.subtitle')}</p>
+                <p className="text-xs text-white/90 font-medium">Yapay Zeka Asistanınız</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -218,7 +216,7 @@ const FinoChatWidget: React.FC = () => {
                       <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                       <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                     </div>
-                    <span className="text-xs text-gray-500">{t('finoChatWidget.typing')}</span>
+                    <span className="text-xs text-gray-500">Yazıyor...</span>
                   </div>
                 </div>
               )}
@@ -236,7 +234,7 @@ const FinoChatWidget: React.FC = () => {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder={t('finoChatWidget.placeholder')}
+                  placeholder="Mesajını yaz..."
                   disabled={isLoading}
                   className="flex-1 bg-transparent border-none outline-none text-sm text-gray-700 placeholder-gray-400 disabled:opacity-50"
                 />
@@ -244,7 +242,7 @@ const FinoChatWidget: React.FC = () => {
                   onClick={() => handleSendMessage()}
                   disabled={!inputValue.trim() || isLoading}
                   className="p-2 bg-gradient-to-r from-orange-400 to-amber-500 text-white rounded-lg hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  title={t('finoChatWidget.sendButton')}
+                  title="Gönder"
                 >
                   <Send size={18} />
                 </button>
@@ -271,7 +269,7 @@ const FinoChatWidget: React.FC = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 w-20 h-20 bg-gradient-to-br from-orange-400 to-amber-500 rounded-2xl shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 z-50 flex flex-col items-center justify-center gap-0.5 group"
-        title={t('finoChatWidget.buttonTitle')}
+        title="Fino ile Sohbet Et"
       >
         {isOpen ? (
           <X className="text-white" size={32} />

@@ -206,75 +206,45 @@ function extractRelevantSections(content: string, query: string, maxLength: numb
 }
 
 /**
- * Generate AI response using OpenAI
+ * Generate AI response using server-side API
  */
 async function generateResponse(
   userQuery: string,
   context: string,
   conversationHistory: ChatMessage[]
 ): Promise<string> {
-  const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-
-  if (!apiKey) {
-    return "Üzgünüm, şu anda AI özelliği aktif değil. Lütfen daha sonra tekrar deneyin veya /contact sayfasından bizimle iletişime geçin.";
-  }
-
   try {
-    const systemPrompt = `Sen Fino, FinOps AI Studio'nun yardımcı ve samimi AI asistanısın. 🐕
+    // Prepare history for API
+    const history = conversationHistory.slice(-4).map(msg => ({
+      role: msg.role === 'ai' ? 'assistant' : 'user',
+      content: msg.text
+    }));
 
-Görevin: Kullanıcılara FinOps AI Studio hakkında yardımcı olmak.
-
-KURALLLAR:
-1. Kısa ve öz cevap ver (max 3-4 cümle)
-2. Samimi ve dostça ol
-3. Sadece verilen CONTEXT bilgisini kullan
-4. CONTEXT'te yoksa: "Bu konuda detaylı bilgim yok, /contact sayfasından sorabilirsin"
-5. Linkler verirken: [Sayfa Adı](/url) formatını kullan
-6. Emoji kullan ama abartma (max 2-3)
-7. Türkçe karakter kullan
-8. "Ben bir AI'yım" deme, direkt yardım et
-
-CONTEXT:
-${context}
-
-Şimdi kullanıcıya yardım et!`;
-
-    const messages = [
-      { role: 'system', content: systemPrompt },
-      ...conversationHistory.slice(-4).map(msg => ({
-        role: msg.role === 'ai' ? 'assistant' : 'user',
-        content: msg.text
-      })),
-      { role: 'user', content: userQuery }
-    ];
-
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    // Call server-side API
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'gpt-4-turbo-preview',
-        messages,
-        temperature: 0.7,
-        max_tokens: 300,
-        top_p: 1,
-        frequency_penalty: 0.5,
-        presence_penalty: 0.3
+        message: userQuery,
+        context,
+        history
       })
     });
 
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status}`);
+      const errorData = await response.json();
+      console.error('[Fino] API error:', response.status, errorData);
+      throw new Error(errorData.error || 'API request failed');
     }
 
     const data = await response.json();
-    return data.choices[0]?.message?.content || "Üzgünüm, bir hata oluştu.";
+    return data.message || "Üzgünüm, bir hata oluştu.";
 
   } catch (error) {
-    console.error('OpenAI API error:', error);
-    return "Üzgünüm, şu anda bir sorun yaşıyorum. Lütfen daha sonra tekrar dene veya /contact sayfasından yardım al.";
+    console.error('[Fino] Error calling API:', error);
+    return "Üzgünüm, şu anda bir sorun yaşıyorum. Lütfen daha sonra tekrar dene 🐕";
   }
 }
 
