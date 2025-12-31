@@ -1,0 +1,42 @@
+date,category,item_name,quantity_sold,unit_price,total_sales,food_cost,margin_pct
+2024-01-05,Ana Yemek,Izgara Somon,45,85,3825,34,60
+2024-01-05,Ana Yemek,Biftek,38,125,4750,50,60
+2024-01-05,Ana Yemek,Tavuk Schnitzel,52,65,3380,22,66
+2024-01-05,Aperatif,Bruschetta,68,35,2380,12,66
+2024-01-05,Tatlı,Tiramisu,42,45,1890,15,67
+2024-01-05,İçecek,Şarap (şişe),32,180,5760,65,64
+2024-02-14,Ana Yemek,Izgara Somon,62,85,5270,34,60
+2024-02-14,Ana Yemek,Biftek,55,125,6875,50,60
+2024-02-14,Ana Yemek,Dana Rosto,48,95,4560,38,60
+2024-02-14,Aperatif,Bruschetta,85,35,2975,12,66
+2024-02-14,Tatlı,Tiramisu,70,45,3150,15,67
+2024-02-14,Tatlı,Çikolata Sufle,58,50,2900,18,64
+2024-02-14,İçecek,Şarap (şişe),78,180,14040,65,64
+2024-03-15,Ana Yemek,Izgara Somon,72,85,6120,34,60
+2024-03-15,Ana Yemek,Biftek,68,125,8500,50,60
+2024-03-15,Ana Yemek,Tavuk Schnitzel,82,65,5330,22,66
+2024-03-15,Aperatif,Bruschetta,105,35,3675,12,66
+2024-03-15,Aperatif,Kalamar Tava,88,42,3696,16,62
+2024-03-15,Tatlı,Tiramisu,92,45,4140,15,67
+2024-03-15,İçecek,Şarap (şişe),95,180,17100,65,64
+2024-04-12,Ana Yemek,Izgara Somon,68,85,5780,34,60
+2024-04-12,Ana Yemek,Biftek,62,125,7750,50,60
+2024-04-12,Ana Yemek,Tavuk Schnitzel,78,65,5070,22,66
+2024-04-12,Aperatif,Bruschetta,98,35,3430,12,66
+2024-04-12,Tatlı,Tiramisu,85,45,3825,15,67
+2024-04-12,İçecek,Şarap (şişe),88,180,15840,65,64
+2024-05-17,Ana Yemek,Izgara Somon,62,85,5270,34,60
+2024-05-17,Ana Yemek,Biftek,55,125,6875,50,60
+2024-05-17,Ana Yemek,Tavuk Schnitzel,70,65,4550,22,66
+2024-05-17,Aperatif,Bruschetta,88,35,3080,12,66
+2024-05-17,Tatlı,Tiramisu,75,45,3375,15,67
+2024-05-17,İçecek,Şarap (şişe),78,180,14040,65,64
+2024-06-21,Ana Yemek,Izgara Somon,58,85,4930,34,60
+2024-06-21,Ana Yemek,Biftek,48,125,6000,50,60
+2024-06-21,Ana Yemek,Tavuk Schnitzel,65,65,4225,22,66
+2024-06-21,Aperatif,Bruschetta,80,35,2800,12,66
+2024-06-21,Tatlı,Tiramisu,68,45,3060,15,67
+2024-06-21,İçecek,Şarap (şişe),70,180,12600,65,64
+
+
+

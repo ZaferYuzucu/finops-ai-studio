@@ -1,0 +1,75 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2025-12-31",
+  "total_datasets": 5,
+  "datasets": [
+    {
+      "id": "agri-seed-sales-001",
+      "title": "Tohum Satış, Stok ve Kârlılık Verisi",
+      "sector": "Tarım",
+      "tags": ["tarım", "tohum", "bayi-analizi", "kârlılık", "stok-yönetimi"],
+      "date_range": "2023-01 → 2024-12 (24 ay)",
+      "row_count": 3456,
+      "file_size_kb": 250,
+      "preview_available": false
+    },
+    {
+      "id": "agri-seedling-002",
+      "title": "Fidanlık Üretim Takibi",
+      "sector": "Tarım",
+      "tags": ["tarım", "fidan", "sera", "çimlenme", "maliyet-analizi"],
+      "date_range": "2023-01 → 2024-06 (18 ay)",
+      "row_count": 2880,
+      "file_size_kb": 210,
+      "preview_available": false
+    },
+    {
+      "id": "agri-yield-irrigation-003",
+      "title": "Tarımsal Verim & Sulama İlişkisi",
+      "sector": "Tarım",
+      "tags": ["tarım", "verim", "sulama", "hava", "optimizasyon"],
+      "date_range": "2023-01 → 2024-12 (24 ay)",
+      "row_count": 3000,
+      "file_size_kb": 180,
+      "preview_available": false
+    },
+    {
+      "id": "mfg-oee-scrap-001",
+      "title": "Üretim OEE & Fire Analizi",
+      "sector": "Üretim & Operasyon",
+      "tags": ["üretim", "oee", "fire", "kalite", "performans"],
+      "date_range": "2024-01-01 → 2024-12-31 (365 gün)",
+      "row_count": 52560,
+      "file_size_kb": 3200,
+      "preview_available": false
+    },
+    {
+      "id": "rest-ops-001",
+      "title": "Restoran Operasyonel Performans",
+      "sector": "Restoran & Kafe",
+      "tags": ["restoran", "food-cost", "işçilik", "kârlılık", "ciro"],
+      "date_range": "2023-01 → 2024-06 (78 hafta)",
+      "row_count": 4212,
+      "file_size_kb": 320,
+      "preview_available": false
+    }
+  ],
+  "sectors": [
+    {
+      "name": "Tarım",
+      "count": 3,
+      "icon": "🌱"
+    },
+    {
+      "name": "Üretim & Operasyon",
+      "count": 1,
+      "icon": "🏭"
+    },
+    {
+      "name": "Restoran & Kafe",
+      "count": 1,
+      "icon": "🍽️"
+    }
+  ]
+}
+

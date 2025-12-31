@@ -1352,7 +1352,9 @@
     "popularDashboards": "En Popüler Dashboard'lar",
     "tabs": {
       "admin": "🔐 Admin - Gerçek Veriler",
-      "demo": "🎯 B2B Demo - Müşteri Sunumu"
+      "demo": "🎯 B2B Demo - Müşteri Sunumu",
+      "dashboards": "📊 Profesyonel Dashboard Örnekleri",
+      "testTools": "🔍 Test & İnceleme Araçları"
     },
     "kpis": {
       "totalUsers": "Toplam Kullanıcı",
@@ -1629,5 +1631,167 @@
     "contact": "İletişim",
     "searchTitle": "Aradığınızı Bulamadınız mı?",
     "searchDescription": "Dashboard'unuzda arama yapabilir veya destek ekibimizle iletişime geçebilirsiniz."
+  },
+  "csvLibrary": {
+    "title": "CSV Kütüphanesi",
+    "subtitle": "Demo ve satış sunumları için hazır veri setleri. {count} dataset mevcut.",
+    "uploadCSV": "CSV İçe Aktar",
+    "stats": {
+      "totalDatasets": "Toplam Dataset",
+      "totalRows": "Toplam Satır",
+      "sectorCount": "Sektör Sayısı"
+    },
+    "filters": {
+      "title": "Sektör Filtresi",
+      "all": "Tümü",
+      "allCount": "Tümü ({count})"
+    },
+    "card": {
+      "sector": "Sektör",
+      "dateRange": "Tarih:",
+      "rows": "Satır:",
+      "size": "Boyut:",
+      "preview": "Önizle",
+      "use": "Kullan"
+    },
+    "preview": {
+      "title": "Önizleme",
+      "close": "Kapat",
+      "sampleCharts": "Örnek Grafikler",
+      "kpiCards": "KPI Kartları",
+      "dataPreview": "Veri Önizleme (İlk 20 satır)",
+      "showing": "İlk 20 satır gösteriliyor. Toplam:"
+    },
+    "upload": {
+      "title": "CSV Dosyası Yükle",
+      "description": "Kendi CSV dosyanızı yükleyin. Dosya FinOps CSV Standard v1 formatında olmalıdır.",
+      "dragDrop": "Dosya Seç",
+      "fileTypes": "Sadece CSV dosyaları (.csv)",
+      "required": "Gerekli Kolonlar:",
+      "cancel": "İptal"
+    },
+    "loading": "Yükleniyor..."
+  },
+  "dataIngestion": {
+    "title": "Excel Akıllı Veri Katmanı",
+    "subtitle": "CSV/Excel analizi için 6 adımlı wizard",
+    "tabs": {
+      "upload": "Veri Yükle",
+      "history": "Geçmiş",
+      "howTo": "Nasıl Kullanılır"
+    },
+    "uploadedDatasets": "Yüklenen Veri Setleri",
+    "noDatasets": "Henüz veri seti yüklenmemiş.",
+    "dataset": "Veri Seti",
+    "uploadedAt": "Yüklenme tarihi:",
+    "rows": "satır",
+    "open": "Aç",
+    "howToUse": {
+      "title": "Nasıl Kullanılır?",
+      "whatIs": {
+        "title": "Excel Akıllı Veri Katmanı Nedir?",
+        "content": "Excel/CSV dosyalarınızı hazırlamanıza, analiz etmenize ve görselleştirmenize yardımcı olan 6 adımlı wizard sistemidir. Süreç: Dosya Yükle → Sheet Seç → Header Tespit → Kolon Eşleştir → Veri Doğrula → Önizle & Kaydet."
+      },
+      "howItWorks": {
+        "title": "Nasıl Çalışır?",
+        "step1": "Dosya Yükle: Excel/CSV'nizi sürükle bırak",
+        "step2": "Sheet Seç: Hangi sheet'i kullanacağınızı seçin (çok sheet'li dosyalar için)",
+        "step3": "Header Tespit: Sistem header satırını bulur",
+        "step4": "Kolon Eşleştir: AI kolon türlerini önerir",
+        "step5": "Veri Doğrula: Sistem hataları kontrol eder",
+        "step6": "Önizle & Kaydet: Verinizi gözden geçirin ve kaydedin"
+      },
+      "examples": {
+        "title": "Örnek Senaryolar",
+        "sales": "Satış Verileri: Aylık satış raporunu yükle, kolonları eşleştir (tarih, ürün, tutar), görselleştir",
+        "expenses": "Giderler: Gider raporunu yükle, kategorize et (tarih, kategori, tutar), analiz et",
+        "inventory": "Stok: Stok verilerini yükle, takip et (ürün, miktar, depo), optimize et"
+      },
+      "fileTypes": {
+        "title": "Desteklenen Dosya Türleri",
+        "excel": "Excel (.xlsx, .xls, .xlsm)",
+        "csv": "CSV (.csv)",
+        "note": "Maksimum dosya boyutu: 10MB"
+      },
+      "security": {
+        "title": "Güvenlik & Gizlilik",
+        "local": "Verileriniz tarayıcınızda saklanır (localStorage)",
+        "private": "Hiçbir veri harici sunuculara gönderilmez",
+        "delete": "Verilerinizi istediğiniz zaman silebilirsiniz",
+        "safe": "%100 güvenli ve özel"
+      }
+    }
+  },
+  "testTools": {
+    "title": "🔍 Test & İnceleme Araçları",
+    "subtitle": "Kullanıcı deneyimini gözlemleyin ve sistemin işlevselliğini test edin.",
+    "warning": {
+      "title": "Önemli:",
+      "message": "Bu araçlar sadece admin kullanıcılar içindir. Test ortamında yüklenen veriler localStorage'da saklanır ve gerçek kullanıcı verilerini etkilemez."
+    },
+    "cards": {
+      "dataEntry": {
+        "icon": "📥",
+        "title": "Veri Giriş Sayfası",
+        "description": "Kullanıcıların basit veri giriş deneyimini test edin.",
+        "mode": "Test Modu:",
+        "features": {
+          "simple": "Basit veri giriş formu",
+          "dragDrop": "Sürükle & bırak",
+          "preview": "Hızlı önizleme"
+        },
+        "button": "Sayfayı Aç",
+        "buttonIcon": "📊"
+      },
+      "excelLayer": {
+        "icon": "💾",
+        "title": "Excel Akıllı Veri Katmanı",
+        "description": "Gelişmiş CSV/Excel analiz ve wizard sistemi.",
+        "featuresTitle": "Özellikler:",
+        "features": {
+          "wizard": "6 adımlı wizard",
+          "columnMapping": "Kolon eşleştirme",
+          "validation": "Veri validasyonu",
+          "smartSuggestions": "Akıllı öneri sistemi"
+        },
+        "button": "Wizard'ı Aç",
+        "buttonIcon": "🚀"
+      },
+      "csvLibrary": {
+        "icon": "📊",
+        "title": "CSV Kütüphanesi",
+        "description": "Hazır demo dataset'leri ve yönetim paneli.",
+        "contentTitle": "İçerik:",
+        "features": {
+          "datasets": "5 hazır dataset (65K+ satır)",
+          "sectorFilter": "Sektör filtreleme",
+          "chartPreview": "Grafik önizleme",
+          "csvUpload": "CSV upload"
+        },
+        "button": "Kütüphaneyi Aç",
+        "buttonIcon": "📖"
+      }
+    }
+  },
+  "demoDashboard": {
+    "title": "Seçili Dataset Demo",
+    "loading": "Yükleniyor...",
+    "error": "Hata:",
+    "noData": "Veri bulunamadı.",
+    "selectDataset": "CSV Kütüphanesi'nden bir dataset seçin veya kendi CSV'nizi yükleyin.",
+    "close": "Kapat",
+    "metrics": {
+      "title": "Temel Metrikler",
+      "total": "Toplam",
+      "average": "Ortalama",
+      "maximum": "Maksimum",
+      "minimum": "Minimum"
+    },
+    "charts": {
+      "title": "Grafikler"
+    },
+    "table": {
+      "title": "Veri Önizleme (İlk 10 satır)"
+    }
   }
 }

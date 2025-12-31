@@ -1,0 +1,105 @@
+{
+  "id": "agri-yield-irrigation-003",
+  "title": "Tarımsal Verim & Sulama İlişkisi",
+  "sector": "Tarım",
+  "use_case": "Parsel bazında verim, sulama ve hava koşulları analizi",
+  "grain": "monthly",
+  "date_range": {
+    "start": "2023-01-01",
+    "end": "2024-12-31"
+  },
+  "entities": [
+    "Parsel-A",
+    "Parsel-B",
+    "Parsel-C",
+    "Parsel-D",
+    "Parsel-E"
+  ],
+  "categories": [
+    "Domates",
+    "Biber",
+    "Patlıcan",
+    "Hıyar",
+    "Mısır"
+  ],
+  "metrics": [
+    {
+      "name": "yield_kg",
+      "description": "Hasat verimi",
+      "unit": "kg",
+      "type": "quantity"
+    },
+    {
+      "name": "irrigation_m3",
+      "description": "Sulama miktarı",
+      "unit": "m3",
+      "type": "quantity"
+    },
+    {
+      "name": "fertilizer_kg",
+      "description": "Gübre kullanımı",
+      "unit": "kg",
+      "type": "quantity"
+    },
+    {
+      "name": "weather_index",
+      "description": "Hava durumu endeksi",
+      "unit": "index",
+      "type": "index"
+    },
+    {
+      "name": "yield_per_m3",
+      "description": "Sulama verimliliği",
+      "unit": "kg/m3",
+      "type": "ratio"
+    }
+  ],
+  "recommended_charts": [
+    {
+      "type": "ScatterChart",
+      "title": "Sulama vs Verim",
+      "x": "irrigation_m3",
+      "y": "yield_kg"
+    },
+    {
+      "type": "LineChart",
+      "title": "Aylık Verim Trendi",
+      "x": "date",
+      "y": "yield_kg",
+      "groupBy": "category"
+    },
+    {
+      "type": "BarChart",
+      "title": "Ürün Bazında Verim",
+      "x": "category",
+      "y": "yield_kg",
+      "aggregate": "sum"
+    }
+  ],
+  "kpi_cards": [
+    {
+      "title": "Toplam Verim",
+      "metric": "yield_kg",
+      "aggregate": "sum",
+      "format": "number"
+    },
+    {
+      "title": "Toplam Sulama",
+      "metric": "irrigation_m3",
+      "aggregate": "sum",
+      "format": "number"
+    },
+    {
+      "title": "Ortalama Verimlilik",
+      "metric": "yield_per_m3",
+      "aggregate": "avg",
+      "format": "number"
+    }
+  ],
+  "source": "Sentetik veri (demo amaçlı)",
+  "license": "MIT",
+  "notes": "Yaz aylarında sulama ve verim birlikte artar. Sulama verimliliği ölçülebilir.",
+  "version": "1.0.0",
+  "created_at": "2025-12-31",
+  "row_count": 3000
+}

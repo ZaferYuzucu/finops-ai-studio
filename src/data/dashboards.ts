@@ -960,5 +960,101 @@ export const dashboards: Dashboard[] = [
             "Ürün Kalite Dağılımı",
             "Pazar Fiyat Trendleri ve Karlılık Projeksiyonu"
         ]
+    },
+    {
+        id: "manufacturing-profitability",
+        name: "Üretim Kârlılığı Analizi",
+        category: "Üretim & Operasyon",
+        description: "Ürün hattı, vardiya ve dönem bazında kârlılık takibi ve karar kartları.",
+        longDescription: "Üretim Kârlılığı Dashboard'u, üretim yapan KOBİ'lerin ürün, hat ve vardiya bazında kârlılığını görselleştirir. Hangi ürünlerin kârlı, hangi hatların zarar ettiğini net bir şekilde gösterir. Karar kartları ile 'Hat C zararda: -₺8K/ay' gibi aksiyon gerektiren durumları vurgular. A4 boyutunda yazdırılabilir rapor formatındadır.",
+        imageUrl: uretimKontrolImg,
+        keyQuestions: [
+            "Hangi üretim hattı en kârlı?",
+            "Vardiya bazında kârlılık farkı nedir?",
+            "Zararda olan ürünler tespit edilebiliyor mu?",
+            "Kâr marjı hedefin üstünde mi?",
+            "Hangi hatta kapasite artışı yapılmalı?"
+        ],
+        keyMetrics: [
+            "Aylık Net Kâr (₺)",
+            "Kâr Marjı (%)",
+            "Üretim Hattı Bazında Kâr",
+            "Vardiya Dağılımı",
+            "Ciro ve Kâr Trendi",
+            "En Kârlı / Zararlı Hat",
+            "Karar Kartları (Action Items)"
+        ]
+    },
+    {
+        id: "manufacturing-scrap-analysis",
+        name: "Fire & Verimsizlik Analizi",
+        category: "Üretim & Operasyon",
+        description: "Fire oranları, TL etkisi ve trend analizi ile verimsizliği görünür kılın.",
+        longDescription: "Fire & Verimsizlik Dashboard'u, üretimde oluşan fire oranlarını % ve TL bazında görselleştirir. 'Fire oranı ↑: Bu ay -₺19,800 kayıp' gibi karar kartları ile fire'nin gerçek maliyetini gösterir. Ürün bazında fire analizi, trend takibi ve yıllık maliyet projeksiyonları ile fire'yi azaltma aksiyonlarını destekler.",
+        imageUrl: kaliteKontrolImg,
+        keyQuestions: [
+            "Fire oranı hedefin üstünde mi?",
+            "Hangi ürünlerde fire en yüksek?",
+            "Fire maliyeti ne kadar?",
+            "Fire trendi artış gösteriyor mu?",
+            "Fire %1 düşürülürse yıllık tasarruf ne olur?"
+        ],
+        keyMetrics: [
+            "Fire Oranı (%)",
+            "Aylık Fire Maliyeti (₺)",
+            "Ürün Bazında Fire",
+            "Fire Trend Analizi",
+            "Yıllık Fire Tahmin",
+            "En Yüksek Fire'li Ürün",
+            "Karar Kartları"
+        ]
+    },
+    {
+        id: "manufacturing-capacity-utilization",
+        name: "Kapasite Kullanımı & Maliyet",
+        category: "Üretim & Operasyon",
+        description: "Kapasite kullanımı, boş kapasite maliyeti ve kâr fırsatları.",
+        longDescription: "Kapasite Dashboard'u, makine ve hat bazında kapasite kullanımını gösterir. Boş kalan kapasitenin TL maliyetini hesaplar: 'Boş kapasite ↑: Aylık fırsat maliyeti ₺32K'. Kapasite %80'e çıkarılırsa potansiyel kâr artışını simüle eder. Makine bazında kullanım analizi ile atıl varlıkları tespit edebilirsiniz.",
+        imageUrl: uretimKontrolImg,
+        keyQuestions: [
+            "Kapasite kullanımı hedefin altında mı?",
+            "Boş kapasitenin maliyeti ne kadar?",
+            "Hangi makine atıl durumdadır?",
+            "Kapasite artışı kâr etkisi nedir?",
+            "Yeni sipariş alınabilir mi?"
+        ],
+        keyMetrics: [
+            "Kapasite Kullanım Oranı (%)",
+            "Boş Kapasite Maliyeti (₺)",
+            "Makine Bazında Kullanım",
+            "Potansiyel Kâr (Hedef Kullanımda)",
+            "Kullanım Trend Analizi",
+            "En Düşük Kullanımlı Makine",
+            "Karar Kartları"
+        ]
+    },
+    {
+        id: "manufacturing-inventory-working-capital",
+        name: "Stok & Çalışma Sermayesi",
+        category: "Üretim & Operasyon",
+        description: "Stok devir hızı, bağlı nakit ve sipariş noktaları yönetimi.",
+        longDescription: "Stok Dashboard'u, üretim KOBİ'lerinin en büyük sorunlarından biri olan 'stokta nakit' problemini görünür kılar. 'Stok gün sayısı ↑: Nakit bağlama +₺75K' gibi karar kartları ile stok optimizasyonunu destekler. Depo bazında stok analizi, devir hızı, sipariş noktaları ve yavaş hareket eden ürünleri gösterir.",
+        imageUrl: inventoryManagementImg,
+        keyQuestions: [
+            "Stok gün sayısı hedefin üstünde mi?",
+            "Stokta ne kadar nakit bağlı?",
+            "Hangi depoda aşırı stok var?",
+            "Stok devir hızı sektör ortalamasıyla nasıl?",
+            "Stok azaltılırsa ne kadar nakit serbest kalır?"
+        ],
+        keyMetrics: [
+            "Stok Gün Sayısı",
+            "Bağlı Nakit (₺)",
+            "Stok Devir Hızı (x/yıl)",
+            "Depo Bazında Stok",
+            "Potansiyel Serbest Nakit",
+            "Yavaş Hareket Eden Ürünler",
+            "Karar Kartları"
+        ]
     }
 ]

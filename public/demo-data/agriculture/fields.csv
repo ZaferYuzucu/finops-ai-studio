@@ -1,0 +1,14 @@
+field_id,location,area_decare,crop_type,planting_date,expected_harvest_date,seed_variety,soil_quality
+F001,Adana Ceyhan,50,Domates,2024-03-01,2024-07-15,Rio Grande,İyi
+F002,Adana Ceyhan,35,Biber,2024-03-05,2024-07-20,Charleston,Orta
+F003,Mersin Tarsus,60,Domates,2024-02-25,2024-07-10,Early Girl,Mükemmel
+F004,Mersin Tarsus,45,Hıyar,2024-03-10,2024-06-25,Marketmore,İyi
+F005,Antalya Kumluca,40,Biber,2024-02-28,2024-07-15,California Wonder,İyi
+F006,Antalya Kumluca,55,Domates,2024-03-03,2024-07-18,Beefsteak,Mükemmel
+F007,Adana Karataş,48,Hıyar,2024-03-08,2024-06-30,Ashley,Orta
+F008,Mersin Silifke,52,Domates,2024-03-01,2024-07-15,Ace 55,İyi
+F009,Antalya Serik,38,Biber,2024-03-06,2024-07-22,Jalapeno,İyi
+F010,Adana Yumurtalık,42,Hıyar,2024-03-12,2024-07-05,Straight Eight,Orta
+
+
+

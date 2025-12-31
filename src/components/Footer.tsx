@@ -16,6 +16,7 @@ const getFooterSections = (t: any) => ({
       { name: t('footer.links.budgetPlanning'), href: "/solutions/budget-planning" },
       { name: t('footer.links.cashFlow'), href: "/solutions/cash-flow" },
       { name: t('footer.links.hrPayrollPerformance'), href: "/solutions/hr-payroll-performance" },
+      { name: "🏭 Üretim Sektörü", href: "/sektorler/uretim" },
     ],
     style: {
         background: 'bg-green-50',

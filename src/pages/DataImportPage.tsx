@@ -245,36 +245,47 @@ const DataImportPage: React.FC = () => {
               </div>
             </div>
 
-            {/* 📖 DOSYA YÜKLEME REHBERİ */}
-            <div className="mt-6 bg-blue-50 border-2 border-blue-200 rounded-xl p-5">
-              <h3 className="text-sm font-bold text-blue-900 mb-3 flex items-center gap-2">
-                <FileIcon className="text-blue-600" size={18} />
-                {t('dataImport.fileUpload.guideTitle')}
+            {/* 📖 VERİ GİRİŞ REHBERİ - YENİ */}
+            <div className="mt-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-6 shadow-sm">
+              <h3 className="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
+                <FileIcon className="text-blue-600" size={20} />
+                Verini 2 dakikada bağla
               </h3>
-              <div className="space-y-2 text-xs text-blue-900">
-                <div className="flex items-start gap-2">
-                  <span className="font-bold">1.</span>
-                  <p><span className="font-semibold">{t('dataImport.fileUpload.step1')}</span> {t('dataImport.fileUpload.step1Desc')}</p>
+              <div className="space-y-3 text-sm text-blue-900">
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-600 font-bold flex-shrink-0">•</span>
+                  <p>Excel veya CSV dosyanı <strong>sürükle-bırak</strong>. (Boş şablon gerekmez.)</p>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="font-bold">2.</span>
-                  <p><span className="font-semibold">{t('dataImport.fileUpload.step2')}</span> {t('dataImport.fileUpload.step2Desc')}</p>
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-600 font-bold flex-shrink-0">•</span>
+                  <p>Birden fazla sheet varsa <strong>seçmeni isteriz</strong>.</p>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="font-bold">3.</span>
-                  <p><span className="font-semibold">{t('dataImport.fileUpload.step3')}</span> {t('dataImport.fileUpload.step3Desc')}</p>
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-600 font-bold flex-shrink-0">•</span>
+                  <p>Başlık satırını ve kolonları <strong>otomatik öneririz</strong> — istersen düzeltirsin.</p>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="font-bold">4.</span>
-                  <p><span className="font-semibold">{t('dataImport.fileUpload.step4')}</span> {t('dataImport.fileUpload.step4Desc')}</p>
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-600 font-bold flex-shrink-0">•</span>
+                  <p><strong>Kaydet → Önizle → Dashboard'a uygula.</strong></p>
                 </div>
-                <div className="bg-white border border-blue-300 rounded-lg p-3 mt-3">
-                  <p className="font-semibold mb-1">{t('dataImport.fileUpload.exampleTitle')}</p>
-                  <code className="text-xs bg-gray-100 px-2 py-1 rounded block">
-                    Tarih,Ürün,Kategori,Sipariş,Gelir<br/>
-                    2024-01-01,Pizza,Ana Yemek,120,7800<br/>
-                    2024-01-02,Salata,Meze,45,1575
-                  </code>
+                
+                {/* Küçük Not */}
+                <div className="mt-4 bg-white border border-blue-200 rounded-lg p-3">
+                  <p className="text-xs text-blue-800 italic">
+                    💡 <strong>Not:</strong> Birleştirilmiş hücreler / formüller olabilir. Sistem mümkün olan en iyi şekilde düzleştirir.
+                  </p>
+                </div>
+
+                {/* Örnek CSV İndir */}
+                <div className="mt-4 pt-4 border-t border-blue-200">
+                  <a 
+                    href="/sample-data/sample_sales_data.csv"
+                    download
+                    className="inline-flex items-center gap-2 text-sm text-blue-700 hover:text-blue-900 font-semibold hover:underline"
+                  >
+                    <Download size={16} />
+                    Örnek CSV'leri indir
+                  </a>
                 </div>
               </div>
             </div>
@@ -354,52 +365,46 @@ const DataImportPage: React.FC = () => {
               </div>
             </div>
 
-            {/* 📖 URL BAĞLANTISI REHBERİ */}
-            <div className="mt-6 bg-green-50 border-2 border-green-200 rounded-xl p-5">
-              <h3 className="text-sm font-bold text-green-900 mb-3 flex items-center gap-2">
-                <Globe className="text-green-600" size={18} />
-                {t('dataImport.urlConnection.guideTitle')}
+            {/* 📖 ENTEGRE ET REHBERİ - YENİ */}
+            <div className="mt-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-6 shadow-sm">
+              <h3 className="text-lg font-bold text-green-900 mb-4 flex items-center gap-2">
+                <Globe className="text-green-600" size={20} />
+                Entegre Et
+                <span className="ml-2 px-2 py-0.5 text-xs bg-purple-100 text-purple-700 rounded-full font-semibold">
+                  Faz-2
+                </span>
               </h3>
-              <div className="space-y-2 text-xs text-green-900">
-                <div className="flex items-start gap-2">
-                  <span className="font-bold">1.</span>
-                  <div>
-                    <p className="font-semibold">{t('dataImport.urlConnection.googleSheets')}</p>
-                    <p className="text-green-800 mt-1">{t('dataImport.urlConnection.googleSheetsStep1')}</p>
-                    <p className="text-green-800">{t('dataImport.urlConnection.googleSheetsStep2')}</p>
-                    <code className="text-xs bg-white px-2 py-1 rounded block mt-1">
-                      https://docs.google.com/spreadsheets/d/[ID]/export?format=csv
-                    </code>
-                  </div>
+              <div className="space-y-3 text-sm text-green-900">
+                <div className="flex items-start gap-3">
+                  <span className="text-green-600 font-bold flex-shrink-0">•</span>
+                  <p><strong>ERP/CRM/pos/Excel linkleri</strong> ile otomatik senkron <span className="text-purple-700 font-semibold">(Faz-2)</span>.</p>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="font-bold">2.</span>
-                  <div>
-                    <p className="font-semibold">{t('dataImport.urlConnection.airtable')}</p>
-                    <p className="text-green-800 mt-1">{t('dataImport.urlConnection.airtableDesc')}</p>
-                    <code className="text-xs bg-white px-2 py-1 rounded block mt-1">
-                      https://api.airtable.com/v0/[BASE_ID]/[TABLE_NAME]
-                    </code>
-                  </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-green-600 font-bold flex-shrink-0">•</span>
+                  <p><strong>Şimdilik:</strong> dosya yükleyerek demo'yu çalıştırabilirsin.</p>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="font-bold">3.</span>
-                  <div>
-                    <p className="font-semibold">{t('dataImport.urlConnection.directUrl')}</p>
-                    <p className="text-green-800 mt-1">{t('dataImport.urlConnection.directUrlDesc')}</p>
-                    <code className="text-xs bg-white px-2 py-1 rounded block mt-1">
-                      https://yourwebsite.com/data/sales.csv
-                    </code>
-                  </div>
-                </div>
-                <div className="bg-white border border-green-300 rounded-lg p-3 mt-3">
-                  <p className="font-semibold mb-1">{t('dataImport.urlConnection.advantagesTitle')}</p>
-                  <ul className="list-disc list-inside text-green-800 space-y-1">
-                    <li>{t('dataImport.urlConnection.advantage1')}</li>
-                    <li>{t('dataImport.urlConnection.advantage2')}</li>
-                    <li>{t('dataImport.urlConnection.advantage3')}</li>
-                    <li>{t('dataImport.urlConnection.advantage4')}</li>
+                
+                {/* İpucu Kutusu */}
+                <div className="mt-4 bg-white border border-green-200 rounded-lg p-4">
+                  <p className="text-xs text-green-800 mb-2">
+                    <strong>🚀 Planlanan Entegrasyonlar (Faz-2):</strong>
+                  </p>
+                  <ul className="text-xs text-green-700 space-y-1 ml-4">
+                    <li>• Google Sheets otomatik sync</li>
+                    <li>• Airtable API bağlantısı</li>
+                    <li>• Logo, Netsis, Mikro ERP entegrasyonu</li>
+                    <li>• Paraşüt, Uyumsoft API'leri</li>
                   </ul>
+                </div>
+
+                {/* Geçici Çözüm */}
+                <div className="mt-4 pt-4 border-t border-green-200">
+                  <p className="text-sm text-green-900">
+                    <strong>Şimdi ne yapmalısın?</strong>
+                  </p>
+                  <p className="text-xs text-green-800 mt-2">
+                    👆 Yukarıdaki <strong>"Excel/CSV Sürükle Bırak"</strong> sekmesine geç ve dosyanı yükle.
+                  </p>
                 </div>
               </div>
             </div>

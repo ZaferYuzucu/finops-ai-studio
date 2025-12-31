@@ -56,12 +56,16 @@ import NewsletterPanelPage from './pages/admin/NewsletterPanelPage';
 import PlatformAnalyticsPage from './pages/admin/PlatformAnalyticsPage';
 import PlatformAnalyticsDashboard from './pages/admin/PlatformAnalyticsDashboard';
 import PaymentGuideAdminPage from './pages/admin/PaymentGuideAdminPage';
+import CSVLibraryPage from './pages/admin/CSVLibraryPage';
 import FinOpsTheatrePage from './pages/FinOpsTheatrePage';
 import BusinessPlanPage from './pages/BusinessPlanPage';
 import MarketingPlanPage from './pages/MarketingPlanPage';
 import LaunchRoadmapPage from './pages/LaunchRoadmapPage';
 import InvestorPresentationPage from './pages/InvestorPresentationPage';
 import DashboardCreateWizardPage from './pages/DashboardCreateWizardPage';
+import ManufacturingPage from './pages/sectors/ManufacturingPage';
+import ManufacturingDashboardsPage from './pages/ManufacturingDashboardsPage';
+import DataIngestionPage from './pages/DataIngestionPage';
 
 
 const App: React.FC = () => {
@@ -82,6 +86,11 @@ const App: React.FC = () => {
         <Route path="/solutions/dashboards/:dashboardId" element={<DashboardDetailPage />} />
         <Route path="/solutions/features" element={<DataVisualizationFeaturesPage />} />
         <Route path="/solutions/support" element={<DataVisualizationSupportPage />} />
+        
+        {/* Sectors */}
+        <Route path="/sektorler/uretim" element={<ManufacturingPage />} />
+        <Route path="/sektorler/uretim/dashboards" element={<ManufacturingDashboardsPage />} />
+        
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/what-is-finops" element={<WhatIsFinopsPage />} />
         <Route path="/blog/bringing-teams-together" element={<BringingTeamsTogetherPage />} />
@@ -110,6 +119,7 @@ const App: React.FC = () => {
         
         {/* === Yönetici Korumalı Rotalar (Sadece Yöneticiler) === */}
         <Route path="/admin/platform-analytics" element={<AdminProtectedRoute><PlatformAnalyticsPage /></AdminProtectedRoute>} />
+        <Route path="/admin/csv-library" element={<AdminProtectedRoute><CSVLibraryPage /></AdminProtectedRoute>} />
         <Route path="/admin/dashboard" element={<AdminProtectedRoute><PlatformAnalyticsDashboard /></AdminProtectedRoute>} />
         <Route path="/admin/panel" element={<AdminProtectedRoute><AdminPanelPage /></AdminProtectedRoute>} />
         <Route path="/admin/newsletter" element={<AdminProtectedRoute><NewsletterPanelPage /></AdminProtectedRoute>} />
@@ -126,6 +136,7 @@ const App: React.FC = () => {
         <Route path="/ai-veri-analizi" element={<AIVeriAnaliziPage />} />
         <Route path="/veri-gorsellestirme" element={<VeriGorsellestirmePage />} />
         <Route path="/user-journey-map" element={<AdminProtectedRoute><UserJourneyMapPage /></AdminProtectedRoute>} />
+        <Route path="/data-ingestion" element={<AdminProtectedRoute><DataIngestionPage /></AdminProtectedRoute>} />
 
         {/* === Yasal Sayfalar === */}
         <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />

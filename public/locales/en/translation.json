@@ -1352,7 +1352,9 @@
     "popularDashboards": "Popular Dashboards",
     "tabs": {
       "admin": "🔐 Admin - Real Data",
-      "demo": "🎯 B2B Demo - Client Presentation"
+      "demo": "🎯 B2B Demo - Client Presentation",
+      "dashboards": "📊 Professional Dashboard Examples",
+      "testTools": "🔍 Test & Inspection Tools"
     },
     "kpis": {
       "totalUsers": "Total Users",
@@ -1629,5 +1631,167 @@
     "contact": "Contact",
     "searchTitle": "Couldn't Find What You're Looking For?",
     "searchDescription": "You can search in your dashboard or contact our support team."
+  },
+  "csvLibrary": {
+    "title": "CSV Library",
+    "subtitle": "Ready datasets for demos and sales presentations. {count} datasets available.",
+    "uploadCSV": "Import CSV",
+    "stats": {
+      "totalDatasets": "Total Datasets",
+      "totalRows": "Total Rows",
+      "sectorCount": "Sector Count"
+    },
+    "filters": {
+      "title": "Sector Filter",
+      "all": "All",
+      "allCount": "All ({count})"
+    },
+    "card": {
+      "sector": "Sector",
+      "dateRange": "Date:",
+      "rows": "Rows:",
+      "size": "Size:",
+      "preview": "Preview",
+      "use": "Use"
+    },
+    "preview": {
+      "title": "Preview",
+      "close": "Close",
+      "sampleCharts": "Sample Charts",
+      "kpiCards": "KPI Cards",
+      "dataPreview": "Data Preview (First 20 rows)",
+      "showing": "Showing first 20 rows. Total:"
+    },
+    "upload": {
+      "title": "Upload CSV File",
+      "description": "Upload your own CSV file. File must be in FinOps CSV Standard v1 format.",
+      "dragDrop": "Select File",
+      "fileTypes": "Only CSV files (.csv)",
+      "required": "Required Columns:",
+      "cancel": "Cancel"
+    },
+    "loading": "Loading..."
+  },
+  "dataIngestion": {
+    "title": "Excel Smart Data Layer",
+    "subtitle": "6-step wizard for CSV/Excel analysis",
+    "tabs": {
+      "upload": "Upload Data",
+      "history": "History",
+      "howTo": "How to Use"
+    },
+    "uploadedDatasets": "Uploaded Datasets",
+    "noDatasets": "No datasets uploaded yet.",
+    "dataset": "Dataset",
+    "uploadedAt": "Uploaded at:",
+    "rows": "rows",
+    "open": "Open",
+    "howToUse": {
+      "title": "How to Use?",
+      "whatIs": {
+        "title": "What is Excel Smart Data Layer?",
+        "content": "A 6-step wizard system that helps you prepare, analyze, and visualize your Excel/CSV files. The process: Upload File → Select Sheet → Detect Header → Map Columns → Validate Data → Preview & Save."
+      },
+      "howItWorks": {
+        "title": "How Does It Work?",
+        "step1": "Upload File: Drag & drop your Excel/CSV",
+        "step2": "Select Sheet: Choose which sheet to use (for multi-sheet files)",
+        "step3": "Header Detection: System finds header row",
+        "step4": "Column Mapping: AI suggests column types",
+        "step5": "Data Validation: System checks for errors",
+        "step6": "Preview & Save: Review and save your data"
+      },
+      "examples": {
+        "title": "Example Scenarios",
+        "sales": "Sales Data: Upload monthly sales report, map columns (date, product, amount), visualize",
+        "expenses": "Expenses: Upload expense report, categorize (date, category, amount), analyze",
+        "inventory": "Inventory: Upload stock data, track (product, quantity, warehouse), optimize"
+      },
+      "fileTypes": {
+        "title": "Supported File Types",
+        "excel": "Excel (.xlsx, .xls, .xlsm)",
+        "csv": "CSV (.csv)",
+        "note": "Max file size: 10MB"
+      },
+      "security": {
+        "title": "Security & Privacy",
+        "local": "Your data is stored in your browser (localStorage)",
+        "private": "No data is sent to external servers",
+        "delete": "You can delete your data anytime",
+        "safe": "100% secure and private"
+      }
+    }
+  },
+  "testTools": {
+    "title": "🔍 Test & Inspection Tools",
+    "subtitle": "Observe user experience and test system functionality.",
+    "warning": {
+      "title": "Important:",
+      "message": "These tools are for admin users only. Data uploaded in test environment is stored in localStorage and does not affect real user data."
+    },
+    "cards": {
+      "dataEntry": {
+        "icon": "📥",
+        "title": "Data Entry Page",
+        "description": "Test users' simple data entry experience.",
+        "mode": "Test Mode:",
+        "features": {
+          "simple": "Simple data entry form",
+          "dragDrop": "Drag & drop",
+          "preview": "Quick preview"
+        },
+        "button": "Open Page",
+        "buttonIcon": "📊"
+      },
+      "excelLayer": {
+        "icon": "💾",
+        "title": "Excel Smart Data Layer",
+        "description": "Advanced CSV/Excel analysis and wizard system.",
+        "featuresTitle": "Features:",
+        "features": {
+          "wizard": "6-step wizard",
+          "columnMapping": "Column mapping",
+          "validation": "Data validation",
+          "smartSuggestions": "Smart suggestion system"
+        },
+        "button": "Open Wizard",
+        "buttonIcon": "🚀"
+      },
+      "csvLibrary": {
+        "icon": "📊",
+        "title": "CSV Library",
+        "description": "Ready demo datasets and management panel.",
+        "contentTitle": "Content:",
+        "features": {
+          "datasets": "5 ready datasets (65K+ rows)",
+          "sectorFilter": "Sector filtering",
+          "chartPreview": "Chart preview",
+          "csvUpload": "CSV upload"
+        },
+        "button": "Open Library",
+        "buttonIcon": "📖"
+      }
+    }
+  },
+  "demoDashboard": {
+    "title": "Selected Dataset Demo",
+    "loading": "Loading...",
+    "error": "Error:",
+    "noData": "No data found.",
+    "selectDataset": "Select a dataset from CSV Library or upload your own CSV.",
+    "close": "Close",
+    "metrics": {
+      "title": "Key Metrics",
+      "total": "Total",
+      "average": "Average",
+      "maximum": "Maximum",
+      "minimum": "Minimum"
+    },
+    "charts": {
+      "title": "Charts"
+    },
+    "table": {
+      "title": "Data Preview (First 10 rows)"
+    }
   }
 }

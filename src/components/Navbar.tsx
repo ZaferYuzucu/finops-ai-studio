@@ -40,6 +40,7 @@ export default function Navbar() {
         { name: t('nav.cashFlow'), href: "/solutions/cash-flow" },
         { name: t('nav.budgetPlanning'), href: "/solutions/budget-planning" },
         { name: t('nav.hrPayrollPerformance'), href: "/solutions/hr-payroll-performance" },
+        { name: "🏭 Üretim Sektörü", href: "/sektorler/uretim" },
       ],
     },
     {

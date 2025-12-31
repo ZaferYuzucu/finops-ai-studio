@@ -1,0 +1,34 @@
+date,location,avg_temp_c,rainfall_mm,humidity_pct,condition
+2024-03-01,Adana Ceyhan,18,0,55,Güneşli
+2024-03-05,Adana Ceyhan,16,12,68,Yağmurlu
+2024-03-10,Mersin Tarsus,19,0,52,Güneşli
+2024-03-15,Antalya Kumluca,21,0,50,Güneşli
+2024-03-20,Adana Ceyhan,20,0,58,Parçalı Bulutlu
+2024-03-25,Mersin Tarsus,22,5,62,Hafif Yağmur
+2024-04-01,Antalya Kumluca,24,0,48,Güneşli
+2024-04-05,Adana Ceyhan,23,0,54,Güneşli
+2024-04-10,Mersin Silifke,25,0,50,Güneşli
+2024-04-15,Adana Karataş,24,8,64,Yağmurlu
+2024-04-20,Antalya Serik,26,0,46,Güneşli
+2024-04-25,Adana Yumurtalık,25,0,52,Parçalı Bulutlu
+2024-05-01,Adana Ceyhan,28,0,48,Güneşli
+2024-05-05,Mersin Tarsus,29,0,45,Güneşli
+2024-05-10,Antalya Kumluca,30,0,42,Güneşli
+2024-05-15,Adana Ceyhan,31,0,44,Sıcak
+2024-05-20,Mersin Silifke,32,0,40,Sıcak
+2024-05-25,Antalya Serik,33,0,38,Çok Sıcak
+2024-06-01,Adana Karataş,34,0,36,Çok Sıcak
+2024-06-05,Adana Yumurtalık,35,0,34,Çok Sıcak
+2024-06-10,Adana Ceyhan,36,0,32,Çok Sıcak
+2024-06-15,Mersin Tarsus,35,0,35,Çok Sıcak
+2024-06-20,Antalya Kumluca,34,0,38,Sıcak
+2024-06-25,Adana Ceyhan,33,0,40,Sıcak
+2024-06-30,Mersin Silifke,32,0,42,Sıcak
+2024-07-05,Antalya Serik,34,0,38,Sıcak
+2024-07-10,Adana Yumurtalık,35,0,36,Çok Sıcak
+2024-07-15,Adana Ceyhan,36,0,34,Çok Sıcak
+2024-07-20,Mersin Tarsus,35,0,36,Çok Sıcak
+2024-07-25,Antalya Kumluca,34,0,38,Sıcak
+
+
+

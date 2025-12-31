@@ -1,0 +1,131 @@
+{
+  "id": "rest-ops-001",
+  "title": "Restoran Operasyonel Performans",
+  "sector": "Restoran & Kafe",
+  "use_case": "Şube bazında masa sayısı, ciro, maliyet ve kârlılık analizi",
+  "grain": "weekly",
+  "date_range": {
+    "start": "2023-01-01",
+    "end": "2024-06-30"
+  },
+  "entities": [
+    "Kadıköy Şubesi",
+    "Beşiktaş Şubesi",
+    "Nişantaşı Şubesi"
+  ],
+  "categories": [
+    "Hafta İçi",
+    "Hafta Sonu"
+  ],
+  "metrics": [
+    {
+      "name": "covers",
+      "description": "Masa sayısı",
+      "unit": "masa",
+      "type": "quantity"
+    },
+    {
+      "name": "avg_check_tl",
+      "description": "Ortalama hesap",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "revenue_tl",
+      "description": "Toplam ciro",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "food_cost_tl",
+      "description": "Yiyecek maliyeti",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "food_cost_percent",
+      "description": "Food cost %",
+      "unit": "%",
+      "type": "percentage"
+    },
+    {
+      "name": "labor_hours",
+      "description": "Çalışma saati",
+      "unit": "saat",
+      "type": "duration"
+    },
+    {
+      "name": "labor_cost_tl",
+      "description": "İşçilik maliyeti",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "gross_profit_tl",
+      "description": "Brüt kâr",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "gross_profit_percent",
+      "description": "Brüt kâr marjı",
+      "unit": "%",
+      "type": "percentage"
+    }
+  ],
+  "recommended_charts": [
+    {
+      "type": "LineChart",
+      "title": "Haftalık Ciro Trendi",
+      "x": "date",
+      "y": "revenue_tl",
+      "groupBy": "entity"
+    },
+    {
+      "type": "BarChart",
+      "title": "Şube Bazında Kârlılık",
+      "x": "entity",
+      "y": "gross_profit_tl",
+      "aggregate": "sum"
+    },
+    {
+      "type": "LineChart",
+      "title": "Food Cost % Trendi",
+      "x": "date",
+      "y": "food_cost_percent",
+      "groupBy": "entity"
+    }
+  ],
+  "kpi_cards": [
+    {
+      "title": "Toplam Ciro",
+      "metric": "revenue_tl",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Ortalama Hesap",
+      "metric": "avg_check_tl",
+      "aggregate": "avg",
+      "format": "currency"
+    },
+    {
+      "title": "Toplam Brüt Kâr",
+      "metric": "gross_profit_tl",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Ortalama Kâr Marjı",
+      "metric": "gross_profit_percent",
+      "aggregate": "avg",
+      "format": "percentage"
+    }
+  ],
+  "source": "Sentetik veri (demo amaçlı)",
+  "license": "MIT",
+  "notes": "Hafta sonu ciroları %60 daha yüksek. Food cost ortalama %28-33.",
+  "version": "1.0.0",
+  "created_at": "2025-12-31",
+  "row_count": 4212
+}

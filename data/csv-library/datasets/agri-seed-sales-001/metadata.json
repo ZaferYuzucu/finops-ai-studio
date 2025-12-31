@@ -1,0 +1,114 @@
+{
+  "id": "agri-seed-sales-001",
+  "title": "Tohum Satış, Stok ve Kârlılık Verisi",
+  "sector": "Tarım",
+  "use_case": "Bayi bazında tohum satış analizi, stok yönetimi ve kârlılık takibi",
+  "grain": "monthly",
+  "date_range": {
+    "start": "2023-01-01",
+    "end": "2024-12-31"
+  },
+  "entities": ["İzmir Bayi", "Adana Bayi", "Konya Bayi", "Bursa Bayi"],
+  "categories": [
+    "Buğday Tohumu",
+    "Mısır Tohumu",
+    "Domates Tohumu",
+    "Biber Tohumu",
+    "Salatalık Tohumu",
+    "Patlıcan Tohumu"
+  ],
+  "metrics": [
+    {
+      "name": "units_sold",
+      "description": "Satılan tohum miktarı (kg)",
+      "unit": "kg",
+      "type": "quantity"
+    },
+    {
+      "name": "revenue",
+      "description": "Satış geliri",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "cogs",
+      "description": "Satılan Malın Maliyeti",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "gross_margin",
+      "description": "Brüt kâr",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "margin_percent",
+      "description": "Kâr marjı yüzdesi",
+      "unit": "%",
+      "type": "percentage"
+    },
+    {
+      "name": "inventory_on_hand",
+      "description": "Eldeki stok miktarı",
+      "unit": "kg",
+      "type": "quantity"
+    }
+  ],
+  "recommended_charts": [
+    {
+      "type": "LineChart",
+      "title": "Aylık Satış Trendi",
+      "x": "date",
+      "y": "revenue",
+      "groupBy": "entity"
+    },
+    {
+      "type": "BarChart",
+      "title": "Tohum Türüne Göre Kârlılık",
+      "x": "category",
+      "y": "gross_margin",
+      "aggregate": "sum"
+    },
+    {
+      "type": "LineChart",
+      "title": "Stok Seviyesi Takibi",
+      "x": "date",
+      "y": "inventory_on_hand",
+      "groupBy": "category"
+    }
+  ],
+  "kpi_cards": [
+    {
+      "title": "Toplam Ciro",
+      "metric": "revenue",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Ortalama Kâr Marjı",
+      "metric": "margin_percent",
+      "aggregate": "avg",
+      "format": "percentage"
+    },
+    {
+      "title": "Toplam Satış (kg)",
+      "metric": "units_sold",
+      "aggregate": "sum",
+      "format": "number"
+    },
+    {
+      "title": "Toplam Brüt Kâr",
+      "metric": "gross_margin",
+      "aggregate": "sum",
+      "format": "currency"
+    }
+  ],
+  "source": "Sentetik veri (demo amaçlı)",
+  "license": "MIT",
+  "notes": "İlkbahar (Mart-Mayıs) aylarında satışlar artış gösterir. Stok seviyeleri mevsimsel olarak değişir.",
+  "version": "1.0.0",
+  "created_at": "2025-12-31",
+  "row_count": 3456
+}
+

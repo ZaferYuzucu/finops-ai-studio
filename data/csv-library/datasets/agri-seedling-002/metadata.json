@@ -1,0 +1,129 @@
+{
+  "id": "agri-seedling-002",
+  "title": "Fidanlık Üretim Takibi",
+  "sector": "Tarım",
+  "use_case": "Sera bazında fidan üretim performansı, çimlenme oranı ve maliyet analizi",
+  "grain": "monthly",
+  "date_range": {
+    "start": "2023-01-01",
+    "end": "2024-06-30"
+  },
+  "entities": [
+    "Sera-1",
+    "Sera-2",
+    "Sera-3",
+    "Sera-4"
+  ],
+  "categories": [
+    "Domates Fidanı",
+    "Biber Fidanı",
+    "Patlıcan Fidanı",
+    "Hıyar Fidanı",
+    "Kabak Fidanı"
+  ],
+  "metrics": [
+    {
+      "name": "planted",
+      "description": "Ekilen fidan sayısı",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "germinated",
+      "description": "Çıkan fidan sayısı",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "germination_rate",
+      "description": "Çimlenme oranı",
+      "unit": "%",
+      "type": "percentage"
+    },
+    {
+      "name": "loss_rate",
+      "description": "Kayıp oranı",
+      "unit": "%",
+      "type": "percentage"
+    },
+    {
+      "name": "ready_seedlings",
+      "description": "Satışa hazır fidan",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "days_to_ready",
+      "description": "Hazırlanma süresi",
+      "unit": "gün",
+      "type": "duration"
+    },
+    {
+      "name": "cost_per_seedling",
+      "description": "Fidan başına maliyet",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "total_cost",
+      "description": "Toplam maliyet",
+      "currency": "TL",
+      "type": "currency"
+    }
+  ],
+  "recommended_charts": [
+    {
+      "type": "LineChart",
+      "title": "Aylık Üretim Trendi",
+      "x": "date",
+      "y": "ready_seedlings",
+      "groupBy": "entity"
+    },
+    {
+      "type": "BarChart",
+      "title": "Çimlenme Oranı",
+      "x": "category",
+      "y": "germination_rate",
+      "aggregate": "avg"
+    },
+    {
+      "type": "LineChart",
+      "title": "Kayıp Oranı Trendi",
+      "x": "date",
+      "y": "loss_rate",
+      "groupBy": "category"
+    }
+  ],
+  "kpi_cards": [
+    {
+      "title": "Toplam Üretim",
+      "metric": "ready_seedlings",
+      "aggregate": "sum",
+      "format": "number"
+    },
+    {
+      "title": "Ortalama Çimlenme",
+      "metric": "germination_rate",
+      "aggregate": "avg",
+      "format": "percentage"
+    },
+    {
+      "title": "Ortalama Kayıp",
+      "metric": "loss_rate",
+      "aggregate": "avg",
+      "format": "percentage"
+    },
+    {
+      "title": "Toplam Maliyet",
+      "metric": "total_cost",
+      "aggregate": "sum",
+      "format": "currency"
+    }
+  ],
+  "source": "Sentetik veri (demo amaçlı)",
+  "license": "MIT",
+  "notes": "İlkbahar aylarında üretim artışı. Çimlenme oranı %75-90 arasında.",
+  "version": "1.0.0",
+  "created_at": "2025-12-31",
+  "row_count": 2880
+}

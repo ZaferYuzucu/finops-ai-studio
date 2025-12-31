@@ -1,0 +1,129 @@
+{
+  "id": "mfg-oee-scrap-001",
+  "title": "Üretim OEE & Fire Analizi",
+  "sector": "Üretim & Operasyon",
+  "use_case": "Üretim hattı performansı, fire maliyeti ve OEE skoru takibi",
+  "grain": "daily",
+  "date_range": {
+    "start": "2024-01-01",
+    "end": "2024-12-31"
+  },
+  "entities": [
+    "Hat-1-Gündüz",
+    "Hat-1-Gece",
+    "Hat-2-Gündüz",
+    "Hat-2-Gece",
+    "Hat-3-Gündüz",
+    "Hat-3-Gece"
+  ],
+  "categories": [
+    "Ürün-A",
+    "Ürün-B",
+    "Ürün-C"
+  ],
+  "metrics": [
+    {
+      "name": "oee_percent",
+      "description": "Overall Equipment Effectiveness",
+      "unit": "%",
+      "type": "percentage"
+    },
+    {
+      "name": "availability_percent",
+      "description": "Kullanılabilirlik",
+      "unit": "%",
+      "type": "percentage"
+    },
+    {
+      "name": "performance_percent",
+      "description": "Performans",
+      "unit": "%",
+      "type": "percentage"
+    },
+    {
+      "name": "quality_percent",
+      "description": "Kalite",
+      "unit": "%",
+      "type": "percentage"
+    },
+    {
+      "name": "production_units",
+      "description": "Üretim miktarı",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "scrap_units",
+      "description": "Fire miktarı",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "scrap_cost_tl",
+      "description": "Fire maliyeti",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "downtime_hours",
+      "description": "Duruş süresi",
+      "unit": "saat",
+      "type": "duration"
+    }
+  ],
+  "recommended_charts": [
+    {
+      "type": "LineChart",
+      "title": "Günlük OEE Trendi",
+      "x": "date",
+      "y": "oee_percent",
+      "groupBy": "entity"
+    },
+    {
+      "type": "BarChart",
+      "title": "Hat Bazında Fire Maliyeti",
+      "x": "entity",
+      "y": "scrap_cost_tl",
+      "aggregate": "sum"
+    },
+    {
+      "type": "LineChart",
+      "title": "Kullanılabilirlik Trendi",
+      "x": "date",
+      "y": "availability_percent",
+      "groupBy": "entity"
+    }
+  ],
+  "kpi_cards": [
+    {
+      "title": "Ortalama OEE",
+      "metric": "oee_percent",
+      "aggregate": "avg",
+      "format": "percentage"
+    },
+    {
+      "title": "Toplam Üretim",
+      "metric": "production_units",
+      "aggregate": "sum",
+      "format": "number"
+    },
+    {
+      "title": "Toplam Fire Maliyeti",
+      "metric": "scrap_cost_tl",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Toplam Duruş",
+      "metric": "downtime_hours",
+      "aggregate": "sum",
+      "format": "number"
+    }
+  ],
+  "source": "Sentetik veri (demo amaçlı)",
+  "license": "MIT",
+  "notes": "OEE = Kullanılabilirlik × Performans × Kalite. Günlük veri ile detaylı analiz.",
+  "version": "1.0.0",
+  "created_at": "2025-12-31",
+  "row_count": 52560
+}

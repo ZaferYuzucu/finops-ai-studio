@@ -1,0 +1,14 @@
+harvest_date,field_id,crop_type,harvested_qty_kg,yield_per_decare_kg,quality_grade,waste_pct
+2024-07-12,F003,Domates,36000,600,A,8
+2024-07-15,F001,Domates,27500,550,A,10
+2024-07-15,F008,Domates,28600,550,A,9
+2024-07-18,F006,Domates,30250,550,A,9
+2024-07-20,F002,Biber,12250,350,B,12
+2024-07-15,F005,Biber,14000,350,A,10
+2024-07-22,F009,Biber,12920,340,B,13
+2024-06-25,F004,Hıyar,18000,400,A,7
+2024-06-30,F007,Hıyar,18240,380,B,10
+2024-07-05,F010,Hıyar,15960,380,B,11
+
+
+

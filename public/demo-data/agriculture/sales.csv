@@ -1,0 +1,14 @@
+sale_date,field_id,crop_type,qty_sold_kg,unit_price_tl,total_revenue,channel,buyer_type
+2024-07-13,F003,Domates,33120,8.5,281520,Toptancı Hali,B2B
+2024-07-16,F001,Domates,24750,8.0,198000,Toptancı Hali,B2B
+2024-07-16,F008,Domates,26026,8.2,213413,Perakende Zincir,B2B
+2024-07-19,F006,Domates,27528,8.3,228482,Perakende Zincir,B2B
+2024-07-21,F002,Biber,10780,12.0,129360,Toptancı Hali,B2B
+2024-07-16,F005,Biber,12600,12.5,157500,Perakende Zincir,B2B
+2024-07-23,F009,Biber,11240,11.5,129260,Toptancı Hali,B2B
+2024-06-26,F004,Hıyar,16740,6.5,108810,Perakende Zincir,B2B
+2024-07-01,F007,Hıyar,16416,6.0,98496,Toptancı Hali,B2B
+2024-07-06,F010,Hıyar,14254,6.2,88375,Toptancı Hali,B2B
+
+
+

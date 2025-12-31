@@ -1,0 +1,24 @@
+employee_id,name,department,position,hire_date,salary,performance_score,tenure_months
+E001,Ahmet Yılmaz,Teknoloji,Yazılım Geliştirici,2022-03-15,18000,4.2,34
+E002,Ayşe Kaya,Pazarlama,Pazarlama Müdürü,2021-01-10,25000,4.5,48
+E003,Mehmet Demir,Satış,Satış Temsilcisi,2023-06-01,12000,3.8,19
+E004,Zeynep Çelik,İK,İK Uzmanı,2022-09-20,15000,4.3,28
+E005,Can Arslan,Finans,Mali İşler Müdürü,2020-05-12,28000,4.6,56
+E006,Elif Öztürk,Teknoloji,Frontend Developer,2023-02-15,16000,4.0,23
+E007,Murat Şahin,Satış,Satış Müdürü,2021-08-01,22000,4.4,41
+E008,Selin Aydın,Pazarlama,Sosyal Medya Uzmanı,2023-04-10,13000,3.9,21
+E009,Burak Yıldız,Teknoloji,Backend Developer,2022-11-05,17000,4.1,26
+E010,Deniz Koç,İK,İK Müdürü,2020-02-20,26000,4.7,59
+E011,Gizem Aktaş,Finans,Muhasebe Uzmanı,2023-01-15,14000,4.0,24
+E012,Emre Polat,Satış,Satış Temsilcisi,2023-07-01,12000,3.7,18
+E013,Özge Acar,Pazarlama,İçerik Yöneticisi,2022-06-10,14500,4.2,31
+E014,Oğuz Yurt,Teknoloji,DevOps Mühendisi,2021-12-01,19000,4.3,37
+E015,Merve Taş,İK,İşe Alım Uzmanı,2023-03-20,13500,3.8,22
+E016,Kaan Uzun,Finans,Finans Analisti,2022-08-15,16000,4.1,29
+E017,Nazlı Kılıç,Satış,Kurumsal Satış,2023-05-05,15000,4.0,20
+E018,Serkan Bulut,Teknoloji,QA Tester,2023-09-10,13000,3.6,16
+E019,İpek Güneş,Pazarlama,Dijital Pazarlama,2022-04-12,14000,4.1,33
+E020,Tolga Erdoğan,Satış,Satış Temsilcisi,2023-08-01,12000,3.5,17
+
+
+
