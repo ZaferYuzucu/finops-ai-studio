@@ -40,11 +40,11 @@ const attendanceData = [
 ];
 
 const facultyWorkloadData = [
-  { faculty: 'Mühendislik', students: 850, faculty: 28, ratio: 30.4 },
-  { faculty: 'İşletme', students: 720, faculty: 22, ratio: 32.7 },
-  { faculty: 'Tıp', students: 580, faculty: 42, ratio: 13.8 },
-  { faculty: 'Hukuk', students: 485, faculty: 18, ratio: 26.9 },
-  { faculty: 'Fen-Edebiyat', students: 545, faculty: 25, ratio: 21.8 },
+  { faculty: 'Mühendislik', students: 850, staffCount: 28, ratio: 30.4 },
+  { faculty: 'İşletme', students: 720, staffCount: 22, ratio: 32.7 },
+  { faculty: 'Tıp', students: 580, staffCount: 42, ratio: 13.8 },
+  { faculty: 'Hukuk', students: 485, staffCount: 18, ratio: 26.9 },
+  { faculty: 'Fen-Edebiyat', students: 545, staffCount: 25, ratio: 21.8 },
 ];
 
 const COLORS = ['#10B981', '#3B82F6', '#F59E0B', '#8B5CF6', '#EF4444'];

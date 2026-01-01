@@ -27,6 +27,7 @@ import restoranEnvanterImg from "@/assets/illustrations/undraw/undraw_database-t
 import restoranIsgucuImg from "@/assets/illustrations/undraw/undraw_performance-overview_1b4y-finops.svg";
 import restoranSatisImg from "@/assets/illustrations/undraw/design-stats-bro-finops.svg";
 import uretimKontrolImg from "@/assets/illustrations/undraw/visual-data-pana-finops.svg";
+import educationDashboardImg from "@/assets/illustrations/undraw/undraw_analytics-setup_ptrz-finops.svg";
 
 
 export interface Dashboard {
@@ -49,7 +50,8 @@ export const dashboardCategories = [
   "İnsan Kaynakları",
   "Otomotiv",
   "Satış & Pazarlama",
-  "Tarım"
+  "Tarım",
+  "Eğitim & Akademik"
 ];
 
 export const dashboards: Dashboard[] = [
@@ -1055,6 +1057,34 @@ export const dashboards: Dashboard[] = [
             "Potansiyel Serbest Nakit",
             "Yavaş Hareket Eden Ürünler",
             "Karar Kartları"
+        ]
+    },
+    // Eğitim & Akademik
+    {
+        id: "egitim-performans-paneli",
+        name: "Eğitim Performans Paneli",
+        category: "Eğitim & Akademik",
+        description: "Öğrenci başarısı, devam oranları, fakülte yükü ve akademik performans analizi.",
+        longDescription: "Eğitim Performans Paneli, üniversiteler, liseler ve özel eğitim kurumları için tasarlanmış kapsamlı bir analiz aracıdır. Öğrenci kayıt trendleri, ders başarı oranları, not dağılımları, devam durumu ve fakülte/öğretim üyesi iş yükü gibi kritik metrikleri tek bir ekranda birleştirir. Akademik başarıyı artırmak, kaynak planlaması yapmak ve öğrenci memnuniyetini ölçmek için veri odaklı kararlar almanızı sağlar.",
+        imageUrl: educationDashboardImg,
+        keyQuestions: [
+            "Öğrenci kayıt sayıları ve elde tutma oranları nasıl?",
+            "Hangi derslerde başarı oranı düşük?",
+            "Not dağılımı dengeli mi, yoksa iyileştirme gereken alanlar var mı?",
+            "Devam oranları hedeflenen seviyelerde mi?",
+            "Fakülte/öğretim üyesi başına düşen öğrenci sayısı optimal mi?",
+            "Hangi bölümlerde kapasite artırımı gerekiyor?"
+        ],
+        keyMetrics: [
+            "Toplam Öğrenci Sayısı",
+            "Kayıt Trendi (Dönemsel)",
+            "Elde Tutma Oranı (%)",
+            "Mezuniyet Tamamlama Oranı (%)",
+            "Ders Başarı Oranı (Ders Bazında)",
+            "Not Dağılımı (A-F)",
+            "Haftalık Devam Oranı (%)",
+            "Fakülte/Öğretim Üyesi Başına Öğrenci Oranı",
+            "Bölüm Bazında Kapasite Analizi"
         ]
     }
 ]
