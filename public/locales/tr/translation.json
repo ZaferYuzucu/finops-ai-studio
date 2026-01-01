@@ -757,16 +757,16 @@
     "metrics": "Metrik"
   },
   "dashboardCategories": {
-    "Finans": "Finans",
-    "Satış": "Satış",
-    "Pazarlama": "Pazarlama",
-    "Operasyon": "Operasyon",
-    "İnsan Kaynakları": "İnsan Kaynakları",
-    "Restoran": "Restoran",
-    "Otel": "Otel",
-    "Otomotiv": "Otomotiv",
-    "Tarım": "Tarım",
-    "E-Ticaret": "E-Ticaret"
+    "Restoran & Kafe": "🍽️ Restoran & Kafe",
+    "Üretim & Operasyon": "🏭 Üretim & Operasyon",
+    "Finans & Muhasebe": "💰 Finans & Muhasebe",
+    "Otel & Konaklama": "🏨 Otel & Konaklama",
+    "E-Ticaret & Retail": "🛒 E-Ticaret & Retail",
+    "İnsan Kaynakları": "👥 İnsan Kaynakları",
+    "Otomotiv": "🚗 Otomotiv",
+    "Satış & Pazarlama": "📊 Satış & Pazarlama",
+    "Tarım": "🌾 Tarım",
+    "Eğitim & Akademik": "🎓 Eğitim & Akademik"
   },
   "dashboards": {
     "cfo-kontrol-paneli": {
