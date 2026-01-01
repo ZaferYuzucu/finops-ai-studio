@@ -112,6 +112,7 @@ const App: React.FC = () => {
         {/* === Kullanıcı Korumalı Rotalar (Giriş Yapmış Kullanıcılar) === */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboards" element={<ProfessionalDashboardsPage />} />
           <Route path="/professional-dashboards" element={<ProfessionalDashboardsPage />} />
           <Route path="/veri-girisi" element={<DataImportPage />} />
           <Route path="/dashboard/demo-preview" element={<DemoDashboardPreview />} />

@@ -129,6 +129,14 @@ const DASHBOARD_CATEGORIES = {
       { id: 'agriculture-operations', name: 'Tarım Operasyonları', component: 'AgricultureDashboard' },
       { id: 'agriculture-harvest', name: 'Hasat Yönetimi', component: 'FleetManagementDashboard' },
     ]
+  },
+  education: {
+    icon: '🎓',
+    name: 'Eğitim & Akademik',
+    color: 'cyan',
+    dashboards: [
+      { id: 'education-performance', name: 'Eğitim Performans Paneli', component: 'EducationDashboard' },
+    ]
   }
 };
 
@@ -150,10 +158,10 @@ const ProfessionalDashboardsPage = () => {
             <span>Geri Dön</span>
           </button>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            📊 Profesyonel Dashboard Örnekleri
+            Profesyonel Dashboard Örnekleri
           </h1>
           <p className="text-gray-600">
-            29 adet profesyonel dashboard, 9 sektör kategorisinde. Zengin CSV verileri ile beslenen, print-ready görseller.
+            30 adet profesyonel dashboard, 10 sektör kategorisinde. Zengin CSV verileri ile beslenen, print-ready görseller.
           </p>
         </div>
 
@@ -166,7 +174,7 @@ const ProfessionalDashboardsPage = () => {
               Sektör ve Dashboard Seçimi
             </h2>
             <p className="text-gray-700 mb-4">
-              <strong>29 adet</strong> profesyonel dashboard, <strong>9 sektör</strong> kategorisinde gruplandırılmış. 
+              <strong>30 adet</strong> profesyonel dashboard, <strong>10 sektör</strong> kategorisinde gruplandırılmış. 
               Zengin CSV verileri ile beslenen, A4 print-ready, Recharts + Tailwind ile kodlanmış.
             </p>
             
@@ -186,6 +194,7 @@ const ProfessionalDashboardsPage = () => {
                   else if (category.color === 'red') activeClass = 'bg-red-600 text-white shadow-lg';
                   else if (category.color === 'indigo') activeClass = 'bg-indigo-600 text-white shadow-lg';
                   else if (category.color === 'lime') activeClass = 'bg-lime-600 text-white shadow-lg';
+                  else if (category.color === 'cyan') activeClass = 'bg-cyan-600 text-white shadow-lg';
                 }
                 
                 return (
@@ -256,7 +265,7 @@ const ProfessionalDashboardsPage = () => {
             
             {/* Logistics & Education */}
             {selectedDashboard === 'logistics-kpi' && <LogisticsDashboard />}
-            {selectedDashboard === 'education-kpi' && <EducationDashboard />}
+            {selectedDashboard === 'education-performance' && <EducationDashboard />}
             
             {/* Energy & Retail */}
             {selectedDashboard === 'energy-kpi' && <EnergyDashboard />}
