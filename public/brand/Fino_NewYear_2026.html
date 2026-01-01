@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fino'dan 2026 Yılı Mesajı 🐕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 30px;
+            padding: 35px 35px 30px 35px;
+            max-width: 580px;
+            max-height: 820px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative elements */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Fino Character */
+        .fino-avatar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .fino-emoji {
+            font-size: 80px;
+            line-height: 1;
+            animation: wave 2s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .year {
+            font-size: 52px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 6px;
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .from {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
+            margin-top: 6px;
+        }
+
+        /* Message */
+        .message {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 25px 30px;
+            margin: 20px 0;
+            border: 2px solid #fbbf24;
+            position: relative;
+        }
+
+        .message::before {
+            content: '"';
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            font-size: 60px;
+            color: #fbbf24;
+            opacity: 0.3;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .message-text {
+            font-size: 15px;
+            line-height: 1.65;
+            color: #1e293b;
+            text-align: center;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message-text strong {
+            color: #d97706;
+            font-weight: 700;
+        }
+
+        .emoji {
+            font-size: 20px;
+            margin: 0 3px;
+            display: inline-block;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0 20px 0;
+            gap: 12px;
+        }
+
+        .stat {
+            text-align: center;
+            flex: 1;
+            padding: 15px 10px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 900;
+            color: #f59e0b;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            line-height: 1.2;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 900;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .logo-highlight {
+            color: #f59e0b;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .website {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white !important;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .website span {
+            color: white !important;
+        }
+
+        .website:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Signature */
+        .signature {
+            margin-top: 18px;
+            text-align: right;
+            font-size: 14px;
+            color: #475569;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .signature-paw {
+            display: inline-block;
+            margin-left: 6px;
+            font-size: 16px;
+            animation: rotate 3s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(15deg); }
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            font-size: 18px;
+            animation: sparkle 3s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .sparkle-1 { top: 15%; left: 10%; animation-delay: 0s; }
+        .sparkle-2 { top: 25%; right: 15%; animation-delay: 1s; }
+        .sparkle-3 { bottom: 20%; left: 15%; animation-delay: 2s; }
+        .sparkle-4 { bottom: 30%; right: 10%; animation-delay: 1.5s; }
+
+        /* A4 Print Friendly */
+        @media print {
+            body {
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-height: none;
+            }
+        }
+
+        /* Small screens */
+        @media (max-height: 900px) {
+            .container {
+                max-height: 800px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sparkle sparkle-1">✨</div>
+        <div class="sparkle sparkle-2">🎉</div>
+        <div class="sparkle sparkle-3">🎊</div>
+        <div class="sparkle sparkle-4">✨</div>
+
+        <div class="content">
+            <!-- Fino Character -->
+            <div class="fino-avatar">
+                <div class="fino-emoji">🐕</div>
+            </div>
+
+            <!-- Header -->
+            <div class="header">
+                <div class="year">2026</div>
+                <div class="subtitle">Yeni Yıl Mesajı</div>
+                <div class="from">Fino'dan Tüm KOBİ'lere ❤️</div>
+            </div>
+
+            <!-- Main Message -->
+            <div class="message">
+                <div class="message-text">
+                    Hav hav! <span class="emoji">🎉</span><br>
+                    
+                    <strong>2025'te birlikte harika işler başardık!</strong><br>
+                    Excel tablolarınızı <strong>akıllı dashboard'lara</strong> dönüştürdük,<br>
+                    verilerinizle <strong>konuştuk</strong>, kararlarınızı <strong>netleştirdik</strong>.<br>
+                    
+                    <strong>2026'da daha da güçlü olacağız!</strong> <span class="emoji">💪</span><br>
+                    
+                    Sizin başarınız, benim mutluluğum.<br>
+                    Kârlı, sağlıklı ve <strong>dijital bir yıl</strong> dilerim!<br>
+                    
+                    <strong>Hep yanınızdayım!</strong> <span class="emoji">🐾</span>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">29</div>
+                    <div class="stat-label">Dashboard</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Tüm Sektörler</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">🚀</div>
+                    <div class="stat-label">Olasılık</div>
+                </div>
+            </div>
+
+            <!-- Signature -->
+            <div class="signature">
+                — Fino, Yapay Zeka Köpeğiniz 
+                <span class="signature-paw">🐾</span>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <div class="logo">
+                    <span class="logo-highlight">FinOps</span> AI Studio
+                </div>
+                <div class="tagline">
+                    Verilerinizi Kararlarınıza Dönüştürün
+                </div>
+                <a href="https://finops-ai-studio.vercel.app" target="_blank" class="website">
+                    <span>🌐</span>
+                    <span>www.finops.ist</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive sparkle effect
+        document.addEventListener('mousemove', function(e) {
+            const sparkles = document.querySelectorAll('.sparkle');
+            sparkles.forEach((sparkle, index) => {
+                const x = (e.clientX / window.innerWidth) * 20;
+                const y = (e.clientY / window.innerHeight) * 20;
+                sparkle.style.transform = `translate(${x * (index + 1)}px, ${y * (index + 1)}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
+

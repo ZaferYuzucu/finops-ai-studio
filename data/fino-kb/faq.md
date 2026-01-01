@@ -173,3 +173,5 @@ Financial Operations (Finansal Operasyonlar) - Veriye dayalı finansal karar alm
 - Üretim Sektörü: /sektorler/uretim
 - İletişim: /contact
 
+
+

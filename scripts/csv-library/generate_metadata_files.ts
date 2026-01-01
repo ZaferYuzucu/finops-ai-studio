@@ -293,3 +293,5 @@ function writeFiles() {
 writeFiles();
 console.log('\n✅ Tüm metadata dosyaları oluşturuldu!');
 
+
+

@@ -249,6 +249,39 @@ async function generateResponse(
 }
 
 /**
+ * Check for special 2026 New Year questions
+ */
+function check2026Question(message: string): string | null {
+  const messageLower = message.toLowerCase()
+    .replace(/ğ/g, 'g')
+    .replace(/ü/g, 'u')
+    .replace(/ş/g, 's')
+    .replace(/ı/g, 'i')
+    .replace(/ö/g, 'o')
+    .replace(/ç/g, 'c');
+
+  // 2026 beklenti soruları
+  const patterns2026 = [
+    /2026.*beklenti/,
+    /2026.*ne.*dusun/,
+    /2026.*ne.*bekl/,
+    /2026.*icin.*ne/,
+    /2026.*hakkinda/,
+    /yeni.*yil.*beklenti/,
+    /yeni.*yil.*ne.*dusun/,
+    /yeni.*yildan.*ne.*bekl/
+  ];
+
+  for (const pattern of patterns2026) {
+    if (pattern.test(messageLower)) {
+      return "🎉 2026 yılında sizlerle çalışmaktan büyük keyif alacağım! Sizleri daha kârlı yapmak beni çok mutlu eder. 💪\n\nBirlikte daha akıllı kararlar alacak, Excel'deki verilerinizi güçlü analizlere dönüştürecek ve işinizi büyüteceğiz! 🚀\n\nHep yanınızdayım! 🐾";
+    }
+  }
+
+  return null;
+}
+
+/**
  * Main chat function
  */
 export async function processFinoChat(
@@ -258,6 +291,13 @@ export async function processFinoChat(
   try {
     // Log user message
     finoLogger.logUserMessage(userMessage);
+
+    // Check for special 2026 questions first
+    const special2026Answer = check2026Question(userMessage);
+    if (special2026Answer) {
+      finoLogger.logAiResponse(special2026Answer, { special: '2026-greeting' });
+      return special2026Answer;
+    }
 
     // Load knowledge base
     const kbCache = await loadKnowledgeBase();

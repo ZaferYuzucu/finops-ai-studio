@@ -97,3 +97,5 @@ FinOps AI Studio, KOBİ'ler için tasarlanmış yapay zeka destekli finansal kar
 - Blog: /blog
 - İletişim: /contact
 
+
+

@@ -200,3 +200,5 @@ Premium ve Kurumsal planlarda sektöre özel onboarding eğitimi verilir.
 - Veri Yükleme: /data-ingestion
 - Fiyatlandırma: /pricing
 
+
+

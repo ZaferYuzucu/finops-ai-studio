@@ -165,3 +165,5 @@ ts-node faostat_bulk.ts
 **Son Güncelleme**: 2025-12-31  
 **Maintainer**: FinOps.ist Data Team
 
+
+

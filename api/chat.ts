@@ -105,3 +105,5 @@ ${context || 'FinOps AI Studio, KOBİ\'ler için yapay zeka destekli finansal ka
   }
 }
 
+
+
