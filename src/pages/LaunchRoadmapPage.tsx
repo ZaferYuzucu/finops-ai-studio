@@ -2,9 +2,67 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Rocket, Target, TrendingUp, Users, Lightbulb, MessageSquare } from 'lucide-react';
+import html2canvas from 'html2canvas';
 
 export default function LaunchRoadmapPage() {
   const { t } = useTranslation();
+
+  // PNG İndirme Fonksiyonu
+  const handleDownloadPNG = async (postNumber: number) => {
+    try {
+      // Geçici iframe oluştur
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'fixed';
+      iframe.style.left = '-9999px';
+      iframe.style.width = '1080px';
+      iframe.style.height = '1080px';
+      iframe.src = `/brand/LinkedIn_Post_${postNumber}.html`;
+      document.body.appendChild(iframe);
+
+      // İframe yüklenene kadar bekle
+      await new Promise((resolve) => {
+        iframe.onload = resolve;
+      });
+
+      // İframe içeriğini bekle
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // HTML'i canvas'a çevir
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (!iframeDoc || !iframeDoc.body) {
+        throw new Error('İframe içeriği yüklenemedi');
+      }
+
+      const canvas = await html2canvas(iframeDoc.body, {
+        width: 1080,
+        height: 1080,
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null
+      });
+
+      // Canvas'ı PNG'ye çevir ve indir
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `FinOps_LinkedIn_Post_${postNumber}.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }
+        // İframe'i temizle
+        document.body.removeChild(iframe);
+      }, 'image/png');
+
+    } catch (error) {
+      console.error('PNG indirme hatası:', error);
+      alert('PNG indirme sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -256,16 +314,15 @@ export default function LaunchRoadmapPage() {
                         }}
                       />
                     </div>
-                    <a 
-                      href={`/brand/LinkedIn_Post_${item.num}.html`}
-                      target="_blank"
+                    <button 
+                      onClick={() => handleDownloadPNG(item.num)}
                       className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3 3m0 0l-3-3m3 3V8" />
                       </svg>
                       PNG İndir
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
