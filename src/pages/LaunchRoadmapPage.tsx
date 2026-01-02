@@ -304,6 +304,7 @@ export default function LaunchRoadmapPage() {
                     <div className="relative w-80 h-80 bg-white rounded-lg shadow-lg overflow-hidden border-2 border-gray-200">
                       <iframe 
                         src={`/brand/LinkedIn_Post_${item.num}.html`}
+                        sandbox="allow-same-origin"
                         className="border-0 pointer-events-none"
                         title={`LinkedIn Post ${item.num}`}
                         style={{ 
