@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BarChart3, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import DeepSurveyPanel from '@/components/surveys/DeepSurveyPanel';
+import { useSurvey } from '@/hooks/useSurvey';
+import type { SectorType } from '@/types/survey';
 import {
   RestaurantDashboard,
   RestaurantOperationsDashboard,
@@ -144,11 +147,54 @@ const ProfessionalDashboardsPage = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('restaurant');
   const [selectedDashboard, setSelectedDashboard] = useState<string>('restaurant-general');
+  const [showDeepSurvey, setShowDeepSurvey] = useState(false);
+  
+  const { 
+    profile, 
+    trackDashboardView, 
+    shouldShowDeepSurvey, 
+    completeDeepSurvey,
+    dismissDeepSurvey,
+    markDeepSurveyOffered 
+  } = useSurvey();
+
+  // Track dashboard view and check if deep survey should be shown
+  useEffect(() => {
+    // Track dashboard view
+    trackDashboardView();
+
+    // Check if deep survey should be shown
+    if (shouldShowDeepSurvey()) {
+      setTimeout(() => {
+        setShowDeepSurvey(true);
+        markDeepSurveyOffered();
+      }, 3000); // Show after 3 seconds of viewing
+    }
+  }, []);
+
+  const handleDeepSurveyComplete = (answers: Record<string, string | string[]>) => {
+    completeDeepSurvey(answers);
+    setShowDeepSurvey(false);
+  };
+
+  const handleDeepSurveyDismiss = () => {
+    dismissDeepSurvey();
+    setShowDeepSurvey(false);
+  };
 
   return (
-    <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-[1800px] mx-auto">
-        {/* Header */}
+    <>
+      {/* Deep Survey Panel - shown after dashboard view */}
+      <DeepSurveyPanel
+        isVisible={showDeepSurvey}
+        sector={(profile.sector || 'other') as SectorType}
+        onComplete={handleDeepSurveyComplete}
+        onDismiss={handleDeepSurveyDismiss}
+      />
+
+      <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1800px] mx-auto">
+          {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => navigate('/dashboard')}
@@ -317,6 +363,7 @@ const ProfessionalDashboardsPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

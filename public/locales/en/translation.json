@@ -1352,9 +1352,74 @@
     "popularDashboards": "Popular Dashboards",
     "tabs": {
       "admin": "🔐 Admin - Real Data",
+      "survey": "📊 Survey Analytics",
       "demo": "🎯 B2B Demo - Client Presentation",
       "dashboards": "📊 Professional Dashboard Examples",
       "testTools": "🔍 Test & Inspection Tools"
+    },
+    "surveyAnalytics": {
+      "title": "Fino Survey & Recommendation Analytics",
+      "subtitle": "User survey completion rates, sector distributions, and performance metrics of dashboard recommendations.",
+      "metrics": {
+        "totalSignups": "Total Signups",
+        "miniSurveyCompleted": "Mini Survey Completed",
+        "deepSurveyCompleted": "Deep Survey Completed",
+        "finoMessagesShown": "Fino Messages Shown",
+        "completionRate": "completion rate",
+        "conversionRate": "conversion rate",
+        "avgCharacters": "Avg. characters",
+        "thisMonth": "this month"
+      },
+      "sectorDistribution": {
+        "title": "Sector Distribution",
+        "restaurant": "Restaurant & Cafe",
+        "hotel": "Hotel & Tourism",
+        "manufacturing": "Manufacturing & Industry",
+        "agriculture": "Agriculture",
+        "retail": "Retail",
+        "automotive": "Automotive",
+        "other": "Other"
+      },
+      "companySize": {
+        "title": "Company Size Distribution",
+        "micro": "1-10 employees (Micro)",
+        "small": "11-50 employees (Small)",
+        "medium": "50+ employees (Medium)"
+      },
+      "primaryGoal": {
+        "title": "Primary Goal",
+        "cashFlow": "Cash Flow",
+        "profitability": "Profitability",
+        "costControl": "Cost Control",
+        "reporting": "Reporting"
+      },
+      "topDashboards": {
+        "title": "Most Recommended Dashboards (Top 10)"
+      },
+      "financialMaturity": {
+        "title": "Financial Maturity Levels",
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced",
+        "basicKPI": "BASIC KPI Set",
+        "standardKPI": "STANDARD KPI Set",
+        "advancedKPI": "ADVANCED KPI Set"
+      },
+      "finoPerformance": {
+        "title": "Fino Message Performance",
+        "totalMessages": "Total Messages Shown",
+        "avgLength": "Average Message Length",
+        "mostUsedPhase": "Most Used Phase",
+        "characters": "characters",
+        "roadmap": "Mini Roadmap"
+      },
+      "dataSource": {
+        "title": "Data Source",
+        "description": "This data is demo/mock data. In production, it will be fetched from localStorage or backend API.",
+        "update": "Update:",
+        "realtime": "Real-time",
+        "lastUpdate": "Last Update:"
+      }
     },
     "kpis": {
       "totalUsers": "Total Users",
@@ -1792,6 +1857,33 @@
     },
     "table": {
       "title": "Data Preview (First 10 rows)"
+    }
+  },
+  "survey": {
+    "mini": {
+      "title": "Would you like to spare 30 seconds so we can show you the most relevant dashboards?",
+      "estimatedTime": "30 seconds",
+      "skip": "Skip",
+      "back": "Back",
+      "continue": "Continue",
+      "complete": "Complete",
+      "selectToContinue": "Select your answer to continue",
+      "questionOf": "Question {{current}} / {{total}}"
+    },
+    "deep": {
+      "title": "Let's create custom dashboards for your business",
+      "description": "Customize your dashboards in 2 minutes with a few questions.",
+      "estimatedTime": "2 minutes",
+      "start": "Let's Start",
+      "close": "Close",
+      "back": "Back",
+      "next": "Next",
+      "complete": "Complete",
+      "questionOf": "Question {{current}} / {{total}}"
+    },
+    "welcomeMessages": {
+      "default": "Welcome to FinOps AI Studio! Start exploring dashboards.",
+      "withSurvey": "Your personalized dashboards are ready!"
     }
   }
 }

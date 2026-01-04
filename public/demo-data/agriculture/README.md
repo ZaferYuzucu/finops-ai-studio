@@ -151,3 +151,4 @@ Satış geliri
 
 
 
+

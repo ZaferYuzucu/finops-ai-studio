@@ -295,3 +295,4 @@ console.log('\n✅ Tüm metadata dosyaları oluşturuldu!');
 
 
 
+

@@ -1352,9 +1352,74 @@
     "popularDashboards": "En Popüler Dashboard'lar",
     "tabs": {
       "admin": "🔐 Admin - Gerçek Veriler",
+      "survey": "📊 Survey Analytics",
       "demo": "🎯 B2B Demo - Müşteri Sunumu",
       "dashboards": "📊 Profesyonel Dashboard Örnekleri",
       "testTools": "🔍 Test & İnceleme Araçları"
+    },
+    "surveyAnalytics": {
+      "title": "Fino Survey & Recommendation Analytics",
+      "subtitle": "Kullanıcı anket tamamlama oranları, sektör dağılımları ve dashboard önerilerinin performans metrikleri.",
+      "metrics": {
+        "totalSignups": "Toplam Kayıt",
+        "miniSurveyCompleted": "Mini Anket Tamamlandı",
+        "deepSurveyCompleted": "Deep Anket Tamamlandı",
+        "finoMessagesShown": "Fino Mesajı Gösterildi",
+        "completionRate": "completion rate",
+        "conversionRate": "conversion rate",
+        "avgCharacters": "Avg. karakter",
+        "thisMonth": "bu ay"
+      },
+      "sectorDistribution": {
+        "title": "Sektör Dağılımı",
+        "restaurant": "Restoran & Cafe",
+        "hotel": "Otel & Turizm",
+        "manufacturing": "Üretim & Endüstri",
+        "agriculture": "Tarım",
+        "retail": "Perakende",
+        "automotive": "Otomotiv",
+        "other": "Diğer"
+      },
+      "companySize": {
+        "title": "Şirket Büyüklüğü Dağılımı",
+        "micro": "1-10 kişi (Mikro)",
+        "small": "11-50 kişi (Küçük)",
+        "medium": "50+ kişi (Orta)"
+      },
+      "primaryGoal": {
+        "title": "Primary Goal",
+        "cashFlow": "Nakit Akışı",
+        "profitability": "Kârlılık",
+        "costControl": "Maliyet Kontrolü",
+        "reporting": "Raporlama"
+      },
+      "topDashboards": {
+        "title": "En Çok Önerilen Dashboard'lar (Top 10)"
+      },
+      "financialMaturity": {
+        "title": "Financial Maturity Seviyeleri",
+        "beginner": "Başlangıç",
+        "intermediate": "Orta",
+        "advanced": "İleri",
+        "basicKPI": "BASIC KPI Set",
+        "standardKPI": "STANDARD KPI Set",
+        "advancedKPI": "ADVANCED KPI Set"
+      },
+      "finoPerformance": {
+        "title": "Fino Mesaj Performansı",
+        "totalMessages": "Toplam Mesaj Gösterildi",
+        "avgLength": "Ortalama Mesaj Uzunluğu",
+        "mostUsedPhase": "En Çok Kullanılan Aşama",
+        "characters": "karakter",
+        "roadmap": "Mini Yol Haritası"
+      },
+      "dataSource": {
+        "title": "Veri Kaynağı",
+        "description": "Bu veriler demo/mock verilerdir. Gerçek üretime geçildiğinde localStorage veya backend API'den çekilecektir.",
+        "update": "Güncelleme:",
+        "realtime": "Anlık (real-time)",
+        "lastUpdate": "Son Güncelleme:"
+      }
     },
     "kpis": {
       "totalUsers": "Toplam Kullanıcı",
@@ -1792,6 +1857,33 @@
     },
     "table": {
       "title": "Veri Önizleme (İlk 10 satır)"
+    }
+  },
+  "survey": {
+    "mini": {
+      "title": "Size en doğru panelleri gösterebilmemiz için 30 saniye ayırmak ister misiniz?",
+      "estimatedTime": "30 saniye",
+      "skip": "Atla",
+      "back": "Geri",
+      "continue": "Devam",
+      "complete": "Tamamla",
+      "selectToContinue": "Cevabınızı seçerek devam edin",
+      "questionOf": "Soru {{current}} / {{total}}"
+    },
+    "deep": {
+      "title": "İşletmeniz için özel paneller hazırlayalım",
+      "description": "2 dakikada birkaç soruyla panellerinizi size özel hale getirebiliriz.",
+      "estimatedTime": "2 dakika",
+      "start": "Başlayalım",
+      "close": "Kapat",
+      "back": "Geri",
+      "next": "Devam",
+      "complete": "Tamamla",
+      "questionOf": "Soru {{current}} / {{total}}"
+    },
+    "welcomeMessages": {
+      "default": "FinOps AI Studio'ya hoş geldiniz! Panelleri keşfetmeye başlayın.",
+      "withSurvey": "Size özel panelleriniz hazır!"
     }
   }
 }

@@ -202,3 +202,4 @@ Premium ve Kurumsal planlarda sektöre özel onboarding eğitimi verilir.
 
 
 
+

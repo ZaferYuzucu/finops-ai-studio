@@ -1,0 +1,206 @@
+{
+  "restaurant_cafe": {
+    "title": "Restoran/Cafe işletmeniz için özel paneller hazırlayalım 🍽️",
+    "description": "Sadece 2 dakika ayırın, size tam uygun finansal panelleri gösterelim. Verileriniz güvende, sadece sizin için.",
+    "estimatedTime": "Yaklaşık 2 dakika",
+    "questions": [
+      {
+        "id": "primary_kpis",
+        "type": "multiple_choice",
+        "question": "Hangi KPI'ları haftalık görmek istersiniz?",
+        "description": "Birden fazla seçebilirsiniz",
+        "options": [
+          { "value": "revenue_per_table", "label": "Masa başı ciro", "icon": "🍽️" },
+          { "value": "food_cost_percentage", "label": "Gıda maliyet oranı (%)", "icon": "📊" },
+          { "value": "labor_cost_percentage", "label": "Personel maliyet oranı (%)", "icon": "👥" },
+          { "value": "average_check", "label": "Ortalama hesap tutarı", "icon": "💵" },
+          { "value": "customer_count", "label": "Müşteri sayısı", "icon": "👤" },
+          { "value": "waste_percentage", "label": "Fire oranı", "icon": "🗑️" }
+        ]
+      },
+      {
+        "id": "reporting_frequency",
+        "type": "single_choice",
+        "question": "Ne sıklıkla detaylı raporlara bakıyorsunuz?",
+        "options": [
+          { "value": "daily", "label": "Günlük", "icon": "📅" },
+          { "value": "weekly", "label": "Haftalık", "icon": "📆" },
+          { "value": "monthly", "label": "Aylık", "icon": "🗓️" },
+          { "value": "rarely", "label": "Nadiren", "icon": "⏱️" }
+        ]
+      },
+      {
+        "id": "decision_making",
+        "type": "single_choice",
+        "question": "En sık aldığınız finansal karar hangisi?",
+        "options": [
+          { "value": "menu_pricing", "label": "Menü fiyatlandırma", "icon": "💰" },
+          { "value": "supplier_selection", "label": "Tedarikçi seçimi", "icon": "🚚" },
+          { "value": "staff_planning", "label": "Personel planlama", "icon": "👔" },
+          { "value": "inventory_management", "label": "Stok yönetimi", "icon": "📦" },
+          { "value": "marketing_budget", "label": "Pazarlama bütçesi", "icon": "📣" }
+        ]
+      },
+      {
+        "id": "current_tools",
+        "type": "single_choice",
+        "question": "Şu anda hangi araçları kullanıyorsunuz?",
+        "options": [
+          { "value": "excel_manual", "label": "Excel (manuel)", "icon": "📊" },
+          { "value": "accounting_software", "label": "Muhasebe yazılımı", "icon": "💼" },
+          { "value": "pos_reports", "label": "POS raporları", "icon": "🖥️" },
+          { "value": "none", "label": "Hiçbiri", "icon": "❌" }
+        ]
+      },
+      {
+        "id": "pain_points",
+        "type": "multiple_choice",
+        "question": "Hangi konularda en çok zorlanıyorsunuz?",
+        "description": "Birden fazla seçebilirsiniz",
+        "options": [
+          { "value": "inventory_tracking", "label": "Stok takibi", "icon": "📦" },
+          { "value": "cost_analysis", "label": "Maliyet analizi", "icon": "💸" },
+          { "value": "profit_visibility", "label": "Kâr görünürlüğü", "icon": "📈" },
+          { "value": "cash_flow", "label": "Nakit akışı", "icon": "💰" },
+          { "value": "reporting_time", "label": "Rapor hazırlama süresi", "icon": "⏰" }
+        ]
+      },
+      {
+        "id": "team_size",
+        "type": "single_choice",
+        "question": "Kaç kişi finansal verilere erişiyor?",
+        "options": [
+          { "value": "only_me", "label": "Sadece ben", "icon": "👤" },
+          { "value": "2_3", "label": "2-3 kişi", "icon": "👥" },
+          { "value": "4_plus", "label": "4+ kişi", "icon": "👨‍👩‍👧‍👦" }
+        ]
+      },
+      {
+        "id": "integration_needs",
+        "type": "multiple_choice",
+        "question": "Hangi sistemlerle entegrasyon istersiniz?",
+        "description": "İleriye dönük entegrasyon ihtiyaçlarınız",
+        "options": [
+          { "value": "pos", "label": "POS sistemi", "icon": "🖥️" },
+          { "value": "accounting", "label": "Muhasebe yazılımı (Logo, vb.)", "icon": "💼" },
+          { "value": "supplier", "label": "Tedarikçi platformları", "icon": "🚚" },
+          { "value": "delivery", "label": "Paket servis platformları", "icon": "🛵" },
+          { "value": "none", "label": "Entegrasyon gerekmiyor", "icon": "❌" }
+        ]
+      },
+      {
+        "id": "growth_goal",
+        "type": "single_choice",
+        "question": "Önümüzdeki 12 ayda ana hedefiniz nedir?",
+        "options": [
+          { "value": "increase_revenue", "label": "Ciroyu artırmak", "icon": "📈" },
+          { "value": "reduce_costs", "label": "Maliyetleri düşürmek", "icon": "📉" },
+          { "value": "improve_margins", "label": "Kâr marjını yükseltmek", "icon": "💎" },
+          { "value": "expand_locations", "label": "Yeni şube açmak", "icon": "🏪" },
+          { "value": "optimize_operations", "label": "Operasyonu optimize etmek", "icon": "⚙️" }
+        ]
+      }
+    ]
+  },
+  "hotel_tourism": {
+    "title": "Otel/Turizm işletmeniz için özel paneller hazırlayalım 🏨",
+    "description": "Sadece 2 dakika ayırın, size tam uygun finansal panelleri gösterelim. Verileriniz güvende, sadece sizin için.",
+    "estimatedTime": "Yaklaşık 2 dakika",
+    "questions": [
+      {
+        "id": "primary_kpis",
+        "type": "multiple_choice",
+        "question": "Hangi KPI'ları günlük görmek istersiniz?",
+        "description": "Birden fazla seçebilirsiniz",
+        "options": [
+          { "value": "occupancy_rate", "label": "Doluluk oranı", "icon": "🏨" },
+          { "value": "adr", "label": "Ortalama oda fiyatı (ADR)", "icon": "💰" },
+          { "value": "revpar", "label": "Oda başı gelir (RevPAR)", "icon": "📊" },
+          { "value": "booking_window", "label": "Rezervasyon penceresi", "icon": "📅" },
+          { "value": "cancellation_rate", "label": "İptal oranı", "icon": "❌" }
+        ]
+      },
+      {
+        "id": "property_type",
+        "type": "single_choice",
+        "question": "Tesisinizin türü nedir?",
+        "options": [
+          { "value": "boutique", "label": "Butik otel", "icon": "🏛️" },
+          { "value": "resort", "label": "Tatil köyü", "icon": "🏖️" },
+          { "value": "city_hotel", "label": "Şehir oteli", "icon": "🏙️" },
+          { "value": "hostel", "label": "Hostel/Pansiyon", "icon": "🏠" }
+        ]
+      },
+      {
+        "id": "integration_needs",
+        "type": "multiple_choice",
+        "question": "Hangi sistemlerle entegrasyon istersiniz?",
+        "options": [
+          { "value": "pms", "label": "Otel yönetim sistemi (PMS)", "icon": "🖥️" },
+          { "value": "ota", "label": "Online seyahat acenteleri (Booking, vb.)", "icon": "✈️" },
+          { "value": "accounting", "label": "Muhasebe yazılımı", "icon": "💼" },
+          { "value": "none", "label": "Entegrasyon gerekmiyor", "icon": "❌" }
+        ]
+      }
+    ]
+  },
+  "manufacturing": {
+    "title": "Üretim/Endüstri işletmeniz için özel paneller hazırlayalım 🏭",
+    "description": "Sadece 2 dakika ayırın, size tam uygun finansal panelleri gösterelim. Verileriniz güvende, sadece sizin için.",
+    "estimatedTime": "Yaklaşık 2 dakika",
+    "questions": [
+      {
+        "id": "primary_kpis",
+        "type": "multiple_choice",
+        "question": "Hangi KPI'ları haftalık görmek istersiniz?",
+        "options": [
+          { "value": "production_cost", "label": "Birim üretim maliyeti", "icon": "💰" },
+          { "value": "oee", "label": "Ekipman verimliliği (OEE)", "icon": "⚙️" },
+          { "value": "scrap_rate", "label": "Fire oranı", "icon": "🗑️" },
+          { "value": "labor_efficiency", "label": "İşçilik verimliliği", "icon": "👷" },
+          { "value": "inventory_turnover", "label": "Stok devir hızı", "icon": "📦" }
+        ]
+      },
+      {
+        "id": "production_type",
+        "type": "single_choice",
+        "question": "Üretim tipiniz nedir?",
+        "options": [
+          { "value": "discrete", "label": "Parçalı üretim", "icon": "🔩" },
+          { "value": "process", "label": "Süreç üretimi", "icon": "🏭" },
+          { "value": "batch", "label": "Parti üretimi", "icon": "📦" }
+        ]
+      }
+    ]
+  },
+  "default": {
+    "title": "İşletmeniz için özel paneller hazırlayalım 💼",
+    "description": "Sadece 2 dakika ayırın, size tam uygun finansal panelleri gösterelim. Verileriniz güvende, sadece sizin için.",
+    "estimatedTime": "Yaklaşık 2 dakika",
+    "questions": [
+      {
+        "id": "primary_kpis",
+        "type": "multiple_choice",
+        "question": "Hangi KPI'ları düzenli görmek istersiniz?",
+        "options": [
+          { "value": "revenue", "label": "Gelir/Ciro", "icon": "💰" },
+          { "value": "profit_margin", "label": "Kâr marjı", "icon": "📈" },
+          { "value": "cost_breakdown", "label": "Maliyet dağılımı", "icon": "📊" },
+          { "value": "cash_flow", "label": "Nakit akışı", "icon": "💵" }
+        ]
+      },
+      {
+        "id": "current_tools",
+        "type": "single_choice",
+        "question": "Şu anda hangi araçları kullanıyorsunuz?",
+        "options": [
+          { "value": "excel", "label": "Excel", "icon": "📊" },
+          { "value": "accounting_software", "label": "Muhasebe yazılımı", "icon": "💼" },
+          { "value": "erp", "label": "ERP sistemi", "icon": "🖥️" },
+          { "value": "none", "label": "Hiçbiri", "icon": "❌" }
+        ]
+      }
+    ]
+  }
+}
+

@@ -135,7 +135,7 @@ const DASHBOARD_CATEGORIES = {
 
 const PlatformAnalyticsPage = () => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<'admin' | 'demo' | 'dashboards' | 'test'>('dashboards');
+  const [activeTab, setActiveTab] = useState<'admin' | 'demo' | 'dashboards' | 'test' | 'survey'>('dashboards');
   const [selectedCategory, setSelectedCategory] = useState<string>('restaurant');
   const [selectedDashboard, setSelectedDashboard] = useState<string>('restaurant-general');
   const [selectedCSVDataset, setSelectedCSVDataset] = useState<string | null>(null);
@@ -162,10 +162,10 @@ const PlatformAnalyticsPage = () => {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-8 border-b border-gray-200">
+        <div className="flex gap-4 mb-8 border-b border-gray-200 overflow-x-auto">
           <button
             onClick={() => setActiveTab('admin')}
-            className={`px-6 py-3 font-semibold transition-colors border-b-2 ${
+            className={`px-6 py-3 font-semibold transition-colors border-b-2 whitespace-nowrap ${
               activeTab === 'admin'
                 ? 'border-indigo-600 text-indigo-600'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
@@ -174,8 +174,18 @@ const PlatformAnalyticsPage = () => {
             {t('platformAnalytics.tabs.admin')}
           </button>
           <button
+            onClick={() => setActiveTab('survey')}
+            className={`px-6 py-3 font-semibold transition-colors border-b-2 whitespace-nowrap ${
+              activeTab === 'survey'
+                ? 'border-pink-600 text-pink-600'
+                : 'border-transparent text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            📊 Survey Analytics
+          </button>
+          <button
             onClick={() => setActiveTab('demo')}
-            className={`px-6 py-3 font-semibold transition-colors border-b-2 ${
+            className={`px-6 py-3 font-semibold transition-colors border-b-2 whitespace-nowrap ${
               activeTab === 'demo'
                 ? 'border-purple-600 text-purple-600'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
@@ -185,7 +195,7 @@ const PlatformAnalyticsPage = () => {
           </button>
           <button
             onClick={() => setActiveTab('dashboards')}
-            className={`px-6 py-3 font-semibold transition-colors border-b-2 ${
+            className={`px-6 py-3 font-semibold transition-colors border-b-2 whitespace-nowrap ${
               activeTab === 'dashboards'
                 ? 'border-green-600 text-green-600'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
@@ -195,7 +205,7 @@ const PlatformAnalyticsPage = () => {
           </button>
           <button
             onClick={() => setActiveTab('test')}
-            className={`px-6 py-3 font-semibold transition-colors border-b-2 ${
+            className={`px-6 py-3 font-semibold transition-colors border-b-2 whitespace-nowrap ${
               activeTab === 'test'
                 ? 'border-orange-600 text-orange-600'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
@@ -232,6 +242,338 @@ const PlatformAnalyticsPage = () => {
                     <p className="text-xs text-purple-600 mt-2">↗ +15% (bu ay)</p>
                   </div>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'survey' && (
+            <div className="space-y-6">
+              {/* Survey Analytics Header */}
+              <div className="bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 rounded-xl shadow-lg p-8 border-2 border-pink-200">
+                <h2 className="text-3xl font-bold text-gray-900 mb-3 flex items-center gap-3">
+                  🐕 {t('platformAnalytics.surveyAnalytics.title')}
+                </h2>
+                <p className="text-gray-700 text-lg">
+                  {t('platformAnalytics.surveyAnalytics.subtitle')}
+                </p>
+              </div>
+
+              {/* Key Metrics - 4 Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {/* Total Signups */}
+                <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-blue-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-semibold text-blue-700">{t('platformAnalytics.surveyAnalytics.metrics.totalSignups')}</h3>
+                    <span className="text-2xl">👥</span>
+                  </div>
+                  <p className="text-4xl font-black text-blue-900 mb-1">247</p>
+                  <p className="text-xs text-blue-600">↗ +12% ({t('platformAnalytics.surveyAnalytics.metrics.thisMonth')})</p>
+                </div>
+
+                {/* Mini Survey Completion */}
+                <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-green-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-semibold text-green-700">{t('platformAnalytics.surveyAnalytics.metrics.miniSurveyCompleted')}</h3>
+                    <span className="text-2xl">✅</span>
+                  </div>
+                  <p className="text-4xl font-black text-green-900 mb-1">189</p>
+                  <p className="text-xs text-green-600">%76.5 {t('platformAnalytics.surveyAnalytics.metrics.completionRate')}</p>
+                </div>
+
+                {/* Deep Survey Completion */}
+                <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-purple-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-semibold text-purple-700">{t('platformAnalytics.surveyAnalytics.metrics.deepSurveyCompleted')}</h3>
+                    <span className="text-2xl">🎯</span>
+                  </div>
+                  <p className="text-4xl font-black text-purple-900 mb-1">87</p>
+                  <p className="text-xs text-purple-600">%46.0 {t('platformAnalytics.surveyAnalytics.metrics.conversionRate')}</p>
+                </div>
+
+                {/* Fino Messages Shown */}
+                <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-pink-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-sm font-semibold text-pink-700">{t('platformAnalytics.surveyAnalytics.metrics.finoMessagesShown')}</h3>
+                    <span className="text-2xl">🐕</span>
+                  </div>
+                  <p className="text-4xl font-black text-pink-900 mb-1">189</p>
+                  <p className="text-xs text-pink-600">{t('platformAnalytics.surveyAnalytics.metrics.avgCharacters')} 287</p>
+                </div>
+              </div>
+
+              {/* 2-Column Layout: Charts */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Sector Distribution */}
+                <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    🍽️ {t('platformAnalytics.surveyAnalytics.sectorDistribution.title')}
+                  </h3>
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-700">🍽️ {t('platformAnalytics.surveyAnalytics.sectorDistribution.restaurant')}</span>
+                        <span className="font-bold text-green-600">32%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-green-500 h-2 rounded-full" style={{ width: '32%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-700">🏨 {t('platformAnalytics.surveyAnalytics.sectorDistribution.hotel')}</span>
+                        <span className="font-bold text-amber-600">18%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-amber-500 h-2 rounded-full" style={{ width: '18%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-700">🏭 {t('platformAnalytics.surveyAnalytics.sectorDistribution.manufacturing')}</span>
+                        <span className="font-bold text-blue-600">15%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-blue-500 h-2 rounded-full" style={{ width: '15%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-700">🌾 {t('platformAnalytics.surveyAnalytics.sectorDistribution.agriculture')}</span>
+                        <span className="font-bold text-lime-600">12%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-lime-500 h-2 rounded-full" style={{ width: '12%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-700">🛒 {t('platformAnalytics.surveyAnalytics.sectorDistribution.retail')}</span>
+                        <span className="font-bold text-orange-600">10%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-orange-500 h-2 rounded-full" style={{ width: '10%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-700">🚗 {t('platformAnalytics.surveyAnalytics.sectorDistribution.automotive')}</span>
+                        <span className="font-bold text-red-600">8%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-red-500 h-2 rounded-full" style={{ width: '8%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-700">🎓 {t('platformAnalytics.surveyAnalytics.sectorDistribution.other')}</span>
+                        <span className="font-bold text-gray-600">5%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-gray-500 h-2 rounded-full" style={{ width: '5%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Company Size Distribution */}
+                <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    👥 {t('platformAnalytics.surveyAnalytics.companySize.title')}
+                  </h3>
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-700">{t('platformAnalytics.surveyAnalytics.companySize.micro')}</span>
+                        <span className="font-bold text-indigo-600">45%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-indigo-500 h-2 rounded-full" style={{ width: '45%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-700">{t('platformAnalytics.surveyAnalytics.companySize.small')}</span>
+                        <span className="font-bold text-purple-600">38%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-purple-500 h-2 rounded-full" style={{ width: '38%' }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="text-gray-700">{t('platformAnalytics.surveyAnalytics.companySize.medium')}</span>
+                        <span className="font-bold text-pink-600">17%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-pink-500 h-2 rounded-full" style={{ width: '17%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 pt-6 border-t border-gray-200">
+                    <h4 className="text-lg font-bold text-gray-900 mb-3">💡 {t('platformAnalytics.surveyAnalytics.primaryGoal.title')}</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-700">💰 {t('platformAnalytics.surveyAnalytics.primaryGoal.cashFlow')}</span>
+                        <span className="font-bold text-green-600">42%</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-700">📈 {t('platformAnalytics.surveyAnalytics.primaryGoal.profitability')}</span>
+                        <span className="font-bold text-blue-600">28%</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-700">💵 {t('platformAnalytics.surveyAnalytics.primaryGoal.costControl')}</span>
+                        <span className="font-bold text-orange-600">18%</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-700">📊 {t('platformAnalytics.surveyAnalytics.primaryGoal.reporting')}</span>
+                        <span className="font-bold text-purple-600">12%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Most Recommended Dashboards */}
+              <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  🏆 {t('platformAnalytics.surveyAnalytics.topDashboards.title')}
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                  <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 border border-green-200">
+                    <p className="text-xs text-green-700 font-semibold mb-1">CEO Overview</p>
+                    <p className="text-2xl font-black text-green-900">189</p>
+                    <p className="text-xs text-green-600">%100</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
+                    <p className="text-xs text-blue-700 font-semibold mb-1">Cash Flow</p>
+                    <p className="text-2xl font-black text-blue-900">142</p>
+                    <p className="text-xs text-blue-600">%75</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 border border-purple-200">
+                    <p className="text-xs text-purple-700 font-semibold mb-1">Profit & Loss</p>
+                    <p className="text-2xl font-black text-purple-900">98</p>
+                    <p className="text-xs text-purple-600">%52</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4 border border-orange-200">
+                    <p className="text-xs text-orange-700 font-semibold mb-1">Cost Control</p>
+                    <p className="text-2xl font-black text-orange-900">76</p>
+                    <p className="text-xs text-orange-600">%40</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg p-4 border border-pink-200">
+                    <p className="text-xs text-pink-700 font-semibold mb-1">Restaurant Panel</p>
+                    <p className="text-2xl font-black text-pink-900">61</p>
+                    <p className="text-xs text-pink-600">%32</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg p-4 border border-amber-200">
+                    <p className="text-xs text-amber-700 font-semibold mb-1">Hotel Panel</p>
+                    <p className="text-2xl font-black text-amber-900">34</p>
+                    <p className="text-xs text-amber-600">%18</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-lime-50 to-lime-100 rounded-lg p-4 border border-lime-200">
+                    <p className="text-xs text-lime-700 font-semibold mb-1">Agri Panel</p>
+                    <p className="text-2xl font-black text-lime-900">23</p>
+                    <p className="text-xs text-lime-600">%12</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-lg p-4 border border-teal-200">
+                    <p className="text-xs text-teal-700 font-semibold mb-1">Manufacturing</p>
+                    <p className="text-2xl font-black text-teal-900">28</p>
+                    <p className="text-xs text-teal-600">%15</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-lg p-4 border border-red-200">
+                    <p className="text-xs text-red-700 font-semibold mb-1">Automotive</p>
+                    <p className="text-2xl font-black text-red-900">15</p>
+                    <p className="text-xs text-red-600">%8</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg p-4 border border-indigo-200">
+                    <p className="text-xs text-indigo-700 font-semibold mb-1">Retail</p>
+                    <p className="text-2xl font-black text-indigo-900">19</p>
+                    <p className="text-xs text-indigo-600">%10</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Financial Maturity & KPI Level */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    📊 {t('platformAnalytics.surveyAnalytics.financialMaturity.title')}
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-semibold text-yellow-900">🐣 {t('platformAnalytics.surveyAnalytics.financialMaturity.beginner')}</p>
+                          <p className="text-xs text-yellow-700">{t('platformAnalytics.surveyAnalytics.financialMaturity.basicKPI')}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-2xl font-black text-yellow-900">98</p>
+                          <p className="text-xs text-yellow-600">%52</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-semibold text-blue-900">📈 {t('platformAnalytics.surveyAnalytics.financialMaturity.intermediate')}</p>
+                          <p className="text-xs text-blue-700">{t('platformAnalytics.surveyAnalytics.financialMaturity.standardKPI')}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-2xl font-black text-blue-900">67</p>
+                          <p className="text-xs text-blue-600">%35</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-semibold text-purple-900">🚀 {t('platformAnalytics.surveyAnalytics.financialMaturity.advanced')}</p>
+                          <p className="text-xs text-purple-700">{t('platformAnalytics.surveyAnalytics.financialMaturity.advancedKPI')}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-2xl font-black text-purple-900">24</p>
+                          <p className="text-xs text-purple-600">%13</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    🐕 {t('platformAnalytics.surveyAnalytics.finoPerformance.title')}
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg p-4 border border-pink-200">
+                      <p className="text-sm text-gray-700 mb-2">{t('platformAnalytics.surveyAnalytics.finoPerformance.totalMessages')}</p>
+                      <p className="text-3xl font-black text-pink-900">189</p>
+                    </div>
+                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
+                      <p className="text-sm text-gray-700 mb-2">{t('platformAnalytics.surveyAnalytics.finoPerformance.avgLength')}</p>
+                      <p className="text-3xl font-black text-blue-900">287</p>
+                      <p className="text-xs text-blue-600">{t('platformAnalytics.surveyAnalytics.finoPerformance.characters')}</p>
+                    </div>
+                    <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-lg p-4 border border-green-200">
+                      <p className="text-sm text-gray-700 mb-2">{t('platformAnalytics.surveyAnalytics.finoPerformance.mostUsedPhase')}</p>
+                      <p className="text-2xl font-black text-green-900">AŞAMA-4</p>
+                      <p className="text-xs text-green-600">{t('platformAnalytics.surveyAnalytics.finoPerformance.roadmap')} (%100)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Info Box */}
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-200">
+                <h3 className="text-lg font-bold text-gray-900 mb-2 flex items-center gap-2">
+                  ℹ️ {t('platformAnalytics.surveyAnalytics.dataSource.title')}
+                </h3>
+                <p className="text-sm text-gray-700">
+                  {t('platformAnalytics.surveyAnalytics.dataSource.description')}
+                </p>
+                <p className="text-sm text-gray-600 mt-2">
+                  <strong>{t('platformAnalytics.surveyAnalytics.dataSource.update')}</strong> {t('platformAnalytics.surveyAnalytics.dataSource.realtime')} | 
+                  <strong> {t('platformAnalytics.surveyAnalytics.dataSource.lastUpdate')}</strong> {new Date().toLocaleString('tr-TR')}
+                </p>
               </div>
             </div>
           )}

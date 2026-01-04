@@ -6,6 +6,9 @@ import { useAuth } from '../context/AuthContext';
 import { validateEmail, validatePassword } from '../components/FormValidation';
 import FinopsDataFlowAnimation from '../components/FinopsDataFlowAnimation';
 import { useTranslation } from 'react-i18next';
+import MiniSurveyModal from '@/components/surveys/MiniSurveyModal';
+import { useSurvey } from '@/hooks/useSurvey';
+import type { MiniSurveyData } from '@/types/survey';
 
 const SignUpPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -16,9 +19,11 @@ const SignUpPage: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
+  const [showMiniSurvey, setShowMiniSurvey] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const navigate = useNavigate();
   const { signup, signInWithGoogle } = useAuth();
+  const { completeMiniSurvey, skipMiniSurvey } = useSurvey();
   
   // Google reCAPTCHA Site Key - Environment Variable
   const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LfE4jUsAAAAAOKH1f0ich9FAHIyr81efhTq5XyD';
@@ -59,14 +64,8 @@ const SignUpPage: React.FC = () => {
     try {
       await signup(email, password);
       
-      // ✅ Pricing'den gelen kullanıcıyı geri yönlendir
-      const selectedPlan = sessionStorage.getItem('selectedPlan');
-      if (selectedPlan) {
-        sessionStorage.removeItem('selectedPlan');
-        navigate('/pricing', { state: { autoSelectPlan: selectedPlan } });
-      } else {
-        navigate('/dashboard');
-      }
+      // ✅ Show mini survey after successful signup
+      setShowMiniSurvey(true);
     } catch (err: any) {
       // Firebase hata mesajlarını daha anlaşılır hale getir
       const errorMessage = err.message || err.toString();
@@ -87,22 +86,52 @@ const SignUpPage: React.FC = () => {
     try {
       await signInWithGoogle();
       
-      // ✅ Pricing'den gelen kullanıcıyı geri yönlendir
-      const selectedPlan = sessionStorage.getItem('selectedPlan');
-      if (selectedPlan) {
-        sessionStorage.removeItem('selectedPlan');
-        navigate('/pricing', { state: { autoSelectPlan: selectedPlan } });
-      } else {
-        navigate('/dashboard');
-      }
+      // ✅ Show mini survey after successful Google sign-in
+      setShowMiniSurvey(true);
     } catch (err: any) {
       setError(t('signup.googleError'));
       console.error(err);
     }
   };
 
+  const handleSurveyComplete = (data: MiniSurveyData) => {
+    // Save survey data
+    completeMiniSurvey(data);
+    
+    // Navigate to dashboard or pricing
+    const selectedPlan = sessionStorage.getItem('selectedPlan');
+    if (selectedPlan) {
+      sessionStorage.removeItem('selectedPlan');
+      navigate('/pricing', { state: { autoSelectPlan: selectedPlan } });
+    } else {
+      navigate('/dashboard');
+    }
+  };
+
+  const handleSurveySkip = () => {
+    // Mark survey as skipped
+    skipMiniSurvey();
+    
+    // Navigate to dashboard or pricing
+    const selectedPlan = sessionStorage.getItem('selectedPlan');
+    if (selectedPlan) {
+      sessionStorage.removeItem('selectedPlan');
+      navigate('/pricing', { state: { autoSelectPlan: selectedPlan } });
+    } else {
+      navigate('/dashboard');
+    }
+  };
+
   return (
-    <div className="flex min-h-screen bg-white">
+    <>
+      {/* Mini Survey Modal - shown after successful signup */}
+      <MiniSurveyModal
+        isOpen={showMiniSurvey}
+        onComplete={handleSurveyComplete}
+        onSkip={handleSurveySkip}
+      />
+
+      <div className="flex min-h-screen bg-white">
       <div className="hidden lg:flex flex-col w-1/2 bg-gray-50 items-center justify-center p-12 text-center">
         <div className="max-w-xl w-full">
           <h1 className="text-4xl font-bold text-gray-800">FINOPS AI Data Platform</h1>
@@ -250,6 +279,7 @@ const SignUpPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

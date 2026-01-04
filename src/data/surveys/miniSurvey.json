@@ -1,0 +1,120 @@
+{
+  "id": "mini_survey_v1",
+  "title": "Hoş geldiniz! 🎉",
+  "subtitle": "Size en uygun panelleri hazırlayabilmemiz için 3 kısa soru sormak isteriz.",
+  "description": "Verileriniz güvende, sadece sizin için daha iyi bir deneyim oluşturmak için kullanılacak.",
+  "estimatedTime": "Sadece 30 saniye",
+  "skipMessage": "İsterseniz şimdi atla, daha sonra istediğiniz zaman özelleştirebilirsiniz.",
+  "questions": [
+    {
+      "id": "sector",
+      "type": "single_choice",
+      "question": "Sektörünüz",
+      "required": true,
+      "options": [
+        {
+          "value": "hotel_tourism",
+          "label": "Otel / Turizm",
+          "icon": "🏨"
+        },
+        {
+          "value": "restaurant_cafe",
+          "label": "Restoran / Cafe",
+          "icon": "🍽️"
+        },
+        {
+          "value": "automotive",
+          "label": "Otomotiv",
+          "icon": "🚗"
+        },
+        {
+          "value": "agriculture",
+          "label": "Tarım / Tohum / Fide",
+          "icon": "🌾"
+        },
+        {
+          "value": "manufacturing",
+          "label": "Üretim / Endüstri",
+          "icon": "🏭"
+        },
+        {
+          "value": "healthcare",
+          "label": "Sağlık",
+          "icon": "🏥"
+        },
+        {
+          "value": "retail",
+          "label": "Perakende",
+          "icon": "🛒"
+        },
+        {
+          "value": "education",
+          "label": "Eğitim / Akademik",
+          "icon": "🎓"
+        },
+        {
+          "value": "other",
+          "label": "Diğer",
+          "icon": "💼"
+        }
+      ]
+    },
+    {
+      "id": "company_size",
+      "type": "single_choice",
+      "question": "İşletme büyüklüğü",
+      "required": true,
+      "options": [
+        {
+          "value": "micro",
+          "label": "Mikro (1-9 çalışan)",
+          "icon": "👤"
+        },
+        {
+          "value": "small",
+          "label": "Küçük (10-49 çalışan)",
+          "icon": "👥"
+        },
+        {
+          "value": "medium",
+          "label": "Orta (50-249 çalışan)",
+          "icon": "👨‍👩‍👧‍👦"
+        }
+      ]
+    },
+    {
+      "id": "main_challenge",
+      "type": "single_choice",
+      "question": "En çok zorlandığınız konu",
+      "required": true,
+      "options": [
+        {
+          "value": "cash_flow",
+          "label": "Nakit akışı",
+          "icon": "💰"
+        },
+        {
+          "value": "profitability",
+          "label": "Kârlılık",
+          "icon": "📈"
+        },
+        {
+          "value": "cost_control",
+          "label": "Maliyet kontrolü",
+          "icon": "🎯"
+        },
+        {
+          "value": "reporting",
+          "label": "Raporlama / görünürlük",
+          "icon": "📊"
+        },
+        {
+          "value": "all",
+          "label": "Hepsi",
+          "icon": "🔥"
+        }
+      ]
+    }
+  ]
+}
+

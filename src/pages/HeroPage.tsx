@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight, Sparkles, TrendingUp, Zap, BarChart3, Database, Shield } from 'lucide-react';
-import FlowAnimation from '../components/FlowAnimation';
-import SolutionsSection from '../components/SolutionsSection';
-import IntegrationsSection from '../components/IntegrationsSection';
+import FlowAnimation from '@/components/FlowAnimation';
+import SolutionsSection from '@/components/SolutionsSection';
+import IntegrationsSection from '@/components/IntegrationsSection';
 import ceoDashboardImg from '@/assets/illustrations/undraw/site-stats-bro-finops.svg';
 
 const HeroPage = () => {
