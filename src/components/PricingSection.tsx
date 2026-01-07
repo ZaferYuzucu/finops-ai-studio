@@ -8,6 +8,8 @@ import { db } from '../firebase';
 import { doc, getDoc, setDoc, updateDoc, increment } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
+import { BetaApplicationFormData, SECTOR_OPTIONS, EMPLOYEE_COUNT_OPTIONS } from '../types/betaApplication';
+import { createUserApplication } from '../services/betaApplicationService';
 
 interface PricingCardProps {
   title: string;
@@ -252,6 +254,7 @@ export default function PricingSection() {
   const [betaLimitReached, setBetaLimitReached] = useState(false);
   const [betaCount, setBetaCount] = useState(0);
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
+  const [showBetaModal, setShowBetaModal] = useState(false);
   const BETA_LIMIT = 20;
   const YEARLY_DISCOUNT = 0.20;
 
@@ -284,7 +287,7 @@ export default function PricingSection() {
     setProcessingPlan(planType);
 
     try {
-      // ✅ 1. Beta Partner için özel e-posta başvuru sistemi
+      // ✅ 1. Beta Partner için online başvuru formu
       if (planType === 'BetaPartner') {
         setProcessingPlan(null);
         
@@ -293,26 +296,8 @@ export default function PricingSection() {
           return;
         }
         
-        // E-posta ile başvuru yönlendirmesi
-        const emailSubject = encodeURIComponent('FINOPS AI Studio - Lansman Partneri Başvurusu');
-        const emailBody = encodeURIComponent(
-          `Merhaba FINOPS AI Studio Ekibi,\n\n` +
-          `Lansman Partneri programına başvurmak istiyorum.\n\n` +
-          `Kalan Kontenjan: ${BETA_LIMIT - betaCount}/${BETA_LIMIT}\n\n` +
-          `Lütfen başvuru sürecim hakkında bilgi verebilir misiniz?\n\n` +
-          `Teşekkürler.`
-        );
-        
-        // Email client'ı aç
-        window.location.href = `mailto:info@finops.ist?subject=${emailSubject}&body=${emailBody}`;
-        
-        // Bilgilendirme mesajı
-        alert(
-          '📧 E-posta programınız açılıyor!\n\n' +
-          '✅ Başvurunuzu info@finops.ist adresine gönderin.\n' +
-          '✅ En kısa sürede size geri dönüş yapacağız.\n\n' +
-          `🎯 Kalan Kontenjan: ${BETA_LIMIT - betaCount}/${BETA_LIMIT}`
-        );
+        // Beta başvuru modalını aç
+        setShowBetaModal(true);
         return;
       }
 
@@ -645,7 +630,250 @@ export default function PricingSection() {
         </motion.div>
 
       </div>
+
+      {/* Beta Başvuru Modal */}
+      {showBetaModal && (
+        <BetaApplicationModal
+          onClose={() => setShowBetaModal(false)}
+          remainingQuota={BETA_LIMIT - betaCount}
+          totalQuota={BETA_LIMIT}
+        />
+      )}
     </section>
   );
 }
+
+// Beta Başvuru Modal Component
+interface BetaApplicationModalProps {
+  onClose: () => void;
+  remainingQuota: number;
+  totalQuota: number;
+}
+
+const BetaApplicationModal: React.FC<BetaApplicationModalProps> = ({ onClose, remainingQuota, totalQuota }) => {
+  const [formData, setFormData] = useState<BetaApplicationFormData>({
+    companyName: '',
+    contactName: '',
+    email: '',
+    phone: '',
+    employeeCount: '1-10',
+    sector: 'restaurant_cafe',
+    description: ''
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      setLoading(true);
+      await createUserApplication(formData);
+      
+      alert(
+        '✅ Başvurunuz Alındı!\n\n' +
+        'Beta Partner başvurunuz başarıyla kaydedildi.\n' +
+        'En kısa sürede size geri dönüş yapacağız.\n\n' +
+        `📧 ${formData.email} adresine onay e-postası göndereceğiz.`
+      );
+      
+      onClose();
+    } catch (error) {
+      console.error('Başvuru hatası:', error);
+      alert('❌ Başvuru gönderilirken hata oluştu. Lütfen tekrar deneyin.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 overflow-y-auto">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="bg-white rounded-3xl max-w-2xl w-full p-8 my-8 shadow-2xl"
+      >
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="w-20 h-20 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+            <Sparkles className="w-10 h-10 text-white" />
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            Lansman Partneri Başvurusu
+          </h2>
+          <p className="text-gray-600">
+            1 yıl boyunca tamamen ücretsiz, tüm premium özelliklere erişim
+          </p>
+          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-amber-100 rounded-full text-amber-800 text-sm font-bold">
+            <AlertCircle className="w-4 h-4" />
+            Kalan Kontenjan: {remainingQuota}/{totalQuota}
+          </div>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Firma Adı */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">
+                Firma Adı *
+              </label>
+              <input
+                type="text"
+                name="companyName"
+                value={formData.companyName}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                placeholder="Örn: ABC Restaurant"
+              />
+            </div>
+
+            {/* İletişim Kişisi */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">
+                Adınız Soyadınız *
+              </label>
+              <input
+                type="text"
+                name="contactName"
+                value={formData.contactName}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                placeholder="Örn: Ahmet Yılmaz"
+              />
+            </div>
+
+            {/* E-posta */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">
+                İş E-postanız *
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                placeholder="ornek@firma.com"
+              />
+            </div>
+
+            {/* Telefon */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">
+                Telefon *
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                placeholder="0555 555 55 55"
+              />
+            </div>
+
+            {/* Sektör */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">
+                Sektörünüz *
+              </label>
+              <select
+                name="sector"
+                value={formData.sector}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 appearance-none bg-white transition-all"
+              >
+                {SECTOR_OPTIONS.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Çalışan Sayısı */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">
+                Çalışan Sayınız *
+              </label>
+              <select
+                name="employeeCount"
+                value={formData.employeeCount}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 appearance-none bg-white transition-all"
+              >
+                {EMPLOYEE_COUNT_OPTIONS.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Açıklama */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2">
+              Neden Lansman Partneri Olmak İstiyorsunuz? (Opsiyonel)
+            </label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows={4}
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all resize-none"
+              placeholder="Platformu nasıl kullanmayı planlıyorsunuz? Ne tür dashboardlar oluşturacaksınız?"
+            />
+          </div>
+
+          {/* Bilgi Kutusu */}
+          <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 rounded-xl p-4">
+            <h4 className="font-bold text-amber-900 mb-2 flex items-center gap-2">
+              <Check className="w-5 h-5" />
+              Başvuru Sonrası Ne Olacak?
+            </h4>
+            <ul className="text-sm text-amber-800 space-y-1">
+              <li>✅ Başvurunuz 24 saat içinde değerlendirilecek</li>
+              <li>✅ Onay e-postası {formData.email || 'e-posta adresinize'} gönderilecek</li>
+              <li>✅ Kayıt olduğunuzda Beta Partner planı otomatik aktif olacak</li>
+              <li>✅ 1 yıl boyunca tüm premium özellikler ücretsiz</li>
+            </ul>
+          </div>
+
+          {/* Butonlar */}
+          <div className="flex gap-4 pt-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 px-6 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? '📤 Gönderiliyor...' : '🚀 Başvurumu Gönder'}
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={loading}
+              className="px-6 py-4 bg-gray-200 rounded-xl hover:bg-gray-300 transition-all font-semibold disabled:opacity-50"
+            >
+              İptal
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  );
+};
 

@@ -2,32 +2,47 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Import ONLY working SVG files (non-empty)
-import googleSheets from '../assets/integrations/google-sheets.svg';
 import sap from '../assets/integrations/sap.svg';
-import googleCloud from '../assets/integrations/google-cloud.svg';
 import quickbooks from '../assets/integrations/quickbooks.svg';
 import xero from '../assets/integrations/xero.svg';
 import zoho from '../assets/integrations/zoho.svg';
 import hubspot from '../assets/integrations/hubspot.svg';
 import stripe from '../assets/integrations/stripe.svg';
 
-const integrations = [
-  { name: 'Logo Yazılım', logoText: 'LOGO', subtitle: 'Logo Yazılım' },
-  { name: 'Netsis', logoText: 'NETSİS' },
-  { name: 'Paraşüt', logoText: 'PARAŞÜT' },
-  { name: 'Microsoft Azure', logoText: 'AZURE', subtitle: 'Microsoft' },
-  { name: 'Amazon AWS', logoText: 'AWS', subtitle: 'Amazon Web Services' },
-  { name: 'Microsoft Excel', logoText: 'EXCEL', subtitle: 'Microsoft' },
-  { name: 'Google Sheets', logoUrl: googleSheets },
+type IntegrationItem = {
+  name: string;
+  logoUrl?: string;
+  /** public/ altındaki dosya yolu (örn: /integrations/microsoft-excel.png) */
+  logoPath?: string;
+  logoText?: string;
+  subtitle?: string;
+};
+
+const integrations: IntegrationItem[] = [
+  // Bu 3 marka için PNG’leri user sağlayacak (public/integrations altında)
+  { name: 'Logo Yazılım', logoPath: '/integrations/logo-yazilim.png', logoText: 'LOGO', subtitle: 'Logo Yazılım' },
+  { name: 'Netsis', logoPath: '/integrations/netsis.png', logoText: 'NETSİS' },
+  { name: 'Paraşüt', logoPath: '/integrations/parasut.png', logoText: 'PARAŞÜT' },
+
+  // Büyük markalar (PNG koyarsan otomatik logo olur)
+  { name: 'Microsoft Azure', logoPath: '/integrations/microsoft-azure.png', logoText: 'AZURE', subtitle: 'Microsoft' },
+  { name: 'Amazon AWS', logoPath: '/integrations/amazon-aws.png', logoText: 'AWS', subtitle: 'Amazon Web Services' },
+  { name: 'Microsoft Excel', logoPath: '/integrations/microsoft-excel.png', logoText: 'EXCEL', subtitle: 'Microsoft' },
+
+  // Repo’da mevcut SVG’ler
+  { name: 'Google Sheets', logoPath: '/integrations/google-sheets.png' },
   { name: 'SAP', logoUrl: sap },
-  { name: 'Oracle', logoText: 'ORACLE' },
-  { name: 'Salesforce', logoText: 'SALESFORCE' },
-  { name: 'Google Cloud', logoUrl: googleCloud },
+
+  // PNG koyarsan otomatik logo olur
+  { name: 'Oracle', logoPath: '/integrations/oracle.png', logoText: 'ORACLE' },
+  { name: 'Salesforce', logoPath: '/integrations/salesforce.png', logoText: 'SALESFORCE' },
+
+  // Repo’da mevcut SVG’ler
+  { name: 'Google Cloud', logoPath: '/integrations/google_cloud.png' },
   { name: 'QuickBooks', logoUrl: quickbooks },
   { name: 'Xero', logoUrl: xero },
   { name: 'Zoho', logoUrl: zoho },
   { name: 'HubSpot', logoUrl: hubspot },
-  { name: 'Stripe', logoUrl: stripe },
 ];
 
 // FINOPS RENK SKALASI - Soft gradient tonları
@@ -42,6 +57,43 @@ const colorPalette = [
 
 const IntegrationsSection = () => {
   const { t } = useTranslation();
+
+  const getLogoLetters = (integration: IntegrationItem) => {
+    const base = (integration.logoText || integration.name || '').trim();
+    if (!base) return '•';
+    // If logoText is already a short token (AWS, SAP, LOGO), use it as-is.
+    if (base.length <= 6) return base.toUpperCase();
+    // Otherwise take initials.
+    return base
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((w) => w[0])
+      .join('')
+      .toUpperCase();
+  };
+
+  const IntegrationLogo: React.FC<{ integration: IntegrationItem }> = ({ integration }) => {
+    const [failed, setFailed] = React.useState(false);
+    const src = integration.logoUrl || integration.logoPath;
+
+    if (!src || failed) {
+      return (
+        <span className="text-xs font-extrabold tracking-wide text-gray-800">
+          {getLogoLetters(integration)}
+        </span>
+      );
+    }
+
+    return (
+      <img
+        className="max-h-8 w-auto object-contain opacity-90 group-hover:opacity-100 transition-all duration-300"
+        src={src}
+        alt={integration.name}
+        onError={() => setFailed(true)}
+        loading="lazy"
+      />
+    );
+  };
   
   return (
     <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 py-16 sm:py-20">
@@ -70,22 +122,15 @@ const IntegrationsSection = () => {
                              cursor-pointer group`}
                   title={integration.name}
                 >
-                  {integration.logoUrl ? (
-                    <img
-                      className="max-h-12 w-auto object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300"
-                      src={integration.logoUrl}
-                      alt={integration.name}
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center text-center">
-                      <p className="text-xl font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">
-                        {integration.logoText}
-                      </p>
-                      {integration.subtitle && (
-                        <p className="text-xs text-gray-500 mt-1">{integration.subtitle}</p>
-                      )}
-                    </div>
-                  )}
+                  {/* Logo area (consistent for all tiles) */}
+                  <div className="w-12 h-12 rounded-xl bg-white/90 border border-gray-200 shadow-sm flex items-center justify-center overflow-hidden mb-2 group-hover:shadow-md transition-shadow">
+                    <IntegrationLogo integration={integration} />
+                  </div>
+
+                  {/* Name (always visible) */}
+                  <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center leading-tight group-hover:text-indigo-700 transition-colors">
+                    {integration.name}
+                  </p>
                 </div>
               );
             })}

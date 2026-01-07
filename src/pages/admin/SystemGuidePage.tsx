@@ -325,47 +325,141 @@ const SystemGuidePage: React.FC = () => {
               <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <span className="text-3xl">⚙️</span> BENZİN İŞLEME HATTI (VERİ PIPELINE)
               </h3>
-              <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl text-green-400 font-mono text-xs overflow-x-auto">
-                <pre className="whitespace-pre-wrap">{`📂 EXCEL/CSV Dosyası (HAM BENZİN)
-      ↓
-┌────────────────────────────────────────────────────┐
-│ 1️⃣ KARBÜRATÖR (Excel Parser)                      │
-│    📍 Konum: src/modules/data-ingestion/utils/    │
-│              excelParser.ts                        │
-│    🔧 Teknoloji: xlsx (SheetJS) + papaparse       │
-│    🎯 Görev: Binary dosyayı JSON array'e çevirir  │
-│    ⚡ Performans: 10MB Excel → 2 saniye           │
-└────────────────────────────────────────────────────┘
-      ↓
-┌────────────────────────────────────────────────────┐
-│ 2️⃣ YAKIT FİLTRESİ (Data Normalizer)               │
-│    📍 Konum: normalizer.ts                         │
-│    🎯 Görev: Tarih/para formatı düzeltir          │
-└────────────────────────────────────────────────────┘
-      ↓
-┌────────────────────────────────────────────────────┐
-│ 3️⃣ ENJEKTÖR (Column Mapper)                       │
-│    📍 Konum: columnMapper.ts                       │
-│    🎯 Görev: "Satış Tutarı" → "revenue" eşleştirir│
-└────────────────────────────────────────────────────┘
-      ↓
-┌────────────────────────────────────────────────────┐
-│ 4️⃣ HAVA FİLTRESİ (Data Validator)                 │
-│    📍 Konum: validator.ts                          │
-│    🎯 Görev: Veri tiplerini kontrol eder          │
-└────────────────────────────────────────────────────┘
-      ↓
-┌────────────────────────────────────────────────────┐
-│ 5️⃣ YAKIT DEPOSU (Storage Service)                 │
-│    📍 Konum: storageService.ts                     │
-│    🎯 Görev: localStorage + Firebase'e kaydeder   │
-└────────────────────────────────────────────────────┘
-      ↓
-┌────────────────────────────────────────────────────┐
-│ 6️⃣ MOTOR (Dashboard Rendering Engine)             │
-│    📍 Konum: src/components/dashboards/           │
-│    🎯 Görev: Veriyi KPI'lara ve grafiklere çevirir│
-└────────────────────────────────────────────────────┘`}</pre>
+              <div className="bg-gradient-to-br from-slate-50 to-gray-100 p-6 rounded-2xl border-2 border-slate-300 overflow-x-auto">
+                {/* N8N-Style Horizontal Workflow */}
+                <div className="space-y-4">
+                  {/* İlk Satır: Input → 1 → 2 */}
+                  <div className="flex items-center gap-3 justify-center flex-wrap">
+                    {/* Input */}
+                    <div className="bg-gradient-to-br from-slate-700 to-slate-900 text-white px-5 py-3 rounded-lg shadow-lg min-w-[160px] text-center border-2 border-slate-600">
+                      <div className="text-2xl mb-1">📂</div>
+                      <div className="font-bold text-xs">EXCEL/CSV</div>
+                      <div className="text-[10px] opacity-80">(HAM VERİ)</div>
+                    </div>
+
+                    <div className="text-3xl text-orange-500 font-bold">→</div>
+
+                    {/* 1. Karbüratör */}
+                    <div className="bg-gradient-to-br from-orange-400 to-red-500 text-white px-5 py-3 rounded-lg shadow-lg min-w-[160px] border-2 border-orange-600 hover:scale-105 transition-transform">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center font-bold text-sm">1</div>
+                        <div className="text-xl">🔧</div>
+                      </div>
+                      <div className="font-bold text-xs text-center">KARBÜRATÖR</div>
+                      <div className="text-[10px] opacity-90 text-center">Excel Parser</div>
+                    </div>
+
+                    <div className="text-3xl text-blue-500 font-bold">→</div>
+
+                    {/* 2. Filtre */}
+                    <div className="bg-gradient-to-br from-blue-400 to-cyan-500 text-white px-5 py-3 rounded-lg shadow-lg min-w-[160px] border-2 border-blue-600 hover:scale-105 transition-transform">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center font-bold text-sm">2</div>
+                        <div className="text-xl">🧹</div>
+                      </div>
+                      <div className="font-bold text-xs text-center">FİLTRE</div>
+                      <div className="text-[10px] opacity-90 text-center">Normalizer</div>
+                    </div>
+                  </div>
+
+                  {/* Ortadaki Aşağı Ok */}
+                  <div className="flex justify-center">
+                    <div className="text-4xl text-purple-500 font-bold animate-bounce">↓</div>
+                  </div>
+
+                  {/* İkinci Satır: 3 → 4 → 5 → 6 → Output */}
+                  <div className="flex items-center gap-3 justify-center flex-wrap">
+                    {/* 3. Enjektör */}
+                    <div className="bg-gradient-to-br from-purple-400 to-pink-500 text-white px-5 py-3 rounded-lg shadow-lg min-w-[160px] border-2 border-purple-600 hover:scale-105 transition-transform">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center font-bold text-sm">3</div>
+                        <div className="text-xl">💉</div>
+                      </div>
+                      <div className="font-bold text-xs text-center">ENJEKTÖR</div>
+                      <div className="text-[10px] opacity-90 text-center">Mapper</div>
+                    </div>
+
+                    <div className="text-3xl text-green-500 font-bold">→</div>
+
+                    {/* 4. Validator */}
+                    <div className="bg-gradient-to-br from-green-400 to-emerald-500 text-white px-5 py-3 rounded-lg shadow-lg min-w-[160px] border-2 border-green-600 hover:scale-105 transition-transform">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center font-bold text-sm">4</div>
+                        <div className="text-xl">✅</div>
+                      </div>
+                      <div className="font-bold text-xs text-center">VALIDATOR</div>
+                      <div className="text-[10px] opacity-90 text-center">Kontrol</div>
+                    </div>
+
+                    <div className="text-3xl text-indigo-500 font-bold">→</div>
+
+                    {/* 5. Depo */}
+                    <div className="bg-gradient-to-br from-indigo-400 to-blue-500 text-white px-5 py-3 rounded-lg shadow-lg min-w-[160px] border-2 border-indigo-600 hover:scale-105 transition-transform">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center font-bold text-sm">5</div>
+                        <div className="text-xl">💾</div>
+                      </div>
+                      <div className="font-bold text-xs text-center">DEPO</div>
+                      <div className="text-[10px] opacity-90 text-center">Storage</div>
+                    </div>
+
+                    <div className="text-3xl text-pink-500 font-bold">→</div>
+
+                    {/* 6. Motor */}
+                    <div className="bg-gradient-to-br from-pink-400 to-rose-500 text-white px-5 py-3 rounded-lg shadow-lg min-w-[160px] border-2 border-pink-600 hover:scale-105 transition-transform">
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center font-bold text-sm">6</div>
+                        <div className="text-xl">🚀</div>
+                      </div>
+                      <div className="font-bold text-xs text-center">MOTOR</div>
+                      <div className="text-[10px] opacity-90 text-center">Dashboard</div>
+                    </div>
+
+                    <div className="text-3xl text-green-600 font-bold">→</div>
+
+                    {/* Output */}
+                    <div className="bg-gradient-to-br from-emerald-500 to-green-700 text-white px-5 py-3 rounded-lg shadow-lg min-w-[160px] text-center border-2 border-green-600 animate-pulse">
+                      <div className="text-2xl mb-1">📊</div>
+                      <div className="font-bold text-xs">DASHBOARD</div>
+                      <div className="text-[10px] opacity-90">(TAMAMLANDI)</div>
+                    </div>
+                  </div>
+
+                  {/* Detay Toggle */}
+                  <div className="mt-6 text-center">
+                    <details className="bg-white/80 backdrop-blur-sm p-3 rounded-lg border border-slate-300">
+                      <summary className="cursor-pointer font-semibold text-sm text-slate-700 hover:text-slate-900">
+                        🔍 Teknik Detayları Göster
+                      </summary>
+                      <div className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2 text-left text-[11px]">
+                        <div className="bg-orange-50 p-2 rounded border-l-2 border-orange-500">
+                          <div className="font-bold text-orange-800">1. Karbüratör</div>
+                          <code className="text-[10px] text-gray-700">excelParser.ts</code>
+                        </div>
+                        <div className="bg-blue-50 p-2 rounded border-l-2 border-blue-500">
+                          <div className="font-bold text-blue-800">2. Filtre</div>
+                          <code className="text-[10px] text-gray-700">normalizer.ts</code>
+                        </div>
+                        <div className="bg-purple-50 p-2 rounded border-l-2 border-purple-500">
+                          <div className="font-bold text-purple-800">3. Enjektör</div>
+                          <code className="text-[10px] text-gray-700">columnMapper.ts</code>
+                        </div>
+                        <div className="bg-green-50 p-2 rounded border-l-2 border-green-500">
+                          <div className="font-bold text-green-800">4. Validator</div>
+                          <code className="text-[10px] text-gray-700">validator.ts</code>
+                        </div>
+                        <div className="bg-indigo-50 p-2 rounded border-l-2 border-indigo-500">
+                          <div className="font-bold text-indigo-800">5. Depo</div>
+                          <code className="text-[10px] text-gray-700">storageService.ts</code>
+                        </div>
+                        <div className="bg-pink-50 p-2 rounded border-l-2 border-pink-500">
+                          <div className="font-bold text-pink-800">6. Motor</div>
+                          <code className="text-[10px] text-gray-700">dashboards/</code>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                </div>
               </div>
             </div>
 

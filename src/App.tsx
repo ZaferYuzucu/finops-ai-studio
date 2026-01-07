@@ -60,6 +60,9 @@ import CSVLibraryPage from './pages/admin/CSVLibraryPage';
 import FinOpsTheatrePage from './pages/FinOpsTheatrePage';
 import BusinessPlanPage from './pages/BusinessPlanPage';
 import SystemGuidePage from './pages/admin/SystemGuidePage';
+import BetaApplicationsPage from './pages/admin/BetaApplicationsPage';
+import UserManagementPage from './pages/admin/UserManagementPage';
+import OfficePage from './pages/OfficePage';
 import MarketingPlanPage from './pages/MarketingPlanPage';
 import LaunchRoadmapPage from './pages/LaunchRoadmapPage';
 import InvestorPresentationPage from './pages/InvestorPresentationPage';
@@ -127,9 +130,12 @@ const App: React.FC = () => {
         <Route path="/admin/newsletter" element={<AdminProtectedRoute><NewsletterPanelPage /></AdminProtectedRoute>} />
         <Route path="/admin/payment-guide" element={<AdminProtectedRoute><PaymentGuideAdminPage /></AdminProtectedRoute>} />
         <Route path="/dashboard/create" element={<AdminProtectedRoute><DashboardCreateWizardPage /></AdminProtectedRoute>} />
+        <Route path="/office" element={<AdminProtectedRoute><OfficePage /></AdminProtectedRoute>} />
         <Route path="/finops-theatre" element={<AdminProtectedRoute><FinOpsTheatrePage /></AdminProtectedRoute>} />
         <Route path="/business-plan" element={<AdminProtectedRoute><BusinessPlanPage /></AdminProtectedRoute>} />
         <Route path="/admin/system-guide" element={<AdminProtectedRoute><SystemGuidePage /></AdminProtectedRoute>} />
+        <Route path="/admin/beta-applications" element={<AdminProtectedRoute><BetaApplicationsPage /></AdminProtectedRoute>} />
+        <Route path="/admin/user-management" element={<AdminProtectedRoute><UserManagementPage /></AdminProtectedRoute>} />
         <Route path="/marketing-plan" element={<AdminProtectedRoute><MarketingPlanPage /></AdminProtectedRoute>} />
         <Route path="/launch-roadmap" element={<AdminProtectedRoute><LaunchRoadmapPage /></AdminProtectedRoute>} />
         <Route path="/investor-presentation" element={<AdminProtectedRoute><InvestorPresentationPage /></AdminProtectedRoute>} />

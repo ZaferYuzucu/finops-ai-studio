@@ -44,32 +44,13 @@ const getFooterSections = (t: any) => ({
       { name: t('footer.links.about'), href: "/about" },
       { name: t('footer.links.contact'), href: "/contact" },
       { name: t('footer.links.projectActivityReport'), href: "/project-activity-report" },
+      { name: "Yönetim Ofisi", href: "/admin-login?redirect=/office" },
     ],
     style: {
         background: 'bg-blue-50',
         ring: 'ring-blue-200',
         shadow: 'hover:shadow-blue-100',
         titleColor: 'text-blue-800'
-    }
-  },
-  admin: {
-    title: t('footer.admin'),
-    links: [
-      { name: t('footer.links.platformAnalytics'), href: "/admin-login?redirect=/admin/platform-analytics" },
-      { name: t('footer.links.brandingKit'), href: "/admin-login?redirect=/brand-kit" },
-      { name: t('footer.links.finopsTheatre'), href: "/admin-login?redirect=/finops-theatre" },
-      { name: t('footer.links.newsletterPanel'), href: "/admin-login?redirect=/admin/newsletter" },
-      { name: t('footer.links.businessPlan'), href: "/admin-login?redirect=/business-plan" },
-      { name: t('footer.links.systemGuide'), href: "/admin-login?redirect=/admin/system-guide" },
-      { name: t('footer.links.marketingPlan'), href: "/admin-login?redirect=/marketing-plan" },
-      { name: t('footer.links.userJourneyMap'), href: "/admin-login?redirect=/user-journey-map" },
-      { name: t('footer.links.paymentGuide'), href: "/admin-login?redirect=/admin/payment-guide" },
-    ],
-    style: {
-        background: 'bg-violet-50', 
-        ring: 'ring-violet-200',
-        shadow: 'hover:shadow-violet-100',
-        titleColor: 'text-violet-800'
     }
   },
   social: {
@@ -169,7 +150,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="mt-20 pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-sm text-gray-500">&copy; {new Date().getFullYear()} Finops AI. {t('footer.rightsReserved')}</p>
+          <p className="text-sm text-gray-500">&copy; {new Date().getFullYear()} FinOps AI Studio · Data → Decision</p>
           <div className="flex items-center gap-x-6 mt-4 sm:mt-0">
             {legalLinks.map(link => (
               <Link key={link.name} to={link.href} className="text-sm text-gray-500 hover:text-gray-800 transition-colors">{link.name}</Link>
