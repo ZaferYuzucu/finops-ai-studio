@@ -60,6 +60,7 @@ const getFooterSections = (t: any) => ({
       { name: t('footer.links.finopsTheatre'), href: "/admin-login?redirect=/finops-theatre" },
       { name: t('footer.links.newsletterPanel'), href: "/admin-login?redirect=/admin/newsletter" },
       { name: t('footer.links.businessPlan'), href: "/admin-login?redirect=/business-plan" },
+      { name: t('footer.links.systemGuide'), href: "/admin-login?redirect=/admin/system-guide" },
       { name: t('footer.links.marketingPlan'), href: "/admin-login?redirect=/marketing-plan" },
       { name: t('footer.links.userJourneyMap'), href: "/admin-login?redirect=/user-journey-map" },
       { name: t('footer.links.paymentGuide'), href: "/admin-login?redirect=/admin/payment-guide" },

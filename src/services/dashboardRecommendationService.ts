@@ -214,3 +214,7 @@ export const hasCompletedSurvey = (profile: UserSurveyProfile): boolean => {
   return profile.miniSurveyCompleted || false;
 };
 
+
+
+
+

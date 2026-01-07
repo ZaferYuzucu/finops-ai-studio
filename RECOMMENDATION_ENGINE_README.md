@@ -471,3 +471,7 @@ Sonraki kuralları (RULE-4 to RULE-7) istediğiniz zaman ekleyebilirsiniz:
 
 **Sistemin genişlemesi çok kolay! 🚀**
 
+
+
+
+

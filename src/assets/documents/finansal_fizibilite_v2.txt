@@ -1,0 +1,28 @@
+Yillar		2026		2027		2028
+Hedef Pazar (KOBİ)		 300,000 		 300,000 		 300,000 
+FINOPS Hedef Kullanici %		2%		4%		6%
+FINOPS Hedef Kullanici		 6,000 		 12,000 		 18,000 
+Ödeyen Penetrasyon		40%		50%		50%
+Ödeyen Kullanıcı		 2,400 		 6,000 		 9,000 
+Ortalama Aylık Gelir (TL) *1.30		959		 1,247 		 1,621 
+Yıllık Brüt Gelir (TL) Mio		 ₺27,619 		 ₺89,762 		 ₺175,037 
+1$ Parite		 43 		 56 		 73 
+Yıllık Brüt Gelir (USD),000K		 $642 		 $1,606 		 $2,409 
+						
+B) MALİYETLER (3 Yıl Yan Yana)						
+						
+Yillar		2026		2027		2028
+Personel Giderleri (TL)	10%	 2,340 	10%	 3,042 	10%	 3,955 
+Bulut & AI Altyapı (TL)	10%	 3,000 	10%	 3,900 	10%	 5,070 
+Pazarlama & Satış (TL)	8%	 2,200 	8%	 2,860 	8%	 3,720 
+Genel Giderler (TL)	2%	 460 	2%	 598 	2%	 777 
+Toplam Yıllık Gider (TL)Mio	30%	 ₺8,000 	30%	 ₺10,400 	30%	 ₺13,522 
+Toplam Yıllık Gider (USD),000K	54%	 $344 	36%	 $581 	41%	 $983 
+						
+C) KÂR / ZARAR (3 Yıl Yan Yana)						
+						
+Yillar		2026		2027		2028
+Yıllık Brüt Gelir (TL)		 ₺27,619 		 ₺89,762 		 ₺175,037 
+Toplam Yıllık Gider (TL)		 ₺8,000 		 ₺10,400 		 ₺13,522 
+NET KÂR (TL),000Mio		 ₺19,619 		 ₺79,362 		 ₺161,515 
+NET KÂR (USD),000K		 $298 		 $1,024 		 $1,426 

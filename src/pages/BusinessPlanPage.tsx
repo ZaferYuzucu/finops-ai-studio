@@ -94,6 +94,7 @@ const HighlightNote: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
 const BusinessPlanPage: React.FC = () => {
   const [frequency, setFrequency] = useState('monthly');
+  const [language, setLanguage] = useState<'tr' | 'en'>('tr');
 
   // PDF İndirme Fonksiyonu
   const handleDownloadPDF = () => {
@@ -898,9 +899,31 @@ const BusinessPlanPage: React.FC = () => {
       <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white py-20">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <header className="text-center">
+            {/* Language Toggle */}
+            <div className="flex justify-end mb-4">
+              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full p-1">
+                <button
+                  onClick={() => setLanguage('tr')}
+                  className={`px-4 py-2 rounded-full font-semibold text-sm transition-all ${
+                    language === 'tr' ? 'bg-white text-indigo-600' : 'text-white hover:bg-white/10'
+                  }`}
+                >
+                  🇹🇷 TR
+                </button>
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`px-4 py-2 rounded-full font-semibold text-sm transition-all ${
+                    language === 'en' ? 'bg-white text-indigo-600' : 'text-white hover:bg-white/10'
+                  }`}
+                >
+                  🇬🇧 EN
+                </button>
+              </div>
+            </div>
+            
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-semibold mb-6">
               <FileText className="w-4 h-4" />
-              <span>Stratejik İş Planı Dokümantasyonu</span>
+              <span>{language === 'tr' ? 'Stratejik İş Planı Dokümantasyonu' : 'Strategic Business Plan Documentation'}</span>
             </div>
             <h1 className="mt-4 text-5xl lg:text-7xl font-extrabold tracking-tight">
               FINOPS.ist İş Planı
@@ -1202,187 +1225,113 @@ const BusinessPlanPage: React.FC = () => {
 
           {/* FİNANSAL FİZİBİLİTE BÖLÜMÜ */}
           <section id="finansal-fizibilite" className="bg-gradient-to-br from-green-50 to-emerald-50 p-10 rounded-2xl shadow-xl border-2 border-green-200 mt-12">
-            <SectionTitle icon={DollarSign}>8. Finansal Fizibilite</SectionTitle>
+            <SectionTitle icon={DollarSign}>
+              {language === 'tr' ? '8. Finansal Fizibilite' : '8. Financial Feasibility'}
+            </SectionTitle>
             
             <HighlightNote>
               <p className="font-bold text-lg text-gray-900 mb-2">
-                TÜRKİYE KOBİ'LERİ İÇİN YAPAY ZEKÂ DESTEKLİ FİNANSAL DASHBOARD PLATFORMU
+                {language === 'tr' 
+                  ? '3 YILLIK FİNANSAL PROJEKSİYON (2026-2028)' 
+                  : '3-YEAR FINANCIAL PROJECTION (2026-2028)'}
               </p>
               <p className="font-semibold text-gray-700">
-                Finansal Fizibilite Raporu (1–10)
+                {language === 'tr'
+                  ? 'Güncellenmiş Finansal Fizibilite Raporu'
+                  : 'Updated Financial Feasibility Report'}
               </p>
             </HighlightNote>
 
-            {/* 1. PROJE TANIMI */}
+            {/* A) GELİRLER */}
             <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">1</span>
-                Proje Tanımı
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-lg">
-                Bu proje, Türkiye'de faaliyet gösteren KOBİ'lerin finansal verilerini otomatik toplayan,
-                yapay zekâ ile sınıflandıran ve anlaşılır, aksiyon alınabilir dashboardlar üzerinden
-                karar desteği sunan yerli bir SaaS platformudur.
-              </p>
-            </div>
-
-            {/* 2. ÜRÜN KAPSAMI */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">2</span>
-                Ürün Kapsamı ve Münhasır Yetkinlik
-              </h3>
-              <p className="text-gray-700 mb-4">Platform münhasıran aşağıdaki fonksiyonları sunar:</p>
-              <ul className="space-y-3">
-                <ListItem>Otomatik finansal veri toplama</ListItem>
-                <ListItem>Yapay zekâ ile gider ve gelir sınıflandırması</ListItem>
-                <ListItem>Modern ve anlaşılır finansal dashboardlar</ListItem>
-                <ListItem>Nakit akışı, maliyet ve kârlılık için erken uyarılar</ListItem>
-                <ListItem>Doğal dilde çalışan AI finans asistanı</ListItem>
-              </ul>
-            </div>
-
-            {/* 3. TÜRKİYE KOBİ GERÇEĞİ */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
               <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">3</span>
-                Türkiye KOBİ Gerçeği – Pazar Öngörüleri
+                <span className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">A</span>
+                {language === 'tr' ? 'GELİRLER' : 'REVENUE'}
               </h3>
               
-              <div className="space-y-6">
-                <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-600">
-                  <h4 className="font-bold text-lg text-blue-900 mb-3">Öngörü-1 | Türkiye KOBİ Ölçeği</h4>
-                  <p className="text-gray-700 leading-relaxed mb-2">
-                    Türkiye'de toplam KOBİ sayısı ≈ <strong className="text-blue-600">4.000.000</strong>
-                  </p>
-                  <p className="text-gray-700 leading-relaxed mb-2">
-                    Finansal verisi düzenli, banka/POS/e-fatura kullanan, dijital çözüme açık
-                    gerçekçi KOBİ havuzu ≈ <strong className="text-blue-600">300.000</strong>
-                  </p>
-                  <p className="text-sm text-gray-600 italic">
-                    Bu çalışma TAM değil, SAM (Serviceable Addressable Market) bazlıdır.
-                  </p>
-                </div>
-
-                <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-600">
-                  <h4 className="font-bold text-lg text-purple-900 mb-3">Öngörü-2 | Mevcut Boşluk</h4>
-                  <p className="text-gray-700 leading-relaxed mb-3">
-                    Türkiye'de KOBİ'lerin finansal verisini:
-                  </p>
-                  <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
-                    <li>otomatik toplayan</li>
-                    <li>yapay zekâ ile sınıflandıran</li>
-                    <li>anlaşılır dashboard + içgörü üreten</li>
-                  </ul>
-                  <p className="text-gray-700 leading-relaxed mt-3">
-                    <strong>yerli, self-service SaaS platform yoktur.</strong>
-                  </p>
-                  <p className="text-sm text-gray-600 italic mt-2">
-                    Mevcut çözümler ya muhasebe, ya ERP, ya da danışmanlık odaklıdır.
-                  </p>
-                </div>
-
-                <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-600">
-                  <h4 className="font-bold text-lg text-green-900 mb-3">Öngörü-3 | Davranış Gerçeği</h4>
-                  <p className="text-gray-700 leading-relaxed mb-3">KOBİ'ler:</p>
-                  <div className="space-y-2 text-gray-700">
-                    <p>"Rapor" değil → <strong className="text-green-700">karar</strong></p>
-                    <p>"Excel" değil → <strong className="text-green-700">otomatik dashboard</strong></p>
-                    <p>"Danışman" değil → <strong className="text-green-700">erişilebilir SaaS</strong> ister</p>
-                  </div>
-                  <p className="text-sm text-gray-600 italic mt-3">
-                    Global SaaS örnekleri bu ihtiyacın dünya çapında doğrulandığını göstermektedir.
-                  </p>
-                </div>
-
-                <div className="bg-orange-50 p-6 rounded-lg border-l-4 border-orange-600">
-                  <h4 className="font-bold text-lg text-orange-900 mb-3">Öngörü-4 | Türkiye'ye Uygun Fiyat Eşiği</h4>
-                  <p className="text-gray-700 leading-relaxed mb-2">
-                    2026 Türkiye koşullarında:
-                  </p>
-                  <p className="text-gray-700 leading-relaxed">
-                    <strong className="text-orange-700">500–1.000 TL / ay</strong> bandı psikolojik kabul eşiğidir
-                  </p>
-                  <p className="text-gray-700 leading-relaxed">
-                    Ürün değer üretirse Premium fiyatlama mümkündür
-                  </p>
-                  <p className="text-sm text-gray-600 italic mt-2">
-                    Bu fizibilite kötümser ve temkinli fiyat varsayımlarıyla hazırlanmıştır.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 4. HEDEF PAZAR */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">4</span>
-                Hedef Pazar Tanımı
-              </h3>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="bg-indigo-50 p-6 rounded-lg text-center">
-                  <p className="text-sm text-indigo-600 font-semibold mb-2">Hedef Pazar (SAM)</p>
-                  <p className="text-4xl font-bold text-indigo-900">300.000</p>
-                  <p className="text-sm text-gray-600 mt-1">KOBİ</p>
-                </div>
-                <div className="bg-purple-50 p-6 rounded-lg text-center">
-                  <p className="text-sm text-purple-600 font-semibold mb-2">Ödeyen Penetrasyon</p>
-                  <p className="text-4xl font-bold text-purple-900">%5</p>
-                  <p className="text-sm text-gray-600 mt-1">Varsayım</p>
-                </div>
-                <div className="bg-pink-50 p-6 rounded-lg text-center">
-                  <p className="text-sm text-pink-600 font-semibold mb-2">Ödeyen Kullanıcı</p>
-                  <p className="text-4xl font-bold text-pink-900">15.000</p>
-                  <p className="text-sm text-gray-600 mt-1">İşletme</p>
-                </div>
-              </div>
-            </div>
-
-            {/* 5. FİYATLANDIRMA */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">5</span>
-                Fiyatlandırma Modeli
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg">
-                  <span className="text-gray-700 font-semibold">İşletme Dostu</span>
-                  <span className="text-2xl font-bold text-indigo-600">599 TL / ay</span>
-                </div>
-                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
-                  <span className="text-gray-700 font-semibold">Premium</span>
-                  <span className="text-2xl font-bold text-purple-600">1.799 TL / ay</span>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-gray-700"><span className="font-semibold">Paket dağılımı (kötümser):</span> %70 / %30</p>
-                  <p className="text-gray-700 mt-2"><span className="font-semibold">Ortalama aylık gelir (ARPU):</span> <span className="text-green-600 font-bold text-xl">959 TL</span></p>
-                </div>
-              </div>
-            </div>
-
-            {/* 6. GELİR VARSAYIMLARI */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">6</span>
-                Gelir Varsayımları
-              </h3>
-              <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-600">
-                <p className="text-gray-700 text-lg"><span className="font-semibold">Kur varsayımı:</span> 1 USD = <strong className="text-yellow-700">43 TL</strong></p>
-                <p className="text-sm text-gray-600 mt-2 italic">Tüm hesaplamalar yıllık bazda yapılmıştır.</p>
-              </div>
-            </div>
-
-            {/* 7. TABLO-9 | 3 YILLIK FİNANSAL FİZİBİLİTE */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">7</span>
-                TABLO-9 | 3 Yıllık Finansal Fizibilite (2026-2028)
-              </h3>
-              
-              <div className="overflow-x-auto shadow-2xl rounded-xl">
+              <div className="overflow-x-auto shadow-xl rounded-xl">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                    <tr className="bg-gradient-to-r from-green-600 to-emerald-600 text-white">
+                      <th className="px-6 py-4 text-left font-bold text-base">{language === 'tr' ? 'Metrik' : 'Metric'}</th>
+                      <th className="px-6 py-4 text-center font-bold text-base">2026</th>
+                      <th className="px-6 py-4 text-center font-bold text-base">2027</th>
+                      <th className="px-6 py-4 text-center font-bold text-base">2028</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">
+                        {language === 'tr' ? 'Hedef Pazar (KOBİ)' : 'Target Market (SMEs)'}
+                      </td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300,000</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300,000</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300,000</td>
+                    </tr>
+                    <tr className="bg-gray-50 hover:bg-gray-100">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">FINOPS Hedef Kullanıcı %</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">2%</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">4%</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">6%</td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">FINOPS Hedef Kullanıcı</td>
+                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">6,000</td>
+                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">12,000</td>
+                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">18,000</td>
+                    </tr>
+                    <tr className="bg-gray-50 hover:bg-gray-100">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Ödeyen Penetrasyon</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">40%</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">50%</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">50%</td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Ödeyen Kullanıcı</td>
+                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">2,400</td>
+                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">6,000</td>
+                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">9,000</td>
+                    </tr>
+                    <tr className="bg-gray-50 hover:bg-gray-100">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Ortalama Aylık Gelir (TL) *1.30</td>
+                      <td className="px-6 py-3 text-center font-bold text-green-600">959</td>
+                      <td className="px-6 py-3 text-center font-bold text-green-600">1,247</td>
+                      <td className="px-6 py-3 text-center font-bold text-green-600">1,621</td>
+                    </tr>
+                    <tr className="bg-green-100 hover:bg-green-200">
+                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Yıllık Brüt Gelir (TL) Mio</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">₺27,619</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">₺89,762</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">₺175,037</td>
+                    </tr>
+                    <tr className="bg-gray-50 hover:bg-gray-100">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">1$ Parite</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">43</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">56</td>
+                      <td className="px-6 py-3 text-center font-bold text-indigo-600">73</td>
+                    </tr>
+                    <tr className="bg-green-100 hover:bg-green-200">
+                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Yıllık Brüt Gelir (USD),000K</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">$642</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">$1,606</td>
+                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">$2,409</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* B) MALİYETLER */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold">B</span>
+                {language === 'tr' ? 'MALİYETLER' : 'COSTS'}
+              </h3>
+              
+              <div className="overflow-x-auto shadow-xl rounded-xl">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-orange-600 to-red-600 text-white">
                       <th className="px-6 py-4 text-left font-bold text-base">Metrik</th>
                       <th className="px-6 py-4 text-center font-bold text-base">2026</th>
                       <th className="px-6 py-4 text-center font-bold text-base">2027</th>
@@ -1390,110 +1339,124 @@ const BusinessPlanPage: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {/* A) GELİRLER */}
-                    <tr className="bg-gradient-to-r from-green-50 to-emerald-50">
-                      <td colSpan={4} className="px-6 py-4 font-bold text-lg text-green-800">
-                        A) GELİRLER
-                      </td>
-                    </tr>
                     <tr className="hover:bg-gray-50">
-                      <td className="px-6 py-3 text-gray-700 font-semibold">Hedef Pazar (KOBİ)</td>
-                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300.000</td>
-                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300.000</td>
-                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300.000</td>
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Personel Giderleri (TL)</td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">10%</span> • <span className="font-bold">2,340</span>
+                      </td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">10%</span> • <span className="font-bold">3,042</span>
+                      </td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">10%</span> • <span className="font-bold">3,955</span>
+                      </td>
                     </tr>
                     <tr className="bg-gray-50 hover:bg-gray-100">
-                      <td className="px-6 py-3 text-gray-700 font-semibold">Ödeyen Penetrasyon</td>
-                      <td className="px-6 py-3 text-center font-bold text-indigo-600">%5</td>
-                      <td className="px-6 py-3 text-center font-bold text-indigo-600">%10</td>
-                      <td className="px-6 py-3 text-center font-bold text-indigo-600">%15</td>
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Bulut & AI Altyapı (TL)</td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">10%</span> • <span className="font-bold">3,000</span>
+                      </td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">10%</span> • <span className="font-bold">3,900</span>
+                      </td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">10%</span> • <span className="font-bold">5,070</span>
+                      </td>
                     </tr>
                     <tr className="hover:bg-gray-50">
-                      <td className="px-6 py-3 text-gray-700 font-semibold">Ödeyen Kullanıcı</td>
-                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">15.000</td>
-                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">30.000</td>
-                      <td className="px-6 py-3 text-center font-bold text-purple-600 text-lg">45.000</td>
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Pazarlama & Satış (TL)</td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">8%</span> • <span className="font-bold">2,200</span>
+                      </td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">8%</span> • <span className="font-bold">2,860</span>
+                      </td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">8%</span> • <span className="font-bold">3,720</span>
+                      </td>
                     </tr>
                     <tr className="bg-gray-50 hover:bg-gray-100">
-                      <td className="px-6 py-3 text-gray-700 font-semibold">Toplam Kullanıcı (≈×20)</td>
-                      <td className="px-6 py-3 text-center font-bold text-indigo-600">300.000</td>
-                      <td className="px-6 py-3 text-center font-bold text-indigo-600">600.000</td>
-                      <td className="px-6 py-3 text-center font-bold text-indigo-600">900.000</td>
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Genel Giderler (TL)</td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">2%</span> • <span className="font-bold">460</span>
+                      </td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">2%</span> • <span className="font-bold">598</span>
+                      </td>
+                      <td className="px-6 py-3 text-center text-gray-600">
+                        <span className="text-xs text-orange-600">2%</span> • <span className="font-bold">777</span>
+                      </td>
                     </tr>
+                    <tr className="bg-orange-100 hover:bg-orange-200">
+                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Toplam Yıllık Gider (TL)Mio</td>
+                      <td className="px-6 py-4 text-center text-orange-700">
+                        <span className="text-xs">30%</span><br /><span className="font-bold text-xl">₺8,000</span>
+                      </td>
+                      <td className="px-6 py-4 text-center text-orange-700">
+                        <span className="text-xs">30%</span><br /><span className="font-bold text-xl">₺10,400</span>
+                      </td>
+                      <td className="px-6 py-4 text-center text-orange-700">
+                        <span className="text-xs">30%</span><br /><span className="font-bold text-xl">₺13,522</span>
+                      </td>
+                    </tr>
+                    <tr className="bg-orange-100 hover:bg-orange-200">
+                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Toplam Yıllık Gider (USD),000K</td>
+                      <td className="px-6 py-4 text-center text-orange-700">
+                        <span className="text-xs">54%</span><br /><span className="font-bold text-xl">$344</span>
+                      </td>
+                      <td className="px-6 py-4 text-center text-orange-700">
+                        <span className="text-xs">36%</span><br /><span className="font-bold text-xl">$581</span>
+                      </td>
+                      <td className="px-6 py-4 text-center text-orange-700">
+                        <span className="text-xs">41%</span><br /><span className="font-bold text-xl">$983</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* C) KÂR / ZARAR */}
+            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <span className="w-10 h-10 bg-emerald-600 rounded-full flex items-center justify-center text-white font-bold">C</span>
+                {language === 'tr' ? 'KÂR / ZARAR' : 'PROFIT / LOSS'}
+              </h3>
+              
+              <div className="overflow-x-auto shadow-xl rounded-xl">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gradient-to-r from-emerald-600 to-green-600 text-white">
+                      <th className="px-6 py-4 text-left font-bold text-base">Metrik</th>
+                      <th className="px-6 py-4 text-center font-bold text-base">2026</th>
+                      <th className="px-6 py-4 text-center font-bold text-base">2027</th>
+                      <th className="px-6 py-4 text-center font-bold text-base">2028</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
                     <tr className="hover:bg-gray-50">
-                      <td className="px-6 py-3 text-gray-700 font-semibold">Ortalama Aylık Gelir (ARPU - TL)</td>
-                      <td className="px-6 py-3 text-center font-bold text-green-600">959</td>
-                      <td className="px-6 py-3 text-center font-bold text-green-600">959</td>
-                      <td className="px-6 py-3 text-center font-bold text-green-600">959</td>
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Yıllık Brüt Gelir (TL)</td>
+                      <td className="px-6 py-3 text-center font-bold text-green-600">₺27,619</td>
+                      <td className="px-6 py-3 text-center font-bold text-green-600">₺89,762</td>
+                      <td className="px-6 py-3 text-center font-bold text-green-600">₺175,037</td>
                     </tr>
-                    <tr className="bg-green-100 hover:bg-green-200">
-                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Yıllık Brüt Gelir (TL)</td>
-                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">172.620</td>
-                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">345.240</td>
-                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">517.860</td>
-                    </tr>
-                    <tr className="bg-green-100 hover:bg-green-200">
-                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Yıllık Brüt Gelir (USD)</td>
-                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">4.015</td>
-                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">8.030</td>
-                      <td className="px-6 py-4 text-center font-bold text-green-700 text-xl">12.045</td>
-                    </tr>
-
-                    {/* B) MALİYETLER */}
-                    <tr className="bg-gradient-to-r from-orange-50 to-red-50">
-                      <td colSpan={4} className="px-6 py-4 font-bold text-lg text-orange-800">
-                        B) MALİYETLER
-                      </td>
-                    </tr>
-                    <tr className="bg-orange-50 hover:bg-orange-100">
-                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Toplam Yıllık Gider (TL)</td>
-                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">8.000</td>
-                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">20.000</td>
-                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">35.000</td>
-                    </tr>
-                    <tr className="bg-orange-50 hover:bg-orange-100">
-                      <td className="px-6 py-4 text-gray-900 font-bold text-base">Toplam Yıllık Gider (USD)</td>
-                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">186</td>
-                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">465</td>
-                      <td className="px-6 py-4 text-center font-bold text-orange-700 text-xl">814</td>
-                    </tr>
-
-                    {/* C) KÂR / ZARAR */}
-                    <tr className="bg-gradient-to-r from-emerald-100 to-green-100">
-                      <td colSpan={4} className="px-6 py-4 font-bold text-lg text-emerald-800">
-                        C) KÂR / ZARAR
-                      </td>
+                    <tr className="bg-gray-50 hover:bg-gray-100">
+                      <td className="px-6 py-3 text-gray-700 font-semibold">Toplam Yıllık Gider (TL)</td>
+                      <td className="px-6 py-3 text-center font-bold text-orange-600">₺8,000</td>
+                      <td className="px-6 py-3 text-center font-bold text-orange-600">₺10,400</td>
+                      <td className="px-6 py-3 text-center font-bold text-orange-600">₺13,522</td>
                     </tr>
                     <tr className="bg-gradient-to-r from-emerald-200 to-green-200 hover:from-emerald-300 hover:to-green-300">
-                      <td className="px-6 py-5 text-gray-900 font-bold text-base">Net Kâr (TL)</td>
-                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">164.620</td>
-                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">325.240</td>
-                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">482.860</td>
+                      <td className="px-6 py-5 text-gray-900 font-bold text-base">NET KÂR (TL),000Mio</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">₺19,619</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">₺79,362</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">₺161,515</td>
                     </tr>
                     <tr className="bg-gradient-to-r from-emerald-200 to-green-200 hover:from-emerald-300 hover:to-green-300">
-                      <td className="px-6 py-5 text-gray-900 font-bold text-base">Net Kâr (USD)</td>
-                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">3.829</td>
-                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">7.565</td>
-                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">11.231</td>
-                    </tr>
-                    
-                    {/* D) BÜYÜME METRİKLERİ */}
-                    <tr className="bg-gradient-to-r from-blue-50 to-indigo-50">
-                      <td colSpan={4} className="px-6 py-4 font-bold text-lg text-blue-800">
-                        D) BÜYÜME METRİKLERİ
-                      </td>
-                    </tr>
-                    <tr className="bg-blue-50 hover:bg-blue-100">
-                      <td className="px-6 py-4 text-gray-900 font-bold">Yıllık Büyüme Oranı (Gelir)</td>
-                      <td className="px-6 py-4 text-center font-bold text-blue-700">—</td>
-                      <td className="px-6 py-4 text-center font-bold text-blue-700 text-lg">%100</td>
-                      <td className="px-6 py-4 text-center font-bold text-blue-700 text-lg">%50</td>
-                    </tr>
-                    <tr className="bg-blue-50 hover:bg-blue-100">
-                      <td className="px-6 py-4 text-gray-900 font-bold">Kâr Marjı</td>
-                      <td className="px-6 py-4 text-center font-bold text-blue-700 text-lg">%95.4</td>
-                      <td className="px-6 py-4 text-center font-bold text-blue-700 text-lg">%94.2</td>
-                      <td className="px-6 py-4 text-center font-bold text-blue-700 text-lg">%93.2</td>
+                      <td className="px-6 py-5 text-gray-900 font-bold text-base">NET KÂR (USD),000K</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">$298</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">$1,024</td>
+                      <td className="px-6 py-5 text-center font-bold text-emerald-700 text-2xl">$1,426</td>
                     </tr>
                   </tbody>
                 </table>
@@ -1501,19 +1464,31 @@ const BusinessPlanPage: React.FC = () => {
 
               <div className="mt-6 grid md:grid-cols-3 gap-4">
                 <div className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border-2 border-green-300">
-                  <p className="text-sm text-gray-600 mb-2">2026 - İlk Yıl</p>
-                  <p className="text-3xl font-bold text-green-700">164.620 TL</p>
-                  <p className="text-xs text-gray-600 mt-1">Net Kâr</p>
+                  <p className="text-sm text-gray-600 mb-2">
+                    2026 - {language === 'tr' ? 'İlk Yıl' : 'First Year'}
+                  </p>
+                  <p className="text-3xl font-bold text-green-700">₺19,619</p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    {language === 'tr' ? 'Net Kâr' : 'Net Profit'}
+                  </p>
                 </div>
                 <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-300">
-                  <p className="text-sm text-gray-600 mb-2">2027 - İkinci Yıl</p>
-                  <p className="text-3xl font-bold text-blue-700">325.240 TL</p>
-                  <p className="text-xs text-gray-600 mt-1">Net Kâr (%98 artış)</p>
+                  <p className="text-sm text-gray-600 mb-2">
+                    2027 - {language === 'tr' ? 'İkinci Yıl' : 'Second Year'}
+                  </p>
+                  <p className="text-3xl font-bold text-blue-700">₺79,362</p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    {language === 'tr' ? 'Net Kâr (+305%)' : 'Net Profit (+305%)'}
+                  </p>
                 </div>
                 <div className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border-2 border-purple-300">
-                  <p className="text-sm text-gray-600 mb-2">2028 - Üçüncü Yıl</p>
-                  <p className="text-3xl font-bold text-purple-700">482.860 TL</p>
-                  <p className="text-xs text-gray-600 mt-1">Net Kâr (%48 artış)</p>
+                  <p className="text-sm text-gray-600 mb-2">
+                    2028 - {language === 'tr' ? 'Üçüncü Yıl' : 'Third Year'}
+                  </p>
+                  <p className="text-3xl font-bold text-purple-700">₺161,515</p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    {language === 'tr' ? 'Net Kâr (+103%)' : 'Net Profit (+103%)'}
+                  </p>
                 </div>
               </div>
 
@@ -1522,74 +1497,17 @@ const BusinessPlanPage: React.FC = () => {
                   <Check className="w-12 h-12 text-green-600 flex-shrink-0" />
                   <div>
                     <p className="text-gray-700 font-semibold text-lg mb-2">
-                      İlk yıldan itibaren <span className="text-green-700 font-bold">pozitif nakit akışı</span> ile sürdürülebilir büyüme
+                      {language === 'tr'
+                        ? <>İlk yıldan itibaren <span className="text-green-700 font-bold">pozitif nakit akışı</span> ile sürdürülebilir büyüme</>
+                        : <><span className="text-green-700 font-bold">Positive cash flow</span> from the first year with sustainable growth</>
+                      }
                     </p>
                     <p className="text-sm text-gray-600">
-                      3 yıl sonunda toplam <span className="font-bold text-green-700">972.720 TL</span> kümülatif net kâr projeksiyonu
+                      {language === 'tr'
+                        ? <>3 yıl sonunda toplam <span className="font-bold text-green-700">₺260,496</span> kümülatif net kâr projeksiyonu</>
+                        : <>Projected cumulative net profit of <span className="font-bold text-green-700">₺260,496</span> after 3 years</>
+                      }
                     </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 8. OPERASYONEL YAPI */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">9</span>
-                Operasyonel Yapı
-              </h3>
-              <ul className="space-y-3">
-                <ListItem>Teknokent kuluçka kapsamında düşük ofis gideri</ListItem>
-                <ListItem>3 kişilik çekirdek ekip</ListItem>
-                <ListItem>Bulut ve AI maliyetleri ölçeklenebilir yapıdadır</ListItem>
-              </ul>
-            </div>
-
-            {/* 10. FİNANSAL DEĞERLENDİRME */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 mt-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                <span className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">10</span>
-                Finansal Değerlendirme
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-600">
-                  <Check className="w-6 h-6 text-green-600 mt-1 flex-shrink-0" />
-                  <p className="text-gray-700 leading-relaxed">
-                    Proje, ilk yıldan itibaren <strong className="text-green-700">pozitif nakit akışı</strong> üretmektedir.
-                  </p>
-                </div>
-                <div className="flex items-start gap-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-600">
-                  <Check className="w-6 h-6 text-green-600 mt-1 flex-shrink-0" />
-                  <p className="text-gray-700 leading-relaxed">
-                    Yüksek <strong className="text-green-700">kârlılık</strong> ve <strong className="text-green-700">ölçeklenebilirlik</strong> potansiyeline sahiptir.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 11. SONUÇ */}
-            <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 p-8 rounded-xl shadow-xl border-4 border-white mt-6">
-              <div className="bg-white/95 backdrop-blur-sm p-8 rounded-xl">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                  <span className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">11</span>
-                  Sonuç
-                </h3>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  Bu girişim, Türkiye'de KOBİ'lerin finansal verisini yapay zekâ ile anlaşılır,
-                  aksiyon alınabilir ve gerçek zamanlı kararlara dönüştüren <strong className="text-indigo-700">ilk yerli SaaS platformudur</strong>.
-                </p>
-                <div className="mt-6 grid md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <p className="text-3xl font-bold text-green-600 mb-1">164.620 TL</p>
-                    <p className="text-sm text-gray-600">Yıllık Net Kâr</p>
-                  </div>
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <p className="text-3xl font-bold text-blue-600 mb-1">15.000</p>
-                    <p className="text-sm text-gray-600">Ödeyen Müşteri</p>
-                  </div>
-                  <div className="text-center p-4 bg-purple-50 rounded-lg">
-                    <p className="text-3xl font-bold text-purple-600 mb-1">%5</p>
-                    <p className="text-sm text-gray-600">Pazar Penetrasyonu</p>
                   </div>
                 </div>
               </div>
@@ -1632,12 +1550,19 @@ const BusinessPlanPage: React.FC = () => {
             </div>
 
             <p className="text-center text-sm text-gray-500 mt-4">
-              📄 PDF: Detaylı iş planı • 🎤 PPTX: 15 slayt Teknokent sunumu
+              {language === 'tr'
+                ? '📄 PDF: Detaylı iş planı • 🎤 PPTX: 15 slayt Teknokent sunumu'
+                : '📄 PDF: Detailed business plan • 🎤 PPTX: 15-slide Technopark presentation'
+              }
             </p>
             <p className="text-center text-xs text-gray-400 mt-2">
-              Dosyalar otomatik olarak "İndirilenler" klasörünüze kaydedilecektir
+              {language === 'tr'
+                ? 'Dosyalar otomatik olarak "İndirilenler" klasörünüze kaydedilecektir'
+                : 'Files will be automatically saved to your "Downloads" folder'
+              }
             </p>
           </section>
+
         </div>
 
       </div>

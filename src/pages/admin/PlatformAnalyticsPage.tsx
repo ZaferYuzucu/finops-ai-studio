@@ -181,7 +181,7 @@ const PlatformAnalyticsPage = () => {
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            📊 Survey Analytics
+            {t('platformAnalytics.tabs.survey')}
           </button>
           <button
             onClick={() => setActiveTab('demo')}

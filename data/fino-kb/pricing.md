@@ -136,3 +136,7 @@ Sistem uyarı verir. Plan yükseltmesi yapabilir veya eski verileri temizleyebil
 
 
 
+
+
+
+
