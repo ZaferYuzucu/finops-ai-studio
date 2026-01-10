@@ -22,6 +22,7 @@ import BringingTeamsTogetherPage from './pages/blog/BringingTeamsTogetherPage';
 import DataDrivenDecisionsPage from './pages/blog/DataDrivenDecisionsPage';
 import DocsPage from './pages/DocsPage';
 import GetStartedDocPage from './pages/docs/GetStartedDocPage';
+import ChartGuidePage from './pages/docs/ChartGuidePage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import BrandKitPage from './pages/BrandKitPage'; // ✅ DÜZELTİLDİ - Eksik asset'ler kaldırıldı
@@ -45,12 +46,14 @@ import VeriGorsellestirmePage from './pages/VeriGorsellestirmePage';
 import NotFoundPage from './pages/NotFoundPage';
 import PaymentCheckoutPage from './pages/PaymentCheckoutPage';
 import DataSecurityPage from './pages/DataSecurityPage';
+import ChartWizardDemoPage from './pages/ChartWizardDemoPage';
 
 // Koruma Bileşenleri ve Korunan Sayfalar
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import DashboardPage from './pages/DashboardPage';
 import ProfessionalDashboardsPage from './pages/ProfessionalDashboardsPage';
+import MyDashboardsPage from './pages/MyDashboardsPage';
 import AdminPanelPage from './pages/AdminPanelPage';
 import NewsletterPanelPage from './pages/admin/NewsletterPanelPage';
 import PlatformAnalyticsPage from './pages/admin/PlatformAnalyticsPage';
@@ -62,15 +65,24 @@ import BusinessPlanPage from './pages/BusinessPlanPage';
 import SystemGuidePage from './pages/admin/SystemGuidePage';
 import BetaApplicationsPage from './pages/admin/BetaApplicationsPage';
 import UserManagementPage from './pages/admin/UserManagementPage';
+import EmailOutboxPage from './pages/admin/EmailOutboxPage';
 import OfficePage from './pages/OfficePage';
 import MarketingPlanPage from './pages/MarketingPlanPage';
 import LaunchRoadmapPage from './pages/LaunchRoadmapPage';
 import InvestorPresentationPage from './pages/InvestorPresentationPage';
 import DashboardCreateWizardPage from './pages/DashboardCreateWizardPage';
+import InternalPricingGuidePage from './pages/admin/InternalPricingGuidePage';
+import ChartRulesAdminPage from './pages/admin/ChartRulesAdminPage';
+import ExecutiveStatusReportPage from './pages/admin/ExecutiveStatusReportPage';
+import DashboardLibraryAdminPage from './pages/admin/DashboardLibraryAdminPage';
 import ManufacturingPage from './pages/sectors/ManufacturingPage';
 import ManufacturingDashboardsPage from './pages/ManufacturingDashboardsPage';
 import DataIngestionPage from './pages/DataIngestionPage';
+import BetaApplicationFormPage from './pages/BetaApplicationFormPage';
 
+// Dev-only tools
+const I18nAuditPage = lazy(() => import('./pages/I18nAuditPage'));
+const ShareDashboardPage = lazy(() => import('./pages/share/ShareDashboardPage'));
 
 const App: React.FC = () => {
   return (
@@ -79,8 +91,15 @@ const App: React.FC = () => {
         <Routes>
         {/* === Genel ve Halka Açık Rotalar === */}
         <Route path="/" element={<HeroPage />} />
+        {import.meta.env.DEV && <Route path="/i18n-audit" element={<I18nAuditPage />} />}
+        <Route path="/share" element={<ShareDashboardPage />} />
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/beta-basvuru" element={<BetaApplicationFormPage />} />
         <Route path="/payment/checkout" element={<PaymentCheckoutPage />} />
+        <Route path="/chart-wizard" element={<ChartWizardDemoPage />} />
+        <Route path="/veri-girisi" element={<DataImportPage />} />
+        <Route path="/veri-rehberi" element={<DataGuidePage />} />
+        <Route path="/bilgi-merkezi/grafik-rehberi" element={<ChartGuidePage />} />
         <Route path="/solutions/financial-data-analysis" element={<FinancialDataAnalysisPage />} />
         <Route path="/solutions/cost-inventory-management" element={<CostInventoryManagementPage />} />
         <Route path="/solutions/cash-flow" element={<CashFlowPage />} />
@@ -116,9 +135,11 @@ const App: React.FC = () => {
         {/* === Kullanıcı Korumalı Rotalar (Giriş Yapmış Kullanıcılar) === */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard/create" element={<DashboardCreateWizardPage />} />
+          <Route path="/dashboard/my" element={<MyDashboardsPage />} />
+          <Route path="/dashboard/edit/:id" element={<DashboardCreateWizardPage />} />
           <Route path="/dashboards" element={<ProfessionalDashboardsPage />} />
           <Route path="/professional-dashboards" element={<ProfessionalDashboardsPage />} />
-          <Route path="/veri-girisi" element={<DataImportPage />} />
           <Route path="/dashboard/demo-preview" element={<DemoDashboardPreview />} />
         </Route>
         
@@ -129,17 +150,20 @@ const App: React.FC = () => {
         <Route path="/admin/panel" element={<AdminProtectedRoute><AdminPanelPage /></AdminProtectedRoute>} />
         <Route path="/admin/newsletter" element={<AdminProtectedRoute><NewsletterPanelPage /></AdminProtectedRoute>} />
         <Route path="/admin/payment-guide" element={<AdminProtectedRoute><PaymentGuideAdminPage /></AdminProtectedRoute>} />
-        <Route path="/dashboard/create" element={<AdminProtectedRoute><DashboardCreateWizardPage /></AdminProtectedRoute>} />
         <Route path="/office" element={<AdminProtectedRoute><OfficePage /></AdminProtectedRoute>} />
         <Route path="/finops-theatre" element={<AdminProtectedRoute><FinOpsTheatrePage /></AdminProtectedRoute>} />
         <Route path="/business-plan" element={<AdminProtectedRoute><BusinessPlanPage /></AdminProtectedRoute>} />
         <Route path="/admin/system-guide" element={<AdminProtectedRoute><SystemGuidePage /></AdminProtectedRoute>} />
         <Route path="/admin/beta-applications" element={<AdminProtectedRoute><BetaApplicationsPage /></AdminProtectedRoute>} />
         <Route path="/admin/user-management" element={<AdminProtectedRoute><UserManagementPage /></AdminProtectedRoute>} />
+        <Route path="/admin/email-outbox" element={<AdminProtectedRoute><EmailOutboxPage /></AdminProtectedRoute>} />
+        <Route path="/admin/internal-pricing" element={<AdminProtectedRoute><InternalPricingGuidePage /></AdminProtectedRoute>} />
+        <Route path="/admin/chart-rules" element={<AdminProtectedRoute><ChartRulesAdminPage /></AdminProtectedRoute>} />
+        <Route path="/admin/management-office/executive-report" element={<AdminProtectedRoute><ExecutiveStatusReportPage /></AdminProtectedRoute>} />
+        <Route path="/admin/dashboard-library" element={<AdminProtectedRoute><DashboardLibraryAdminPage /></AdminProtectedRoute>} />
         <Route path="/marketing-plan" element={<AdminProtectedRoute><MarketingPlanPage /></AdminProtectedRoute>} />
         <Route path="/launch-roadmap" element={<AdminProtectedRoute><LaunchRoadmapPage /></AdminProtectedRoute>} />
         <Route path="/investor-presentation" element={<AdminProtectedRoute><InvestorPresentationPage /></AdminProtectedRoute>} />
-        <Route path="/veri-rehberi" element={<AdminProtectedRoute><DataGuidePage /></AdminProtectedRoute>} />
         <Route path="/veri-hazirlama" element={<VeriHazirlamaRehberiPage />} />
         <Route path="/veri-kaynaklari" element={<VeriKaynaklariPage />} />
         <Route path="/ai-veri-analizi" element={<AIVeriAnaliziPage />} />

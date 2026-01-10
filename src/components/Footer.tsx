@@ -157,6 +157,31 @@ const Footer: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* Copyright & IP notice (mandatory, bilingual) */}
+        <div className="mt-6">
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 text-xs leading-relaxed text-gray-700">
+            <div className="font-semibold text-gray-900">
+              © 2026 FinOps AI Studio. All rights reserved.
+            </div>
+            <div className="mt-2 whitespace-pre-line">
+              All content, dashboards, templates, visualizations, documentation,
+              and AI-assisted workflows on this platform are protected by copyright
+              and intellectual property laws. Unauthorized copying, reproduction,
+              or distribution is strictly prohibited.
+            </div>
+
+            <div className="mt-4 border-t border-gray-100 pt-4 font-semibold text-gray-900">
+              © 2026 FinOps AI Studio. Tüm hakları saklıdır.
+            </div>
+            <div className="mt-2 whitespace-pre-line">
+              Bu platformda yer alan tüm içerikler; dashboard tasarımları,
+              şablonlar, görselleştirmeler, dokümantasyonlar ve yapay zeka
+              destekli iş akışları telif ve fikri mülkiyet hakları ile korunmaktadır.
+              İzinsiz kullanımı, kopyalanması veya dağıtılması yasaktır.
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );

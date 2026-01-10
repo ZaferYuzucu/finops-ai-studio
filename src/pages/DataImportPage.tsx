@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { UploadCloud, File as FileIcon, X, Loader, Download, CheckCircle, Zap, Link as LinkIcon, Globe, Database } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { markDataImportCompleted } from '../utils/dataImportGate';
 
 const DataImportPage: React.FC = () => {
   const { t } = useTranslation();
@@ -48,14 +49,10 @@ const DataImportPage: React.FC = () => {
     // Simulated upload
     setTimeout(() => {
       setStatus('success');
+      markDataImportCompleted();
       setIsProcessing(false);
       clearInterval(interval);
       setProgress(100);
-      
-      // Dashboard'a yönlendir
-      setTimeout(() => {
-        navigate('/dashboard/demo-preview');
-      }, 1500);
     }, 2500);
   };
 
@@ -88,14 +85,10 @@ const DataImportPage: React.FC = () => {
     
     setTimeout(() => {
       setStatus('success');
+      markDataImportCompleted();
       setIsProcessing(false);
       clearInterval(interval);
       setProgress(100);
-      
-      // Dashboard'a yönlendir
-      setTimeout(() => {
-        navigate('/dashboard/demo-preview');
-      }, 1000);
     }, 1500);
   };
 
@@ -129,15 +122,11 @@ const DataImportPage: React.FC = () => {
     // Simulated connection
     setTimeout(() => {
       setStatus('success');
+      markDataImportCompleted();
       setIsProcessing(false);
       setIsConnecting(false);
       clearInterval(interval);
       setProgress(100);
-      
-      // Dashboard'a yönlendir
-      setTimeout(() => {
-        navigate('/dashboard/demo-preview');
-      }, 1500);
     }, 2000);
   };
 
@@ -221,11 +210,20 @@ const DataImportPage: React.FC = () => {
             </p>
           </div>
            
-           <p className="mt-4 text-center text-sm font-medium text-blue-600 hover:text-blue-500">
-            <Link to="/veri-rehberi">
+          <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              to="/veri-rehberi"
+              className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-200 hover:bg-blue-100 transition-colors"
+            >
               {t('dataImport.guideLink')}
             </Link>
-          </p>
+            <Link
+              to="/bilgi-merkezi/grafik-rehberi"
+              className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition-colors"
+            >
+              {t('dataImport.openChartGuide')}
+            </Link>
+          </div>
         </div>
 
         {/* 📁 DOSYA YÜKLEME ALANI (importMethod === 'file') */}
@@ -249,31 +247,29 @@ const DataImportPage: React.FC = () => {
             <div className="mt-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-6 shadow-sm">
               <h3 className="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
                 <FileIcon className="text-blue-600" size={20} />
-                Verini 2 dakikada bağla
+                {t('dataImport.fileUpload.quickGuide.title')}
               </h3>
               <div className="space-y-3 text-sm text-blue-900">
                 <div className="flex items-start gap-3">
                   <span className="text-blue-600 font-bold flex-shrink-0">•</span>
-                  <p>Excel veya CSV dosyanı <strong>sürükle-bırak</strong>. (Boş şablon gerekmez.)</p>
+                  <p dangerouslySetInnerHTML={{ __html: t('dataImport.fileUpload.quickGuide.step1') }} />
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-blue-600 font-bold flex-shrink-0">•</span>
-                  <p>Birden fazla sheet varsa <strong>seçmeni isteriz</strong>.</p>
+                  <p dangerouslySetInnerHTML={{ __html: t('dataImport.fileUpload.quickGuide.step2') }} />
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-blue-600 font-bold flex-shrink-0">•</span>
-                  <p>Başlık satırını ve kolonları <strong>otomatik öneririz</strong> — istersen düzeltirsin.</p>
+                  <p dangerouslySetInnerHTML={{ __html: t('dataImport.fileUpload.quickGuide.step3') }} />
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-blue-600 font-bold flex-shrink-0">•</span>
-                  <p><strong>Kaydet → Önizle → Dashboard'a uygula.</strong></p>
+                  <p dangerouslySetInnerHTML={{ __html: t('dataImport.fileUpload.quickGuide.step4') }} />
                 </div>
                 
                 {/* Küçük Not */}
                 <div className="mt-4 bg-white border border-blue-200 rounded-lg p-3">
-                  <p className="text-xs text-blue-800 italic">
-                    💡 <strong>Not:</strong> Birleştirilmiş hücreler / formüller olabilir. Sistem mümkün olan en iyi şekilde düzleştirir.
-                  </p>
+                  <p className="text-xs text-blue-800 italic" dangerouslySetInnerHTML={{ __html: t('dataImport.fileUpload.quickGuide.note') }} />
                 </div>
 
                 {/* Örnek CSV İndir */}
@@ -284,7 +280,7 @@ const DataImportPage: React.FC = () => {
                     className="inline-flex items-center gap-2 text-sm text-blue-700 hover:text-blue-900 font-semibold hover:underline"
                   >
                     <Download size={16} />
-                    Örnek CSV'leri indir
+                    {t('dataImport.fileUpload.quickGuide.downloadSample')}
                   </a>
                 </div>
               </div>
@@ -369,42 +365,40 @@ const DataImportPage: React.FC = () => {
             <div className="mt-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-6 shadow-sm">
               <h3 className="text-lg font-bold text-green-900 mb-4 flex items-center gap-2">
                 <Globe className="text-green-600" size={20} />
-                Entegre Et
+                {t('dataImport.urlConnection.integration.title')}
                 <span className="ml-2 px-2 py-0.5 text-xs bg-purple-100 text-purple-700 rounded-full font-semibold">
-                  Faz-2
+                  {t('dataImport.urlConnection.integration.phase')}
                 </span>
               </h3>
               <div className="space-y-3 text-sm text-green-900">
                 <div className="flex items-start gap-3">
                   <span className="text-green-600 font-bold flex-shrink-0">•</span>
-                  <p><strong>ERP/CRM/pos/Excel linkleri</strong> ile otomatik senkron <span className="text-purple-700 font-semibold">(Faz-2)</span>.</p>
+                  <p dangerouslySetInnerHTML={{ __html: t('dataImport.urlConnection.integration.description1') }} />
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-green-600 font-bold flex-shrink-0">•</span>
-                  <p><strong>Şimdilik:</strong> dosya yükleyerek demo'yu çalıştırabilirsin.</p>
+                  <p dangerouslySetInnerHTML={{ __html: t('dataImport.urlConnection.integration.description2') }} />
                 </div>
                 
                 {/* İpucu Kutusu */}
                 <div className="mt-4 bg-white border border-green-200 rounded-lg p-4">
                   <p className="text-xs text-green-800 mb-2">
-                    <strong>🚀 Planlanan Entegrasyonlar (Faz-2):</strong>
+                    <strong>{t('dataImport.urlConnection.integration.plannedTitle')}</strong>
                   </p>
                   <ul className="text-xs text-green-700 space-y-1 ml-4">
-                    <li>• Google Sheets otomatik sync</li>
-                    <li>• Airtable API bağlantısı</li>
-                    <li>• Logo, Netsis, Mikro ERP entegrasyonu</li>
-                    <li>• Paraşüt, Uyumsoft API'leri</li>
+                    <li>• {t('dataImport.urlConnection.integration.planned1')}</li>
+                    <li>• {t('dataImport.urlConnection.integration.planned2')}</li>
+                    <li>• {t('dataImport.urlConnection.integration.planned3')}</li>
+                    <li>• {t('dataImport.urlConnection.integration.planned4')}</li>
                   </ul>
                 </div>
 
                 {/* Geçici Çözüm */}
                 <div className="mt-4 pt-4 border-t border-green-200">
                   <p className="text-sm text-green-900">
-                    <strong>Şimdi ne yapmalısın?</strong>
+                    <strong>{t('dataImport.urlConnection.integration.whatToDoTitle')}</strong>
                   </p>
-                  <p className="text-xs text-green-800 mt-2">
-                    👆 Yukarıdaki <strong>"Excel/CSV Sürükle Bırak"</strong> sekmesine geç ve dosyanı yükle.
-                  </p>
+                  <p className="text-xs text-green-800 mt-2" dangerouslySetInnerHTML={{ __html: t('dataImport.urlConnection.integration.whatToDoDesc') }} />
                 </div>
               </div>
             </div>
@@ -486,6 +480,14 @@ const DataImportPage: React.FC = () => {
                             <p>{t('dataImport.success.message')}</p>
                         </div>
                     </div>
+                </div>
+                <div className="mt-4 flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={() => navigate('/dashboard/demo-preview')}
+                    className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors"
+                  >
+                    {t('dataImport.success.openDashboard')}
+                  </button>
                 </div>
             </div>
         )}

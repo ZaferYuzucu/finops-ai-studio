@@ -1,0 +1,1939 @@
+{
+  "nav": {
+  "solutions": "Solutions",
+  "financialDataAnalysis": "Financial Data Analysis",
+  "costInventoryManagement": "Cost & Inventory Management",
+    "cashFlow": "Cash Flow",
+    "budgetPlanning": "Budget & Planning",
+  "hrPayrollPerformance": "HR & Payroll Performance",
+    "dataVisualization": "Data Visualization",
+  "dashboardExamples": "Dashboard Examples",
+  "dataVisualizationPage": "Data Visualization",
+  "aiDataAnalysisPage": "AI Data Analysis",
+  "dataPreparationPage": "Data Preparation",
+  "dataSourcesPage": "Data Sources",
+  "features": "Features",
+  "support": "Support",
+    "resources": "Resources",
+    "knowledgeBase": "Knowledge Base",
+    "documents": "Documents",
+    "infoCenterHeader": "Info Center",
+    "chartGuide": "📘 Chart Guide",
+    "dataUploadGuide": "📄 Data Upload Guide",
+    "dataSecurity": "Data Security",
+    "pricing": "Pricing",
+    "login": "Login",
+    "signUp": "Sign Up",
+    "userPanel": "User Panel",
+    "logout": "Logout"
+  },
+  "hero": {
+    "title": "Make Data-Driven Decisions, Increase Your Profitability",
+    "subtitle": "Finops AI brings all your financial and operational data together. It provides the insights you need to increase your efficiency and gain a competitive advantage.",
+    "button1": "Start for Free",
+    "button2": "Explore Features"
+  },
+  "pricing": {
+    "transparentPricing": "Transparent and Flexible Pricing",
+    "title": "Choose the Right",
+    "titleHighlight": "Plan for You",
+    "subtitle": "Flexible plans designed for your business size and needs. No commitment, change anytime.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "yearlyDiscount": "20% Off",
+    "yearlyNote": "Annual plans are billed upfront.",
+    "launchPartner": {
+      "title": "Launch Partner",
+      "subtitle": "Beta Partner - Special Offer",
+      "price": "0",
+      "period": "/ 1 Year Free",
+      "badge": "Quota Left",
+      "quotaFull": "Quota Full",
+      "quotaWarning": "Only X businesses left!",
+      "priceNote": "75% discounted fixed price guarantee after 1 year",
+      "specialNote": "Valid for the first 20 businesses only. By special invitation or application.",
+      "button": "Apply Now",
+      "buttonFull": "Quota Full",
+      "features": {
+        "1": "All Premium Features Included",
+        "2": "Voice in Product Roadmap",
+        "3": "24/7 VIP Support Line",
+        "4": "75% discounted fixed price guarantee after 1 year"
+      }
+    },
+    "entrepreneur": {
+      "title": "Entrepreneur",
+      "subtitle": "Launch Special",
+      "price": "0",
+      "period": "/ 6 Months (Free)",
+      "badge": "6 Month Period",
+      "specialNote": "Opportunity to switch to \"Business Friendly\" package with 50% discount at the end of the 6th month.",
+      "button": "Start Free",
+      "features": {
+        "1": "1 Business Definition",
+        "2": "Income/Expense Tracking",
+        "3": "e-Invoice Viewing",
+        "4": "Basic Financial Reporting"
+      }
+    },
+    "business": {
+      "title": "Business Friendly",
+      "subtitle": "Efficient Growth",
+      "price": "599",
+      "period": "/ Month",
+      "priceNote": "20% discount applied for annual payment",
+      "priceNoteMonthly": "299 TL for the first 6 months when switching from Entrepreneur package",
+      "button": "Join Now",
+      "features": {
+        "1": "3 User Access",
+        "2": "Bank and POS Integration",
+        "3": "Weekly Cost Increase Report",
+        "4": "Automatic Category Classification"
+      }
+    },
+    "premium": {
+      "title": "Premium",
+      "subtitle": "Professional Management",
+      "price": "1,799",
+      "period": "/ Month",
+      "priceNote": "20% discount applied for annual payment",
+      "button": "Go Professional",
+      "badge": "Most Popular",
+      "includes": {
+        "1": "Live dashboard (with login)",
+        "2": "Export PDF reports",
+        "3": "Weekly & monthly reports",
+        "4": "Actual vs budget comparisons",
+        "5": "Single business • single location"
+      },
+      "excludesTitle": "Not included",
+      "excludes": {
+        "1": "CFO / executive sharing",
+        "2": "View-only dashboard link",
+        "3": "View logs"
+      }
+    },
+    "cfoAddon": {
+      "title": "CFO & Executive Sharing",
+      "subtitle": "Share with leadership • Decide in 5 minutes",
+      "price": "699",
+      "period": "/ Month (Add‑on)",
+      "features": {
+        "1": "1 view‑only link for CFO/executive",
+        "2": "Works on tablet / mobile / desktop",
+        "3": "Hover tooltips to see values",
+        "4": "Secure sharing (time-limited access)"
+      },
+      "note": "Designed specifically for CFOs and partners."
+    },
+    "enterprise": {
+      "title": "Enterprise",
+      "subtitle": "Enterprise",
+      "price": "Get Quote",
+      "period": "Custom Pricing",
+      "priceNote": "Solutions tailored to your needs",
+      "button": "Contact Us",
+      "features": {
+        "1": "Multi-Branch / Hotel Management",
+        "2": "Custom AI Consulting",
+        "3": "24/7 Priority Support & On-site Training",
+        "4": "Unlimited User Definition"
+      }
+    },
+    "currentPlan": "Your Current Plan",
+    "securePayment": {
+      "title": "Secure Payment Methods",
+      "subtitle": "All your payments are securely processed through Iyzico and Stripe infrastructure.",
+      "features": {
+        "ssl": "SSL Certified Secure Payment",
+        "support": "24/7 Technical Support",
+        "updates": "Free Updates",
+        "guarantee": "14 Day Money Back Guarantee"
+      },
+      "note": "* Annual plans are billed upfront. VAT not included in all prices."
+    },
+    "payment": {
+      "title": "Secure Payment Methods",
+      "description": "All your payments are securely processed through Iyzico and Stripe infrastructure.",
+      "creditCard": "Credit Card",
+      "bankTransfer": "Bank Transfer",
+      "features": {
+        "ssl": "SSL Certified Secure Payment",
+        "support": "24/7 Technical Support",
+        "updates": "Free Updates",
+        "guarantee": "14 Day Money Back Guarantee"
+      },
+      "disclaimer": "* Annual plans are billed upfront. VAT not included in all prices."
+    }
+  },
+  "footer": {
+    "solutions": "SOLUTIONS",
+    "resources": "RESOURCES",
+    "corporate": "CORPORATE",
+    "admin": "MANAGEMENT",
+    "social": "SOCIAL MEDIA",
+    "links": {
+      "financialDataAnalysis": "Financial Data Analysis",
+      "costInventoryManagement": "Cost & Inventory Management",
+      "budgetPlanning": "Budget & Planning",
+      "cashFlow": "Cash Flow",
+      "hrPayrollPerformance": "HR & Payroll Performance",
+  "knowledgeBase": "Knowledge Base",
+  "documents": "Documents",
+  "about": "About",
+  "contact": "Contact",
+      "brandKit": "Brand Kit",
+      "projectActivityReport": "Project Activity Report",
+      "platformAnalytics": "Platform Analytics (Backstage)",
+      "brandingKit": "Branding Kit (Admin)",
+      "finopsTheatre": "🎭 FinOps Theatre",
+      "newsletterPanel": "Newsletter Panel",
+      "businessPlan": "Business Plan",
+      "systemGuide": "🚗 System Guide (Admin)",
+      "pricing": "Pricing",
+      "marketingPlan": "Marketing Plan",
+      "launchRoadmap": "Launch Roadmap",
+      "userJourneyMap": "User Journey Map",
+      "paymentGuide": "💳 Payment Methods Guide"
+    },
+    "stayUpdated": "Stay Updated",
+    "stayUpdatedSubtitle": "The latest news, articles, and resources, sent to your inbox weekly.",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "subscribing": "Subscribing...",
+    "subscribeSuccess": "Successfully subscribed to our newsletter!",
+    "subscribeError": "An error occurred. Please try again.",
+    "rightsReserved": "All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "cookiePolicy": "Cookie Policy"
+  },
+  "hero": {
+    "title": "Next-generation Financial Operations",
+    "subtitle": "Automate, optimize, and control your cloud spending with our AI-powered FinOps platform.",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "integrations": {
+    "title": "Seamless Integration",
+    "subtitle": "Compatible with Your Existing Software",
+    "description": "Our platform seamlessly integrates with widely used ERP, cloud, and office software in the Turkish market, automating your data flow and saving you time."
+  },
+  "solutions": {
+    "title": "Discover Our Solutions",
+    "subtitle": "Create Value for Your Business",
+    "description": "FINOPS AI Studio offers powerful, integrated modules designed to simplify your financial operations and increase profitability.",
+    "financialDataAnalysis": {
+      "name": "Financial Data Analysis",
+      "description": "Consolidate all your financial data on a single platform. Transform your data into meaningful, actionable insights with our comprehensive analysis tools and build your strategic decisions on this foundation."
+    },
+    "costInventoryManagement": {
+      "name": "Cost & Inventory Management",
+      "description": "Precisely track your operational costs and inventory levels. Our AI-powered algorithms provide tailored recommendations to reduce costs and maximize inventory efficiency."
+    },
+    "cashFlowForecasting": {
+      "name": "Cash Flow Forecasting",
+      "description": "Secure your financial stability by forecasting your future cash flow with high accuracy. Identify potential bottlenecks in advance and protect your financial health with proactive measures."
+    },
+    "hrPerformanceManagement": {
+      "name": "HR & Performance Management",
+      "description": "Increase organizational efficiency by analyzing human resources data and personnel performance. Measure team performance with objective metrics and shape your talent management strategies based on data."
+    },
+    "budgetFinancialPlanning": {
+      "name": "Budget & Financial Planning",
+      "description": "Easily compare your budget and actual expenses, instantly detect deviations. Set more flexible and realistic financial goals with our dynamic planning tools and continuously monitor your progress toward achieving them."
+    }
+  },
+  "heroPage": {
+    "hero": {
+      "badge": "AI-Powered Financial Analysis Platform",
+      "title": "From Scattered Data to Net Profit: Shape Your Financial Future",
+      "subtitle": "FINOPS AI Studio helps you increase profitability and make solid decisions for the future by transforming your business's financial data into meaningful insights.",
+      "cta1": "Start Free",
+      "cta2": "Explore Features",
+      "explorePlatform": "Explore Platform"
+    },
+    "trust": {
+      "secure": "Secure & Encrypted",
+      "aiPowered": "AI-Powered",
+      "quickSetup": "Quick Setup"
+    },
+    "dashboard": {
+      "title": "📊 Visualize Your Data",
+      "subtitle": "Transform complex financial data into understandable dashboards",
+      "alt": "FINOPS AI Studio CEO Dashboard Panel"
+    },
+    "features": {
+      "title": "Why FINOPS AI Studio?",
+      "subtitle": "Modern Tools That Empower Your Business",
+      "feature1": {
+        "title": "AI-Powered Analysis",
+        "description": "Automatically analyze your data with AI and gain insights"
+      },
+      "feature2": {
+        "title": "Real-Time Dashboard",
+        "description": "Keep your finger on the pulse of your business with instant data visualization"
+      },
+      "feature3": {
+        "title": "Easy Integration",
+        "description": "Seamless integration with your existing systems"
+      },
+      "feature4": {
+        "title": "Mobile Friendly",
+        "description": "Access your data from anywhere, on any device"
+      }
+    },
+    "automation": {
+      "badge": "Increase Efficiency",
+      "title": "AI-Powered Automation Flow",
+      "description": "Discover how our platform simplifies complex tasks in seconds. Your natural language commands are instantly analyzed, processed, and transformed into customized solutions by our advanced AI models."
+    },
+    "finalCta": {
+      "title": "Ready to Shape Your Financial Future?",
+      "subtitle": "Start today, see the difference tomorrow. No credit card required for free trial.",
+      "cta1": "Start Free",
+      "cta2": "Talk to Sales",
+      "trust1": "14-Day Free Trial",
+      "trust2": "No Credit Card Required",
+      "trust3": "Cancel Anytime"
+    }
+  },
+  "solutionPages": {
+    "financialAnalysis": {
+      "badge": "Solution Detail",
+      "title": "Financial Data Analysis",
+      "subtitle": "Transform your raw financial data into meaningful and actionable insights that enable strategic decisions. Keep your company's financial pulse in real-time with Finops AI.",
+      "startAnalysis": "Start Analysis",
+      "talkToExpert": "Talk to Expert",
+      "imageAlt": "Financial Data Analysis Panel",
+      "featuresTitle": "Cornerstones of Data Analysis",
+      "featuresSubtitle": "Our platform offers powerful capabilities designed to illuminate every layer of your financial data.",
+      "features": {
+        "profitabilityAnalysis": {
+          "name": "Profitability Analysis",
+          "description": "Clearly see your profitability rates by product, service, or customer segment. Identify which areas support growth and which consume resources."
+        },
+        "expenseManagement": {
+          "name": "Expense Management & Optimization",
+          "description": "Categorize all your expense items, instantly detect unexpected increases, and reduce your costs with AI-powered savings recommendations."
+        },
+        "kpiTracking": {
+          "name": "Key Performance Indicators (KPI) Tracking",
+          "description": "Track critical financial KPIs such as EBITDA, Net Profit Margin, Customer Acquisition Cost (CAC) on instant and dynamic panels."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Who Is This Solution Ideal For?",
+        "subtitle": "Our Financial Data Analysis solution enables key roles at different levels of the organization to make smarter and faster decisions.",
+        "role1": {
+          "title": "Finance Managers (CFO, VP of Finance)",
+          "description": "Gain deep insights needed for strategic planning, budgeting, and investor relations."
+        },
+        "role2": {
+          "title": "CEO and Board of Directors",
+          "description": "See the company's overall financial performance and health at a glance, lead with data-driven decisions."
+        },
+        "role3": {
+          "title": "Operations and Department Leaders",
+          "description": "Understand the financial impact of your units and increase efficiency to meet budget targets."
+        },
+        "imageAlt": "Team collaboration"
+      }
+    },
+    "costInventory": {
+      "badge": "Solution Detail",
+      "title": "Cost & Inventory Management",
+      "subtitle": "Turn your inventory into profit. Maintain optimal inventory levels that always meet customer demand while minimizing stock costs.",
+      "startAnalysis": "Start Inventory Analysis",
+      "talkToExpert": "Operations Consulting",
+      "featuresTitle": "Cornerstones of Inventory Control",
+      "featuresSubtitle": "Meet our integrated solutions designed to prevent losses from excess or shortage of stock.",
+      "features": {
+        "inventoryTurnover": {
+          "name": "Inventory Turnover Optimization",
+          "description": "Analyze which products move fast and which move slow. Reduce idle stock costs and allocate your capital to the right inventory."
+        },
+        "cogsAnalysis": {
+          "name": "Cost of Goods Sold (COGS) Analysis",
+          "description": "Calculate your net profit margin accurately by analyzing your production, storage, and logistics costs on a product basis."
+        },
+        "supplyChain": {
+          "name": "Supply Chain Efficiency",
+          "description": "Eliminate inefficiencies and bottlenecks in your supply chain by monitoring supplier performance, delivery times, and purchasing costs."
+        }
+      },
+      "imageAlt": "Warehouse workers and inventory management",
+      "whoIsItFor": {
+        "title": "Who Is This Solution Strategic For?",
+        "subtitle": "Our Cost and Inventory Management solution is critically important for roles that directly impact operational efficiency and financial health.",
+        "role1": {
+          "title": "Purchasing and Supply Chain Managers",
+          "description": "Optimize supplier performance, order the right quantity at the right time, and reduce carrying costs."
+        },
+        "role2": {
+          "title": "Financial Controllers and Analysts",
+          "description": "Automate inventory valuation and COGS calculations, increase the accuracy of financial reporting."
+        },
+        "role3": {
+          "title": "Operations Directors",
+          "description": "Maximize warehouse efficiency, order fulfillment rates, and overall operational performance."
+        },
+        "imageAlt": "Operational efficiency and teamwork"
+      }
+    },
+    "cashFlow": {
+      "badge": "Solution Detail",
+      "title": "Cash Flow",
+      "subtitle": "Ensure your business's financial resilience. Take full control of your cash inflows and outflows with Finops AI, prevent bottlenecks, and always maintain the liquidity needed for growth.",
+      "startAnalysis": "Analyze Cash Flow",
+      "talkToExpert": "Financial Consulting",
+      "featuresTitle": "Keys to Managing Your Liquidity",
+      "featuresSubtitle": "Eliminate financial uncertainties with our tools developed to make your cash flow predictable and manageable.",
+      "features": {
+        "collectionPayment": {
+          "name": "Collection & Payment Management",
+          "description": "Track your customer receivables deadlines and supplier payments. Receive proactive alerts to reduce average collection period (DSO)."
+        },
+        "forecasting": {
+          "name": "Cash Flow Forecasting",
+          "description": "Predict your future 30, 60, and 90-day cash position with high accuracy using your historical data and current trends."
+        },
+        "scenarioAnalysis": {
+          "name": "Scenario Analysis",
+          "description": "Simulate the impact of different revenue or expense scenarios (e.g., loss of a major customer or unexpected investment) on your cash flow and be prepared."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Who Is This Solution Vital For?",
+        "subtitle": "Our Cash Flow Management solution is aimed at key decision-makers who ensure the company's financial stability and operational continuity.",
+        "role1": {
+          "title": "Business Owners and Entrepreneurs",
+          "description": "Know how long your business can survive (runway) and confidently plan growth investments."
+        },
+        "role2": {
+          "title": "Finance Departments",
+          "description": "Manage daily, weekly, and monthly cash positions, automate debt and receivables tracking."
+        },
+        "role3": {
+          "title": "Treasury Managers",
+          "description": "Manage the company's liquidity most efficiently, create scenarios against exchange rate risk and interest rate changes."
+        },
+        "imageAlt": "Financial planning"
+      }
+    },
+    "budgetPlanning": {
+      "badge": "Solution Detail",
+      "title": "Budget & Planning",
+      "subtitle": "Break free from static spreadsheets. Transition to a dynamic, intelligent, and collaborative budgeting and planning process in which your entire organization participates with Finops AI.",
+      "startPlanning": "Start Planning",
+      "talkToExpert": "Strategy Consulting",
+      "featuresTitle": "Building Blocks of Strategic Planning",
+      "featuresSubtitle": "We offer a data-driven and flexible planning infrastructure that helps you achieve your goals.",
+      "features": {
+        "dynamicBudgeting": {
+          "name": "Dynamic Budgeting",
+          "description": "Create flexible budgets by department, project, or location. Instead of static spreadsheets, create a live planning environment where all stakeholders can participate."
+        },
+        "actualVsBudget": {
+          "name": "Actual vs. Budget Analysis",
+          "description": "Instantly compare budgeted figures with actual expenses. Detect deviations immediately and understand their causes with root analysis."
+        },
+        "predictivePlanning": {
+          "name": "Predictive Planning (Forecasting)",
+          "description": "Use our AI engine to predict whether you'll meet your year-end financial goals. Make proactive revisions."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Who Does This Solution Make Life Easier For?",
+        "subtitle": "Our Budget and Planning solution is designed for teams responsible for setting financial goals and achieving them.",
+        "role1": {
+          "title": "Financial Planning & Analysis (FP&A) Teams",
+          "description": "Eliminate manual data collection and consolidation, use your time for scenario analysis and strategic consulting."
+        },
+        "role2": {
+          "title": "Department Managers",
+          "description": "Easily create and track your own budgets. Increase spending responsibility and financial awareness."
+        },
+        "role3": {
+          "title": "Senior Management (CEO, CFO)",
+          "description": "Monitor the company's overall budget performance and compliance with goals from one place, make strategic revisions quickly."
+        },
+        "imageAlt": "Finance team having budget meeting"
+      }
+    },
+    "hrPayroll": {
+      "badge": "Solution Detail",
+      "title": "HR - Payroll & Performance Management",
+      "subtitle": "Efficiently manage your most valuable asset - human resources. Automate payroll processes and increase employee engagement by creating a performance culture.",
+      "startAnalysis": "Start HR Analysis",
+      "talkToExpert": "HR Consulting",
+      "featuresTitle": "Fundamentals of Modern HR Management",
+      "featuresSubtitle": "Tools that reduce operational burden and enable you to focus on strategic human resources management.",
+      "features": {
+        "autoPayroll": {
+          "name": "Automated Payroll & Salary Calculation",
+          "description": "Make the payroll process error-free and fast by automatically calculating all legal deductions, bonuses, advances, and fringe benefits."
+        },
+        "performanceEval": {
+          "name": "Performance Evaluation & Feedback",
+          "description": "Track employee goals, competencies, and performance metrics from one place. Create 360-degree feedback processes."
+        },
+        "hrAnalytics": {
+          "name": "Human Resources Analytics",
+          "description": "Analyze critical HR metrics such as hiring, turnover rates, employee satisfaction, and demographic distribution with visual panels."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Different Sectors, One Solution",
+        "subtitle": "Our HR and Payroll Management solution is flexible to meet the needs of different sectors with intensive blue-collar and white-collar employees.",
+        "role1": {
+          "title": "Tourism and Hospitality",
+          "description": "Easily manage attendance and payroll for seasonal and variable-hour employees."
+        },
+        "role2": {
+          "title": "Manufacturing and Industry",
+          "description": "Accurately calculate factory workers' shifts, overtime, and performance bonuses."
+        },
+        "role3": {
+          "title": "Retail and Store Management",
+          "description": "Centrally track staff performance and target bonuses by store."
+        },
+        "imageAlt": "Automotive mechanic working in service"
+      }
+    }
+  },
+  "index": {
+    "hero": {
+      "title": "Data-Driven Decisions, Strategic Growth",
+      "subtitle": "FINOPS AI Studio offers an intelligent management platform that combines SMEs' financial and operational data to increase profitability and accelerate growth.",
+      "getStarted": "Get Started",
+      "dashboardExamples": "Dashboard Examples"
+    },
+    "featuresSection": {
+      "badge": "Discover Our Solutions",
+      "title": "Create Value for Your Business",
+      "subtitle": "FINOPS AI Studio offers powerful, integrated modules designed to simplify your financial operations and increase profitability."
+    },
+    "features": {
+      "financialReporting": {
+        "title": "Financial Reporting",
+        "description": "Automatically generate standard reports such as income statements, balance sheets, and cash flow statements."
+      },
+      "costProfitabilityAnalysis": {
+        "title": "Cost & Profitability Analysis",
+        "description": "Make strategic decisions by analyzing profitability by product, service, and customer."
+      },
+      "budgetScenarioPlanning": {
+        "title": "Budget & Scenario Planning",
+        "description": "Create your future period budgets and measure the impact of different economic scenarios."
+      }
+    }
+  },
+  "cta": {
+    "boostProductivity": "Boost your productivity.",
+    "startToday": "Start using our app today.",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "about": {
+    "badge": "ABOUT US",
+    "title": "AI Revolution in Financial Operations",
+    "subtitle": "As Finops AI, we set out to empower businesses' decision-making processes by transforming complex financial data into understandable, actionable, and intelligent insights.",
+    "mission": {
+      "title": "Our Mission",
+      "description": "To enable businesses of all sizes to maximize their financial efficiency, optimize costs, and accelerate strategic growth with our cloud-based and AI-powered FinOps (Financial Operations) tools."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "To build a future where financial management is not just about numbers, but transforms into a strategic art. We aim to create a data-driven culture and build a seamless bridge between finance and technology teams."
+    },
+    "philosophy": {
+      "title": "Our Philosophy",
+      "description": "We believe in the principle of shared responsibility. Transparency in financial data enables all departments to understand the impact of spending and make informed decisions aligned with common goals. Our tool is designed to support this culture."
+    }
+  },
+  "dashboardExamples": {
+    "badge": "36 Professional Panels",
+    "title": "Dashboard and Report",
+    "titleHighlight": "Examples",
+    "categoryPanels": "Dashboards",
+    "noResults": "No Results Found",
+    "noResultsDesc": "No dashboards matching your search criteria were found.",
+    "clearFilters": "Clear Filters",
+    "subtitle": "Discover dashboard examples used by real teams and start creating KPI tracking for your business. Each example shows how you can transform your data into meaningful insights."
+  },
+  "features": {
+    "hero": {
+      "title": "Transform Your Data into Art",
+      "subtitle": "Our platform enables you to easily understand, analyze, and present even the most complex data with impressive visuals."
+    },
+    "section1": {
+      "badge": "Everything Under Control",
+      "title": "The Easiest Way to Prepare Data",
+      "subtitle": "We've automated the data preparation and cleaning steps, the most challenging part of the data analysis process, for you."
+    },
+    "section2": {
+      "badge": "Smart Solutions",
+      "title": "Drag-and-Drop Simplicity",
+      "subtitle": "Manage your data with our visual interface without writing a single line of code. Merge tables, create new calculated fields, and easily build complex data models."
+    },
+    "features": {
+      "connectDataSources": {
+        "name": "Connect All Your Data Sources",
+        "description": "Excel, SQL databases, cloud services... Connect instantly to your data wherever it is and get a central view."
+      },
+      "aiDataTransformation": {
+        "name": "AI-Powered Data Transformation",
+        "description": "Clean, shape, and prepare complex datasets for analysis in seconds with our AI-powered tools."
+      },
+      "visualDataModeling": {
+        "name": "Visual Data Modeling",
+        "description": "Build relationships between your data tables and create powerful data models with our drag-and-drop interface without writing code."
+      },
+      "readyTemplates": {
+        "name": "Ready Dashboard Templates",
+        "description": "Start data visualization instantly and save time with dozens of ready templates designed specifically for your industry."
+      }
+    }
+  },
+  "support": {
+    "hero": {
+      "title": "How Can We Help?",
+      "subtitle": "All the support you need on your path to success is here. Do you have a question or just want to say hello? You're in the right place."
+    },
+    "links": {
+      "knowledgeBase": {
+        "name": "Knowledge Base",
+        "description": "Articles, guides, and frequently asked questions explaining all features of the platform in detail."
+      },
+      "trainingVideos": {
+        "name": "Training Videos",
+        "description": "Learn everything from the basics of data visualization to advanced techniques with step-by-step video tutorials."
+      },
+      "communityForum": {
+        "name": "Community Forum",
+        "description": "Connect with other users, ask your questions, and share best practice tips."
+      },
+      "customSupport": {
+        "name": "Custom Support Request",
+        "description": "Encountered a technical issue? Our support team is just a click away, ready to help you."
+      }
+    },
+    "cta": {
+      "title": "Ready to Explore the Platform?",
+      "subtitle": "Create your first dashboard in minutes. Experience the full power of the platform with our free trial.",
+      "startFree": "Start Free",
+      "reviewDocs": "Review Documents"
+    }
+  },
+  "blog": {
+    "title": "Knowledge Center",
+    "subtitle": "Gain in-depth knowledge about FinOps culture, cloud cost management, and data-driven decision-making processes.",
+    "readMore": "Read More",
+    "posts": {
+      "whatIsFinops": {
+        "title": "What is FinOps?: A Fundamental Guide",
+        "description": "Discover the \"Inform, Optimize, Operate\" cycle that forms the foundation of FinOps culture and how this methodology can add value to your business."
+      },
+      "bringingTeams": {
+        "title": "Bringing Teams Together: Finance and Engineering Collaboration",
+        "description": "How to bridge finance and engineering teams? Build a data-driven collaboration culture with concepts like \"Unit Cost\" and \"Shared Responsibility\"."
+      },
+      "dataDriven": {
+        "title": "Making Data-Driven Decisions",
+        "description": "Learn how to make more accurate and strategic decisions using the power of data in critical processes like anomaly detection, budget forecasting, and capacity planning."
+      }
+    }
+  },
+  "docs": {
+    "title": "Documentation and Knowledge Center",
+    "subtitle": "Discover how to get the most out of our platform. Everything you're looking for is here.",
+    "searchPlaceholder": "Search articles and documentation...",
+    "categories": {
+      "gettingStarted": {
+        "name": "Getting Started",
+        "description": "First steps to use the platform, basic setup and configuration information.",
+        "articles": {
+          "0": "How to set up quickly in 10 minutes?",
+          "1": "Creating your first project guide",
+          "2": "Platform interface overview"
+        }
+      },
+      "security": {
+        "name": "Account and Security",
+        "description": "User management, role-based access control, and security best practices.",
+        "articles": {
+          "0": "Is our data secure? Our security policy.",
+          "1": "What is Role-Based Access Control (RBAC)?",
+          "2": "Enable Two-Factor Authentication (2FA)"
+        }
+      },
+      "dataSources": {
+        "name": "Data Sources",
+        "description": "Data integration from cloud providers, databases, and other services.",
+        "articles": {
+          "0": "Connecting AWS and Azure accounts",
+          "1": "SQL database integration",
+          "2": "100+ supported data sources"
+        }
+      },
+      "dashboards": {
+        "name": "Dashboards and Reports",
+        "description": "Create, manage, and visualize your data with unlimited BI panels.",
+        "articles": {
+          "0": "Create your first dashboard with drag-and-drop",
+          "1": "Using filters and segmentation",
+          "2": "Automatically email reports"
+        }
+      },
+      "finops": {
+        "name": "FinOps Principles",
+        "description": "Inform, Optimize, and Operate. Embrace the FinOps culture.",
+        "articles": {
+          "0": "What are the Core Steps of FinOps?",
+          "1": "How do you reduce your cloud costs?",
+          "2": "How does the Shared Responsibility Model work?"
+        }
+      },
+      "costManagement": {
+        "name": "Cost Management",
+        "description": "Financial tools like budgeting, forecasting, cost optimization, and anomaly detection.",
+        "articles": {
+          "0": "Budget forecasting and capacity planning",
+          "1": "How does cost anomaly detection work?",
+          "2": "Understanding automatic optimization suggestions"
+        }
+      },
+      "aiTools": {
+        "name": "AI Tools",
+        "description": "Increase efficiency with AI assistant, tool requests, and chat features.",
+        "articles": {
+          "0": "Get insights with unlimited AI messages",
+          "1": "How to query in natural language?",
+          "2": "File analysis with AI (200MB limit)"
+        }
+      },
+      "support": {
+        "name": "Support and Help",
+        "description": "Access priority email support and other help channels here.",
+        "articles": {
+          "0": "How to create a priority support request?",
+          "1": "Frequently Asked Questions (FAQ)",
+          "2": "Join the community forum"
+        }
+      },
+      "api": {
+        "name": "API Reference",
+        "description": "API documentation for integrating our platform with your applications.",
+        "articles": {
+          "0": "Authentication",
+          "1": "Basic API endpoints",
+          "2": "Rate Limits"
+        }
+      },
+      "blog": {
+        "name": "Knowledge Center and Blog",
+        "description": "Latest articles, guides, and blog posts on FinOps, data analysis, and business intelligence.",
+        "articles": {
+          "0": "What is FinOps? Introduction to Cloud Financial Management",
+          "1": "Bringing Teams Together: FinOps Culture",
+          "2": "The Importance of Data-Driven Decision Making in Business",
+          "3": "View all articles..."
+        }
+      }
+    }
+  },
+  "contact": {
+    "badge": "CONTACT",
+    "title": "Get in Touch",
+    "subtitle": "You can reach us through the channels below for your questions, suggestions, or collaboration requests. We would be happy to discuss how we can help optimize your financial operations.",
+    "website": "Website",
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "dashboardFilters": {
+    "title": "Filter Panels",
+    "showing": "panels showing",
+    "clear": "Clear",
+    "searchPlaceholder": "Search in panel name or description...",
+    "filterByCategory": "Filter by Category:",
+    "all": "All",
+    "noResults": "No results found.",
+    "tryDifferent": "Please try a different search term or category."
+  },
+  "dashboardDrawer": {
+    "keyQuestions": "Key Questions",
+    "askAI": "Answer with AI",
+    "keyMetrics": "Key Metrics",
+    "trending": {
+      "up": "Trending Up",
+      "down": "Trending Down",
+      "stable": "Stable"
+    },
+    "cta": {
+      "title": "Start Using This Panel",
+      "description": "Create this dashboard with your real data",
+      "button": "Create Now"
+    }
+  },
+  "dashboardCard": {
+    "filled": "Filled",
+    "preview": "Dashboard Preview",
+    "questions": "Questions",
+    "metrics": "Metrics"
+  },
+  "dashboardCategories": {
+    "Restoran & Kafe": "🍽️ Restaurant & Cafe",
+    "Üretim & Operasyon": "🏭 Manufacturing & Operations",
+    "Finans & Muhasebe": "💰 Finance & Accounting",
+    "Otel & Konaklama": "🏨 Hotel & Hospitality",
+    "E-Ticaret & Retail": "🛒 E-Commerce & Retail",
+    "İnsan Kaynakları": "👥 Human Resources",
+    "Otomotiv": "🚗 Automotive",
+    "Satış & Pazarlama": "📊 Sales & Marketing",
+    "Tarım": "🌾 Agriculture",
+    "Eğitim & Akademik": "🎓 Education & Academic"
+  },
+  "dashboards": {
+    "cfo-kontrol-paneli": {
+      "name": "CFO Control Panel",
+      "description": "Critical financial metrics and overview for Finance Directors."
+    },
+    "kar-zarar-tablosu": {
+      "name": "Profit & Loss Statement",
+      "description": "Analyze your company's net profit with detailed income and expense items."
+    },
+    "nakit-akisi-gosterge-paneli": {
+      "name": "Cash Flow Dashboard",
+      "description": "Manage liquidity by tracking your company's cash inflows and outflows."
+    },
+    "butce-karsilastirma": {
+      "name": "Budget & Actual Comparison",
+      "description": "Compare budgeted values with actual financial results."
+    },
+    "profit-and-loss-dashboard": {
+      "name": "Profit & Loss Analysis Panel",
+      "description": "Dynamically analyze income statements to increase profitability."
+    },
+    "ceo-dashboard": {
+      "name": "CEO Comprehensive Dashboard",
+      "description": "Monitor your company's overall financial and operational health on one screen."
+    },
+    "cash-flow-statement-dashboard": {
+      "name": "Cash Flow Management Panel",
+      "description": "Proactively manage your business's cash position and liquidity."
+    },
+    "sales-team-performance-dashboard": {
+      "name": "Sales Team Performance Panel",
+      "description": "Track your sales representatives' performance and targets in real-time."
+    },
+    "sales-funnel-dashboard": {
+      "name": "Sales Funnel Panel",
+      "description": "Optimize conversion rates by analyzing the customer journey."
+    },
+    "marketing-campaign-performance-dashboard": {
+      "name": "Marketing Campaign Performance Panel",
+      "description": "Measure and optimize your marketing campaigns' ROI and effectiveness."
+    },
+    "hr-dashboard": {
+      "name": "Human Resources & Talent Management Panel",
+      "description": "Manage employee metrics, performance, and organizational health."
+    },
+    "uretim-kontrol-paneli": {
+      "name": "Production Control Panel",
+      "description": "Increase efficiency and quality by monitoring production processes."
+    },
+    "kalite-kontrol-paneli": {
+      "name": "Quality Control Panel",
+      "description": "Monitor product quality and ensure continuous improvement."
+    },
+    "inventory-management-dashboard": {
+      "name": "Inventory Management Panel",
+      "description": "Reduce costs and prevent stockouts by optimizing stock levels."
+    },
+    "genel-restoran-kontrol-paneli": {
+      "name": "General Restaurant Control Panel",
+      "description": "Monitor all operational and financial metrics of your restaurant on one screen."
+    },
+    "restoran-satis-gosterge-paneli": {
+      "name": "Restaurant Sales Dashboard",
+      "description": "Analyze menu performance, table turnover rate, and sales trends."
+    },
+    "restoran-envanter-kontrol-paneli": {
+      "name": "Restaurant Inventory Control Panel",
+      "description": "Optimize food costs and reduce waste rates."
+    },
+    "restoran-isgucu-gosterge-paneli": {
+      "name": "Restaurant Labor Dashboard",
+      "description": "Optimize personnel costs and efficiency."
+    },
+    "restaurant-operations-dashboard": {
+      "name": "Restaurant Operations Panel",
+      "description": "Increase customer satisfaction by monitoring daily operations."
+    },
+    "restaurant-financial-dashboard": {
+      "name": "Restaurant Financial Panel",
+      "description": "Monitor your restaurant's financial health and profitability."
+    },
+    "hotel-management-paneli": {
+      "name": "Hotel Management Panel",
+      "description": "Manage all operational and financial metrics of the hotel from one point."
+    },
+    "hotel-dashboard": {
+      "name": "Hotel Performance Panel",
+      "description": "Track occupancy rate, RevPAR, and customer satisfaction."
+    },
+    "otomotiv-dashboard-paneli": {
+      "name": "Automotive Dashboard Panel",
+      "description": "Manage vehicle fleet, service operations, and sales performance."
+    },
+    "automotive-dashboard": {
+      "name": "Automotive Industry Panel",
+      "description": "Monitor sales, inventory, and service operations on one screen."
+    },
+    "agriculture-dashboard": {
+      "name": "Agriculture Management Panel",
+      "description": "Analyze crop productivity, costs, and income trends."
+    },
+    "ecommerce-kpi-dashboard": {
+      "name": "E-Commerce KPI Panel",
+      "description": "Optimize online sales, conversion rates, and customer behavior."
+    }
+  },
+  "login": {
+    "title": "Welcome back!",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up for free",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "forgotPassword": "Forgot your password?",
+    "loginButton": "Sign In",
+    "or": "Or",
+    "googleButton": "Sign in with Google",
+    "recaptchaError": "Please complete the reCAPTCHA verification.",
+    "loginError": "Login failed. Please check your credentials.",
+    "googleError": "Google sign-in failed."
+  },
+  "signup": {
+    "title": "Welcome! Nice to meet you!",
+    "subtitle": "Please use the form to sign up. If you're already a member, please",
+    "signIn": "sign in",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "signUpButton": "Sign Up",
+    "or": "Or",
+    "googleButton": "Sign up with Google",
+    "termsAgreement": "By creating an account, you agree to our",
+    "termsOfService": "Terms of Service",
+    "and": "and",
+    "privacyPolicy": "Privacy Policy",
+    "recaptchaError": "Please complete the reCAPTCHA verification.",
+    "emailError": "Please enter a valid email address.",
+    "passwordError": "Password must be at least 8 characters.",
+    "passwordMismatch": "Passwords do not match.",
+    "signupError": "Sign up failed. Please try again.",
+    "googleError": "Google sign-in failed."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view": "View",
+    "download": "Download",
+    "upload": "Upload",
+    "share": "Share",
+    "copy": "Copy",
+    "print": "Print"
+  },
+  "blogDetail": {
+    "backToBlog": "Back to Knowledge Center",
+    "whatIsFinops": {
+      "title": "What is FinOps?: A Fundamental Guide",
+      "intro": "FinOps is an evolving cloud financial management discipline and cultural practice that brings financial accountability to the variable spending model of the cloud, enabling you to get maximum business value from your cloud spending. At the heart of FinOps lies an iterative cycle known as \"Inform, Optimize, Operate.\" To demonstrate our commitment and expertise in this field, we chose the domain www.finops.ist. FinOps.ist is Turkey's leading platform in financial operations management.",
+      "domainStatement": "www.finops.ist - The digital hub of your financial operations. The only destination carrying FinOps methodology from Istanbul to the world, enhancing the financial efficiency of local and global businesses.",
+      "step1": {
+        "title": "1. Inform",
+        "content": "This first phase is all about visibility. Teams are provided with accurate, timely, and understandable information about cloud spending. This enables them to understand where costs are coming from, who is responsible, and which business metrics they relate to. Effective tagging strategies, cost allocation reports, and dashboards are the foundational tools of this phase."
+      },
+      "step2": {
+        "title": "2. Optimize",
+        "content": "After achieving visibility, the optimization phase begins. This phase is not just about cutting costs; it's about increasing efficiency. Teams are empowered to shut down idle resources, perform right-sizing, and leverage discounted pricing models like AWS Savings Plans or Azure Reserved Instances. The goal is to achieve the highest value at the lowest cost without sacrificing performance."
+      },
+      "step3": {
+        "title": "3. Operate",
+        "content": "The operation phase aims to make FinOps practices continuous and automated. This includes setting up alerts for spending that exceeds defined budgets, establishing anomaly detection mechanisms, and automating governance policies. Teams ensure they are acting in alignment with financial goals without compromising speed and innovation."
+      },
+      "conclusion": "This cycle makes FinOps not a one-time project, but a continuous cultural practice. Companies maintain control over cloud spending by iterating through these three steps, while also preserving engineering teams' freedom to innovate. As www.finops.ist, we are here to apply this cycle most effectively to Turkish businesses and optimize your financial operations.",
+      "imageAlt": "FinOps Cycle Illustration"
+    },
+    "bringingTeams": {
+      "title": "Bringing Teams Together: Finance and Engineering Collaboration",
+      "intro": "Traditionally, finance teams focus on controlling costs while engineering teams are driven by speed and innovation. These different goals often lead to friction. FinOps solves this problem by bringing these two worlds together in a common language through the concepts of \"Unit Cost\" and \"Shared Responsibility.\"",
+      "section1": {
+        "title": "What is Unit Cost?",
+        "content": "Viewing cloud costs only as total spending prevents meaningful dialogue. Instead, FinOps ties costs to business metrics. For example, instead of \"total server cost,\" metrics like \"cost per customer\" or \"cost per transaction\" are used. This enables engineers to understand the financial impact of their technical choices, and finance teams to understand the impact of business growth on costs."
+      },
+      "section2": {
+        "title": "Shared Responsibility",
+        "content": "FinOps removes cost management from being solely the finance department's responsibility. Instead, it creates a culture where every engineer is responsible for the cost of the service they develop. This turns cost from a \"blame\" tool into a \"metric\" that everyone tries to optimize. While finance provides central budgeting and governance, engineering teams have the authority to efficiently use and optimize their own resources."
+      },
+      "conclusion": "When these two concepts come together, finance and engineering are no longer adversaries, but partners running toward the same goal, speaking the same language. The result is a cost-efficient, yet innovative and agile organization.",
+      "imageAlt": "Teams collaborating in a meeting"
+    },
+    "dataDriven": {
+      "title": "Making Data-Driven Decisions",
+      "intro": "In FinOps culture, decisions are based on concrete data, not intuition or assumptions. This enables companies to both keep costs under control and plan the future more accurately. Data plays the most critical role especially in areas like anomaly detection and budget forecasting.",
+      "section1": {
+        "title": "Anomaly Detection",
+        "content": "Cloud environments are dynamic and costs can spike unexpectedly. Situations like a developer accidentally writing code that creates an infinite loop or a service suddenly consuming excessive resources can inflate cost bills. Data-driven anomaly detection systems learn normal spending patterns and immediately detect sudden increases outside this pattern, alerting relevant teams. This prevents surprise bills and increases financial predictability."
+      },
+      "section2": {
+        "title": "Budget Forecasting and Capacity Planning",
+        "content": "Historical spending data is gold for predicting future cloud costs. FinOps teams use this data to analyze seasonal trends, growth rates, and potential costs of new projects. This not only enables creating more accurate budgets, but also facilitates capacity planning. Teams predict future resource needs in advance, knowing when and how much investment to make."
+      },
+      "conclusion": "Data-driven decision making transforms FinOps from a reactive cost control mechanism into a proactive strategic management discipline. Companies create more space for innovation by using their resources most efficiently.",
+      "imageAlt": "Dashboard screen with data analysis and charts"
+    }
+  },
+  "getStarted": {
+    "badge": "Getting Started",
+    "title": "Finops AI Setup and First Steps",
+    "intro": "This guide contains all the steps you need to quickly get started with the Finops AI platform. We will cover every step from setup to creating your first dashboard in a simple and understandable way.",
+    "step1": {
+      "title": "1. Setup and Project Creation",
+      "content": "To start using our platform, you first need to create an account and define your first project. Your project will be your central workspace housing all your data sources, dashboards, and reports.",
+      "quote": "With just a few clicks, you can start the data integration process by connecting your cloud providers (AWS, Azure, GCP) or local databases."
+    },
+    "step2": {
+      "title": "2. Security and Authorization",
+      "content": "Data security is our top priority. Finops AI ensures that only authorized individuals can access your sensitive data with Role-Based Access Control (RBAC). You can easily manage data and dashboard access by assigning your team members to different roles (Administrator, Editor, Viewer).",
+      "imageAlt": "Security settings screen",
+      "caption": "User roles and permission settings panel."
+    },
+    "step3": {
+      "title": "3. Make Data-Driven Decisions",
+      "content": "After setup is complete, it's time to make your data speak! Our platform brings together data from different departments (Finance, Sales, Marketing, Operations) to provide a 360-degree company view. This holistic perspective eliminates silos and encourages cross-team collaboration.",
+      "benefit1": {
+        "title": "Strategic Alignment",
+        "description": "All departments focus on common goals by working on the same data set."
+      },
+      "benefit2": {
+        "title": "Efficiency Increase",
+        "description": "Save time by automating manual reporting and data collection processes."
+      },
+      "benefit3": {
+        "title": "Real-Time Insights",
+        "description": "Respond instantly to market changes with dashboards equipped with real-time data."
+      }
+    },
+    "conclusion": "Now you know the basics of the Finops AI platform. For more information, you can explore other documentation sections or get inspired by our",
+    "dashboardLink": "Dashboard Examples",
+    "conclusionEnd": "page."
+  },
+  "brandKit": {
+    "hero": {
+      "title": "FINOPS AI Studio Brand Kit",
+      "subtitle": "Our brand identity, logos, colors, and social media templates - all in one place, ready to use.",
+      "downloadGuidelines": "Download Brand Guidelines",
+      "downloadCSS": "Download CSS Variables"
+    },
+    "slogans": {
+      "title": "Brand Slogans",
+      "subtitle": "6 impactful slogans reflecting our brand identity - featuring our domain-focused main slogan"
+    },
+    "colors": {
+      "badge": "Color Palette",
+      "title": "Brand Colors",
+      "subtitle": "Modern color system"
+    },
+    "typography": {
+      "badge": "Typography",
+      "title": "Font Families",
+      "display": "Display Font",
+      "primary": "Primary Font",
+      "mono": "Monospace Font",
+      "displayDesc": "Headings, Titles",
+      "primaryDesc": "Body text, UI elements",
+      "monoDesc": "Numbers, KPIs, Code"
+    },
+    "logos": {
+      "badge": "Logo Assets",
+      "title": "Download Logos",
+      "subtitle": "Multiple formats for different use cases",
+      "logoDark": "Logo Dark",
+      "logoLight": "Logo Light",
+      "iconOnly": "Icon Only",
+      "monochrome": "Monochrome",
+      "descDark": "Light backgrounds",
+      "descLight": "Dark backgrounds",
+      "descIcon": "App icon, favicon",
+      "descMono": "Documents, print",
+      "download": "Download PNG"
+    },
+    "docs": {
+      "title": "Brand Documentation",
+      "subtitle": "Complete guides and templates",
+      "guidelines": {
+        "title": "Brand Guidelines",
+        "desc": "Complete brand identity manual"
+      },
+      "readme": {
+        "title": "Brand Kit README",
+        "desc": "Quick start guide & usage examples"
+      },
+      "social": {
+        "title": "Social Media Templates",
+        "desc": "LinkedIn & Instagram content templates"
+      },
+      "downloadMd": "Download (.md)"
+    },
+    "guidelines": {
+      "title": "Quick Usage Guidelines",
+      "dos": "DO's",
+      "donts": "DON'Ts",
+      "do1": "Use official logo files (don't recreate)",
+      "do2": "Maintain aspect ratio when resizing",
+      "do3": "Ensure minimum size: 120px width",
+      "do4": "Use Primary Blue (#007bff) for CTAs",
+      "do5": "Test color contrast (WCAG AA)",
+      "dont1": "Don't stretch or squish the logo",
+      "dont2": "Don't use logo smaller than 48px",
+      "dont3": "Don't use more than 3 colors in one design",
+      "dont4": "Don't mix more than 2 font families",
+      "dont5": "Don't use low-contrast text combinations"
+    },
+    "cta": {
+      "title": "Need Custom Assets?",
+      "subtitle": "Contact our design team for custom graphics, presentations, or marketing materials",
+      "button": "Contact Design Team"
+    }
+  },
+  "veriKaynaklari": {
+    "hero": {
+      "badge": "Data Connections",
+      "title": "Connect Your Data Sources",
+      "subtitle": "Combine data from different sources on a single platform. We support all your data sources from Excel to SQL, Google Sheets to APIs.",
+      "cta1": "Get Started",
+      "cta2": "Watch Live Demo"
+    },
+    "googleSheets": {
+      "badge": "Recommended",
+      "title": "Auto-Refresh Reports with Google Sheets",
+      "description": "Connect your report with your Google Sheets file and get live reporting.",
+      "feature1": "Live Reporting",
+      "feature1Desc": "Update your Google Sheets file daily and set refresh intervals",
+      "feature2": "Track On-the-Go",
+      "feature2Desc": "Track your business data from anywhere, anytime",
+      "feature3": "Easy Setup",
+      "feature3Desc": "Simple setup and maintenance for non-technical teams",
+      "feature4": "Unlimited Dashboards",
+      "feature4Desc": "Create as many dashboards and datasets as you want",
+      "feature5": "Easy Sharing",
+      "feature5Desc": "Effortless sharing and collaboration with colleagues",
+      "guideBtn": "Google Sheets Connection Guide"
+    },
+    "excel": {
+      "title": "Microsoft Excel",
+      "description": "Upload your Excel files (.xls, .xlsx, .xlsm formats supported)"
+    },
+    "csv": {
+      "title": "CSV File",
+      "description": "Import your data in universal CSV format. Copy-paste also supported."
+    },
+    "mssql": {
+      "title": "MS SQL",
+      "badge": "Advanced",
+      "description": "Connect directly to your Microsoft SQL Server database. Secure and fast data transfer."
+    },
+    "mysql": {
+      "title": "MySQL",
+      "badge": "Advanced",
+      "description": "Pull live data from your MySQL databases. Flexible connection options."
+    },
+    "postgresql": {
+      "title": "PostgreSQL",
+      "badge": "Advanced",
+      "description": "PostgreSQL database integration. Ideal for enterprise solutions."
+    },
+    "security": {
+      "title": "Security & Privacy",
+      "item1": {
+        "title": "Secure Encryption",
+        "description": "All your data is encrypted with SSL/TLS"
+      },
+      "item2": {
+        "title": "Only You Can Access",
+        "description": "Your data is private to you, no one can see it"
+      },
+      "item3": {
+        "title": "Not Used for AI Training",
+        "description": "Your data is never used for AI training"
+      },
+      "item4": {
+        "title": "Fully Deletable",
+        "description": "You can delete all data anytime"
+      },
+      "item5": {
+        "title": "Authorization",
+        "description": "Custom access controls for team members"
+      },
+      "item6": {
+        "title": "Auto Backup",
+        "description": "Your data is regularly backed up"
+      }
+    },
+    "cta": {
+      "title": "Empower Non-Technical Teams",
+      "button1": "Start Free",
+      "button2": "Pricing",
+      "note": "No credit card required"
+    }
+  },
+  "aiVeriAnalizi": {
+    "hero": {
+      "badge": "AI-Powered Data Analytics",
+      "title": "Analyze Your Data with Artificial Intelligence",
+      "subtitle": "Discover augmented analytics capabilities. Perform data analysis through conversation, auto-generate dashboards, get contextual insights and reports.",
+      "cta1": "Try Free",
+      "cta2": "Watch AI Demo"
+    },
+    "autoDashboard": {
+      "badge": "Most Popular",
+      "title": "Auto-Generate Dashboards",
+      "description": "Get logical and meaningful dashboards from your data. Choose a data model and let AI analyze the data and provide insightful charts.",
+      "feature1": "Smart Chart Selection",
+      "feature1Desc": "AI automatically selects the most suitable chart types for your data",
+      "feature2": "Ready in Seconds",
+      "feature2Desc": "In seconds instead of minutes, without requiring manual work",
+      "feature3": "Customizable",
+      "feature3Desc": "Accept AI suggestions or apply your own style",
+      "feature4": "Unlimited Dashboards",
+      "feature4Desc": "Create as many dashboards as you want for different datasets"
+    },
+    "chat": {
+      "badge": "New Feature",
+      "title": "Conversational Data Analysis",
+      "description": "Chat with your AI assistant about your data and perform deeper analysis. Get answers in minutes instead of manually sifting through mountains of data.",
+      "feature1": "Ask Questions in Natural Language",
+      "feature1Desc": "Ask questions like What was the best-selling product this month?",
+      "feature2": "Charts, Correlations, Insights",
+      "feature2Desc": "AI shows you charts, correlations, and anomalies",
+      "feature3": "Follow-up Questions",
+      "feature3Desc": "Like a conversation: How about last year?",
+      "feature4": "Instant Answers",
+      "feature4Desc": "Get responses in seconds instead of minutes"
+    },
+    "chartGenerator": {
+      "badge": "Unlimited",
+      "title": "AI Chart Generator",
+      "description": "Write your requests and create unlimited charts. AI prepares the most suitable visualization for you.",
+      "placeholder": "e.g., Show sales trend for the last 6 months as a line chart"
+    },
+    "correlations": {
+      "badge": "Advanced Analysis",
+      "title": "Correlation, Comparison and Anomaly Detection",
+      "description": "Ask AI to analyze your data and find patterns. Automatically discover hidden relationships, unexpected changes, and trends."
+    }
+  },
+  "veriGorsellestirme": {
+    "hero": {
+      "badge": "Data Visualization",
+      "title": "One-Click Reports and Custom Dashboards",
+      "subtitle": "Generate reports automatically from your data with AI. Experience the ease of reporting with a no-code editor.",
+      "cta1": "Start Free",
+      "cta2": "Live Examples"
+    },
+    "aiGenerator": {
+      "badge": "AI-Powered",
+      "title": "AI Dashboard Generator for Easier Report Building",
+      "description": "Create dashboards with AI in one click. Get professional reports without requiring any knowledge or training.",
+      "feature1": "Generate Dashboard with One Click",
+      "feature1Desc": "AI automatically selects and arranges the most suitable charts",
+      "feature2": "Match with Brand Colors",
+      "feature2Desc": "Customize your dashboard to match your corporate identity",
+      "feature3": "Multi-Page Reports",
+      "feature3Desc": "Create separate pages for different sections",
+      "feature4": "Fully Responsive Charts",
+      "feature4Desc": "Perfect view on mobile, tablet, and desktop",
+      "feature5": "No Knowledge or Training Required",
+      "feature5Desc": "Easily edit with drag-and-drop, without writing code",
+      "editorTitle": "Dashboard Editor",
+      "autoBtn": "Auto-Generate with AI"
+    },
+    "charts": {
+      "badge": "24+ Elements",
+      "title": "Charts for Your Data Visualization Needs",
+      "description": "24+ elements for efficient report building. New elements added with monthly updates.",
+      "subtitle": "24+ elements for efficient report building. New elements added with monthly updates. Wide range of options from basic charts to advanced visualizations.",
+      "exploreAll": "Explore All Elements",
+      "moreTitle": "📋 Add More Elements to Your Reports",
+      "moreDesc": "Enrich your reports with tables, images, HTML, and custom widgets. Add them anywhere with drag-and-drop.",
+      "dataTablesLabel": "Data Tables",
+      "customLayoutsLabel": "Custom Layouts",
+      "visualElementsLabel": "Visual Elements"
+    },
+    "customization": {
+      "badge": "Customization",
+      "title": "Match Dashboard with Your Brand",
+      "description": "Create professional dashboards that reflect your corporate identity. Customize with your logo and brand colors.",
+      "brandColorLabel": "Brand Color",
+      "backgroundLabel": "Background",
+      "successMessage": "Brand settings applied!",
+      "uploadLogo": "Upload Logo",
+      "uploadLogoDesc": "Upload your logo and display it on your dashboard",
+      "setBrandColors": "Set Brand Colors",
+      "setBrandColorsDesc": "Apply your corporate color palette",
+      "customizeBackground": "Customize Background",
+      "customizeBackgroundDesc": "Light, dark, or custom background colors",
+      "fontTypography": "Font & Typography",
+      "fontTypographyDesc": "Use your corporate font family",
+      "tryNowBtn": "Try Now"
+    },
+    "responsive": {
+      "badge": "Responsive Design",
+      "title": "Perfect View on Every Device",
+      "description": "Your dashboards automatically adapt to desktop, tablet, and mobile devices. Always ready to share.",
+      "desktopTitle": "Desktop",
+      "desktopDesc": "Detailed view on large screens",
+      "tabletTitle": "Tablet",
+      "tabletDesc": "Optimized for medium screens",
+      "mobileTitle": "Mobile",
+      "mobileDesc": "Easy to read on small screens"
+    },
+    "videoGuide": {
+      "badge": "Step-by-Step Guide",
+      "title": "Learn How to Visualize Your Data",
+      "description": "Access guides and tutorials to help you create your first dashboard. Quickly create and share reports.",
+      "guidesTitle": "Guides & Tutorials",
+      "guidesDesc": "Detailed documentation for dashboard setup",
+      "supportTitle": "Support Team",
+      "supportDesc": "Professional support for your data tasks",
+      "shareTitle": "Quick Share",
+      "shareDesc": "Easily create and share reports",
+      "exploreGuidesBtn": "Explore Guides",
+      "dataPreparationBtn": "Data Preparation"
+    },
+    "cta": {
+      "title": "Customize Your Reporting Process with FinOps",
+      "description": "See how easy it is. From professional dashboards to AI analytics, from AI-powered insights to live reporting.",
+      "startBtn": "Start Free",
+      "pricingBtn": "Pricing",
+      "disclaimer": "No credit card required • 14-day free trial"
+    },
+    "relatedFeatures": {
+      "title": "Explore Other Benefits and Features",
+      "overviewTitle": "Overview",
+      "overviewDesc": "Complete list of platform features",
+      "dataSourcesTitle": "Data Sources",
+      "dataSourcesDesc": "Live reporting and integration",
+      "dataPreparationTitle": "Data Preparation",
+      "dataPreparationDesc": "Cleaning and transformation features",
+      "aiAnalyticsTitle": "AI Analytics",
+      "aiAnalyticsDesc": "Meaningful dashboards and chat",
+      "exploreBtn": "Explore"
+    }
+  },
+  "finoChatWidget": {
+    "greeting": "Hello! I'm Fino 🐕",
+    "message": "I can answer your questions about FinOps AI Studio. What would you like to learn?",
+    "title": "Fino",
+    "subtitle": "Your AI Assistant",
+    "status": "Active",
+    "comingSoon": "COMING SOON",
+    "placeholder": "Type your message...",
+    "typing": "Typing...",
+    "sendButton": "Send",
+    "infoText": "Will be active very soon!",
+    "buttonTitle": "Chat with Fino"
+  },
+  "platformAnalytics": {
+    "title": "Platform Analytics",
+    "subtitle": "Management Dashboard",
+    "pageTitle": "Platform Analytics",
+    "backstage": "Backstage",
+    "pageSubtitle": "Welcome to the system's backstage. Manage all operations from here.",
+    "timeRanges": {
+      "7d": "Last 7 Days",
+      "30d": "Last 30 Days",
+      "90d": "Last 90 Days"
+    },
+    "downloadReport": "Download Report",
+    "revenueGrowth": "Revenue Growth",
+    "planDistribution": "Plan Distribution",
+    "recentSignups": "Recent Signups",
+    "mostActiveUsers": "Most Active Users",
+    "popularDashboards": "Popular Dashboards",
+    "tabs": {
+      "admin": "🔐 Admin - Real Data",
+      "survey": "📊 Survey Analytics",
+      "demo": "🎯 B2B Demo - Client Presentation",
+      "dashboards": "📊 Professional Dashboard Examples",
+      "testTools": "🔍 Test & Inspection Tools"
+    },
+    "surveyAnalytics": {
+      "title": "Fino Survey & Recommendation Analytics",
+      "subtitle": "User survey completion rates, sector distributions, and performance metrics of dashboard recommendations.",
+      "metrics": {
+        "totalSignups": "Total Signups",
+        "miniSurveyCompleted": "Mini Survey Completed",
+        "deepSurveyCompleted": "Deep Survey Completed",
+        "finoMessagesShown": "Fino Messages Shown",
+        "completionRate": "completion rate",
+        "conversionRate": "conversion rate",
+        "avgCharacters": "Avg. characters",
+        "thisMonth": "this month"
+      },
+      "sectorDistribution": {
+        "title": "Sector Distribution",
+        "restaurant": "Restaurant & Cafe",
+        "hotel": "Hotel & Tourism",
+        "manufacturing": "Manufacturing & Industry",
+        "agriculture": "Agriculture",
+        "retail": "Retail",
+        "automotive": "Automotive",
+        "other": "Other"
+      },
+      "companySize": {
+        "title": "Company Size Distribution",
+        "micro": "1-10 employees (Micro)",
+        "small": "11-50 employees (Small)",
+        "medium": "50+ employees (Medium)"
+      },
+      "primaryGoal": {
+        "title": "Primary Goal",
+        "cashFlow": "Cash Flow",
+        "profitability": "Profitability",
+        "costControl": "Cost Control",
+        "reporting": "Reporting"
+      },
+      "topDashboards": {
+        "title": "Most Recommended Dashboards (Top 10)"
+      },
+      "financialMaturity": {
+        "title": "Financial Maturity Levels",
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced",
+        "basicKPI": "BASIC KPI Set",
+        "standardKPI": "STANDARD KPI Set",
+        "advancedKPI": "ADVANCED KPI Set"
+      },
+      "finoPerformance": {
+        "title": "Fino Message Performance",
+        "totalMessages": "Total Messages Shown",
+        "avgLength": "Average Message Length",
+        "mostUsedPhase": "Most Used Phase",
+        "characters": "characters",
+        "roadmap": "Mini Roadmap"
+      },
+      "dataSource": {
+        "title": "Data Source",
+        "description": "This data is demo/mock data. In production, it will be fetched from localStorage or backend API.",
+        "update": "Update:",
+        "realtime": "Real-time",
+        "lastUpdate": "Last Update:"
+      }
+    },
+    "kpis": {
+      "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
+      "monthlyRevenue": "Monthly Revenue (MRR)",
+      "churnRate": "Churn Rate",
+      "conversionRate": "Conversion Rate",
+      "arpu": "ARPU",
+      "customerLtv": "Customer LTV",
+      "avgSession": "Avg Session",
+      "totalRevenue": "Total Revenue",
+      "dashboardCount": "Dashboard Count",
+      "dataUploads": "Data Uploads",
+      "systemUptime": "System Uptime",
+      "thisMonth": "this month",
+      "thisWeek": "this week",
+      "realFirebaseData": "🔥 Real Firebase Data",
+      "realData": "🔥 Real Calculation",
+      "mockData": "Mock Data",
+      "last30Days": "🔥 Last 30 days (Real)",
+      "arrLabel": "ARR",
+      "freeToPaid": "Free → Paid plan transition",
+      "avgPerUser": "Average per user",
+      "lifetimeValue": "Average lifetime value",
+      "avgDuration": "Average duration (minutes)",
+      "totalEarnings": "Total earnings",
+      "createdByUsers": "Created by users",
+      "last7Days": "Last 7 days",
+      "last24Hours": "Last 24 hours",
+      "uptime": "uptime"
+    },
+    "demo": {
+      "title": "🎯 B2B Demo - Client Presentation",
+      "subtitle": "For showcasing to potential clients",
+      "quickDemo": "🚀 Demo Mode - One-Click Dashboard",
+      "quickDemoDesc": "Instantly show dashboard with sample restaurant data",
+      "or": "OR MANUAL DATA INPUT",
+      "fileUpload": "📁 File Upload",
+      "urlConnect": "🌐 URL Connection",
+      "fileGuideTitle": "📘 File Upload Guide",
+      "urlGuideTitle": "🌐 URL Connection Guide",
+      "dataGuideLink": "📖 Review Data Preparation Guide"
+    },
+    "adminLogin": {
+      "title": "Admin Login",
+      "subtitle": "Access to Platform Management Dashboard",
+      "username": "Username",
+      "password": "Password",
+      "loginButton": "Log In",
+      "backToHome": "Back to Home"
+    },
+    "veriHazirlama": {
+      "hero": {
+        "badge": "Data Preparation and Visualization Center",
+        "title": "Prepare Your Data for Analysis",
+        "subtitle": "Transform your complex data into clean, structured, and analysis-ready format. Achieve deep insights with visual query builder and data preparation tools.",
+        "cta1": "Get Started",
+        "cta2": "Watch Video Guide"
+      },
+      "cleaning": {
+        "badge": "Step 1",
+        "title": "📊 Clean and Prepare Data",
+        "description": "Transform your scattered data into clean, structured, and analysis-ready format.",
+        "feature1": "Organize Data Structure",
+        "feature1Desc": "Standardize your column headers, format, and data types",
+        "feature2": "Transform and Filter Data",
+        "feature2Desc": "Optimize data for analysis with custom functions",
+        "feature3": "Clean Unnecessary Data",
+        "feature3Desc": "Remove duplicate records, fix missing data",
+        "feature4": "Prepare for Deep Insights",
+        "feature4Desc": "Optimize your data for advanced analysis and AI recommendations",
+        "checklistTitle": "✅ Data Cleaning Checklist"
+      }
+    },
+    "dataImport": {
+      "title": "📤 Data Import",
+      "subtitle": "Upload your business data or connect to external source",
+      "detailedGuideLink": "📖 Detailed Data Preparation Guide - Review all steps",
+      "tabs": {
+        "fileUpload": "File Upload",
+        "urlConnection": "URL Connection"
+      },
+      "demoMode": {
+        "button": "⚡ Demo Mode - Quick Showcase",
+        "description": "🎯 Create sample dashboard with one click to show B2B clients!"
+      },
+      "template": {
+        "download": "Download Sample Template",
+        "hint": "💡 Download template first, fill it, then upload"
+      },
+      "guideLink": "📖 Data Upload Guide",
+      "openChartGuide": "📘 Chart Guide",
+      "fileUpload": {
+        "dragDrop": "Upload a file",
+        "or": "or drag and drop",
+        "format": "CSV or XLSX format",
+        "guideTitle": "📖 File Upload Guide",
+        "step1": "Prepare CSV/Excel:",
+        "step1Desc": "Organize your data in Excel. First row should be column headers (Date, Product, Price, etc.)",
+        "step2": "Save File:",
+        "step2Desc": "\"Save As\" → CSV (Comma Separated) or .xlsx format",
+        "step3": "Upload:",
+        "step3Desc": "Drag file here or click \"Upload File\" button",
+        "step4": "AI Analysis:",
+        "step4Desc": "System automatically recognizes columns, detects date/number formats",
+        "exampleTitle": "✅ Sample CSV Structure:",
+        "quickGuide": {
+          "title": "Connect your data in 2 minutes",
+          "step1": "<strong>Drag & drop</strong> your Excel or CSV file. (No template needed.)",
+          "step2": "If there are multiple sheets, <strong>we'll ask you to select</strong> one.",
+          "step3": "We <strong>automatically suggest</strong> header row and columns — you can edit if needed.",
+          "step4": "<strong>Save → Preview → Apply to Dashboard.</strong>",
+          "note": "💡 <strong>Note:</strong> Merged cells / formulas may exist. System flattens them as best as possible.",
+          "downloadSample": "Download sample CSVs"
+        }
+      },
+      "urlConnection": {
+        "title": "Connect to Data Source",
+        "subtitle": "Enter Google Sheets, Airtable, or CSV URL",
+        "label": "Data Source URL",
+        "placeholder": "https://docs.google.com/spreadsheets/d/...",
+        "examplesTitle": "💡 Sample Data Sources:",
+        "example1": "Google Sheets (Public CSV Export)",
+        "example2": "Airtable API Endpoint",
+        "example3": "Direct CSV URL",
+        "button": "Connect to Data Source",
+        "connecting": "Connecting...",
+        "guideTitle": "📖 URL Connection Guide",
+        "googleSheets": "Google Sheets Connection:",
+        "googleSheetsStep1": "• File → Share → \"Anyone with the link can view\"",
+        "googleSheetsStep2": "• File → Download → Copy CSV (.csv) link",
+        "airtable": "Airtable API:",
+        "airtableDesc": "• API → Generate API Key → Get Base ID",
+        "directUrl": "Direct CSV/JSON URL:",
+        "directUrlDesc": "• Paste any public CSV/JSON file link",
+        "advantagesTitle": "✅ Advantages:",
+        "advantage1": "Real-time synchronization",
+        "advantage2": "Automatic updates",
+        "advantage3": "No file upload needed",
+        "advantage4": "Ideal for large datasets",
+        "integration": {
+          "title": "Integrate",
+          "phase": "Phase-2",
+          "description1": "Auto-sync with <strong>ERP/CRM/POS/Excel links</strong> <span className=\"text-purple-700 font-semibold\">(Phase-2)</span>.",
+          "description2": "<strong>For now:</strong> you can run the demo by uploading files.",
+          "plannedTitle": "🚀 Planned Integrations (Phase-2):",
+          "planned1": "Google Sheets auto-sync",
+          "planned2": "Airtable API connection",
+          "planned3": "Logo, Netsis, Mikro ERP integration",
+          "planned4": "Paraşüt, Uyumsoft APIs",
+          "whatToDoTitle": "What should you do now?",
+          "whatToDoDesc": "👆 Switch to the <strong>\"Excel/CSV Drag & Drop\"</strong> tab above and upload your file."
+        }
+      },
+      "selectedFiles": "Selected Files:",
+      "uploadButton": "Start Uploading 1 File",
+      "uploading": "Uploading...",
+      "processing": {
+        "title": "🤖 AI Data Analysis in Progress...",
+        "step1": "Reading file...",
+        "step2": "Analyzing data structure...",
+        "step3": "Creating dashboard..."
+      },
+      "success": {
+        "title": "Upload Successful",
+        "message": "Your file has been uploaded successfully. Redirecting to the next step (Column Mapping).",
+        "openDashboard": "Open Dashboard"
+      }
+    },
+    "userJourneyMap": {
+      "pageTitle": "User Journey Map",
+      "title": "User Journey Map",
+      "subtitle": "Strategic Steps of a Prospect's Transformation into a Customer",
+      "downloadButton": "Download / Print as PDF",
+      "phases": {
+        "phase1": {
+          "title": "Discovery and Decision",
+          "description": "The prospect first encounters our platform and understands its potential value.",
+          "steps": {
+            "step1": {
+              "title": "First Contact",
+              "description": "The prospect reaches the website through an ad, social media post, search engine result, or recommendation."
+            },
+            "step2": {
+              "title": "Understanding Value Proposition",
+              "description": "Browses homepage, solutions, and about us pages. Evaluates the suitability of offered services to their needs."
+            },
+            "step3": {
+              "title": "Reviewing Pricing",
+              "description": "Visits pricing page to compare offered plans (Individual, Premium, Enterprise) and their features."
+            },
+            "step4": {
+              "title": "Decision Moment",
+              "description": "Decides to try the platform and clicks 'Sign Up' or 'Start Analysis' button."
+            }
+          }
+        },
+        "phase2": {
+          "title": "Registration and Authentication",
+          "description": "The prospect takes their first step into the system and their identity is verified. This is the first line of security.",
+          "steps": {
+            "step1": {
+              "title": "Registration Form",
+              "description": "User fills out the registration form by entering Full Name, Company Name, Email, and a secure password."
+            },
+            "step2": {
+              "title": "Password Confirmation",
+              "description": "System requests password entry twice to prevent typos."
+            },
+            "step3": {
+              "title": "ARMORED GATE - Email Verification",
+              "description": "A verification email is sent to the user's account. Until the user clicks this link, their account remains in 'Pending' status and cannot access critical functions."
+            },
+            "step4": {
+              "title": "CRITICAL ASSURANCE - Password Reset Infrastructure",
+              "description": "If the user forgets their password, a reset link is sent to their email address via the 'Forgot Password' link."
+            }
+          }
+        },
+        "phase3": {
+          "title": "Plan Selection and Payment",
+          "description": "The verified user selects a plan suitable for their operational needs and completes the payment process.",
+          "steps": {
+            "step1": {
+              "title": "Plan Selection Screen",
+              "description": "The user who verified their email is redirected to the plan selection page and chooses the most suitable plan."
+            },
+            "step2": {
+              "title": "OFFICIAL PROCEDURE - Digital Contract Acceptance",
+              "description": "Just before the payment step, the user is presented with 'Terms of Service' and 'Privacy Policy'. Checking the 'I have read and accept' box is mandatory. This action has the nature of a digital signature."
+            },
+            "step3": {
+              "title": "Secure Payment Gateway",
+              "description": "User is redirected to a PCI-DSS certified secure payment gateway interface such as Stripe or Iyzico to enter credit card information. Bank information is NEVER stored in our system."
+            },
+            "step4": {
+              "title": "Payment Confirmation and Invoicing",
+              "description": "After successful payment, the user is redirected back to our system. The system automatically generates an invoice and adds it to the user's panel."
+            }
+          }
+        },
+        "phase4": {
+          "title": "Activation and Integration",
+          "description": "Now a customer, the user activates their panel and integrates their first data into the system.",
+          "steps": {
+            "step1": {
+              "title": "Panel Activation",
+              "description": "With payment confirmation, the user's account moves to 'Active' status. All features and dashboard panels for their selected plan become accessible."
+            },
+            "step2": {
+              "title": "'WELCOME' PROTOCOL - User Onboarding",
+              "description": "The customer is greeted on first login with a 'Welcome' tour that guides them step by step. This tour shows how to connect their first data source or upload their first .csv/.xlsx file."
+            },
+            "step3": {
+              "title": "Data Upload / Integration",
+              "description": "The customer uploads their first dataset or sets up integration (if available) with the help of the guide."
+            },
+            "step4": {
+              "title": "First Value Generation",
+              "description": "Our software processes and organizes the uploaded data, producing meaningful and visual outputs on the customer's selected dashboard panel. This is when the customer concretely sees the value of what they paid for."
+            }
+          }
+        },
+        "phase5": {
+          "title": "Value Generation and Expansion",
+          "description": "The customer regularly uses the platform, derives value, and expands collaboration.",
+          "steps": {
+            "step1": {
+              "title": "Regular Usage and Reporting",
+              "description": "The customer regularly uses the platform to support business decisions, generates reports, and performs analyses."
+            },
+            "step2": {
+              "title": "CHAIN OF COMMAND - Team Management",
+              "description": "(Enterprise Plan) The customer invites new users from their team with different permission levels ('View Only', etc.) to the system."
+            },
+            "step3": {
+              "title": "Expansion (Upsell)",
+              "description": "A customer on the Individual plan upgrades to Premium when they need more features. The platform can detect this need and offer upgrade proposals."
+            },
+            "step4": {
+              "title": "Loyalty and Referral (Brand Ambassadorship)",
+              "description": "Highly satisfied customers recommend the service to their network, leading new prospects to enter Phase 1."
+            }
+          }
+        }
+      }
+    }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+    "goBack": "Go Back",
+    "goHome": "Go to Homepage",
+    "helpText": "Need help?",
+    "homepage": "Home",
+    "features": "Features",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "searchTitle": "Couldn't Find What You're Looking For?",
+    "searchDescription": "You can search in your dashboard or contact our support team."
+  },
+  "csvLibrary": {
+    "title": "CSV Library",
+    "subtitle": "Ready datasets for demos and sales presentations. {count} datasets available.",
+    "uploadCSV": "Import CSV",
+    "stats": {
+      "totalDatasets": "Total Datasets",
+      "totalRows": "Total Rows",
+      "sectorCount": "Sector Count"
+    },
+    "filters": {
+      "title": "Sector Filter",
+      "all": "All",
+      "allCount": "All ({count})"
+    },
+    "card": {
+      "sector": "Sector",
+      "dateRange": "Date:",
+      "rows": "Rows:",
+      "size": "Size:",
+      "preview": "Preview",
+      "use": "Use"
+    },
+    "preview": {
+      "title": "Preview",
+      "close": "Close",
+      "sampleCharts": "Sample Charts",
+      "kpiCards": "KPI Cards",
+      "dataPreview": "Data Preview (First 20 rows)",
+      "showing": "Showing first 20 rows. Total:"
+    },
+    "upload": {
+      "title": "Upload CSV File",
+      "description": "Upload your own CSV file. File must be in FinOps CSV Standard v1 format.",
+      "dragDrop": "Select File",
+      "fileTypes": "Only CSV files (.csv)",
+      "required": "Required Columns:",
+      "cancel": "Cancel"
+    },
+    "loading": "Loading..."
+  },
+  "dataIngestion": {
+    "title": "Excel Smart Data Layer",
+    "subtitle": "6-step wizard for CSV/Excel analysis",
+    "tabs": {
+      "upload": "Upload Data",
+      "history": "History",
+      "howTo": "How to Use"
+    },
+    "uploadedDatasets": "Uploaded Datasets",
+    "noDatasets": "No datasets uploaded yet.",
+    "dataset": "Dataset",
+    "uploadedAt": "Uploaded at:",
+    "rows": "rows",
+    "open": "Open",
+    "howToUse": {
+      "title": "How to Use?",
+      "whatIs": {
+        "title": "What is Excel Smart Data Layer?",
+        "content": "A 6-step wizard system that helps you prepare, analyze, and visualize your Excel/CSV files. The process: Upload File → Select Sheet → Detect Header → Map Columns → Validate Data → Preview & Save."
+      },
+      "howItWorks": {
+        "title": "How Does It Work?",
+        "step1": "Upload File: Drag & drop your Excel/CSV",
+        "step2": "Select Sheet: Choose which sheet to use (for multi-sheet files)",
+        "step3": "Header Detection: System finds header row",
+        "step4": "Column Mapping: AI suggests column types",
+        "step5": "Data Validation: System checks for errors",
+        "step6": "Preview & Save: Review and save your data"
+      },
+      "examples": {
+        "title": "Example Scenarios",
+        "sales": "Sales Data: Upload monthly sales report, map columns (date, product, amount), visualize",
+        "expenses": "Expenses: Upload expense report, categorize (date, category, amount), analyze",
+        "inventory": "Inventory: Upload stock data, track (product, quantity, warehouse), optimize"
+      },
+      "fileTypes": {
+        "title": "Supported File Types",
+        "excel": "Excel (.xlsx, .xls, .xlsm)",
+        "csv": "CSV (.csv)",
+        "note": "Max file size: 10MB"
+      },
+      "security": {
+        "title": "Security & Privacy",
+        "local": "Your data is stored in your browser (localStorage)",
+        "private": "No data is sent to external servers",
+        "delete": "You can delete your data anytime",
+        "safe": "100% secure and private"
+      }
+    }
+  },
+  "testTools": {
+    "title": "🔍 Test & Inspection Tools",
+    "subtitle": "Observe user experience and test system functionality.",
+    "warning": {
+      "title": "Important:",
+      "message": "These tools are for admin users only. Data uploaded in test environment is stored in localStorage and does not affect real user data."
+    },
+    "cards": {
+      "dataEntry": {
+        "icon": "📥",
+        "title": "Data Entry Page",
+        "description": "Test users' simple data entry experience.",
+        "mode": "Test Mode:",
+        "features": {
+          "simple": "Simple data entry form",
+          "dragDrop": "Drag & drop",
+          "preview": "Quick preview"
+        },
+        "button": "Open Page",
+        "buttonIcon": "📊"
+      },
+      "excelLayer": {
+        "icon": "💾",
+        "title": "Excel Smart Data Layer",
+        "description": "Advanced CSV/Excel analysis and wizard system.",
+        "featuresTitle": "Features:",
+        "features": {
+          "wizard": "6-step wizard",
+          "columnMapping": "Column mapping",
+          "validation": "Data validation",
+          "smartSuggestions": "Smart suggestion system"
+        },
+        "button": "Open Wizard",
+        "buttonIcon": "🚀"
+      },
+      "csvLibrary": {
+        "icon": "📊",
+        "title": "CSV Library",
+        "description": "Ready demo datasets and management panel.",
+        "contentTitle": "Content:",
+        "features": {
+          "datasets": "5 ready datasets (65K+ rows)",
+          "sectorFilter": "Sector filtering",
+          "chartPreview": "Chart preview",
+          "csvUpload": "CSV upload"
+        },
+        "button": "Open Library",
+        "buttonIcon": "📖"
+      }
+    }
+  },
+  "demoDashboard": {
+    "title": "Selected Dataset Demo",
+    "loading": "Loading...",
+    "error": "Error:",
+    "noData": "No data found.",
+    "selectDataset": "Select a dataset from CSV Library or upload your own CSV.",
+    "close": "Close",
+    "metrics": {
+      "title": "Key Metrics",
+      "total": "Total",
+      "average": "Average",
+      "maximum": "Maximum",
+      "minimum": "Minimum"
+    },
+    "charts": {
+      "title": "Charts"
+    },
+    "table": {
+      "title": "Data Preview (First 10 rows)"
+    }
+  },
+  "survey": {
+    "mini": {
+      "title": "Would you like to spare 30 seconds so we can show you the most relevant dashboards?",
+      "estimatedTime": "30 seconds",
+      "skip": "Skip",
+      "back": "Back",
+      "continue": "Continue",
+      "complete": "Complete",
+      "selectToContinue": "Select your answer to continue",
+      "questionOf": "Question {{current}} / {{total}}"
+    },
+    "deep": {
+      "title": "Let's create custom dashboards for your business",
+      "description": "Customize your dashboards in 2 minutes with a few questions.",
+      "estimatedTime": "2 minutes",
+      "start": "Let's Start",
+      "close": "Close",
+      "back": "Back",
+      "next": "Next",
+      "complete": "Complete",
+      "questionOf": "Question {{current}} / {{total}}"
+    },
+    "welcomeMessages": {
+      "default": "Welcome to FinOps AI Studio! Start exploring dashboards.",
+      "withSurvey": "Your personalized dashboards are ready!"
+    }
+  }
+}

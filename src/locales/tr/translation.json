@@ -1,0 +1,1939 @@
+{
+  "nav": {
+  "solutions": "Çözümler",
+  "financialDataAnalysis": "Finansal Veri Analizi",
+  "costInventoryManagement": "Maliyet ve Stok Yönetimi",
+    "cashFlow": "Nakit Akışı-Cash Flow",
+    "budgetPlanning": "Bütçe ve Planlama",
+    "hrPayrollPerformance": "İK- Bordro / Performans",
+    "dataVisualization": "Veri Görselleştirme",
+  "dashboardExamples": "Dashboard Örnekleri",
+  "dataVisualizationPage": "Veri Görselleştirme",
+  "aiDataAnalysisPage": "AI Veri Analizi",
+  "dataPreparationPage": "Veri Hazırlama",
+  "dataSourcesPage": "Veri Kaynakları",
+  "features": "Özellikler",
+  "support": "Destek",
+    "resources": "Kaynaklar",
+    "knowledgeBase": "Bilgi Merkezi",
+    "documents": "Dökümanlar",
+    "infoCenterHeader": "Bilgi Merkezi",
+    "chartGuide": "📘 Grafik Rehberi",
+    "dataUploadGuide": "📄 Veri Yükleme Rehberi",
+    "dataSecurity": "Veri Güvenliği",
+    "pricing": "Fiyatlandırma",
+    "login": "Giriş Yap",
+    "signUp": "Kayıt Ol",
+    "userPanel": "Kullanıcı Paneli",
+    "logout": "Çıkış Yap"
+  },
+  "hero": {
+    "title": "Veri Odaklı Kararlar Alın, Kârlılığınızı Artırın",
+    "subtitle": "Finops AI, tüm finansal ve operasyonel verilerinizi bir araya getirir. Verimliliğinizi artırmanız ve rekabet avantajı elde etmeniz için ihtiyacınız olan içgörüleri sunar.",
+    "button1": "Ücretsiz Başlayın",
+    "button2": "Özellikleri Keşfet"
+  },
+  "pricing": {
+    "transparentPricing": "Şeffaf ve Esnek Fiyatlandırma",
+    "title": "Size Uygun",
+    "titleHighlight": "Paketi Seçin",
+    "subtitle": "İşletmenizin büyüklüğüne ve ihtiyaçlarına göre tasarlanmış esnek paketler. Taahhüt yok, istediğiniz zaman değiştirebilirsiniz.",
+    "monthly": "Aylık",
+    "yearly": "Yıllık",
+    "yearlyDiscount": "%20 İndirim",
+    "yearlyNote": "Yıllık planlar peşin olarak faturalandırılır.",
+    "launchPartner": {
+      "title": "Lansman Partneri",
+      "subtitle": "Beta Partner - Özel Fırsat",
+      "price": "0",
+      "period": "/ 1 Yıl Ücretsiz",
+      "badge": "Kota Kaldı",
+      "quotaFull": "Kontenjan Doldu",
+      "quotaWarning": "Sadece X işletme için kontenjan kaldı!",
+      "priceNote": "1 yıl sonunda %75 indirimli sabit fiyat garantisi",
+      "specialNote": "Sadece ilk 20 işletme için geçerlidir. Özel davet veya başvuru ile.",
+      "button": "Başvuru Yap",
+      "buttonFull": "Kontenjan Dolmuştur",
+      "features": {
+        "1": "Tüm Premium Özellikler Dahil",
+        "2": "Ürün Yol Haritasında Söz Hakkı",
+        "3": "7/24 VIP Destek Hattı",
+        "4": "1 Yıl sonunda %75 indirimli sabit fiyat garantisi"
+      }
+    },
+    "entrepreneur": {
+      "title": "Girişimci",
+      "subtitle": "Lansman Özel",
+      "price": "0",
+      "period": "/ 6 Ay (Ücretsiz)",
+      "badge": "6 Aylık Süre",
+      "specialNote": "6. ayın sonunda \"İşletme Dostu\" paketine %50 indirimle geçiş imkanı.",
+      "button": "Ücretsiz Başla",
+      "features": {
+        "1": "1 İşletme Tanımlama",
+        "2": "Gelir/Gider Takibi",
+        "3": "e-Fatura Görüntüleme",
+        "4": "Temel Finansal Raporlama"
+      }
+    },
+    "business": {
+      "title": "İşletme Dostu",
+      "subtitle": "Verimli Büyüme",
+      "price": "599",
+      "period": "/ Ay",
+      "priceNote": "Yıllık ödemede %20 indirim uygulandı",
+      "priceNoteMonthly": "Girişimci paketinden geçişte ilk 6 ay 299 TL",
+      "button": "Hemen Katıl",
+      "features": {
+        "1": "3 Kullanıcı Erişimi",
+        "2": "Banka ve POS Entegrasyonu",
+        "3": "Haftalık Maliyet Artış Raporu",
+        "4": "Otomatik Kategori Sınıflandırma"
+      }
+    },
+    "premium": {
+      "title": "Premium",
+      "subtitle": "Profesyonel Yönetim",
+      "price": "1.799",
+      "period": "/ Ay",
+      "priceNote": "Yıllık ödemede %20 indirim uygulandı",
+      "button": "Profesyonelliğe Geç",
+      "badge": "En Çok Tercih Edilen",
+      "includes": {
+        "1": "Canlı dashboard (giriş yaparak)",
+        "2": "PDF rapor indir",
+        "3": "Haftalık & aylık raporlar",
+        "4": "Gerçekleşen vs bütçe karşılaştırmaları",
+        "5": "Tek işletme • tek lokasyon"
+      },
+      "excludesTitle": "Dahil değil",
+      "excludes": {
+        "1": "CFO / üst yönetim paylaşımı",
+        "2": "View-only dashboard linki",
+        "3": "Okuma logları"
+      }
+    },
+    "cfoAddon": {
+      "title": "CFO & Yönetici Paylaşımı",
+      "subtitle": "Yöneticinizle paylaşın • 5 dakikada karar alın",
+      "price": "699",
+      "period": "/ Ay (Add‑on)",
+      "features": {
+        "1": "1 adet CFO / yönetici view‑only link",
+        "2": "Tablet / mobil / desktop uyumlu canlı görünüm",
+        "3": "Grafiklerde hover ile değerleri görme",
+        "4": "Güvenli paylaşım (süreli erişim)"
+      },
+      "note": "Bu özellik özellikle CFO’lar ve ortaklar için tasarlanmıştır."
+    },
+    "enterprise": {
+      "title": "Kurumsal",
+      "subtitle": "Enterprise",
+      "price": "Teklif Alın",
+      "period": "Özel Fiyatlandırma",
+      "priceNote": "İhtiyaçlarınıza özel çözümler",
+      "button": "Bize Ulaşın",
+      "features": {
+        "1": "Çoklu Şube / Otel Yönetimi",
+        "2": "Özel AI Danışmanlık",
+        "3": "7/24 Öncelikli Destek & Yerinde Eğitim",
+        "4": "Sınırsız Kullanıcı Tanımlama"
+      }
+    },
+    "currentPlan": "Mevcut Paketiniz",
+    "securePayment": {
+      "title": "Güvenli Ödeme Yöntemleri",
+      "subtitle": "Tüm ödemeleriniz Iyzico ve Stripe altyapısı ile güvenle gerçekleştirilmektedir.",
+      "features": {
+        "ssl": "SSL Sertifikalı Güvenli Ödeme",
+        "support": "7/24 Teknik Destek",
+        "updates": "Ücretsiz Güncellemeler",
+        "guarantee": "14 Gün Para İade Garantisi"
+      },
+      "note": "* Yıllık planlar peşin olarak faturalandırılır. Tüm fiyatlara KDV dahil değildir."
+    },
+    "payment": {
+      "title": "Güvenli Ödeme Yöntemleri",
+      "description": "Tüm ödemeleriniz Iyzico ve Stripe altyapısı ile güvenle gerçekleştirilmektedir.",
+      "creditCard": "Kredi Kartı",
+      "bankTransfer": "Banka Transferi",
+      "features": {
+        "ssl": "SSL Sertifikalı Güvenli Ödeme",
+        "support": "7/24 Teknik Destek",
+        "updates": "Ücretsiz Güncellemeler",
+        "guarantee": "14 Gün Para İade Garantisi"
+      },
+      "disclaimer": "* Yıllık planlar peşin olarak faturalandırılır. Tüm fiyatlara KDV dahil değildir."
+    }
+  },
+  "footer": {
+    "solutions": "ÇÖZÜMLER",
+    "resources": "KAYNAKLAR",
+    "corporate": "KURUMSAL",
+    "admin": "YÖNETİM",
+    "social": "SOSYAL MEDYA",
+    "links": {
+      "financialDataAnalysis": "Finansal Veri Analizi",
+      "costInventoryManagement": "Maliyet ve Stok Yönetimi",
+      "budgetPlanning": "Bütçe ve Planlama",
+      "cashFlow": "Nakit Akışı",
+      "hrPayrollPerformance": "İK & Bordro Performansı",
+      "knowledgeBase": "Bilgi Merkezi",
+  "documents": "Dökümanlar",
+  "about": "Hakkımızda",
+  "contact": "İletişim",
+      "brandKit": "Marka Kiti",
+      "projectActivityReport": "Proje Faaliyet Raporu",
+      "platformAnalytics": "Platform Analitikleri (Admin)",
+      "brandingKit": "Marka Kiti (Admin)",
+      "finopsTheatre": "🎭 FinOps Theatre (Admin)",
+      "newsletterPanel": "Bülten Paneli (Admin)",
+      "businessPlan": "İş Planı (Admin)",
+      "systemGuide": "🚗 Sistem Rehberi (Admin)",
+      "pricing": "Fiyatlandırma",
+      "marketingPlan": "Pazarlama Planı (Admin)",
+      "launchRoadmap": "Lansman Yol Haritası (Admin)",
+      "userJourneyMap": "Kullanıcı Yol Haritası (Admin)",
+      "paymentGuide": "💳 Ödeme Yöntemleri Rehberi (Admin)"
+    },
+    "stayUpdated": "Güncel Kalın",
+    "stayUpdatedSubtitle": "En son haberler, makaleler ve kaynaklar haftalık olarak gelen kutunuza gönderilir.",
+    "emailPlaceholder": "E-posta adresiniz",
+    "subscribe": "Abone Ol",
+    "subscribing": "Kaydediliyor...",
+    "subscribeSuccess": "Bültenimize başarıyla kaydoldunuz!",
+    "subscribeError": "Bir hata oluştu. Lütfen tekrar deneyin.",
+    "rightsReserved": "Tüm hakları saklıdır.",
+    "privacyPolicy": "Gizlilik Politikası",
+    "termsOfService": "Kullanım Şartları",
+    "cookiePolicy": "Çerez Politikası"
+  },
+  "hero": {
+    "title": "Yeni Nesil Finansal Operasyonlar",
+    "subtitle": "AI destekli FinOps platformumuzla bulut harcamalarınızı otomatikleştirin, optimize edin ve kontrol edin.",
+    "getStarted": "Hemen Başla",
+    "learnMore": "Daha Fazla Bilgi"
+  },
+  "integrations": {
+    "title": "Sorunsuz Entegrasyon",
+    "subtitle": "Mevcut Yazılımlarınızla Uyumlu",
+    "description": "Platformumuz, Türkiye pazarında yaygın olarak kullanılan ERP, bulut ve ofis yazılımlarıyla sorunsuz bir şekilde entegre olarak veri akışınızı otomatikleştirir ve size zaman kazandırır."
+  },
+  "solutions": {
+    "title": "Çözümlerimizle Tanışın",
+    "subtitle": "İşletmeniz İçin Değer Yaratın",
+    "description": "FINOPS AI Studio, finansal operasyonlarınızı basitleştirmek ve kârlılığınızı artırmak için tasarlanmış, birbiriyle entegre çalışan güçlü modüller sunar.",
+    "financialDataAnalysis": {
+      "name": "Finansal Veri Analizi",
+      "description": "Tüm finansal verilerinizi tek bir platformda birleştirin. Kapsamlı analiz araçlarımızla verilerinizi anlamlı, eyleme geçirilebilir içgörülere dönüştürün ve stratejik kararlarınızı bu temel üzerine inşa edin."
+    },
+    "costInventoryManagement": {
+      "name": "Maliyet ve Stok Yönetimi",
+      "description": "Operasyonel maliyetlerinizi ve envanter seviyelerinizi hassas bir şekilde takip edin. Yapay zeka destekli algoritmalarımız, maliyetleri düşürmek ve stok verimliliğini en üst düzeye çıkarmak için size özel öneriler sunar."
+    },
+    "cashFlowForecasting": {
+      "name": "Nakit Akışı Tahminleme",
+      "description": "Geleceğe yönelik nakit akışınızı yüksek doğrulukla tahmin ederek finansal istikrarınızı güvence altına alın. Olası darboğazları önceden tespit edin ve proaktif önlemlerle finansal sağlığınızı koruyun."
+    },
+    "hrPerformanceManagement": {
+      "name": "İK ve Performans Yönetimi",
+      "description": "İnsan kaynakları verilerinizi ve personel performansını analiz ederek organizasyonel verimliliği artırın. Ekip performansını objektif metriklerle ölçün ve yetenek yönetimi stratejilerinizi veriye dayalı olarak şekillendirin."
+    },
+    "budgetFinancialPlanning": {
+      "name": "Bütçe ve Finansal Planlama",
+      "description": "Bütçe ve fiili harcamalarınızı kolayca karşılaştırın, sapmaları anında tespit edin. Dinamik planlama araçlarımızla daha esnek ve gerçekçi finansal hedefler belirleyin ve bu hedeflere ulaşma yolunda ilerlemenizi sürekli izleyin."
+    }
+  },
+  "heroPage": {
+    "hero": {
+      "badge": "AI Destekli Finansal Analiz Platformu",
+      "title": "Dağınık Veriden Net Kâra: Finansal Geleceğinizi Şekillendirin",
+      "subtitle": "FINOPS AI Studio, işletmenizin finansal verilerini anlamlı içgörülere dönüştürerek kârlılığınızı artırmanıza ve geleceğe yönelik sağlam kararlar almanıza yardımcı olur.",
+      "cta1": "Ücretsiz Başla",
+      "cta2": "Özellikleri Keşfet",
+      "explorePlatform": "Platformu Keşfet"
+    },
+    "trust": {
+      "secure": "Güvenli & Şifreli",
+      "aiPowered": "AI Destekli",
+      "quickSetup": "Hızlı Kurulum"
+    },
+    "dashboard": {
+      "title": "📊 Verilerinizi Görselleştirin",
+      "subtitle": "Karmaşık finansal verileri anlaşılır dashboard'lara dönüştürün",
+      "alt": "FINOPS AI Studio CEO Dashboard Paneli"
+    },
+    "features": {
+      "title": "Neden FINOPS AI Studio?",
+      "subtitle": "İşletmenizi Güçlendiren Modern Araçlar",
+      "feature1": {
+        "title": "AI Destekli Analiz",
+        "description": "Yapay zeka ile verilerinizi otomatik analiz edin ve içgörüler elde edin"
+      },
+      "feature2": {
+        "title": "Gerçek Zamanlı Dashboard",
+        "description": "Anlık veri görselleştirme ile işinizin nabzını tutun"
+      },
+      "feature3": {
+        "title": "Kolay Entegrasyon",
+        "description": "Mevcut sistemlerinizle sorunsuz entegrasyon"
+      },
+      "feature4": {
+        "title": "Mobil Uyumlu",
+        "description": "Her yerden, her cihazdan verilerinize erişin"
+      }
+    },
+    "automation": {
+      "badge": "Verimliliği Artırın",
+      "title": "Yapay Zeka Destekli Otomasyon Akışı",
+      "description": "Platformumuzun, karmaşık görevleri nasıl saniyeler içinde basitleştirdiğini keşfedin. Doğal dil komutlarınız, gelişmiş yapay zeka modellerimiz tarafından anında analiz edilir, işlenir ve size özel çözümlere dönüştürülür."
+    },
+    "finalCta": {
+      "title": "Finansal Geleceğinizi Şekillendirmeye Hazır mısınız?",
+      "subtitle": "Bugün başlayın, yarın fark edin. Ücretsiz deneme için kredi kartı gerekmez.",
+      "cta1": "Ücretsiz Başla",
+      "cta2": "Satış Ekibiyle Görüş",
+      "trust1": "14 Gün Ücretsiz Deneme",
+      "trust2": "Kredi Kartı Gerektirmez",
+      "trust3": "İstediğiniz Zaman İptal"
+    }
+  },
+  "solutionPages": {
+    "financialAnalysis": {
+      "badge": "Çözüm Detayı",
+      "title": "Finansal Veri Analizi",
+      "subtitle": "Ham finansal verilerinizi, stratejik kararlar almanızı sağlayan anlamlı ve eyleme geçirilebilir içgörülere dönüştürün. Finops AI ile şirketinizin finansal nabzını anlık olarak tutun.",
+      "startAnalysis": "Analizi Başlat",
+      "talkToExpert": "Uzmanla Konuş",
+      "imageAlt": "Finansal Veri Analizi Paneli",
+      "featuresTitle": "Veri Analizinin Temel Taşları",
+      "featuresSubtitle": "Platformumuz, finansal verilerinizin her bir katmanını aydınlatmak için tasarlanmış güçlü yetenekler sunar.",
+      "features": {
+        "profitabilityAnalysis": {
+          "name": "Kârlılık Analizi",
+          "description": "Ürün, hizmet veya müşteri segmenti bazında kârlılık oranlarınızı net bir şekilde görün. Hangi alanların büyümeyi desteklediğini, hangilerinin kaynak tükettiğini belirleyin."
+        },
+        "expenseManagement": {
+          "name": "Gider Yönetimi ve Optimizasyonu",
+          "description": "Tüm gider kalemlerinizi kategorize edin, beklenmedik artışları anında tespit edin ve yapay zeka destekli tasarruf önerileriyle maliyetlerinizi düşürün."
+        },
+        "kpiTracking": {
+          "name": "Anahtar Performans Göstergeleri (KPI) Takibi",
+          "description": "EBITDA, Net Kâr Marjı, Müşteri Edinme Maliyeti (CAC) gibi kritik finansal KPI'ları anlık ve dinamik panellerde takip edin."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Bu Çözüm Kimler İçin İdeal?",
+        "subtitle": "Finansal Veri Analizi çözümümüz, organizasyonun farklı seviyelerindeki kilit rollerin daha akıllı ve daha hızlı kararlar almasını sağlar.",
+        "role1": {
+          "title": "Finans Yöneticileri (CFO, VP of Finance)",
+          "description": "Stratejik planlama, bütçeleme ve yatırımcı ilişkileri için gereken derinlemesine içgörülere sahip olun."
+        },
+        "role2": {
+          "title": "CEO ve Yönetim Kurulu",
+          "description": "Şirketin genel finansal performansını ve sağlığını tek bir bakışta görün, veriye dayalı liderlik yapın."
+        },
+        "role3": {
+          "title": "Operasyon ve Departman Liderleri",
+          "description": "Kendi birimlerinin finansal etkisini anlayın ve bütçe hedeflerine ulaşmak için verimliliği artırın."
+        },
+        "imageAlt": "Ekip çalışması"
+      }
+    },
+    "costInventory": {
+      "badge": "Çözüm Detayı",
+      "title": "Maliyet ve Stok Yönetimi",
+      "subtitle": "Envanterinizi kâra dönüştürün. Stok maliyetlerinizi minimize ederken, müşteri talebini her zaman karşılayabilecek optimum envanter seviyelerini koruyun.",
+      "startAnalysis": "Stok Analizi Başlat",
+      "talkToExpert": "Operasyon Danışmanlığı",
+      "featuresTitle": "Envanter Kontrolünün Temel Taşları",
+      "featuresSubtitle": "Stok fazlasından veya eksiğinden kaynaklanan kayıpları önlemek için tasarlanmış entegre çözümlerimizle tanışın.",
+      "features": {
+        "inventoryTurnover": {
+          "name": "Stok Devir Hızı Optimizasyonu",
+          "description": "Hangi ürünlerin hızlı, hangilerinin yavaş hareket ettiğini analiz edin. Atıl stok maliyetini düşürün ve sermayenizi doğru envantere bağlayın."
+        },
+        "cogsAnalysis": {
+          "name": "Satılan Malın Maliyeti (COGS) Analizi",
+          "description": "Üretim, depolama ve lojistik maliyetlerinizi ürün bazında detaylı olarak analiz ederek net kâr marjınızı doğru bir şekilde hesaplayın."
+        },
+        "supplyChain": {
+          "name": "Tedarik Zinciri Verimliliği",
+          "description": "Tedarikçi performansını, teslimat sürelerini ve satın alma maliyetlerini izleyerek tedarik zincirinizdeki verimsizlikleri ve darboğazları ortadan kaldırın."
+        }
+      },
+      "imageAlt": "Depoda çalışanlar ve envanter yönetimi",
+      "whoIsItFor": {
+        "title": "Bu Çözüm Kimler İçin Stratejik?",
+        "subtitle": "Maliyet ve Stok Yönetimi çözümümüz, operasyonel verimliliği ve finansal sağlığı doğrudan etkileyen roller için kritik öneme sahiptir.",
+        "role1": {
+          "title": "Satın Alma ve Tedarik Zinciri Yöneticileri",
+          "description": "Tedarikçi performansını optimize edin, doğru zamanda doğru miktarda sipariş verin ve taşıma maliyetlerini düşürün."
+        },
+        "role2": {
+          "title": "Finans Kontrolörleri ve Analistleri",
+          "description": "Envanter değerlemesini ve COGS hesaplamalarını otomatikleştirin, finansal raporlamanın doğruluğunu artırın."
+        },
+        "role3": {
+          "title": "Operasyon Direktörleri",
+          "description": "Depo verimliliğini, sipariş karşılama oranlarını ve genel operasyonel performansı en üst düzeye çıkarın."
+        },
+        "imageAlt": "Operasyonel verimlilik ve ekip çalışması"
+      }
+    },
+    "cashFlow": {
+      "badge": "Çözüm Detayı",
+      "title": "Nakit Akışı (Cash Flow)",
+      "subtitle": "İşletmenizin finansal dayanıklılığını sağlayın. Finops AI ile nakit giriş ve çıkışlarınızı tam olarak kontrol edin, darboğazları önleyin ve büyüme için gerekli likiditeyi her zaman koruyun.",
+      "startAnalysis": "Nakit Akışını Analiz Et",
+      "talkToExpert": "Finansal Danışmanlık",
+      "featuresTitle": "Likiditenizi Yönetmenin Anahtarları",
+      "featuresSubtitle": "Nakit akışınızı öngörülebilir ve yönetilebilir kılmak için geliştirdiğimiz araçlarla finansal belirsizlikleri ortadan kaldırın.",
+      "features": {
+        "collectionPayment": {
+          "name": "Tahsilat ve Ödeme Yönetimi",
+          "description": "Müşteri alacaklarınızın vadesini ve tedarikçi ödemelerinizi takip edin. Ortalama tahsilat süresini (DSO) düşürmek için proaktif uyarılar alın."
+        },
+        "forecasting": {
+          "name": "Nakit Akışı Tahminlemesi",
+          "description": "Geçmiş verilerinizi ve mevcut trendleri kullanarak gelecekteki 30, 60 ve 90 günlük nakit pozisyonunuzu yüksek doğrulukla tahminleyin."
+        },
+        "scenarioAnalysis": {
+          "name": "Senaryo Analizi",
+          "description": "Farklı gelir veya gider senaryolarının (örn: büyük bir müşteri kaybı veya beklenmedik bir yatırım) nakit akışınıza etkisini simüle edin ve hazırlıklı olun."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Bu Çözüm Kimin İçin Hayati?",
+        "subtitle": "Nakit Akışı Yönetimi çözümümüz, şirketin finansal istikrarını ve operasyonel devamlılığını sağlayan kilit karar vericilere yöneliktir.",
+        "role1": {
+          "title": "İş Sahipleri ve Girişimciler",
+          "description": "İşletmenizin ne kadar süre daha ayakta kalabileceğini (runway) bilin ve büyüme yatırımlarını güvenle planlayın."
+        },
+        "role2": {
+          "title": "Finans Departmanları",
+          "description": "Günlük, haftalık ve aylık nakit pozisyonunu yönetin, borç ve alacak takibini otomatikleştirin."
+        },
+        "role3": {
+          "title": "Hazine Yöneticileri",
+          "description": "Şirketin likiditesini en verimli şekilde yönetin, kur riski ve faiz oranı değişikliklerine karşı senaryolar oluşturun."
+        },
+        "imageAlt": "Finansal planlama"
+      }
+    },
+    "budgetPlanning": {
+      "badge": "Çözüm Detayı",
+      "title": "Bütçe ve Planlama",
+      "subtitle": "Statik e-tablolardan kurtulun. Finops AI ile tüm organizasyonunuzun katıldığı, dinamik, akıllı ve iş birliğine dayalı bir bütçe ve planlama sürecine geçin.",
+      "startPlanning": "Planlamaya Başlayın",
+      "talkToExpert": "Strateji Danışmanlığı",
+      "featuresTitle": "Stratejik Planlamanın Yapı Taşları",
+      "featuresSubtitle": "Hedeflerinize ulaşmanızı sağlayan, veriye dayalı ve esnek bir planlama altyapısı sunuyoruz.",
+      "features": {
+        "dynamicBudgeting": {
+          "name": "Dinamik Bütçeleme",
+          "description": "Departman, proje veya lokasyon bazında esnek bütçeler oluşturun. Statik e-tablolar yerine, tüm paydaşların katılabildiği canlı bir planlama ortamı yaratın."
+        },
+        "actualVsBudget": {
+          "name": "Gerçekleşen vs. Bütçe Analizi",
+          "description": "Bütçelenen rakamlarla gerçekleşen harcamaları anlık olarak karşılaştırın. Sapmaları anında tespit edin ve nedenlerini kök analiz ile anlayın."
+        },
+        "predictivePlanning": {
+          "name": "Tahmine Dayalı Planlama (Forecasting)",
+          "description": "Yapay zeka motorumuzu kullanarak yıl sonu finansal hedeflerinize ulaşıp ulaşamayacağınızı tahminleyin. Proaktif olarak revizyonlar yapın."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Bu Çözüm Kimlerin İşini Kolaylaştırır?",
+        "subtitle": "Bütçe ve Planlama çözümümüz, finansal hedeflerin belirlenmesi ve bu hedeflere ulaşılmasından sorumlu ekipler için tasarlanmıştır.",
+        "role1": {
+          "title": "Finansal Planlama ve Analiz (FP&A) Ekipleri",
+          "description": "Manuel veri toplama ve birleştirme işlerini ortadan kaldırın, zamanınızı senaryo analizi ve stratejik danışmanlık için kullanın."
+        },
+        "role2": {
+          "title": "Departman Yöneticileri",
+          "description": "Kendi bütçelerini kolayca oluşturun ve takip edin. Harcama sorumluluğunu ve finansal farkındalığı artırın."
+        },
+        "role3": {
+          "title": "Üst Yönetim (CEO, CFO)",
+          "description": "Şirketin genel bütçe performansını ve hedeflere uygunluğunu tek bir yerden izleyin, stratejik revizyonları hızla yapın."
+        },
+        "imageAlt": "Finans ekibi bütçe toplantısı yapıyor"
+      }
+    },
+    "hrPayroll": {
+      "badge": "Çözüm Detayı",
+      "title": "İK - Bordro ve Performans Yönetimi",
+      "subtitle": "En değerli varlığınız olan insan kaynağınızı verimli bir şekilde yönetin. Bordro süreçlerini otomatikleştirin ve performans kültürü oluşturarak çalışan bağlılığını artırın.",
+      "startAnalysis": "İK Analizi Başlat",
+      "talkToExpert": "İK Danışmanlığı",
+      "featuresTitle": "Modern İK Yönetiminin Temelleri",
+      "featuresSubtitle": "Operasyonel yükü azaltan ve stratejik insan kaynakları yönetimine odaklanmanızı sağlayan araçlar.",
+      "features": {
+        "autoPayroll": {
+          "name": "Otomatik Bordrolama ve Maaş Hesaplama",
+          "description": "Tüm yasal kesintileri, primleri, avansları ve yan hakları otomatik olarak hesaplayarak bordro sürecini hatasız ve hızlı hale getirin."
+        },
+        "performanceEval": {
+          "name": "Performans Değerlendirme ve Geri Bildirim",
+          "description": "Çalışan hedeflerini, yetkinliklerini ve performans metriklerini tek bir yerden takip edin. 360 derece geri bildirim süreçleri oluşturun."
+        },
+        "hrAnalytics": {
+          "name": "İnsan Kaynakları Analitiği",
+          "description": "İşe alım, işten ayrılma (turnover) oranları, çalışan memnuniyeti ve demografik dağılım gibi kritik İK metriklerini görsel panellerle analiz edin."
+        }
+      },
+      "whoIsItFor": {
+        "title": "Farklı Sektörler, Tek Çözüm",
+        "subtitle": "İK ve Bordro Yönetimi çözümümüz, mavi yaka ve beyaz yaka çalışanların yoğun olduğu farklı sektörlerin ihtiyaçlarına göre esneklik gösterir.",
+        "role1": {
+          "title": "Turizm ve Otelcilik",
+          "description": "Sezonluk ve değişken saatli çalışanların puantaj ve bordrolarını kolayca yönetin."
+        },
+        "role2": {
+          "title": "Üretim ve Sanayi",
+          "description": "Fabrika çalışanlarının vardiyalarını, mesailerini ve performans primlerini hatasız hesaplayın."
+        },
+        "role3": {
+          "title": "Perakende ve Mağazacılık",
+          "description": "Mağaza bazında personel performansını ve hedef primlerini merkezi olarak takip edin."
+        },
+        "imageAlt": "Otomotiv servisinde çalışan mekaniker"
+      }
+    }
+  },
+  "index": {
+    "hero": {
+      "title": "Veriye Dayalı Kararlar, Stratejik Büyüme",
+      "subtitle": "FINOPS AI Studio, KOBİ'lerin finansal ve operasyonel verilerini birleştirerek, kârlılığı artıran ve büyümeyi hızlandıran akıllı bir yönetim platformu sunar.",
+      "getStarted": "Hemen Başla",
+      "dashboardExamples": "Dashboard Örnekleri"
+    },
+    "featuresSection": {
+      "badge": "Çözümlerimizle Tanışın",
+      "title": "İşletmeniz İçin Değer Yaratın",
+      "subtitle": "FINOPS AI Studio, finansal operasyonlarınızı basitleştirmek ve kârlılığınızı artırmak için tasarlanmış, birbiriyle entegre çalışan güçlü modüller sunar."
+    },
+    "features": {
+      "financialReporting": {
+        "title": "Finansal Raporlama",
+        "description": "Gelir tablosu, bilanço ve nakit akışı gibi standart raporları otomatik oluşturun."
+      },
+      "costProfitabilityAnalysis": {
+        "title": "Maliyet ve Kârlılık Analizi",
+        "description": "Ürün, hizmet ve müşteri bazında kârlılığı analiz ederek stratejik kararlar alın."
+      },
+      "budgetScenarioPlanning": {
+        "title": "Bütçe ve Senaryo Planlama",
+        "description": "Gelecek dönem bütçelerinizi oluşturun ve farklı ekonomik senaryoların etkisini ölçün."
+      }
+    }
+  },
+  "cta": {
+    "boostProductivity": "Verimliliğinizi artırın.",
+    "startToday": "Bugün uygulamamızı kullanmaya başlayın.",
+    "getStarted": "Hemen Başla",
+    "learnMore": "Daha Fazla Bilgi"
+  },
+  "about": {
+    "badge": "HAKKIMIZDA",
+    "title": "Finansal Operasyonlarda Yapay Zeka Devrimi",
+    "subtitle": "Finops AI olarak, karmaşık finansal verileri anlaşılır, eyleme geçirilebilir ve akıllı içgörülere dönüştürerek işletmelerin karar alma süreçlerini güçlendirmek için yola çıktık.",
+    "mission": {
+      "title": "Misyonumuz",
+      "description": "Her ölçekteki işletmenin, bulut tabanlı ve yapay zeka destekli FinOps (Finansal Operasyonlar) araçlarımızla finansal verimliliklerini en üst düzeye çıkarmalarını, maliyetlerini optimize etmelerini ve stratejik büyümelerini hızlandırmalarını sağlamaktır."
+    },
+    "vision": {
+      "title": "Vizyonumuz",
+      "description": "Finansal yönetimin sadece rakamlardan ibaret olmadığı, stratejik bir sanata dönüştüğü bir gelecek inşa etmek. Veri odaklı bir kültür yaratarak, finans ve teknoloji ekipleri arasında kusursuz bir köprü kurmayı hedefliyoruz."
+    },
+    "philosophy": {
+      "title": "Felsefemiz",
+      "description": "Paylaşılan sorumluluk ilkesine inanıyoruz. Finansal verilerin şeffaflığı, tüm departmanların harcamaların etkisini anlamasını ve ortak hedefler doğrultusunda bilinçli kararlar almasını sağlar. Aracımız, bu kültürü desteklemek için tasarlanmıştır."
+    }
+  },
+  "dashboardExamples": {
+    "badge": "36 Profesyonel Panel",
+    "title": "Dashboard ve Rapor",
+    "categoryPanels": "Panelleri",
+    "noResults": "Sonuç Bulunamadı",
+    "noResultsDesc": "Arama kriterlerinize uygun dashboard bulunamadı.",
+    "clearFilters": "Filtreleri Temizle",
+    "titleHighlight": "Örnekleri",
+    "subtitle": "Gerçek ekipler tarafından kullanılan gösterge tablosu örneklerini keşfedin ve işletmeniz için KPI takibi oluşturmaya başlayın. Her bir örnek, verilerinizi nasıl anlamlı içgörülere dönüştürebileceğinizi gösterir."
+  },
+  "features": {
+    "hero": {
+      "title": "Verilerinizi Sanata Dönüştürün",
+      "subtitle": "Platformumuz, en karmaşık verileri bile kolayca anlamanıza, analiz etmenize ve etkileyici görsellerle sunmanıza olanak tanır."
+    },
+    "section1": {
+      "badge": "Her Şey Kontrol Altında",
+      "title": "Veri Hazırlamanın En Kolay Yolu",
+      "subtitle": "Veri analizi sürecinin en zorlu kısmı olan veri hazırlama ve temizleme adımlarını, sizin için otomatize ettik."
+    },
+    "section2": {
+      "badge": "Akıllı Çözümler",
+      "title": "Sürükle-Bırak Kolaylığı",
+      "subtitle": "Tek bir satır kod yazmadan, verilerinizi görsel arayüzümüzle yönetin. Tabloları birleştirin, yeni hesaplanmış alanlar oluşturun ve karmaşık veri modellerini kolayca inşa edin."
+    },
+    "features": {
+      "connectDataSources": {
+        "name": "Tüm Veri Kaynaklarınızı Bağlayın",
+        "description": "Excel, SQL veritabanları, bulut servisleri... Nerede olursa olsun, verilerinize anında bağlanın ve merkezi bir görünüm elde edin."
+      },
+      "aiDataTransformation": {
+        "name": "Yapay Zeka ile Veri Dönüşümü",
+        "description": "Karmaşık veri setlerini, yapay zeka destekli araçlarımızla saniyeler içinde temizleyin, şekillendirin ve analize hazır hale getirin."
+      },
+      "visualDataModeling": {
+        "name": "Görsel Veri Modelleme",
+        "description": "Kod yazmadan, sürükle-bırak arayüzü ile veri tablolarınız arasında ilişkiler kurun ve güçlü veri modelleri oluşturun."
+      },
+      "readyTemplates": {
+        "name": "Hazır Dashboard Şablonları",
+        "description": "Sektörünüze özel olarak tasarlanmış onlarca hazır şablon ile veri görselleştirmeye anında başlayın ve zaman kazanın."
+      }
+    }
+  },
+  "support": {
+    "hero": {
+      "title": "Nasıl Yardımcı Olabiliriz?",
+      "subtitle": "Başarınıza giden yolda ihtiyacınız olan tüm destek burada. Aklınıza takılan bir soru mu var veya sadece bir merhaba mı demek istiyorsunuz? Doğru yerdesiniz."
+    },
+    "links": {
+      "knowledgeBase": {
+        "name": "Bilgi Bankası",
+        "description": "Platformun tüm özelliklerini detaylı anlatan makaleler, kılavuzlar ve sıkça sorulan sorular."
+      },
+      "trainingVideos": {
+        "name": "Eğitim Videoları",
+        "description": "Adım adım video eğitimleri ile veri görselleştirmenin temellerinden ileri düzey tekniklere kadar her şeyi öğrenin."
+      },
+      "communityForum": {
+        "name": "Topluluk Forumu",
+        "description": "Diğer kullanıcılarla bağlantı kurun, sorularınızı sorun ve en iyi uygulama ipuçlarını paylaşın."
+      },
+      "customSupport": {
+        "name": "Özel Destek Talebi",
+        "description": "Teknik bir sorunla mı karşılaştınız? Destek ekibimiz bir tık uzağınızda, size yardımcı olmaya hazır."
+      }
+    },
+    "cta": {
+      "title": "Platformu Keşfetmeye Hazır Mısınız?",
+      "subtitle": "İlk dashboard'unuzu dakikalar içinde oluşturun. Ücretsiz deneme sürümümüzle platformun tüm gücünü deneyimleyin.",
+      "startFree": "Ücretsiz Başla",
+      "reviewDocs": "Dökümanları İncele"
+    }
+  },
+  "blog": {
+    "title": "Bilgi Merkezi",
+    "subtitle": "FinOps kültürü, bulut maliyet yönetimi ve veri odaklı karar alma süreçleri hakkında derinlemesine bilgi edinin.",
+    "readMore": "Devamını Oku",
+    "posts": {
+      "whatIsFinops": {
+        "title": "FinOps Nedir?: Temel Bir Rehber",
+        "description": "FinOps kültürünün temelini oluşturan \"Bilgilendir, Optimize Et, Yönet\" döngüsünü ve bu metodolojinin işletmenize nasıl değer katabileceğini keşfedin."
+      },
+      "bringingTeams": {
+        "title": "Ekipleri Buluşturmak: Finans ve Mühendislik İş Birliği",
+        "description": "Finans ve mühendislik ekipleri arasında nasıl köprü kurulur? \"Birim Maliyet\" ve \"Paylaşılan Sorumluluk\" kavramlarıyla veri odaklı bir iş birliği kültürü oluşturun."
+      },
+      "dataDriven": {
+        "title": "Veri Odaklı Kararlar Almak",
+        "description": "Anormallik tespiti, bütçe tahminlemesi ve kapasite planlaması gibi kritik süreçlerde verinin gücünü kullanarak nasıl daha isabetli ve stratejik kararlar alabileceğinizi öğrenin."
+      }
+    }
+  },
+  "docs": {
+    "title": "Dökümantasyon ve Bilgi Merkezi",
+    "subtitle": "Platformumuzdan en iyi şekilde nasıl yararlanacağınızı keşfedin. Aradığınız her şey burada.",
+    "searchPlaceholder": "Makalelerde ve dökümanlarda ara...",
+    "categories": {
+      "gettingStarted": {
+        "name": "Başlarken",
+        "description": "Platformu kullanmaya yönelik ilk adımlar, temel kurulum ve konfigürasyon bilgileri.",
+        "articles": {
+          "0": "10 dakikada hızlı kurulum nasıl yapılır?",
+          "1": "İlk projenizi oluşturma rehberi",
+          "2": "Platform arayüzüne genel bakış"
+        }
+      },
+      "security": {
+        "name": "Hesap ve Güvenlik",
+        "description": "Kullanıcı yönetimi, rol bazlı erişim kontrolü ve en iyi güvenlik uygulamaları.",
+        "articles": {
+          "0": "Verilerimiz güvende mi? Güvenlik politikamız.",
+          "1": "Rol Bazlı Erişim Kontrolü (RBAC) nedir?",
+          "2": "İki Faktörlü Kimlik Doğrulamayı (2FA) etkinleştirin"
+        }
+      },
+      "dataSources": {
+        "name": "Veri Kaynakları",
+        "description": "Bulut sağlayıcıları, veritabanları ve diğer servislerden veri entegrasyonu.",
+        "articles": {
+          "0": "AWS ve Azure hesaplarını bağlama",
+          "1": "SQL veritabanı entegrasyonu",
+          "2": "100'den fazla desteklenen veri kaynağı"
+        }
+      },
+      "dashboards": {
+        "name": "Dashboardlar ve Raporlar",
+        "description": "Sınırsız BI panelleri oluşturun, yönetin ve verilerinizi görselleştirin.",
+        "articles": {
+          "0": "Sürükle-bırak ile ilk dashboard'unu oluştur",
+          "1": "Filtreler ve segmentasyon kullanımı",
+          "2": "Raporları otomatik olarak e-postala"
+        }
+      },
+      "finops": {
+        "name": "FinOps İlkeleri",
+        "description": "Bilgilendirme, Optimize Etme ve Çalıştırma. FinOps kültürünü benimseyin.",
+        "articles": {
+          "0": "FinOps'un Temel Adımları Nelerdir?",
+          "1": "Bulut maliyetlerinizi nasıl düşürürsünüz?",
+          "2": "Paylaşılan Sorumluluk Modeli nasıl çalışır?"
+        }
+      },
+      "costManagement": {
+        "name": "Maliyet Yönetimi",
+        "description": "Bütçeleme, tahminleme, maliyet optimizasyonu ve anomali tespiti gibi finansal araçlar.",
+        "articles": {
+          "0": "Bütçe tahminleme ve kapasite planlaması",
+          "1": "Maliyet anomali tespiti nasıl çalışır?",
+          "2": "Otomatik optimizasyon önerilerini anlama"
+        }
+      },
+      "aiTools": {
+        "name": "AI Araçları",
+        "description": "Yapay zeka asistanı, araç istekleri ve sohbet özellikleri ile verimliliği artırın.",
+        "articles": {
+          "0": "Sınırsız AI Mesajı ile içgörüler elde edin",
+          "1": "Doğal dilde sorgulama nasıl yapılır?",
+          "2": "AI ile dosya analizi (200MB limit)"
+        }
+      },
+      "support": {
+        "name": "Destek ve Yardım",
+        "description": "Öncelikli e-posta desteği ve diğer yardım kanallarına buradan ulaşın.",
+        "articles": {
+          "0": "Öncelikli destek talebi nasıl oluşturulur?",
+          "1": "Sıkça Sorulan Sorular (SSS)",
+          "2": "Topluluk forumuna katılın"
+        }
+      },
+      "api": {
+        "name": "API Referansı",
+        "description": "Platformumuzu kendi uygulamalarınızla entegre etmek için API belgeleri.",
+        "articles": {
+          "0": "Authentication (Kimlik Doğrulama)",
+          "1": "Temel API endpointleri",
+          "2": "Rate Limit (Kullanım Limitleri)"
+        }
+      },
+      "blog": {
+        "name": "Bilgi Merkezi ve Blog",
+        "description": "FinOps, veri analizi ve iş zekası üzerine en son makaleler, rehberler ve blog yazılarımız.",
+        "articles": {
+          "0": "FinOps Nedir? Bulut Finansal Yönetimine Giriş",
+          "1": "Ekipleri Bir Araya Getirmek: FinOps Kültürü",
+          "2": "İşletmelerde Veri Odaklı Karar Almanın Önemi",
+          "3": "Tüm makaleleri gör..."
+        }
+      }
+    }
+  },
+  "contact": {
+    "badge": "İLETİŞİM",
+    "title": "Bizimle Temasa Geçin",
+    "subtitle": "Sorularınız, önerileriniz veya işbirliği talepleriniz için aşağıdaki kanallardan bize ulaşabilirsiniz. Finansal operasyonlarınızı optimize etmenize nasıl yardımcı olabileceğimizi görüşmekten mutluluk duyarız.",
+    "website": "Website",
+    "email": "Email",
+    "phone": "Telefon"
+  },
+  "dashboardFilters": {
+    "title": "Panelleri Filtrele",
+    "showing": "panel gösteriliyor",
+    "clear": "Temizle",
+    "searchPlaceholder": "Panel adı veya açıklamasında ara...",
+    "filterByCategory": "Kategoriye Göre Filtrele:",
+    "all": "Tümü",
+    "noResults": "Sonuç bulunamadı.",
+    "tryDifferent": "Lütfen farklı bir arama terimi veya kategori deneyin."
+  },
+  "dashboardDrawer": {
+    "keyQuestions": "Anahtar Sorular",
+    "askAI": "AI ile Yanıtla",
+    "keyMetrics": "Temel Metrikler",
+    "trending": {
+      "up": "Yükseliyor",
+      "down": "Düşüyor",
+      "stable": "Sabit"
+    },
+    "cta": {
+      "title": "Bu Paneli Kullanmaya Başla",
+      "description": "Gerçek verilerinizle bu dashboard'u oluşturun",
+      "button": "Şimdi Oluştur"
+    }
+  },
+  "dashboardCard": {
+    "filled": "Dolu",
+    "preview": "Dashboard Önizlemesi",
+    "questions": "Soru",
+    "metrics": "Metrik"
+  },
+  "dashboardCategories": {
+    "Restoran & Kafe": "🍽️ Restoran & Kafe",
+    "Üretim & Operasyon": "🏭 Üretim & Operasyon",
+    "Finans & Muhasebe": "💰 Finans & Muhasebe",
+    "Otel & Konaklama": "🏨 Otel & Konaklama",
+    "E-Ticaret & Retail": "🛒 E-Ticaret & Retail",
+    "İnsan Kaynakları": "👥 İnsan Kaynakları",
+    "Otomotiv": "🚗 Otomotiv",
+    "Satış & Pazarlama": "📊 Satış & Pazarlama",
+    "Tarım": "🌾 Tarım",
+    "Eğitim & Akademik": "🎓 Eğitim & Akademik"
+  },
+  "dashboards": {
+    "cfo-kontrol-paneli": {
+      "name": "CFO Kontrol Paneli",
+      "description": "Finans Direktörleri için kritik finansal metrikler ve genel bakış."
+    },
+    "kar-zarar-tablosu": {
+      "name": "Kar Zarar Tablosu",
+      "description": "Detaylı gelir ve gider kalemleriyle şirketinizin net karını analiz edin."
+    },
+    "nakit-akisi-gosterge-paneli": {
+      "name": "Nakit Akışı Gösterge Paneli",
+      "description": "Şirketinizin nakit giriş ve çıkışlarını izleyerek likiditeyi yönetin."
+    },
+    "butce-karsilastirma": {
+      "name": "Bütçe & Gerçekleşen Karşılaştırma",
+      "description": "Bütçelenen değerler ile gerçekleşen finansal sonuçları karşılaştırın."
+    },
+    "profit-and-loss-dashboard": {
+      "name": "Kar ve Zarar Analizi Paneli",
+      "description": "Gelir tablolarınızı dinamik olarak analiz ederek karlılığınızı artırın."
+    },
+    "ceo-dashboard": {
+      "name": "CEO Bütünsel Bakış Paneli",
+      "description": "Şirketin genel finansal ve operasyonel sağlığını tek bir ekranda izleyin."
+    },
+    "cash-flow-statement-dashboard": {
+      "name": "Nakit Akışı Yönetim Paneli",
+      "description": "İşletmenizin nakit pozisyonunu ve likiditesini proaktif olarak yönetin."
+    },
+    "sales-team-performance-dashboard": {
+      "name": "Satış Ekibi Performans Paneli",
+      "description": "Satış temsilcilerinizin performansını ve hedeflerini gerçek zamanlı izleyin."
+    },
+    "sales-funnel-dashboard": {
+      "name": "Satış Hunisi (Funnel) Paneli",
+      "description": "Müşteri yolculuğunu analiz ederek satış dönüşüm oranlarınızı optimize edin."
+    },
+    "marketing-campaign-performance-dashboard": {
+      "name": "Pazarlama Kampanyası Performans Paneli",
+      "description": "Pazarlama kampanyalarınızın ROI'sini ve etkinliğini ölçün ve optimize edin."
+    },
+    "hr-dashboard": {
+      "name": "İnsan Kaynakları ve Yetenek Yönetim Paneli",
+      "description": "Çalışan metriklerini, performansını ve organizasyonel sağlığı yönetin."
+    },
+    "uretim-kontrol-paneli": {
+      "name": "Üretim Kontrol Paneli",
+      "description": "Üretim süreçlerinizi izleyerek verimliliği ve kaliteyi artırın."
+    },
+    "kalite-kontrol-paneli": {
+      "name": "Kalite Kontrol Paneli",
+      "description": "Ürün kalitesini izleyin ve sürekli iyileştirme sağlayın."
+    },
+    "inventory-management-dashboard": {
+      "name": "Envanter Yönetim Paneli",
+      "description": "Stok seviyelerini optimize ederek maliyetleri düşürün ve stok sıkıntısını önleyin."
+    },
+    "genel-restoran-kontrol-paneli": {
+      "name": "Genel Restoran Kontrol Paneli",
+      "description": "Restoranınızın tüm operasyonel ve finansal metriklerini tek bir ekranda izleyin."
+    },
+    "restoran-satis-gosterge-paneli": {
+      "name": "Restoran Satış Gösterge Paneli",
+      "description": "Menü performansı, masa devir hızı ve satış trendlerini analiz edin."
+    },
+    "restoran-envanter-kontrol-paneli": {
+      "name": "Restoran Envanter Kontrol Paneli",
+      "description": "Gıda maliyetlerini optimize edin ve fire oranlarını azaltın."
+    },
+    "restoran-isgucu-gosterge-paneli": {
+      "name": "Restoran İşgücü Gösterge Paneli",
+      "description": "Personel maliyetlerini ve verimliliğini optimize edin."
+    },
+    "restaurant-operations-dashboard": {
+      "name": "Restoran Operasyon Paneli",
+      "description": "Günlük operasyonları izleyerek müşteri memnuniyetini artırın."
+    },
+    "restaurant-financial-dashboard": {
+      "name": "Restoran Finansal Panel",
+      "description": "Restoranınızın finansal sağlığını ve karlılığını izleyin."
+    },
+    "hotel-management-paneli": {
+      "name": "Otel Yönetim Paneli",
+      "description": "Otelin tüm operasyonel ve finansal metriklerini tek noktadan yönetin."
+    },
+    "hotel-dashboard": {
+      "name": "Otel Performans Paneli",
+      "description": "Doluluk oranı, RevPAR ve müşteri memnuniyetini izleyin."
+    },
+    "otomotiv-dashboard-paneli": {
+      "name": "Otomotiv Dashboard Paneli",
+      "description": "Araç filosu, servis operasyonları ve satış performansını yönetin."
+    },
+    "automotive-dashboard": {
+      "name": "Otomotiv Sektör Paneli",
+      "description": "Satış, envanter ve servis operasyonlarını tek bir ekranda izleyin."
+    },
+    "agriculture-dashboard": {
+      "name": "Tarım Yönetim Paneli",
+      "description": "Mahsul verimliliği, maliyetler ve gelir trendlerini analiz edin."
+    },
+    "ecommerce-kpi-dashboard": {
+      "name": "E-Ticaret KPI Paneli",
+      "description": "Online satış, dönüşüm oranları ve müşteri davranışlarını optimize edin."
+    }
+  },
+  "login": {
+    "title": "Tekrar hoş geldin!",
+    "noAccount": "Hesabın yok mu?",
+    "signUp": "Ücretsiz kaydol",
+    "emailPlaceholder": "E-posta",
+    "passwordPlaceholder": "Şifre",
+    "forgotPassword": "Şifreni mi unuttun?",
+    "loginButton": "Giriş Yap",
+    "or": "Veya",
+    "googleButton": "Google ile Giriş Yap",
+    "recaptchaError": "Lütfen reCAPTCHA doğrulamasını tamamlayın.",
+    "loginError": "Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.",
+    "googleError": "Google ile giriş başarısız."
+  },
+  "signup": {
+    "title": "Hoş geldiniz, tanıştığımıza memnun olduk!",
+    "subtitle": "Lütfen kayıt olmak için formu kullanın. Eğer üyeyseniz, lütfen",
+    "signIn": "giriş yapın",
+    "emailPlaceholder": "E-posta",
+    "passwordPlaceholder": "Şifre",
+    "confirmPasswordPlaceholder": "Şifreyi Onayla",
+    "signUpButton": "Kayıt Ol",
+    "or": "Veya",
+    "googleButton": "Google ile Kayıt Ol",
+    "termsAgreement": "Bir hesap oluşturarak,",
+    "termsOfService": "Hizmet Şartları",
+    "and": "ve",
+    "privacyPolicy": "Gizlilik Politikası",
+    "recaptchaError": "Lütfen reCAPTCHA doğrulamasını tamamlayın.",
+    "emailError": "Geçerli bir e-posta adresi girin.",
+    "passwordError": "Şifre en az 8 karakter olmalıdır.",
+    "passwordMismatch": "Şifreler eşleşmiyor.",
+    "signupError": "Kayıt başarısız. Lütfen tekrar deneyin.",
+    "googleError": "Google ile giriş başarısız."
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "close": "Kapat",
+    "back": "Geri",
+    "next": "İleri",
+    "previous": "Önceki",
+    "submit": "Gönder",
+    "search": "Ara",
+    "filter": "Filtrele",
+    "sort": "Sırala",
+    "view": "Görüntüle",
+    "download": "İndir",
+    "upload": "Yükle",
+    "share": "Paylaş",
+    "copy": "Kopyala",
+    "print": "Yazdır"
+  },
+  "blogDetail": {
+    "backToBlog": "Bilgi Merkezine Geri Dön",
+    "whatIsFinops": {
+      "title": "FinOps Nedir?: Temel Bir Rehber",
+      "intro": "FinOps, bulut harcamalarınızdan maksimum iş değeri elde etmek için finansal hesap verebilirliği değişken bulut modeline getiren, gelişen bir bulut finansal yönetimi disiplini ve kültürel bir uygulamadır. FinOps'un özü, \"Bilgilendir, Optimize Et, Yönet\" olarak bilinen yinelemeli bir döngüde yatmaktadır. İşte bu uzmanlık alanına olan inancımızı ve bağlılığımızı göstermek için www.finops.ist domain adresini seçtik. FinOps.ist, Türkiye'nin finansal operasyon yönetiminde öncü platformudur.",
+      "domainStatement": "www.finops.ist - Finansal operasyonlarınızın dijital merkezi. FinOps metodolojisini İstanbul'dan tüm dünyaya taşıyan, yerli ve küresel işletmelerin finansal verimliliğini artıran tek adres.",
+      "step1": {
+        "title": "1. Bilgilendir (Inform)",
+        "content": "Bu ilk aşama, görünürlükle ilgilidir. Ekiplere, bulut harcamaları hakkında doğru, zamanında ve anlaşılır bilgiler sağlanır. Bu, maliyetlerin nereden geldiğini, kimin sorumlu olduğunu ve hangi iş metrikleriyle ilişkili olduğunu anlamalarını sağlar. Etkili etiketleme (tagging) stratejileri, maliyet ayırma (cost allocation) raporları ve dashboard'lar bu aşamanın temel araçlarıdır."
+      },
+      "step2": {
+        "title": "2. Optimize Et (Optimize)",
+        "content": "Görünürlük sağlandıktan sonra, optimizasyon aşamasına geçilir. Bu aşama sadece maliyetleri kesmekle ilgili değildir; verimliliği artırmakla ilgilidir. Ekipler, kullanılmayan kaynakları (idle resources) kapatmak, doğru boyutlandırma (right-sizing) yapmak ve AWS Savings Plans veya Azure Reserved Instances gibi indirimli fiyatlandırma modellerinden yararlanmak için yetkilendirilir. Amaç, performanstan ödün vermeden en düşük maliyetle en yüksek değeri elde etmektir."
+      },
+      "step3": {
+        "title": "3. Yönet (Operate)",
+        "content": "Yönetim aşaması, FinOps uygulamalarını sürekli ve otomatik hale getirmeyi hedefler. Bu, belirlenen bütçeleri aşan harcamalar için uyarılar (alerts) ayarlamayı, anormallik tespiti (anomaly detection) mekanizmaları kurmayı ve yönetişim politikalarını (governance policies) otomatikleştirmeyi içerir. Ekipler, hız ve inovasyondan ödün vermeden finansal hedeflere uygun hareket ettiklerinden emin olurlar."
+      },
+      "conclusion": "Bu döngü, FinOps'u tek seferlik bir proje değil, sürekli bir kültürel pratik haline getirir. Şirketler, bu üç adımı yineleyerek bulut harcamaları üzerinde kontrol sağlarken, mühendislik ekiplerinin de inovasyon yapma özgürlüğünü korur. www.finops.ist olarak, bu döngüyü Türk işletmelerine en etkin şekilde uygulamak ve finansal operasyonlarınızı optimize etmek için buradayız.",
+      "imageAlt": "FinOps Döngüsü İllüstrasyonu"
+    },
+    "bringingTeams": {
+      "title": "Ekipleri Buluşturmak: Finans ve Mühendislik İş Birliği",
+      "intro": "Geleneksel olarak, finans ekipleri maliyetleri kontrol etmeye odaklanırken, mühendislik ekipleri ise hız ve yenilik peşindedir. Bu farklı hedefler, sık sık sürtüşmelere yol açar. FinOps, bu iki dünyayı \"Birim Maliyet\" ve \"Paylaşılan Sorumluluk\" kavramlarıyla ortak bir dilde buluşturarak bu sorunu çözer.",
+      "section1": {
+        "title": "Birim Maliyet (Unit Cost) Nedir?",
+        "content": "Bulut maliyetlerini sadece toplam harcama olarak görmek, anlamlı bir diyalog kurmayı engeller. Bunun yerine FinOps, maliyetleri iş metriklerine bağlar. Örneğin, \"toplam sunucu maliyeti\" yerine \"müşteri başına düşen maliyet\" veya \"işlem başına maliyet\" gibi metrikler kullanılır. Bu, mühendislerin yaptıkları teknik seçimlerin finansal etkisini, finans ekiplerinin de iş büyümesinin maliyetler üzerindeki etkisini anlamasını sağlar."
+      },
+      "section2": {
+        "title": "Paylaşılan Sorumluluk (Shared Responsibility)",
+        "content": "FinOps, maliyet yönetimini sadece finans departmanının bir görevi olmaktan çıkarır. Bunun yerine, her mühendisin, geliştirdiği servisin maliyetinden sorumlu olduğu bir kültür yaratır. Bu, maliyetin bir \"suçlama\" aracı değil, herkesin optimize etmeye çalıştığı bir \"metrik\" haline gelmesini sağlar. Finans, merkezi bütçeleme ve yönetişim sağlarken, mühendislik ekipleri de kendi kaynaklarını verimli kullanma ve optimize etme yetkisine sahip olur."
+      },
+      "conclusion": "Bu iki kavram birleştiğinde, finans ve mühendislik artık karşı karşıya değil, aynı hedefe koşan, aynı dili konuşan ortaklar haline gelir. Sonuç, maliyet açısından verimli, ancak aynı zamanda yenilikçi ve hızlı bir organizasyondur.",
+      "imageAlt": "Ekiplerin iş birliği yaptığı bir toplantı"
+    },
+    "dataDriven": {
+      "title": "Veri Odaklı Kararlar Almak",
+      "intro": "FinOps kültüründe kararlar, içgüdülere veya varsayımlara değil, somut verilere dayanır. Bu, şirketlerin hem maliyetleri kontrol altında tutmasını hem de geleceği daha isabetli bir şekilde planlamasını sağlar. Özellikle anormallik tespiti ve bütçe tahminleme gibi alanlarda veri, en kritik rolü oynar.",
+      "section1": {
+        "title": "Anormallik Tespiti (Anomaly Detection)",
+        "content": "Bulut ortamları dinamiktir ve maliyetler beklenmedik bir şekilde fırlayabilir. Bir geliştiricinin yanlışlıkla sonsuz bir döngüye giren bir kod yazması veya bir servisin aniden aşırı kaynak tüketmeye başlaması gibi durumlar, maliyet faturalarını şişirebilir. Veri odaklı anormallik tespiti sistemleri, normal harcama düzenlerini öğrenir ve bu düzenin dışına çıkan ani artışları anında tespit ederek ilgili ekiplere uyarı gönderir. Bu, sürpriz faturaların önüne geçerek finansal öngörülebilirliği artırır."
+      },
+      "section2": {
+        "title": "Bütçe Tahminleme ve Kapasite Planlaması",
+        "content": "Geçmiş harcama verileri, gelecekteki bulut maliyetlerini tahmin etmek için altın değerindedir. FinOps ekipleri, bu verileri kullanarak mevsimsel trendleri, büyüme oranlarını ve yeni projelerin potansiyel maliyetlerini analiz eder. Bu, sadece daha doğru bütçeler oluşturmayı sağlamakla kalmaz, aynı zamanda kapasite planlamasını da kolaylaştırır. Ekipler, gelecekteki kaynak ihtiyaçlarını önceden tahmin ederek, ne zaman ve ne kadar yatırım yapmaları gerektiğini bilirler."
+      },
+      "conclusion": "Veriye dayalı karar alma, FinOps'u reaktif bir maliyet kontrol mekanizmasından, proaktif bir stratejik yönetim disiplinine dönüştürür. Şirketler, kaynaklarını en verimli şekilde kullanarak inovasyon için daha fazla alan yaratır.",
+      "imageAlt": "Veri analizi ve grafiklerin olduğu bir dashboard ekranı"
+    }
+  },
+  "getStarted": {
+    "badge": "Başlarken",
+    "title": "Finops AI Kurulum ve İlk Adımlar",
+    "intro": "Bu rehber, Finops AI platformuna hızlı bir başlangıç yapmanız için gereken tüm adımları içerir. Kurulumdan ilk dashboard'unuzu oluşturmaya kadar her adımı basit ve anlaşılır bir şekilde ele alacağız.",
+    "step1": {
+      "title": "1. Kurulum ve Proje Oluşturma",
+      "content": "Platformumuzu kullanmaya başlamak için öncelikle bir hesap oluşturmanız ve ilk projenizi tanımlamanız gerekmektedir. Projeniz, tüm veri kaynaklarınızı, dashboardlarınızı ve raporlarınızı barındıran merkezi çalışma alanınız olacaktır.",
+      "quote": "Sadece birkaç tıklama ile bulut sağlayıcılarınızı (AWS, Azure, GCP) veya yerel veritabanlarınızı bağlayarak veri entegrasyonu sürecini başlatabilirsiniz."
+    },
+    "step2": {
+      "title": "2. Güvenlik ve Yetkilendirme",
+      "content": "Veri güvenliği en büyük önceliğimizdir. Finops AI, rol bazlı erişim kontrolü (RBAC) ile hassas verilerinize yalnızca yetkili kişilerin erişmesini sağlar. Ekip üyelerinizi farklı rollere (Yönetici, Editör, Görüntüleyici) atayarak veri ve dashboard erişimlerini kolayca yönetebilirsiniz.",
+      "imageAlt": "Güvenlik ayarları ekranı",
+      "caption": "Kullanıcı rolleri ve izin ayarları paneli."
+    },
+    "step3": {
+      "title": "3. Veri Odaklı Kararlar Alın",
+      "content": "Kurulum tamamlandıktan sonra, artık verilerinizi konuşturma zamanı! Platformumuz, farklı departmanlardan (Finans, Satış, Pazarlama, Operasyon) gelen verileri bir araya getirerek 360 derecelik bir şirket görünümü sunar. Bu bütünsel bakış açısı, siloları ortadan kaldırır ve ekipler arası iş birliğini teşvik eder.",
+      "benefit1": {
+        "title": "Stratejik Hizalama",
+        "description": "Tüm departmanlar aynı veri seti üzerinden çalışarak ortak hedeflere odaklanır."
+      },
+      "benefit2": {
+        "title": "Verimlilik Artışı",
+        "description": "Manuel raporlama ve veri toplama süreçlerini otomatikleştirerek zaman kazanın."
+      },
+      "benefit3": {
+        "title": "Anlık İçgörüler",
+        "description": "Gerçek zamanlı verilerle donatılmış dashboardlar sayesinde pazar değişikliklerine anında yanıt verin."
+      }
+    },
+    "conclusion": "Artık Finops AI platformunun temellerini biliyorsunuz. Daha fazla bilgi için diğer dökümantasyon başlıklarını inceleyebilir veya",
+    "dashboardLink": "Dashboard Örnekleri",
+    "conclusionEnd": "sayfamızdan ilham alabilirsiniz."
+  },
+  "brandKit": {
+    "hero": {
+      "title": "FINOPS AI Studio Marka Kiti",
+      "subtitle": "Marka kimliğimiz, logolarımız, renklerimiz ve sosyal medya şablonlarımız - hepsi tek yerde, kullanıma hazır.",
+      "downloadGuidelines": "Marka Kılavuzunu İndir",
+      "downloadCSS": "CSS Variables İndir"
+    },
+    "slogans": {
+      "title": "Marka Sloganları",
+      "subtitle": "Marka kimliğimizi yansıtan 6 vurucu slogan - Domain odaklı ana sloganımız ile"
+    },
+    "colors": {
+      "badge": "Renk Paleti",
+      "title": "Marka Renkleri",
+      "subtitle": "Modern renk sistemi"
+    },
+    "typography": {
+      "badge": "Tipografi",
+      "title": "Font Aileleri",
+      "display": "Display Font",
+      "primary": "Ana Font",
+      "mono": "Monospace Font",
+      "displayDesc": "Başlıklar, Titiller",
+      "primaryDesc": "Gövde metni, UI elementleri",
+      "monoDesc": "Sayılar, KPI'lar, Kod"
+    },
+    "logos": {
+      "badge": "Logo Assetleri",
+      "title": "Logoları İndir",
+      "subtitle": "Farklı kullanım durumları için çoklu formatlar",
+      "logoDark": "Logo Dark",
+      "logoLight": "Logo Light",
+      "iconOnly": "Sadece İkon",
+      "monochrome": "Monochrome",
+      "descDark": "Açık arka planlar",
+      "descLight": "Koyu arka planlar",
+      "descIcon": "Uygulama ikonu, favicon",
+      "descMono": "Dokümanlar, baskı",
+      "download": "PNG İndir"
+    },
+    "docs": {
+      "title": "Marka Dokümantasyonu",
+      "subtitle": "Kapsamlı kılavuzlar ve şablonlar",
+      "guidelines": {
+        "title": "Marka Kılavuzu",
+        "desc": "Kapsamlı marka kimliği el kitabı"
+      },
+      "readme": {
+        "title": "Marka Kiti README",
+        "desc": "Hızlı başlangıç kılavuzu ve kullanım örnekleri"
+      },
+      "social": {
+        "title": "Sosyal Medya Şablonları",
+        "desc": "LinkedIn ve Instagram içerik şablonları"
+      },
+      "downloadMd": "İndir (.md)"
+    },
+    "guidelines": {
+      "title": "Hızlı Kullanım Kuralları",
+      "dos": "Yapılması Gerekenler",
+      "donts": "Yapılmaması Gerekenler",
+      "do1": "Resmi logo dosyalarını kullanın (yeniden oluşturmayın)",
+      "do2": "Yeniden boyutlandırırken en-boy oranını koruyun",
+      "do3": "Minimum boyutu sağlayın: 120px genişlik",
+      "do4": "CTA'lar için Primary Blue (#007bff) kullanın",
+      "do5": "Renk kontrastını test edin (WCAG AA)",
+      "dont1": "Logoyu esnetmeyin veya sıkıştırmayın",
+      "dont2": "Logoyu 48px'den küçük kullanmayın",
+      "dont3": "Bir tasarımda 3'ten fazla renk kullanmayın",
+      "dont4": "2'den fazla font ailesi karıştırmayın",
+      "dont5": "Düşük kontrastlı metin kombinasyonları kullanmayın"
+    },
+    "cta": {
+      "title": "Özel Asset'lere mi İhtiyacınız Var?",
+      "subtitle": "Özel grafikler, sunumlar veya pazarlama materyalleri için tasarım ekibimizle iletişime geçin",
+      "button": "Tasarım Ekibiyle İletişime Geç"
+    }
+  },
+  "veriKaynaklari": {
+    "hero": {
+      "badge": "Veri Bağlantıları",
+      "title": "Veri Kaynaklarınızı Bağlayın",
+      "subtitle": "Farklı kaynaklardan verilerinizi tek platformda birleştirin. Excel'den SQL'e, Google Sheets'ten API'lere kadar tüm veri kaynaklarınızı destekliyoruz.",
+      "cta1": "Hemen Başla",
+      "cta2": "Canlı Demo İzle"
+    },
+    "googleSheets": {
+      "badge": "Önerilen",
+      "title": "Google Sheets ile Otomatik Rapor Yenileme",
+      "description": "Raporunuzu Google Sheets dosyanızla bağlayın ve canlı raporlama elde edin.",
+      "feature1": "Canlı Raporlama",
+      "feature1Desc": "Google Sheets dosyanızı günlük güncelleyin ve yenileme aralığını ayarlayın",
+      "feature2": "Hareket Halinde Takip",
+      "feature2Desc": "İş verilerinizi her yerden, her zaman takip edin",
+      "feature3": "Kolay Kurulum",
+      "feature3Desc": "Teknik olmayan ekipler için basit kurulum ve bakım",
+      "feature4": "Sınırsız Dashboard",
+      "feature4Desc": "İstediğiniz kadar dashboard ve veri seti oluşturun",
+      "feature5": "Kolay Paylaşım",
+      "feature5Desc": "Meslektaşlarınızla zahmetsizce paylaşım ve işbirliği",
+      "guideBtn": "Google Sheets Bağlantı Rehberi"
+    },
+    "excel": {
+      "title": "Microsoft Excel",
+      "description": "Excel dosyalarınızı yükleyin (.xls, .xlsx, .xlsm formatları desteklenir)"
+    },
+    "csv": {
+      "title": "CSV Dosyası",
+      "description": "Evrensel CSV formatında verilerinizi içe aktarın. Kopyala-yapıştır da desteklenir."
+    },
+    "mssql": {
+      "title": "MS SQL",
+      "badge": "Gelişmiş",
+      "description": "Microsoft SQL Server veritabanınıza direkt bağlanın. Güvenli ve hızlı veri transferi."
+    },
+    "mysql": {
+      "title": "MySQL",
+      "badge": "Gelişmiş",
+      "description": "MySQL veritabanlarınızdan canlı veri çekin. Esnek bağlantı seçenekleri."
+    },
+    "postgresql": {
+      "title": "PostgreSQL",
+      "badge": "Gelişmiş",
+      "description": "PostgreSQL veritabanı entegrasyonu. Kurumsal çözümler için ideal."
+    },
+    "security": {
+      "title": "Güvenlik & Gizlilik",
+      "item1": {
+        "title": "Güvenli Şifreleme",
+        "description": "Tüm verileriniz SSL/TLS ile şifrelenir"
+      },
+      "item2": {
+        "title": "Sadece Siz Erişebilirsiniz",
+        "description": "Verileriniz size özeldir, kimse göremez"
+      },
+      "item3": {
+        "title": "AI Eğitiminde Kullanılmaz",
+        "description": "Verileriniz asla AI eğitiminde kullanılmaz"
+      },
+      "item4": {
+        "title": "Tamamen Silebilirsiniz",
+        "description": "İstediğiniz zaman tüm verileri silebilirsiniz"
+      },
+      "item5": {
+        "title": "Yetkilendirme",
+        "description": "Ekip üyelerine özel erişim kontrolleri"
+      },
+      "item6": {
+        "title": "Otomatik Yedekleme",
+        "description": "Verileriniz düzenli olarak yedeklenir"
+      }
+    },
+    "cta": {
+      "title": "Teknik Olmayan Ekipleri Güçlendirin",
+      "button1": "Ücretsiz Başla",
+      "button2": "Fiyatlandırma",
+      "note": "Kredi kartı gerektirmez"
+    }
+  },
+  "aiVeriAnalizi": {
+    "hero": {
+      "badge": "AI Destekli Veri Analitiği",
+      "title": "Yapay Zeka ile Verilerinizi Analiz Edin",
+      "subtitle": "Artırılmış analitik yeteneklerini keşfedin. Konuşarak veri analizi yapın, otomatik dashboard oluşturun, bağlamsal içgörüler ve raporlar alın.",
+      "cta1": "Ücretsiz Dene",
+      "cta2": "AI Demo İzle"
+    },
+    "autoDashboard": {
+      "badge": "En Popüler",
+      "title": "Otomatik Dashboard Oluşturma",
+      "description": "Verilerinizden mantıklı ve anlamlı dashboard'lar elde edin. Veri modelinizi seçin ve yapay zeka verileri analiz ederek içgörülü grafikler sağlasın.",
+      "feature1": "Akıllı Grafik Seçimi",
+      "feature1Desc": "AI, verilerinize en uygun grafik türlerini otomatik seçer",
+      "feature2": "Saniyeler İçinde Hazır",
+      "feature2Desc": "Manuel çalışma gerektirmeden dakikalar yerine saniyeler içinde",
+      "feature3": "Özelleştirilebilir",
+      "feature3Desc": "AI önerilerini kabul edin veya kendi stilinizi uygulayın",
+      "feature4": "Sınırsız Dashboard",
+      "feature4Desc": "Farklı veri setleri için istediğiniz kadar dashboard oluşturun"
+    },
+    "chat": {
+      "badge": "Yeni Özellik",
+      "title": "Konuşarak Veri Analizi",
+      "description": "AI asistanınızla verileriniz hakkında sohbet edin ve daha derin analiz yapın. Manuel olarak dağlar gibi veriyi eleyerek aramak yerine dakikalar içinde cevaplar alın.",
+      "feature1": "Doğal Dil İle Soru Sorun",
+      "feature1Desc": "Bu ayki en çok satan ürün hangisi? gibi sorular sorun",
+      "feature2": "Grafik, Korelasyon, İçgörü",
+      "feature2Desc": "AI size grafikler, korelasyonlar ve anomaliler gösterir",
+      "feature3": "Takip Soruları",
+      "feature3Desc": "Bir konuşma gibi: Peki geçen sene nasıldı?",
+      "feature4": "Anında Cevaplar",
+      "feature4Desc": "Dakikalar yerine saniyeler içinde yanıt alın"
+    },
+    "chartGenerator": {
+      "badge": "Sınırsız",
+      "title": "AI Grafik Oluşturucu",
+      "description": "İsteklerinizi yazın ve sınırsız sayıda grafik oluşturun. AI sizin için en uygun görselleştirmeyi hazırlar.",
+      "placeholder": "Örn: Son 6 aydaki satış trendini çizgi grafiği olarak göster"
+    },
+    "correlations": {
+      "badge": "Gelişmiş Analiz",
+      "title": "Korelasyon, Karşılaştırma ve Anomali Tespiti",
+      "description": "AI'dan verilerinizi analiz etmesini ve desenleri bulmasını isteyin. Gizli ilişkileri, beklenmedik değişimleri ve trendleri otomatik keşfedin."
+    }
+  },
+  "veriGorsellestirme": {
+    "hero": {
+      "badge": "Veri Görselleştirme",
+      "title": "Tek Tıkla Rapor ve Özel Dashboard'lar",
+      "subtitle": "AI ile verilerinizden otomatik olarak rapor oluşturun. Kod yazmadan, kolay kullanımlı editör ile raporlama deneyimini yaşayın.",
+      "cta1": "Ücretsiz Başla",
+      "cta2": "Canlı Örnekler"
+    },
+    "aiGenerator": {
+      "badge": "AI Destekli",
+      "title": "Daha Kolay Rapor Oluşturma için AI Dashboard Oluşturucu",
+      "description": "Tek tıkla AI ile dashboard oluşturun. Hiçbir bilgi veya eğitim gerektirmeden profesyonel raporlar elde edin.",
+      "feature1": "Tek Tıkla Dashboard Oluştur",
+      "feature1Desc": "AI otomatik olarak en uygun grafikleri seçer ve düzenler",
+      "feature2": "Marka Renkleriyle Eşleştir",
+      "feature2Desc": "Dashboard'unuzu kurumsal kimliğinize uygun şekilde özelleştirin",
+      "feature3": "Çok Sayfalı Raporlar",
+      "feature3Desc": "Farklı bölümler için ayrı sayfalar oluşturun",
+      "feature4": "Tam Responsive Grafikler",
+      "feature4Desc": "Mobil, tablet ve masaüstünde mükemmel görünüm",
+      "feature5": "Bilgi veya Eğitim Gerektirmez",
+      "feature5Desc": "Kod yazmadan, sürükle-bırak ile kolayca düzenleyin",
+      "editorTitle": "Dashboard Editör",
+      "autoBtn": "AI ile Otomatik Oluştur"
+    },
+    "charts": {
+      "badge": "24+ Element",
+      "title": "Veri Görselleştirme İhtiyaçlarınız İçin Grafikler",
+      "description": "Etkili rapor oluşturma için 24+ element. Aylık güncellemeler ile yeni elementler ekleniyor.",
+      "subtitle": "Etkili rapor oluşturma için 24+ element. Aylık güncellemeler ile yeni elementler ekleniyor. Temel grafiklerden gelişmiş görselleştirmelere kadar geniş seçenek yelpazesi.",
+      "exploreAll": "Tüm Elementleri Keşfet",
+      "moreTitle": "📋 Raporlarınıza Daha Fazla Element Ekleyin",
+      "moreDesc": "Tablolar, resimler, HTML ve özel widget'lar ile raporlarınızı zenginleştirin. Sürükle-bırak ile istediğiniz yere ekleyin.",
+      "dataTablesLabel": "Veri Tabloları",
+      "customLayoutsLabel": "Özel Düzenler",
+      "visualElementsLabel": "Görsel Öğeler"
+    },
+    "customization": {
+      "badge": "Özelleştirme",
+      "title": "Dashboard'u Markanızla Eşleştirin",
+      "description": "Kurumsal kimliğinizi yansıtan profesyonel dashboard'lar oluşturun. Logo ve marka renklerinizle özelleştirin.",
+      "brandColorLabel": "Marka Rengi",
+      "backgroundLabel": "Arka Plan",
+      "successMessage": "Marka ayarları uygulandı!",
+      "uploadLogo": "Logo Yükleyin",
+      "uploadLogoDesc": "Logonuzu yükleyin ve dashboard'unuzda görünsün",
+      "setBrandColors": "Marka Renklerini Ayarlayın",
+      "setBrandColorsDesc": "Kurumsal renk paletinizi uygulayın",
+      "customizeBackground": "Arka Plan Özelleştirme",
+      "customizeBackgroundDesc": "Açık, koyu veya özel arka plan renkleri",
+      "fontTypography": "Font ve Tipografi",
+      "fontTypographyDesc": "Kurumsal font ailenizi kullanın",
+      "tryNowBtn": "Şimdi Dene"
+    },
+    "responsive": {
+      "badge": "Responsive Tasarım",
+      "title": "Her Cihazda Mükemmel Görünüm",
+      "description": "Dashboard'larınız masaüstü, tablet ve mobil cihazlarda otomatik olarak uyum sağlar. Paylaşım için her zaman hazır.",
+      "desktopTitle": "Masaüstü",
+      "desktopDesc": "Büyük ekranlarda detaylı görünüm",
+      "tabletTitle": "Tablet",
+      "tabletDesc": "Orta ekranlarda optimize edilmiş",
+      "mobileTitle": "Mobil",
+      "mobileDesc": "Küçük ekranlarda kolay okunur"
+    },
+    "videoGuide": {
+      "badge": "Adım Adım Rehber",
+      "title": "Veriyi Nasıl Görselleştireceğinizi Öğrenin",
+      "description": "İlk dashboard'unuzu oluşturmanıza yardımcı olacak rehberler ve eğitimlere erişin. Hızlı bir şekilde rapor oluşturun ve paylaşın.",
+      "guidesTitle": "Rehberler & Eğitimler",
+      "guidesDesc": "Dashboard kurulumu için detaylı dokümantasyon",
+      "supportTitle": "Destek Ekibi",
+      "supportDesc": "Veri görevleriniz için profesyonel destek",
+      "shareTitle": "Hızlı Paylaşım",
+      "shareDesc": "Raporları kolayca oluşturun ve paylaşın",
+      "exploreGuidesBtn": "Rehberleri İncele",
+      "dataPreparationBtn": "Veri Hazırlama"
+    },
+    "cta": {
+      "title": "Raporlama Sürecinizi FinOps ile Özelleştirin",
+      "description": "Ne kadar kolay olduğunu görün. Profesyonel dashboard'lardan AI analitiğine, AI destekli içgörülerden canlı raporlamaya.",
+      "startBtn": "Ücretsiz Başla",
+      "pricingBtn": "Fiyatlandırma",
+      "disclaimer": "Kredi kartı gerektirmez • 14 gün ücretsiz deneme"
+    },
+    "relatedFeatures": {
+      "title": "Diğer Faydalar ve Özellikleri Keşfedin",
+      "overviewTitle": "Genel Bakış",
+      "overviewDesc": "Platform özelliklerinin tam listesi",
+      "dataSourcesTitle": "Veri Kaynakları",
+      "dataSourcesDesc": "Canlı raporlama ve entegrasyon",
+      "dataPreparationTitle": "Veri Hazırlama",
+      "dataPreparationDesc": "Temizleme ve dönüşüm özellikleri",
+      "aiAnalyticsTitle": "AI Analitik",
+      "aiAnalyticsDesc": "Anlamlı dashboard'lar ve chat",
+      "exploreBtn": "Keşfet"
+    }
+  },
+  "finoChatWidget": {
+    "greeting": "Merhaba! Ben Fino 🐕",
+    "message": "FinOps AI Studio hakkında sorularını cevaplayabilirim. Ne öğrenmek istersin?",
+    "title": "Fino",
+    "subtitle": "Yapay Zeka Asistanınız",
+    "status": "Aktif",
+    "comingSoon": "ÇOK YAKINDA",
+    "placeholder": "Mesajını yaz...",
+    "typing": "Yazıyor...",
+    "sendButton": "Gönder",
+    "infoText": "Çok yakında aktif olacak!",
+    "buttonTitle": "Fino ile Sohbet Et"
+  },
+  "platformAnalytics": {
+    "title": "Platform Analitiği",
+    "subtitle": "Yönetim Paneli",
+    "pageTitle": "Platform Analytics",
+    "backstage": "Backstage",
+    "pageSubtitle": "Sistemin arka tarafına hoş geldiniz. Tüm operasyonları buradan yönetin.",
+    "timeRanges": {
+      "7d": "Son 7 Gün",
+      "30d": "Son 30 Gün",
+      "90d": "Son 90 Gün"
+    },
+    "downloadReport": "Rapor İndir",
+    "revenueGrowth": "Gelir Büyümesi",
+    "planDistribution": "Plan Dağılımı",
+    "recentSignups": "Son Kayıt Olanlar",
+    "mostActiveUsers": "En Aktif Kullanıcılar",
+    "popularDashboards": "En Popüler Dashboard'lar",
+    "tabs": {
+      "admin": "🔐 Admin - Gerçek Veriler",
+      "survey": "📊 Survey Analytics",
+      "demo": "🎯 B2B Demo - Müşteri Sunumu",
+      "dashboards": "📊 Profesyonel Dashboard Örnekleri",
+      "testTools": "🔍 Test & İnceleme Araçları"
+    },
+    "surveyAnalytics": {
+      "title": "Fino Survey & Recommendation Analytics",
+      "subtitle": "Kullanıcı anket tamamlama oranları, sektör dağılımları ve dashboard önerilerinin performans metrikleri.",
+      "metrics": {
+        "totalSignups": "Toplam Kayıt",
+        "miniSurveyCompleted": "Mini Anket Tamamlandı",
+        "deepSurveyCompleted": "Deep Anket Tamamlandı",
+        "finoMessagesShown": "Fino Mesajı Gösterildi",
+        "completionRate": "completion rate",
+        "conversionRate": "conversion rate",
+        "avgCharacters": "Avg. karakter",
+        "thisMonth": "bu ay"
+      },
+      "sectorDistribution": {
+        "title": "Sektör Dağılımı",
+        "restaurant": "Restoran & Cafe",
+        "hotel": "Otel & Turizm",
+        "manufacturing": "Üretim & Endüstri",
+        "agriculture": "Tarım",
+        "retail": "Perakende",
+        "automotive": "Otomotiv",
+        "other": "Diğer"
+      },
+      "companySize": {
+        "title": "Şirket Büyüklüğü Dağılımı",
+        "micro": "1-10 kişi (Mikro)",
+        "small": "11-50 kişi (Küçük)",
+        "medium": "50+ kişi (Orta)"
+      },
+      "primaryGoal": {
+        "title": "Primary Goal",
+        "cashFlow": "Nakit Akışı",
+        "profitability": "Kârlılık",
+        "costControl": "Maliyet Kontrolü",
+        "reporting": "Raporlama"
+      },
+      "topDashboards": {
+        "title": "En Çok Önerilen Dashboard'lar (Top 10)"
+      },
+      "financialMaturity": {
+        "title": "Financial Maturity Seviyeleri",
+        "beginner": "Başlangıç",
+        "intermediate": "Orta",
+        "advanced": "İleri",
+        "basicKPI": "BASIC KPI Set",
+        "standardKPI": "STANDARD KPI Set",
+        "advancedKPI": "ADVANCED KPI Set"
+      },
+      "finoPerformance": {
+        "title": "Fino Mesaj Performansı",
+        "totalMessages": "Toplam Mesaj Gösterildi",
+        "avgLength": "Ortalama Mesaj Uzunluğu",
+        "mostUsedPhase": "En Çok Kullanılan Aşama",
+        "characters": "karakter",
+        "roadmap": "Mini Yol Haritası"
+      },
+      "dataSource": {
+        "title": "Veri Kaynağı",
+        "description": "Bu veriler demo/mock verilerdir. Gerçek üretime geçildiğinde localStorage veya backend API'den çekilecektir.",
+        "update": "Güncelleme:",
+        "realtime": "Anlık (real-time)",
+        "lastUpdate": "Son Güncelleme:"
+      }
+    },
+    "kpis": {
+      "totalUsers": "Toplam Kullanıcı",
+      "activeUsers": "Aktif Kullanıcı",
+      "monthlyRevenue": "Aylık Gelir (MRR)",
+      "churnRate": "Churn Rate",
+      "conversionRate": "Conversion Rate",
+      "arpu": "ARPU",
+      "customerLtv": "Müşteri LTV",
+      "avgSession": "Ort. Oturum",
+      "totalRevenue": "Toplam Gelir",
+      "dashboardCount": "Dashboard Sayısı",
+      "dataUploads": "Veri Yüklemeleri",
+      "systemUptime": "Sistem Çalışma Süresi",
+      "thisMonth": "bu ay",
+      "thisWeek": "bu hafta",
+      "realFirebaseData": "🔥 Gerçek Firebase Verisi",
+      "realData": "🔥 Gerçek Hesaplama",
+      "mockData": "Mock Data",
+      "last30Days": "🔥 Son 30 gün (Gerçek)",
+      "arrLabel": "ARR",
+      "freeToPaid": "Free → Ücretli plan geçişi",
+      "avgPerUser": "Kullanıcı başına ortalama",
+      "lifetimeValue": "Ortalama yaşam boyu değer",
+      "avgDuration": "Ortalama süre (dakika)",
+      "totalEarnings": "Toplam kazanç",
+      "createdByUsers": "Kullanıcılar tarafından oluşturuldu",
+      "last7Days": "Son 7 gün",
+      "last24Hours": "Son 24 saat",
+      "uptime": "çalışma süresi"
+    },
+    "demo": {
+      "title": "🎯 B2B Demo - Müşteri Sunumu",
+      "subtitle": "Potansiyel müşterilere göstermek için",
+      "quickDemo": "🚀 Demo Modu - Tek Tıkla Dashboard Oluştur",
+      "quickDemoDesc": "Örnek restoran verileriyle anında dashboard göster",
+      "or": "VEYA MANUEL VERİ GİRİŞİ",
+      "fileUpload": "📁 Dosya Yükle",
+      "urlConnect": "🌐 URL Bağlantısı",
+      "fileGuideTitle": "📘 Dosya Yükleme Rehberi",
+      "urlGuideTitle": "🌐 URL Bağlantı Rehberi",
+      "dataGuideLink": "📖 Veri Hazırlama Rehberini İncele"
+    },
+    "adminLogin": {
+      "title": "Yönetici Girişi",
+      "subtitle": "Platform Yönetim Paneline Erişim",
+      "username": "Kullanıcı Adı",
+      "password": "Şifre",
+      "loginButton": "Giriş Yap",
+      "backToHome": "Ana Sayfaya Dön"
+    },
+    "veriHazirlama": {
+      "hero": {
+        "badge": "Veri Hazırlama ve Görselleştirme Merkezi",
+        "title": "Verilerinizi Analize Hazırlayın",
+        "subtitle": "Karmaşık verilerinizi temiz, yapılandırılmış ve analize hazır hale getirin. Görsel sorgu oluşturucu ve veri hazırlama araçlarıyla derin içgörülere ulaşın.",
+        "cta1": "Hemen Başla",
+        "cta2": "Video Rehberi İzle"
+      },
+      "cleaning": {
+        "badge": "Adım 1",
+        "title": "📊 Veriyi Temizle ve Hazırla",
+        "description": "Dağınık verilerinizi temiz, yapılandırılmış ve analize hazır hale getirin.",
+        "feature1": "Veri Yapısını Düzenle",
+        "feature1Desc": "Sütun başlıkları, format ve veri tiplerinizi standartlaştırın",
+        "feature2": "Veriyi Dönüştür ve Filtrele",
+        "feature2Desc": "Özel fonksiyonlar ile veriyi analiz için optimize edin",
+        "feature3": "Gereksiz Veriyi Temizle",
+        "feature3Desc": "Tekrar eden kayıtları kaldır, eksik verileri düzenle",
+        "feature4": "Derin İçgörüler İçin Hazırla",
+        "feature4Desc": "Verinizi ileri düzey analiz ve AI önerileri için optimize edin",
+        "checklistTitle": "✅ Veri Temizleme Kontrol Listesi"
+      }
+    },
+    "dataImport": {
+      "title": "📤 Veri Yükleme",
+      "subtitle": "İş verilerinizi yükleyin veya harici kaynağa bağlanın",
+      "detailedGuideLink": "📖 Detaylı Veri Hazırlama Rehberi - Tüm adımları inceleyin",
+      "tabs": {
+        "fileUpload": "Dosya Yükle",
+        "urlConnection": "URL Bağlantısı"
+      },
+      "demoMode": {
+        "button": "⚡ Demo Modu - Hızlı Gösterim",
+        "description": "🎯 B2B müşterilere göstermek için tek tıkla örnek dashboard oluştur!"
+      },
+      "template": {
+        "download": "Örnek Şablon İndir",
+        "hint": "💡 Önce şablonu indirin, doldurun, sonra yükleyin"
+      },
+      "guideLink": "📖 Veri Yükleme Rehberi",
+      "openChartGuide": "📘 Grafik Rehberi",
+      "fileUpload": {
+        "dragDrop": "Bir dosya yükleyin",
+        "or": "veya sürükleyip bırakın",
+        "format": "CSV veya XLSX formatında",
+        "guideTitle": "📖 Dosya Yükleme Rehberi",
+        "step1": "CSV/Excel Hazırlayın:",
+        "step1Desc": "Verilerinizi Excel'de düzenleyin. İlk satır kolon başlıkları olmalı (Tarih, Ürün, Fiyat vb.)",
+        "step2": "Dosyayı Kaydedin:",
+        "step2Desc": "\"Farklı Kaydet\" → CSV (Virgülle Ayrılmış) veya .xlsx formatında kaydedin",
+        "step3": "Yükleyin:",
+        "step3Desc": "Dosyayı buraya sürükleyin veya \"Dosya Yükle\" butonuna tıklayın",
+        "step4": "AI Analiz:",
+        "step4Desc": "Sistem otomatik olarak sütunları tanır, tarih/sayı formatlarını algılar",
+        "exampleTitle": "✅ Örnek CSV Yapısı:",
+        "quickGuide": {
+          "title": "Verini 2 dakikada bağla",
+          "step1": "Excel veya CSV dosyanı <strong>sürükle-bırak</strong>. (Boş şablon gerekmez.)",
+          "step2": "Birden fazla sheet varsa <strong>seçmeni isteriz</strong>.",
+          "step3": "Başlık satırını ve kolonları <strong>otomatik öneririz</strong> — istersen düzeltirsin.",
+          "step4": "<strong>Kaydet → Önizle → Dashboard'a uygula.</strong>",
+          "note": "💡 <strong>Not:</strong> Birleştirilmiş hücreler / formüller olabilir. Sistem mümkün olan en iyi şekilde düzleştirir.",
+          "downloadSample": "Örnek CSV'leri indir"
+        }
+      },
+      "urlConnection": {
+        "title": "Veri Kaynağına Bağlan",
+        "subtitle": "Google Sheets, Airtable, veya CSV URL'si girin",
+        "label": "Veri Kaynağı URL",
+        "placeholder": "https://docs.google.com/spreadsheets/d/...",
+        "examplesTitle": "💡 Örnek Veri Kaynakları:",
+        "example1": "Google Sheets (Public CSV Export)",
+        "example2": "Airtable API Endpoint",
+        "example3": "Direct CSV URL",
+        "button": "Veri Kaynağına Bağlan",
+        "connecting": "Bağlanıyor...",
+        "guideTitle": "📖 URL Bağlantısı Rehberi",
+        "googleSheets": "Google Sheets Bağlantısı:",
+        "googleSheetsStep1": "• Dosya → Paylaş → \"Linki olan herkes görüntüleyebilir\"",
+        "googleSheetsStep2": "• Dosya → İndir → CSV (.csv) linkini kopyalayın",
+        "airtable": "Airtable API:",
+        "airtableDesc": "• API → Generate API Key → Base ID'yi alın",
+        "directUrl": "Direkt CSV/JSON URL:",
+        "directUrlDesc": "• Herhangi bir public CSV/JSON dosyası linkini yapıştırın",
+        "advantagesTitle": "✅ Avantajları:",
+        "advantage1": "Gerçek zamanlı senkronizasyon",
+        "advantage2": "Otomatik güncelleme",
+        "advantage3": "Dosya yüklemeye gerek yok",
+        "advantage4": "Büyük veri setleri için ideal",
+        "integration": {
+          "title": "Entegre Et",
+          "phase": "Faz-2",
+          "description1": "<strong>ERP/CRM/pos/Excel linkleri</strong> ile otomatik senkron <span className=\"text-purple-700 font-semibold\">(Faz-2)</span>.",
+          "description2": "<strong>Şimdilik:</strong> dosya yükleyerek demo'yu çalıştırabilirsin.",
+          "plannedTitle": "🚀 Planlanan Entegrasyonlar (Faz-2):",
+          "planned1": "Google Sheets otomatik sync",
+          "planned2": "Airtable API bağlantısı",
+          "planned3": "Logo, Netsis, Mikro ERP entegrasyonu",
+          "planned4": "Paraşüt, Uyumsoft API'leri",
+          "whatToDoTitle": "Şimdi ne yapmalısın?",
+          "whatToDoDesc": "👆 Yukarıdaki <strong>\"Excel/CSV Sürükle Bırak\"</strong> sekmesine geç ve dosyanı yükle."
+        }
+      },
+      "selectedFiles": "Seçilen Dosyalar:",
+      "uploadButton": "1 Dosyayı Yüklemeye Başla",
+      "uploading": "Yükleniyor...",
+      "processing": {
+        "title": "🤖 AI Veri Analizi Yapılıyor...",
+        "step1": "Dosya okunuyor...",
+        "step2": "Veri yapısı analiz ediliyor...",
+        "step3": "Dashboard oluşturuluyor..."
+      },
+      "success": {
+        "title": "Yükleme Başarılı",
+        "message": "Dosyanız başarıyla yüklendi. Şimdi bir sonraki adıma (Kolon Eşleştirme) yönlendiriliyorsunuz.",
+        "openDashboard": "Dashboard’u Aç"
+      }
+    },
+    "userJourneyMap": {
+      "pageTitle": "Kullanıcı Harekât Yol Haritası",
+      "title": "Kullanıcı Harekât Yol Haritası",
+      "subtitle": "Bir Adayın Müşteriye Dönüşüm Sürecinin Stratejik Adımları",
+      "downloadButton": "PDF Olarak İndir / Yazdır",
+      "phases": {
+        "phase1": {
+          "title": "Keşif ve Karar",
+          "description": "Aday, platformumuzla ilk kez tanışır ve potansiyel değeri anlar.",
+          "steps": {
+            "step1": {
+              "title": "İlk Temas",
+              "description": "Aday, bir reklam, sosyal medya gönderisi, arama motoru sonucu veya tavsiye yoluyla web sitesine ulaşır."
+            },
+            "step2": {
+              "title": "Değer Önerisini Anlama",
+              "description": "Ana sayfa, çözümler ve hakkımızda sayfalarını gezer. Sunulan hizmetlerin kendi ihtiyaçlarına uygunluğunu değerlendirir."
+            },
+            "step3": {
+              "title": "Fiyatlandırmayı İnceleme",
+              "description": "Fiyatlandırma sayfasını ziyaret ederek sunulan planları (Bireysel, Premium, Kurumsal) ve özelliklerini karşılaştırır."
+            },
+            "step4": {
+              "title": "Karar Anı",
+              "description": "Platformu denemeye karar verir ve 'Kayıt Ol' veya 'Analizi Başlat' butonuna tıklar."
+            }
+          }
+        },
+        "phase2": {
+          "title": "Kayıt ve Kimlik Doğrulama",
+          "description": "Aday, sisteme ilk adımını atar ve kimliği doğrulanır. Bu, güvenliğin ilk hattıdır.",
+          "steps": {
+            "step1": {
+              "title": "Kayıt Formu",
+              "description": "Kullanıcı, Ad-Soyad, Şirket Adı, E-posta ve güvenli bir parola bilgilerini girerek kayıt formunu doldurur."
+            },
+            "step2": {
+              "title": "Parola Teyidi",
+              "description": "Sistem, parola girişinin iki kez doğru yapılmasını isteyerek yazım hatalarını önler."
+            },
+            "step3": {
+              "title": "ZIRHLI KAPI - E-posta Doğrulama",
+              "description": "Kullanıcının hesabına bir doğrulama e-postası gönderilir. Kullanıcı bu linke tıklayana kadar hesabı 'Beklemede' statüsündedir ve kritik fonksiyonlara erişemez."
+            },
+            "step4": {
+              "title": "KRİTİK GÜVENCE - Parola Sıfırlama Altyapısı",
+              "description": "Eğer kullanıcı parolasını unutursa, 'Şifremi Unuttum' linki üzerinden e-posta adresine bir sıfırlama linki gönderilir."
+            }
+          }
+        },
+        "phase3": {
+          "title": "Plan Seçimi ve Ödeme",
+          "description": "Doğrulanmış kullanıcı, operasyonel ihtiyaçlarına uygun planı seçer ve ödeme işlemini tamamlar.",
+          "steps": {
+            "step1": {
+              "title": "Plan Seçim Ekranı",
+              "description": "E-postasını doğrulayan kullanıcı, tekrar plan seçim sayfasına yönlendirilir ve kendisine en uygun planı seçer."
+            },
+            "step2": {
+              "title": "RESMİ PROSEDÜR - Dijital Sözleşme Kabulü",
+              "description": "Ödeme adımından hemen önce, kullanıcıya 'Kullanım Koşulları' ve 'Gizlilik Politikası' sunulur. 'Okudum, kabul ediyorum' kutucuğunu işaretlemesi zorunlu tutulur. Bu eylem, dijital imza niteliğindedir."
+            },
+            "step3": {
+              "title": "Güvenli Ödeme Ağ Geçidi",
+              "description": "Kullanıcı, kredi kartı bilgilerini girmesi için Stripe veya Iyzico gibi PCI-DSS sertifikalı, güvenli ödeme ağ geçidi arayüzüne yönlendirilir. Banka bilgileri ASLA bizim sistemimize kaydedilmez."
+            },
+            "step4": {
+              "title": "Ödeme Onayı ve Faturalandırma",
+              "description": "Başarılı ödeme sonrası kullanıcı sistemimize geri yönlendirilir. Sistem, otomatik olarak bir fatura oluşturur ve kullanıcının paneline ekler."
+            }
+          }
+        },
+        "phase4": {
+          "title": "Aktivasyon ve Entegrasyon",
+          "description": "Artık bir müşteri olan kullanıcı, panelini aktif hale getirir ve ilk verilerini sisteme entegre eder.",
+          "steps": {
+            "step1": {
+              "title": "Panel Aktivasyonu",
+              "description": "Ödeme onayıyla birlikte kullanıcının hesabı 'Aktif' statüsüne geçer. Seçtiği plana ait tüm özellikler ve dashboard panelleri erişilebilir hale gelir."
+            },
+            "step2": {
+              "title": "'HOŞ GELDİN' PROTOKOLÜ - Kullanıcı Onboarding",
+              "description": "Müşteri, ilk girişinde onu adım adım yönlendiren bir 'Hoş Geldin' turu ile karşılanır. Bu tur, ilk veri kaynağını nasıl bağlayacağını veya ilk .csv/.xlsx dosyasını nasıl yükleyeceğini gösterir."
+            },
+            "step3": {
+              "title": "Veri Yükleme / Entegrasyon",
+              "description": "Müşteri, rehber yardımıyla ilk veri setini yükler veya (varsa) entegrasyonu kurar."
+            },
+            "step4": {
+              "title": "İlk Değer Üretimi",
+              "description": "Bizim yazılımımız, yüklenen veriyi işler, düzenler ve müşterinin seçtiği dashboard panelinde anlamlı ve görsel çıktılar üretir. Müşteri, ödediği ücretin karşılığını ilk kez bu anda somut olarak görür."
+            }
+          }
+        },
+        "phase5": {
+          "title": "Değer Üretimi ve Genişleme",
+          "description": "Müşteri, platformu düzenli olarak kullanır, değer elde eder ve işbirliğini genişletir.",
+          "steps": {
+            "step1": {
+              "title": "Düzenli Kullanım ve Raporlama",
+              "description": "Müşteri, iş kararlarını desteklemek için platformu düzenli olarak kullanır, raporlar alır ve analizler yapar."
+            },
+            "step2": {
+              "title": "KOMUTA ZİNCİRİ - Takım Yönetimi",
+              "description": "(Kurumsal Plan) Müşteri, kendi ekibinden yeni kullanıcıları farklı yetki seviyeleriyle ('Sadece Görüntüleme' vb.) sisteme davet eder."
+            },
+            "step3": {
+              "title": "Genişleme (Upsell)",
+              "description": "Bireysel plandaki bir müşteri, daha fazla özelliğe ihtiyaç duyduğunda Premium plana geçer. Platform, bu ihtiyacı tespit edip ona yükseltme teklifleri sunabilir."
+            },
+            "step4": {
+              "title": "Sadakat ve Tavsiye (Marka Elçiliği)",
+              "description": "Platformdan yüksek memnuniyet duyan müşteri, hizmeti kendi çevresine tavsiye ederek yeni adayların 1. Faza girmesini sağlar."
+            }
+          }
+        }
+      }
+    }
+  },
+  "notFound": {
+    "title": "Sayfa Bulunamadı",
+    "description": "Aradığınız sayfa kaldırılmış, adı değiştirilmiş veya geçici olarak kullanılamıyor olabilir.",
+    "goBack": "Geri Dön",
+    "goHome": "Ana Sayfaya Git",
+    "helpText": "Yardıma mı ihtiyacınız var?",
+    "homepage": "Ana Sayfa",
+    "features": "Özellikler",
+    "pricing": "Fiyatlandırma",
+    "contact": "İletişim",
+    "searchTitle": "Aradığınızı Bulamadınız mı?",
+    "searchDescription": "Dashboard'unuzda arama yapabilir veya destek ekibimizle iletişime geçebilirsiniz."
+  },
+  "csvLibrary": {
+    "title": "CSV Kütüphanesi",
+    "subtitle": "Demo ve satış sunumları için hazır veri setleri. {count} dataset mevcut.",
+    "uploadCSV": "CSV İçe Aktar",
+    "stats": {
+      "totalDatasets": "Toplam Dataset",
+      "totalRows": "Toplam Satır",
+      "sectorCount": "Sektör Sayısı"
+    },
+    "filters": {
+      "title": "Sektör Filtresi",
+      "all": "Tümü",
+      "allCount": "Tümü ({count})"
+    },
+    "card": {
+      "sector": "Sektör",
+      "dateRange": "Tarih:",
+      "rows": "Satır:",
+      "size": "Boyut:",
+      "preview": "Önizle",
+      "use": "Kullan"
+    },
+    "preview": {
+      "title": "Önizleme",
+      "close": "Kapat",
+      "sampleCharts": "Örnek Grafikler",
+      "kpiCards": "KPI Kartları",
+      "dataPreview": "Veri Önizleme (İlk 20 satır)",
+      "showing": "İlk 20 satır gösteriliyor. Toplam:"
+    },
+    "upload": {
+      "title": "CSV Dosyası Yükle",
+      "description": "Kendi CSV dosyanızı yükleyin. Dosya FinOps CSV Standard v1 formatında olmalıdır.",
+      "dragDrop": "Dosya Seç",
+      "fileTypes": "Sadece CSV dosyaları (.csv)",
+      "required": "Gerekli Kolonlar:",
+      "cancel": "İptal"
+    },
+    "loading": "Yükleniyor..."
+  },
+  "dataIngestion": {
+    "title": "Excel Akıllı Veri Katmanı",
+    "subtitle": "CSV/Excel analizi için 6 adımlı wizard",
+    "tabs": {
+      "upload": "Veri Yükle",
+      "history": "Geçmiş",
+      "howTo": "Nasıl Kullanılır"
+    },
+    "uploadedDatasets": "Yüklenen Veri Setleri",
+    "noDatasets": "Henüz veri seti yüklenmemiş.",
+    "dataset": "Veri Seti",
+    "uploadedAt": "Yüklenme tarihi:",
+    "rows": "satır",
+    "open": "Aç",
+    "howToUse": {
+      "title": "Nasıl Kullanılır?",
+      "whatIs": {
+        "title": "Excel Akıllı Veri Katmanı Nedir?",
+        "content": "Excel/CSV dosyalarınızı hazırlamanıza, analiz etmenize ve görselleştirmenize yardımcı olan 6 adımlı wizard sistemidir. Süreç: Dosya Yükle → Sheet Seç → Header Tespit → Kolon Eşleştir → Veri Doğrula → Önizle & Kaydet."
+      },
+      "howItWorks": {
+        "title": "Nasıl Çalışır?",
+        "step1": "Dosya Yükle: Excel/CSV'nizi sürükle bırak",
+        "step2": "Sheet Seç: Hangi sheet'i kullanacağınızı seçin (çok sheet'li dosyalar için)",
+        "step3": "Header Tespit: Sistem header satırını bulur",
+        "step4": "Kolon Eşleştir: AI kolon türlerini önerir",
+        "step5": "Veri Doğrula: Sistem hataları kontrol eder",
+        "step6": "Önizle & Kaydet: Verinizi gözden geçirin ve kaydedin"
+      },
+      "examples": {
+        "title": "Örnek Senaryolar",
+        "sales": "Satış Verileri: Aylık satış raporunu yükle, kolonları eşleştir (tarih, ürün, tutar), görselleştir",
+        "expenses": "Giderler: Gider raporunu yükle, kategorize et (tarih, kategori, tutar), analiz et",
+        "inventory": "Stok: Stok verilerini yükle, takip et (ürün, miktar, depo), optimize et"
+      },
+      "fileTypes": {
+        "title": "Desteklenen Dosya Türleri",
+        "excel": "Excel (.xlsx, .xls, .xlsm)",
+        "csv": "CSV (.csv)",
+        "note": "Maksimum dosya boyutu: 10MB"
+      },
+      "security": {
+        "title": "Güvenlik & Gizlilik",
+        "local": "Verileriniz tarayıcınızda saklanır (localStorage)",
+        "private": "Hiçbir veri harici sunuculara gönderilmez",
+        "delete": "Verilerinizi istediğiniz zaman silebilirsiniz",
+        "safe": "%100 güvenli ve özel"
+      }
+    }
+  },
+  "testTools": {
+    "title": "🔍 Test & İnceleme Araçları",
+    "subtitle": "Kullanıcı deneyimini gözlemleyin ve sistemin işlevselliğini test edin.",
+    "warning": {
+      "title": "Önemli:",
+      "message": "Bu araçlar sadece admin kullanıcılar içindir. Test ortamında yüklenen veriler localStorage'da saklanır ve gerçek kullanıcı verilerini etkilemez."
+    },
+    "cards": {
+      "dataEntry": {
+        "icon": "📥",
+        "title": "Veri Giriş Sayfası",
+        "description": "Kullanıcıların basit veri giriş deneyimini test edin.",
+        "mode": "Test Modu:",
+        "features": {
+          "simple": "Basit veri giriş formu",
+          "dragDrop": "Sürükle & bırak",
+          "preview": "Hızlı önizleme"
+        },
+        "button": "Sayfayı Aç",
+        "buttonIcon": "📊"
+      },
+      "excelLayer": {
+        "icon": "💾",
+        "title": "Excel Akıllı Veri Katmanı",
+        "description": "Gelişmiş CSV/Excel analiz ve wizard sistemi.",
+        "featuresTitle": "Özellikler:",
+        "features": {
+          "wizard": "6 adımlı wizard",
+          "columnMapping": "Kolon eşleştirme",
+          "validation": "Veri validasyonu",
+          "smartSuggestions": "Akıllı öneri sistemi"
+        },
+        "button": "Wizard'ı Aç",
+        "buttonIcon": "🚀"
+      },
+      "csvLibrary": {
+        "icon": "📊",
+        "title": "CSV Kütüphanesi",
+        "description": "Hazır demo dataset'leri ve yönetim paneli.",
+        "contentTitle": "İçerik:",
+        "features": {
+          "datasets": "5 hazır dataset (65K+ satır)",
+          "sectorFilter": "Sektör filtreleme",
+          "chartPreview": "Grafik önizleme",
+          "csvUpload": "CSV upload"
+        },
+        "button": "Kütüphaneyi Aç",
+        "buttonIcon": "📖"
+      }
+    }
+  },
+  "demoDashboard": {
+    "title": "Seçili Dataset Demo",
+    "loading": "Yükleniyor...",
+    "error": "Hata:",
+    "noData": "Veri bulunamadı.",
+    "selectDataset": "CSV Kütüphanesi'nden bir dataset seçin veya kendi CSV'nizi yükleyin.",
+    "close": "Kapat",
+    "metrics": {
+      "title": "Temel Metrikler",
+      "total": "Toplam",
+      "average": "Ortalama",
+      "maximum": "Maksimum",
+      "minimum": "Minimum"
+    },
+    "charts": {
+      "title": "Grafikler"
+    },
+    "table": {
+      "title": "Veri Önizleme (İlk 10 satır)"
+    }
+  },
+  "survey": {
+    "mini": {
+      "title": "Size en doğru panelleri gösterebilmemiz için 30 saniye ayırmak ister misiniz?",
+      "estimatedTime": "30 saniye",
+      "skip": "Atla",
+      "back": "Geri",
+      "continue": "Devam",
+      "complete": "Tamamla",
+      "selectToContinue": "Cevabınızı seçerek devam edin",
+      "questionOf": "Soru {{current}} / {{total}}"
+    },
+    "deep": {
+      "title": "İşletmeniz için özel paneller hazırlayalım",
+      "description": "2 dakikada birkaç soruyla panellerinizi size özel hale getirebiliriz.",
+      "estimatedTime": "2 dakika",
+      "start": "Başlayalım",
+      "close": "Kapat",
+      "back": "Geri",
+      "next": "Devam",
+      "complete": "Tamamla",
+      "questionOf": "Soru {{current}} / {{total}}"
+    },
+    "welcomeMessages": {
+      "default": "FinOps AI Studio'ya hoş geldiniz! Panelleri keşfetmeye başlayın.",
+      "withSurvey": "Size özel panelleriniz hazır!"
+    }
+  }
+}

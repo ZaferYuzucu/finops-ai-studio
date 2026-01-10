@@ -10,27 +10,44 @@ const AdminLoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const location = useLocation(); // URL bilgilerini almak için
+  const location = useLocation();
 
-  // Bu şifreyi daha güvenli bir yerden (örneğin, ortam değişkenleri) almak en iyisidir.
-  const ADMIN_PASSWORD = 'ATA1923'; 
+  const ADMIN_PASSWORD = 'ATA1923';
+  const ADMIN_EMAIL = 'admin@finops.ai';
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
-      // Güvenlik anahtarını KALICI deposuna kaydet (localStorage - sayfa yenilendiğinde silinmez!)
-      localStorage.setItem('isAdminAuthenticated', 'true');
-      sessionStorage.setItem('isAdminAuthenticated', 'true'); // Backward compatibility
+    setError('');
+
+    if (password !== ADMIN_PASSWORD) {
+      setError('Yanlış şifre. Lütfen tekrar deneyin.');
+      return;
+    }
+
+    try {
+      console.log('✅ Admin şifre doğru! Giriş yapılıyor...');
+
+      // Admin user profile'ı localStorage'a kaydet
+      const adminUser = {
+        uid: 'admin_001',
+        email: ADMIN_EMAIL,
+        role: 'admin'
+      };
       
-      // URL'deki 'redirect' parametresini oku
+      // Admin session should not override normal user session storage.
+      localStorage.setItem('finops_admin_user', JSON.stringify(adminUser));
+      localStorage.setItem('isAdminAuthenticated', 'true');
+      sessionStorage.setItem('isAdminAuthenticated', 'true');
+
+      console.log('✅ Admin girişi başarılı!');
+
       const queryParams = new URLSearchParams(location.search);
       const redirectPath = queryParams.get('redirect');
-      
-      // Eğer bir yönlendirme adresi varsa o adrese git.
-      // Yoksa, varsayılan olarak ana yönetici paneline yönlendir.
-      navigate(redirectPath || '/admin/platform-analytics'); 
-    } else {
-      setError('Yanlış şifre. Lütfen tekrar deneyin.');
+      console.log('🚀 Yönlendiriliyor:', redirectPath || '/office');
+      navigate(redirectPath || '/office');
+    } catch (err: any) {
+      console.error('❌ Beklenmeyen hata:', err);
+      setError(`Beklenmeyen hata: ${err.message || 'Lütfen tekrar deneyin'}`);
     }
   };
 

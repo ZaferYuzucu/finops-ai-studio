@@ -18,6 +18,8 @@ import {
   Map, 
   BookOpen, 
   CreditCard,
+  ClipboardList,
+  Library,
   ChevronRight
 } from 'lucide-react';
 
@@ -94,6 +96,12 @@ const adminSections: AdminSection[] = [
     color: 'from-orange-500 to-red-500',
     links: [
       {
+        name: 'Kurumsal Pazarlık Rehberi (Gizli)',
+        href: '/admin/internal-pricing',
+        description: 'Kurumsal fiyatlandırma, senaryolar ve indirim kırmızı çizgileri',
+        icon: Briefcase
+      },
+      {
         name: 'İş Planı',
         href: '/business-plan',
         description: 'Stratejik iş planı ve hedefler',
@@ -119,6 +127,24 @@ const adminSections: AdminSection[] = [
     icon: BookOpen,
     color: 'from-green-500 to-teal-500',
     links: [
+      {
+        name: 'Yönetici Bilgilendirme Raporu',
+        href: '/admin/management-office/executive-report',
+        description: 'Dashboard platformu durum analizi (Var/Yok/Kısmen) — yönetici özeti',
+        icon: ClipboardList
+      },
+      {
+        name: 'Dashboard Kütüphanesi (Admin)',
+        href: '/admin/dashboard-library',
+        description: 'Kullanıcı dashboard’larını incele, uyarı bırak, beğendiklerini şablonlaştır',
+        icon: Library
+      },
+      {
+        name: 'Grafik Kuralları (Admin)',
+        href: '/admin/chart-rules',
+        description: 'Wizard/AI için grafik–veri eşleşme kurallarını yönet',
+        icon: BookOpen
+      },
       {
         name: 'Sistem Rehberi',
         href: '/admin/system-guide',

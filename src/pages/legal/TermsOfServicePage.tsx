@@ -47,6 +47,64 @@ const TermsOfServicePage: React.FC = () => {
             Platformun kendisi, arayüzü, tasarımı, kodları, markası ("FINOPS AI") ve orijinal içeriği Şirket'in münhasır mülkiyetindedir ve Türk ve uluslararası telif hakkı, marka ve diğer yasalarla korunmaktadır. Kullanıcı tarafından Platform'a yüklenen tüm verilerin mülkiyeti Kullanıcı'ya aittir. Ancak Kullanıcı, bu verileri Hizmetler'in sunulabilmesi amacıyla işlememiz, saklamamız ve analiz etmemiz için bize dünya çapında, telifsiz bir lisans verir.
           </SectionParagraph>
 
+          {/* Mandatory special clause: Dashboard & Template IP (EN + TR, verbatim) */}
+          <SectionTitle>4.1 Dashboard &amp; Şablon Fikri Mülkiyet Maddesi</SectionTitle>
+          <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-5">
+            <div className="text-sm font-semibold text-gray-900">English</div>
+            <p className="mt-2 whitespace-pre-line text-sm text-gray-800">
+              All dashboards, templates, reports, visual layouts,
+              and analytical structures generated or provided by FinOps AI Studio
+              are protected intellectual property of FinOps AI Studio.
+
+              Users are granted a limited, non-transferable, non-exclusive right
+              to use these materials solely within their own accounts for internal
+              business analysis purposes.
+
+              Any attempt to copy, replicate, reverse-engineer, publicly share,
+              resell, or use these materials outside the platform without explicit
+              written permission is strictly prohibited.
+            </p>
+
+            <div className="mt-4 text-sm font-semibold text-gray-900">Türkçe</div>
+            <p className="mt-2 whitespace-pre-line text-sm text-gray-800">
+              FinOps AI Studio tarafından sağlanan veya üretilen tüm dashboard’lar,
+              şablonlar, raporlar, görsel düzenler ve analitik yapılar,
+              FinOps AI Studio’nun telif ve fikri mülkiyet haklarıyla korunan eserleridir.
+
+              Kullanıcılara, bu materyalleri yalnızca kendi hesapları içinde ve sadece
+              kurum içi iş analizi amaçlarıyla kullanmak üzere sınırlı, devredilemez,
+              münhasır olmayan bir kullanım hakkı tanınır.
+
+              Bu materyallerin; kopyalanması, çoğaltılması, tersine mühendislik yapılması,
+              kamuya açık şekilde paylaşılması, yeniden satılması veya yazılı izin olmaksızın
+              platform dışında kullanılması kesinlikle yasaktır.
+            </p>
+          </div>
+
+          {/* Mandatory: Data Usage & Improvement ethics (EN, verbatim) */}
+          <SectionTitle>4.2 Data Usage &amp; Improvement</SectionTitle>
+          <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-5">
+            <div className="text-sm font-semibold text-gray-900">English</div>
+            <p className="mt-2 whitespace-pre-line text-sm text-gray-800">
+              FinOps AI Studio may analyze anonymized and aggregated dashboard
+              structures solely for the purpose of improving platform features
+              and developing industry best-practice templates.
+
+              No customer-specific data, metrics, visual configurations, or
+              identifiable business information are ever reused, exposed,
+              or shared.
+            </p>
+            <div className="mt-4 text-sm font-semibold text-gray-900">Türkçe</div>
+            <p className="mt-2 whitespace-pre-line text-sm text-gray-800">
+              FinOps AI Studio; yalnızca platform özelliklerini geliştirmek ve sektörel en iyi uygulama
+              şablonları oluşturmak amacıyla, anonimleştirilmiş ve toplulaştırılmış dashboard yapılarını
+              analiz edebilir.
+
+              Müşteriye özel hiçbir veri, metrik, görsel konfigürasyon veya tanımlanabilir işletme bilgisi
+              hiçbir zaman yeniden kullanılmaz, ifşa edilmez veya paylaşılmaz.
+            </p>
+          </div>
+
           <SectionTitle>5. Ücretlendirme, Abonelik ve İptal</SectionTitle>
           <SectionParagraph>
             Hizmetler'in bazı özellikleri ücretli abonelik gerektirebilir. Abonelik ücretleri, ödeme koşulları ve iptal politikaları, Platform'un ilgili bölümlerinde belirtildiği gibidir. Zamanında ödenmeyen ücretler, hesabın askıya alınmasına veya feshedilmesine neden olabilir.

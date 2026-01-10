@@ -20,9 +20,6 @@ import {
   Building,
   AlertCircle
 } from 'lucide-react';
-import { collection, getDocs, updateDoc, doc, query, orderBy } from 'firebase/firestore';
-import { db } from '../../firebase';
-
 interface UserData {
   id: string;
   email: string;
@@ -33,6 +30,18 @@ interface UserData {
   isActive: boolean;
   lastLogin?: string;
   companyName?: string;
+}
+
+// localStorage helpers
+const USERS_STORAGE_KEY = 'finops_users_management';
+
+function getStoredUsers(): UserData[] {
+  const stored = localStorage.getItem(USERS_STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [];
+}
+
+function saveUsers(users: UserData[]): void {
+  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
 }
 
 const UserManagementPage: React.FC = () => {
@@ -53,38 +62,32 @@ const UserManagementPage: React.FC = () => {
     try {
       setLoading(true);
       
-      // Önce collection'ın var olup olmadığını kontrol et
-      const usersRef = collection(db, 'users');
-      const q = query(usersRef, orderBy('createdAt', 'desc'));
-      const querySnapshot = await getDocs(q);
+      // localStorage'dan kullanıcıları yükle
+      const usersData = getStoredUsers();
       
-      const usersData: UserData[] = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        email: doc.data().email || '',
-        displayName: doc.data().displayName || doc.data().email?.split('@')[0] || 'Adsız',
-        createdAt: doc.data().createdAt || new Date().toISOString(),
-        role: doc.data().role || 'user',
-        plan: doc.data().plan || 'free',
-        isActive: doc.data().isActive !== false,
-        lastLogin: doc.data().lastLogin,
-        companyName: doc.data().companyName
-      } as UserData));
-      
-      setUsers(usersData);
-      
-      // Eğer kullanıcı yoksa bilgilendirme
+      // Eğer hiç kullanıcı yoksa, mock data ekle
       if (usersData.length === 0) {
-        console.log('ℹ️ Henüz kayıtlı kullanıcı yok. İlk kullanıcı kaydı bekleniyor.');
+        const mockUsers: UserData[] = [
+          {
+            id: 'admin_001',
+            email: 'admin@finops.ai',
+            displayName: 'Admin',
+            createdAt: new Date().toISOString(),
+            role: 'admin',
+            plan: 'enterprise',
+            isActive: true,
+            companyName: 'FinOps AI Studio'
+          }
+        ];
+        saveUsers(mockUsers);
+        setUsers(mockUsers);
+      } else {
+        setUsers(usersData.sort((a, b) => 
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        ));
       }
     } catch (error: any) {
       console.error('Kullanıcılar yüklenirken hata:', error);
-      
-      // Firebase hatası detayı
-      if (error.code === 'permission-denied') {
-        console.warn('⚠️ Firebase izin hatası. Firestore rules kontrol edilmeli.');
-      }
-      
-      // Boş array set et, hata mesajı gösterme
       setUsers([]);
     } finally {
       setLoading(false);
@@ -115,10 +118,14 @@ const UserManagementPage: React.FC = () => {
   // Plan değiştir
   const handleChangePlan = async (userId: string, newPlan: string) => {
     try {
-      const userRef = doc(db, 'users', userId);
-      await updateDoc(userRef, { plan: newPlan });
-      alert(`✅ Plan ${newPlan} olarak güncellendi!`);
-      loadUsers();
+      const usersData = getStoredUsers();
+      const index = usersData.findIndex(u => u.id === userId);
+      if (index !== -1) {
+        usersData[index].plan = newPlan as any;
+        saveUsers(usersData);
+        alert(`✅ Plan ${newPlan} olarak güncellendi!`);
+        loadUsers();
+      }
     } catch (error) {
       console.error('Plan değiştirme hatası:', error);
       alert('❌ Plan değiştirilemedi!');
@@ -128,10 +135,14 @@ const UserManagementPage: React.FC = () => {
   // Kullanıcı aktif/pasif
   const handleToggleActive = async (userId: string, currentStatus: boolean) => {
     try {
-      const userRef = doc(db, 'users', userId);
-      await updateDoc(userRef, { isActive: !currentStatus });
-      alert(`✅ Kullanıcı ${!currentStatus ? 'aktif' : 'pasif'} edildi!`);
-      loadUsers();
+      const usersData = getStoredUsers();
+      const index = usersData.findIndex(u => u.id === userId);
+      if (index !== -1) {
+        usersData[index].isActive = !currentStatus;
+        saveUsers(usersData);
+        alert(`✅ Kullanıcı ${!currentStatus ? 'aktif' : 'pasif'} edildi!`);
+        loadUsers();
+      }
     } catch (error) {
       console.error('Durum değiştirme hatası:', error);
       alert('❌ Durum değiştirilemedi!');

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Database, FileSpreadsheet, Link2, Calculator, Zap, CheckCircle, AlertTriangle, Video } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useRobotsMeta } from '../hooks/useRobotsMeta';
 
 const VeriHazirlamaRehberiPage: React.FC = () => {
   const { t } = useTranslation();
+  useRobotsMeta('noarchive, noimageindex');
   
   return (
     <div className="bg-gradient-to-b from-gray-50 to-white min-h-screen py-12 px-4 sm:px-6 lg:px-8">

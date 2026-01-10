@@ -1,9 +1,11 @@
 
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { useRobotsMeta } from '../../hooks/useRobotsMeta';
 
 const GetStartedDocPage = () => {
   const { t } = useTranslation();
+  useRobotsMeta('noarchive, noimageindex');
   
   return (
     <div className="bg-white px-6 py-32 lg:px-8">

@@ -15,7 +15,9 @@ import {
   Search,
   Filter,
   Download,
-  Eye
+  Eye,
+  Building2,
+  User
 } from 'lucide-react';
 import { BetaApplication, ApplicationStatus, SECTOR_OPTIONS, EMPLOYEE_COUNT_OPTIONS } from '../../types/betaApplication';
 import { 
@@ -25,16 +27,25 @@ import {
   createAdminOffer,
   markApprovalEmailSent
 } from '../../services/betaApplicationService';
+import {
+  createEmailRecord,
+  markEmailSent,
+  markEmailFailed,
+} from '../../services/emailOutboxService';
 import { useAuth } from '../../context/AuthContext';
 
 const BetaApplicationsPage: React.FC = () => {
-  const { user } = useAuth();
+  const { currentUser } = useAuth();
   const [applications, setApplications] = useState<BetaApplication[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState<ApplicationStatus | 'all'>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState<BetaApplication | null>(null);
+
+  const isAdminFlag = () =>
+    localStorage.getItem('isAdminAuthenticated') === 'true' ||
+    sessionStorage.getItem('isAdminAuthenticated') === 'true';
 
   // Başvuruları yükle
   useEffect(() => {
@@ -87,7 +98,7 @@ const BetaApplicationsPage: React.FC = () => {
 
   // Onay
   const handleApprove = async (app: BetaApplication) => {
-    if (!user) return;
+    if (!currentUser && !isAdminFlag()) return;
     
     const confirmed = window.confirm(
       `${app.companyName} firmasının başvurusunu onaylıyor musunuz?\n\n` +
@@ -97,7 +108,7 @@ const BetaApplicationsPage: React.FC = () => {
     if (!confirmed) return;
 
     try {
-      await approveApplication(app.id, user.uid);
+      await approveApplication(app.id, currentUser?.uid || 'admin');
       await sendApprovalEmail(app);
       await markApprovalEmailSent(app.id);
       alert('✅ Başvuru onaylandı ve e-posta gönderildi!');
@@ -110,13 +121,13 @@ const BetaApplicationsPage: React.FC = () => {
 
   // Red
   const handleReject = async (app: BetaApplication) => {
-    if (!user) return;
+    if (!currentUser && !isAdminFlag()) return;
     
     const reason = window.prompt('Red nedeni (opsiyonel):');
     if (reason === null) return; // Cancel basıldı
     
     try {
-      await rejectApplication(app.id, user.uid, reason);
+      await rejectApplication(app.id, currentUser?.uid || 'admin', reason);
       alert('✅ Başvuru reddedildi.');
       loadApplications();
     } catch (error) {
@@ -125,31 +136,93 @@ const BetaApplicationsPage: React.FC = () => {
     }
   };
 
-  // Onay E-postası Gönder
+  // Onay E-postası Gönder (GERÇEK E-POSTA GÖNDERİMİ - GoDaddy SMTP + Tracking!)
   const sendApprovalEmail = async (app: BetaApplication) => {
     const subject = '✅ FINOPS AI Studio - Lansman Partneri Başvurunuz Onaylandı!';
-    const body = `Merhaba ${app.contactName},\n\n` +
-      `Harika haber! ${app.companyName} için Lansman Partneri programına kabul edildiniz! 🎉\n\n` +
-      `📦 Planınız: Lansman Partneri (Beta)\n` +
-      `💰 Fiyat: 0 TL - 1 Yıl Boyunca\n` +
-      `👥 Kullanıcı: SINIRSIZ\n` +
-      `⏱️ Başlangıç: Kayıt olduğunuz an\n\n` +
-      `🚀 HEMEN BAŞLAYIN:\n\n` +
-      `1. Kayıt Olun: https://finops-ai-studio.vercel.app/signup\n` +
-      `2. E-postanız: ${app.email}\n` +
-      `3. Güçlü bir şifre oluşturun\n\n` +
-      `📞 Sonraki Adımlar:\n` +
-      `- Kayıt sonrası biz sizinle iletişime geçeceğiz\n` +
-      `- Beta Partner statünüzü aktif hale getireceğiz\n` +
-      `- İlk dashboard'ınızı birlikte kuracağız\n\n` +
-      `Sorularınız için: info@finops.ist\n\n` +
-      `Hoş geldiniz! 🚀\n` +
-      `FINOPS AI Studio Ekibi`;
+    const body = `Merhaba ${app.contactName},
 
-    const emailSubject = encodeURIComponent(subject);
-    const emailBody = encodeURIComponent(body);
-    
-    window.location.href = `mailto:${app.email}?subject=${emailSubject}&body=${emailBody}`;
+Harika haber! ${app.companyName} için Lansman Partneri programına kabul edildiniz! 🎉
+
+📦 Planınız: Lansman Partneri (Beta)
+💰 Fiyat: 0 TL - 1 Yıl Boyunca
+👥 Kullanıcı: SINIRSIZ
+⏱️ Başlangıç: Kayıt olduğunuz an
+
+🚀 HEMEN BAŞLAYIN:
+
+1. Kayıt Olun: https://finops.ist/signup
+2. E-postanız: ${app.email}
+3. Güçlü bir şifre oluşturun
+
+📞 Sonraki Adımlar:
+- Kayıt sonrası biz sizinle iletişime geçeceğiz
+- Beta Partner statünüzü aktif hale getireceğiz
+- İlk dashboard'ınızı birlikte kuracağız
+
+Sorularınız için: info@finops.ist
+
+Hoş geldiniz! 🚀
+FINOPS AI Studio Ekibi`;
+
+    let emailRecordId: string | null = null;
+
+    try {
+      console.log('📧 E-posta kaydı oluşturuluyor...');
+      
+      // 1. E-posta kaydını oluştur (PENDING)
+      emailRecordId = await createEmailRecord({
+        type: 'approval',
+        to: app.email,
+        subject: subject,
+        bodyPreview: body.substring(0, 200),
+        fullBody: body,
+        relatedId: app.id,
+      });
+      
+      console.log('✅ E-posta kaydı oluşturuldu:', emailRecordId);
+      console.log('📧 GoDaddy SMTP ile e-posta gönderiliyor:', app.email);
+      
+      // 2. Gerçek e-posta gönder (Vercel Serverless Function - GoDaddy SMTP)
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: app.email,
+          subject: subject,
+          text: body,
+          replyTo: 'info@finops.ist'
+        })
+      });
+
+      const result = await response.json();
+      
+      if (response.ok && result.success) {
+        // 3. Başarıyla gönderildi olarak işaretle
+        await markEmailSent(emailRecordId, result.messageId);
+        console.log('✅ E-posta başarıyla gönderildi ve kaydedildi!', result);
+        return true;
+      } else {
+        // 4. Hata olursa FAILED olarak işaretle
+        await markEmailFailed(emailRecordId, result.error || result.details || 'Bilinmeyen hata');
+        throw new Error(result.error || 'E-posta gönderilemedi');
+      }
+    } catch (error: any) {
+      console.error('❌ E-posta gönderme hatası:', error);
+      
+      // E-posta kaydı varsa FAILED olarak işaretle
+      if (emailRecordId) {
+        try {
+          await markEmailFailed(emailRecordId, error.message || 'Bilinmeyen hata');
+        } catch (markError) {
+          console.error('❌ E-posta durumu güncellenemedi:', markError);
+        }
+      }
+      
+      alert('⚠️ E-posta gönderilemedi! Lütfen tekrar deneyin.\nHata: ' + error.message);
+      return false;
+    }
   };
 
   // Durum badge renkleri
@@ -172,18 +245,29 @@ const BetaApplicationsPage: React.FC = () => {
   };
 
   // Kaynak badge
-  const getSourceBadge = (source: 'user' | 'admin') => {
-    return source === 'user' ? (
-      <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-700">
-        <Users className="w-3 h-3" />
-        Başvuru
-      </span>
-    ) : (
-      <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-purple-100 text-purple-700">
-        <Send className="w-3 h-3" />
-        Teklif
-      </span>
-    );
+  const getSourceBadge = (source: 'user' | 'admin' | 'beta_form') => {
+    if (source === 'user') {
+      return (
+        <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-700">
+          <Users className="w-3 h-3" />
+          Başvuru
+        </span>
+      );
+    } else if (source === 'admin') {
+      return (
+        <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-purple-100 text-purple-700">
+          <Send className="w-3 h-3" />
+          Teklif
+        </span>
+      );
+    } else {
+      return (
+        <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-700">
+          <Mail className="w-3 h-3" />
+          Beta Başvuru
+        </span>
+      );
+    }
   };
 
   if (loading) {
@@ -411,7 +495,10 @@ const BetaApplicationsPage: React.FC = () => {
         </div>
 
         {/* Firma Önerme Modal'ı */}
-        {showAddModal && <AddOfferModal user={user} onClose={() => setShowAddModal(false)} onSuccess={loadApplications} />}
+        {showAddModal && <AddOfferModal currentUser={currentUser} onClose={() => setShowAddModal(false)} onSuccess={loadApplications} />}
+        
+        {/* Detay Modal'ı */}
+        {selectedApplication && <ApplicationDetailModal application={selectedApplication} onClose={() => setSelectedApplication(null)} />}
       </div>
     </div>
   );
@@ -419,12 +506,13 @@ const BetaApplicationsPage: React.FC = () => {
 
 // Modal: Firma Önerme (Outbound)
 interface AddOfferModalProps {
-  user: any;
+  currentUser: any;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-const AddOfferModal: React.FC<AddOfferModalProps> = ({ user, onClose, onSuccess }) => {
+const AddOfferModal: React.FC<AddOfferModalProps> = ({ currentUser, onClose, onSuccess }) => {
+  const isAdminModal = localStorage.getItem('isAdminAuthenticated') === 'true' || sessionStorage.getItem('isAdminAuthenticated') === 'true';
   // Default davet mektubu şablonu
   const defaultInvitationText = `Merhaba [İsim],
 
@@ -465,20 +553,86 @@ FINOPS AI Studio Ekibi`;
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!user) {
-      alert('Kullanıcı oturumu bulunamadı!');
+    // GEÇİCİ: currentUser kontrolü kaldırıldı - localStorage admin flag yeterli
+    if (!isAdminModal) {
+      alert('Admin girişi gerekli! localStorage admin flag kontrolü başarısız.');
       return;
     }
 
+    let emailRecordId: string | null = null;
+
     try {
       setLoading(true);
-      await createAdminOffer(formData, user.uid);
-      alert('✅ Teklif başarıyla oluşturuldu!');
+      
+      // 1. Teklifi Firestore'a kaydet (uid yerine 'admin' kullan)
+      const offerId = await createAdminOffer(formData, 'admin');
+      console.log('✅ Teklif Firestore\'a kaydedildi:', offerId);
+      
+      // 2. E-posta kaydını oluştur (PENDING)
+      const emailBody = formData.description
+        .replace('[İsim]', formData.contactName)
+        .replace('[Firma Adı]', formData.companyName)
+        .replace('[email]', formData.email);
+      
+      const subject = `✅ ${formData.companyName} - Lansman Partneri Teklifi`;
+      
+      console.log('📧 E-posta kaydı oluşturuluyor...');
+      emailRecordId = await createEmailRecord({
+        type: 'offer',
+        to: formData.email,
+        subject: subject,
+        bodyPreview: emailBody.substring(0, 200),
+        fullBody: emailBody,
+        relatedId: offerId,
+      });
+      
+      console.log('✅ E-posta kaydı oluşturuldu:', emailRecordId);
+      
+      // 3. Gerçek e-posta gönder (GoDaddy SMTP!)
+      console.log('📧 GoDaddy SMTP ile e-posta gönderiliyor:', formData.email);
+      
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: formData.email,
+          subject: subject,
+          text: emailBody,
+          replyTo: 'info@finops.ist'
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        // 4. Başarıyla gönderildi olarak işaretle
+        await markEmailSent(emailRecordId, result.messageId);
+        console.log('✅ E-posta başarıyla gönderildi ve kaydedildi!', result);
+        alert(`✅ Teklif oluşturuldu ve ${formData.email} adresine GERÇEK e-posta gönderildi!\n\n📧 Message ID: ${result.messageId}\n\n💡 E-posta geçmişini "E-posta Kayıtları" sayfasından görüntüleyebilirsiniz.`);
+      } else {
+        // 5. Hata olursa FAILED olarak işaretle
+        await markEmailFailed(emailRecordId, result.error || result.details || 'Bilinmeyen hata');
+        console.error('⚠️ E-posta gönderilemedi:', result.error);
+        alert(`⚠️ Teklif kaydedildi ama e-posta gönderilemedi!\nHata: ${result.error || 'Bilinmeyen hata'}\n\nDetayları "E-posta Kayıtları" sayfasından görüntüleyebilirsiniz.`);
+      }
+      
       onSuccess();
       onClose();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Teklif oluşturma hatası:', error);
-      alert('❌ Teklif oluşturulamadı!');
+      
+      // E-posta kaydı varsa FAILED olarak işaretle
+      if (emailRecordId) {
+        try {
+          await markEmailFailed(emailRecordId, error.message || 'Bilinmeyen hata');
+        } catch (markError) {
+          console.error('❌ E-posta durumu güncellenemedi:', markError);
+        }
+      }
+      
+      alert('❌ Teklif oluşturulamadı!\nHata: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -516,7 +670,7 @@ FINOPS AI Studio Ekibi`;
                 value={formData.companyName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-900"
                 placeholder="Örn: Acme Restaurant"
               />
             </div>
@@ -532,7 +686,7 @@ FINOPS AI Studio Ekibi`;
                 value={formData.contactName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-900"
                 placeholder="Örn: Ahmet Yılmaz"
               />
             </div>
@@ -548,7 +702,7 @@ FINOPS AI Studio Ekibi`;
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-900"
                 placeholder="ornek@firma.com"
               />
             </div>
@@ -564,7 +718,7 @@ FINOPS AI Studio Ekibi`;
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-900"
                 placeholder="0555 555 55 55"
               />
             </div>
@@ -579,7 +733,7 @@ FINOPS AI Studio Ekibi`;
                 value={formData.sector}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-900 bg-white"
               >
                 {SECTOR_OPTIONS.map(option => (
                   <option key={option.value} value={option.value}>
@@ -628,6 +782,225 @@ FINOPS AI Studio Ekibi`;
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  );
+};
+
+// Modal: Başvuru Detayı
+interface ApplicationDetailModalProps {
+  application: BetaApplication;
+  onClose: () => void;
+}
+
+const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({ application, onClose }) => {
+  const getSectorLabel = (value: string) => {
+    return SECTOR_OPTIONS.find(s => s.value === value)?.label || value;
+  };
+
+  const getCompanySizeLabel = (value?: string) => {
+    if (!value) return '-';
+    const labels: Record<string, string> = {
+      'micro': 'Mikro (1-9 çalışan)',
+      'small': 'Küçük (10-49 çalışan)',
+      'medium': 'Orta (50-249 çalışan)'
+    };
+    return labels[value] || value;
+  };
+
+  const getMainChallengeLabel = (value?: string) => {
+    if (!value) return '-';
+    const labels: Record<string, string> = {
+      'cash_flow': 'Nakit akışı',
+      'profitability': 'Kârlılık',
+      'cost_control': 'Maliyet kontrolü',
+      'reporting': 'Raporlama / görünürlük',
+      'all': 'Hepsi'
+    };
+    return labels[value] || value;
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+      <div className="bg-white rounded-2xl max-w-2xl w-full p-8 my-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-3xl font-bold text-gray-900">Başvuru Detayları</h2>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <XCircle className="w-6 h-6 text-gray-600" />
+          </button>
+        </div>
+
+        <div className="space-y-6">
+          {/* Firma Bilgileri */}
+          <div className="bg-gray-50 rounded-xl p-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <Building2 className="w-5 h-5 text-indigo-600" />
+              Firma Bilgileri
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Firma Adı</p>
+                <p className="font-semibold text-gray-900">{application.companyName}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Sektör</p>
+                <p className="font-semibold text-gray-900">{getSectorLabel(application.sector)}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* İletişim Bilgileri */}
+          <div className="bg-gray-50 rounded-xl p-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <User className="w-5 h-5 text-indigo-600" />
+              İletişim Bilgileri
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Yetkili Kişi</p>
+                <p className="font-semibold text-gray-900">{application.contactName}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 mb-1">E-posta</p>
+                <p className="font-semibold text-gray-900">{application.email}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Telefon</p>
+                <p className="font-semibold text-gray-900">{application.phone}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Çalışan Sayısı</p>
+                <p className="font-semibold text-gray-900">{application.employeeCount}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Anket Cevapları (Beta Form için) */}
+          {application.source === 'beta_form' && application.surveyAnswers && (
+            <div className="bg-green-50 border border-green-200 rounded-xl p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-600" />
+                Anket Cevapları
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">İşletme Büyüklüğü</p>
+                  <p className="font-semibold text-gray-900">
+                    {getCompanySizeLabel(application.surveyAnswers.companySize)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">Ana Zorluk</p>
+                  <p className="font-semibold text-gray-900">
+                    {getMainChallengeLabel(application.surveyAnswers.mainChallenge)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Süreç Bilgileri */}
+          <div className="bg-gray-50 rounded-xl p-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-indigo-600" />
+              Süreç Bilgileri
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Durum</p>
+                <div className="mt-1">
+                  {application.status === 'pending' && (
+                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
+                      <Clock className="w-3 h-3" />
+                      Beklemede
+                    </span>
+                  )}
+                  {application.status === 'approved' && (
+                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                      <CheckCircle className="w-3 h-3" />
+                      Onaylandı
+                    </span>
+                  )}
+                  {application.status === 'rejected' && (
+                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+                      <XCircle className="w-3 h-3" />
+                      Reddedildi
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Kaynak</p>
+                <div className="mt-1">
+                  {application.source === 'user' && (
+                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-700">
+                      <Users className="w-3 h-3" />
+                      Başvuru
+                    </span>
+                  )}
+                  {application.source === 'admin' && (
+                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-purple-100 text-purple-700">
+                      <Send className="w-3 h-3" />
+                      Teklif
+                    </span>
+                  )}
+                  {application.source === 'beta_form' && (
+                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-700">
+                      <Mail className="w-3 h-3" />
+                      Beta Başvuru
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Başvuru Tarihi</p>
+                <p className="font-semibold text-gray-900">
+                  {new Date(application.appliedAt).toLocaleString('tr-TR')}
+                </p>
+              </div>
+              {application.reviewedAt && (
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">İnceleme Tarihi</p>
+                  <p className="font-semibold text-gray-900">
+                    {new Date(application.reviewedAt).toLocaleString('tr-TR')}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Açıklama / Notlar */}
+          {(application.description || application.adminNotes) && (
+            <div className="bg-gray-50 rounded-xl p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Notlar</h3>
+              {application.description && (
+                <div className="mb-3">
+                  <p className="text-sm text-gray-600 mb-1">Açıklama</p>
+                  <p className="text-gray-900">{application.description}</p>
+                </div>
+              )}
+              {application.adminNotes && (
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">Admin Notları</p>
+                  <p className="text-gray-900">{application.adminNotes}</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Close Button */}
+        <div className="mt-6">
+          <button
+            onClick={onClose}
+            className="w-full px-6 py-3 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+          >
+            Kapat
+          </button>
+        </div>
       </div>
     </div>
   );

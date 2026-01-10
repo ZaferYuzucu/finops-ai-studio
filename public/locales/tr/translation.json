@@ -1525,7 +1525,16 @@
         "step3Desc": "Dosyayı buraya sürükleyin veya \"Dosya Yükle\" butonuna tıklayın",
         "step4": "AI Analiz:",
         "step4Desc": "Sistem otomatik olarak sütunları tanır, tarih/sayı formatlarını algılar",
-        "exampleTitle": "✅ Örnek CSV Yapısı:"
+        "exampleTitle": "✅ Örnek CSV Yapısı:",
+        "quickGuide": {
+          "title": "Verini 2 dakikada bağla",
+          "step1": "Excel veya CSV dosyanı <strong>sürükle-bırak</strong>. (Boş şablon gerekmez.)",
+          "step2": "Birden fazla sheet varsa <strong>seçmeni isteriz</strong>.",
+          "step3": "Başlık satırını ve kolonları <strong>otomatik öneririz</strong> — istersen düzeltirsin.",
+          "step4": "<strong>Kaydet → Önizle → Dashboard'a uygula.</strong>",
+          "note": "💡 <strong>Not:</strong> Birleştirilmiş hücreler / formüller olabilir. Sistem mümkün olan en iyi şekilde düzleştirir.",
+          "downloadSample": "Örnek CSV'leri indir"
+        }
       },
       "urlConnection": {
         "title": "Veri Kaynağına Bağlan",
@@ -1550,7 +1559,20 @@
         "advantage1": "Gerçek zamanlı senkronizasyon",
         "advantage2": "Otomatik güncelleme",
         "advantage3": "Dosya yüklemeye gerek yok",
-        "advantage4": "Büyük veri setleri için ideal"
+        "advantage4": "Büyük veri setleri için ideal",
+        "integration": {
+          "title": "Entegre Et",
+          "phase": "Faz-2",
+          "description1": "<strong>ERP/CRM/pos/Excel linkleri</strong> ile otomatik senkron <span className=\"text-purple-700 font-semibold\">(Faz-2)</span>.",
+          "description2": "<strong>Şimdilik:</strong> dosya yükleyerek demo'yu çalıştırabilirsin.",
+          "plannedTitle": "🚀 Planlanan Entegrasyonlar (Faz-2):",
+          "planned1": "Google Sheets otomatik sync",
+          "planned2": "Airtable API bağlantısı",
+          "planned3": "Logo, Netsis, Mikro ERP entegrasyonu",
+          "planned4": "Paraşüt, Uyumsoft API'leri",
+          "whatToDoTitle": "Şimdi ne yapmalısın?",
+          "whatToDoDesc": "👆 Yukarıdaki <strong>\"Excel/CSV Sürükle Bırak\"</strong> sekmesine geç ve dosyanı yükle."
+        }
       },
       "selectedFiles": "Seçilen Dosyalar:",
       "uploadButton": "1 Dosyayı Yüklemeye Başla",

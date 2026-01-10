@@ -1,4 +1,4 @@
-import { Check, Crown, Zap, Users, Star, Sparkles, TrendingUp, Building2, AlertCircle, Mail } from 'lucide-react';
+import { Check, ChevronDown, Crown, Zap, Users, Star, Sparkles, TrendingUp, Building2, AlertCircle, Mail, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSubscription } from '../hooks/useSubscription';
@@ -20,6 +20,13 @@ interface PricingCardProps {
   badgeColor?: string;
   priceNote?: string;
   features: string[];
+  excludedTitle?: string;
+  excludedFeatures?: string[];
+  addonTitle?: string;
+  addonPrice?: string;
+  addonPeriod?: string;
+  addonSubtitle?: string;
+  addonFeatures?: string[];
   buttonText: string;
   buttonLink: string;
   isPremium?: boolean;
@@ -44,6 +51,13 @@ const PricingCard = ({
   badgeColor = "bg-blue-100 text-blue-700",
   priceNote,
   features,
+  excludedTitle,
+  excludedFeatures,
+  addonTitle,
+  addonPrice,
+  addonPeriod,
+  addonSubtitle,
+  addonFeatures,
   buttonText,
   buttonLink,
   isPremium = false,
@@ -58,6 +72,7 @@ const PricingCard = ({
   disabledMessage,
   limitWarning
 }: PricingCardProps) => {
+  const { t } = useTranslation();
   const getCardStyle = () => {
     if (isDisabled) {
       return 'bg-gray-100 text-gray-500 shadow-lg border-2 border-gray-300 opacity-60';
@@ -183,30 +198,156 @@ const PricingCard = ({
       </div>
 
       {/* Özellikler */}
-      <ul className="space-y-3 mb-8 flex-grow">
-        {features.map((feature, index) => (
-          <motion.li
-            key={index}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className="flex items-start gap-3"
-          >
-            <Check className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
-              isPremium ? 'text-yellow-300' : 
-              isSpecialOffer ? 'text-yellow-200' : 
-              isEnterprise ? 'text-slate-300' : 
-              isDisabled ? 'text-gray-400' : 'text-green-600'
-            }`} />
-            <span className={`text-sm leading-relaxed ${
-              isPremium || isSpecialOffer || isEnterprise ? 'text-white' : 
-              isDisabled ? 'text-gray-500' : 'text-gray-700'
-            }`}>
-              {feature}
+      {isPremium ? (
+        <details
+          className="mb-6 rounded-xl p-4 bg-white/15 border border-white/20 flex-grow"
+        >
+          <summary className="cursor-pointer select-none flex items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+            <span className="text-sm font-extrabold text-white">
+              {t('pricing.includes')}
             </span>
-          </motion.li>
-        ))}
-      </ul>
+            <ChevronDown className="w-4 h-4 text-white/80" />
+          </summary>
+          <ul className="mt-4 space-y-3">
+            {features.map((feature, index) => (
+              <motion.li
+                key={index}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.03 }}
+                className="flex items-start gap-3"
+              >
+                <Check className="w-5 h-5 flex-shrink-0 mt-0.5 text-yellow-300" />
+                <span className="text-sm leading-relaxed text-white">
+                  {feature}
+                </span>
+              </motion.li>
+            ))}
+          </ul>
+        </details>
+      ) : (
+        <ul className="space-y-3 mb-8 flex-grow">
+          {features.map((feature, index) => (
+            <motion.li
+              key={index}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="flex items-start gap-3"
+            >
+              <Check className={`w-5 h-5 flex-shrink-0 mt-0.5 ${
+                isPremium ? 'text-yellow-300' :
+                isSpecialOffer ? 'text-yellow-200' :
+                isEnterprise ? 'text-slate-300' :
+                isDisabled ? 'text-gray-400' : 'text-green-600'
+              }`} />
+              <span className={`text-sm leading-relaxed ${
+                isPremium || isSpecialOffer || isEnterprise ? 'text-white' :
+                isDisabled ? 'text-gray-500' : 'text-gray-700'
+              }`}>
+                {feature}
+              </span>
+            </motion.li>
+          ))}
+        </ul>
+      )}
+
+      {/* Dahil Değil (Premium upsell context) */}
+      {!isPremium && excludedFeatures && excludedFeatures.length > 0 && (
+        <div className={`mb-6 rounded-xl p-4 ${
+          isPremium ? 'bg-white/15 border border-white/20' : 'bg-gray-50 border border-gray-200'
+        }`}>
+          {excludedTitle && (
+            <div className={`text-xs font-bold mb-3 ${
+              isPremium ? 'text-white/90' : 'text-gray-700'
+            }`}>
+              {excludedTitle}
+            </div>
+          )}
+          <ul className="space-y-2">
+            {excludedFeatures.map((f, idx) => (
+              <li key={idx} className="flex items-start gap-2">
+                <Lock className={`w-4 h-4 mt-0.5 ${
+                  isPremium ? 'text-white/80' : 'text-gray-500'
+                }`} />
+                <span className={`text-xs ${
+                  isPremium ? 'text-white/85' : 'text-gray-600'
+                }`}>
+                  {f}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* CFO Add-on (Premium upsell) */}
+      {addonTitle && addonPrice && (
+        isPremium ? (
+          <div className="mb-6 flex items-baseline justify-between gap-3">
+            <span className="font-extrabold text-white">{addonTitle}</span>{' '}
+            <span className="text-base font-extrabold text-white">
+              +{addonPrice} TL{addonPeriod ? `/${addonPeriod}` : ''}
+            </span>
+          </div>
+        ) : (
+          <div className={`mb-6 rounded-xl p-4 ${
+            isPremium ? 'bg-white/15 border border-white/20' : 'bg-indigo-50 border border-indigo-200'
+          }`}>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <div className={`text-sm font-extrabold ${
+                  isPremium ? 'text-white' : 'text-indigo-900'
+                }`}>
+                  {addonTitle}
+                </div>
+                {addonSubtitle && (
+                  <div className={`mt-1 text-xs ${
+                    isPremium ? 'text-white/85' : 'text-indigo-700'
+                  }`}>
+                    {addonSubtitle}
+                  </div>
+                )}
+              </div>
+              <div className="text-right">
+                <div className={`text-xl font-extrabold ${
+                  isPremium ? 'text-white' : 'text-indigo-900'
+                }`}>
+                  +{addonPrice} TL
+                </div>
+                {addonPeriod && (
+                  <div className={`text-xs ${
+                    isPremium ? 'text-white/75' : 'text-indigo-700'
+                  }`}>
+                    {addonPeriod}
+                  </div>
+                )}
+              </div>
+            </div>
+            {addonFeatures && addonFeatures.length > 0 && (
+              <ul className="mt-3 space-y-2">
+                {addonFeatures.map((f, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <Check className={`w-4 h-4 mt-0.5 ${
+                      isPremium ? 'text-yellow-300' : 'text-green-600'
+                    }`} />
+                    <span className={`text-xs ${
+                      isPremium ? 'text-white/90' : 'text-gray-700'
+                    }`}>
+                      {f}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className={`mt-3 text-[11px] ${
+              isPremium ? 'text-yellow-100' : 'text-indigo-700'
+            }`}>
+              {t('pricing.cfoAddon.note')}
+            </div>
+          </div>
+        )
+      )}
 
       {/* Özel Not */}
       {specialNote && (
@@ -443,12 +584,31 @@ export default function PricingSection() {
       subtitle: t('pricing.premium.subtitle'),
       price: calculatePrice(1799),
       period: getPeriodText(),
+      badge: t('pricing.premium.badge'),
+      badgeColor: 'bg-white/20 text-white',
       priceNote: billingPeriod === 'yearly' ? t('pricing.premium.priceNote') : undefined,
       features: [
-        t('pricing.premium.features.1'),
-        t('pricing.premium.features.2'),
-        t('pricing.premium.features.3'),
-        t('pricing.premium.features.4')
+        t('pricing.premium.includes.1'),
+        t('pricing.premium.includes.2'),
+        t('pricing.premium.includes.3'),
+        t('pricing.premium.includes.4'),
+        t('pricing.premium.includes.5')
+      ],
+      excludedTitle: t('pricing.premium.excludesTitle'),
+      excludedFeatures: [
+        t('pricing.premium.excludes.1'),
+        t('pricing.premium.excludes.2'),
+        t('pricing.premium.excludes.3')
+      ],
+      addonTitle: t('pricing.cfoAddon.title'),
+      addonSubtitle: t('pricing.cfoAddon.subtitle'),
+      addonPrice: t('pricing.cfoAddon.price'),
+      addonPeriod: t('pricing.cfoAddon.period'),
+      addonFeatures: [
+        t('pricing.cfoAddon.features.1'),
+        t('pricing.cfoAddon.features.2'),
+        t('pricing.cfoAddon.features.3'),
+        t('pricing.cfoAddon.features.4')
       ],
       buttonText: t('pricing.premium.button'),
       buttonLink: '/signup',
@@ -876,4 +1036,3 @@ const BetaApplicationModal: React.FC<BetaApplicationModalProps> = ({ onClose, re
     </div>
   );
 };
-

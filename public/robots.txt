@@ -5,6 +5,10 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /dashboard/
+Disallow: /docs/
+Disallow: /bilgi-merkezi/
+Disallow: /veri-rehberi
+Disallow: /veri-hazirlama
 Disallow: /api/
 
 # Sitemap

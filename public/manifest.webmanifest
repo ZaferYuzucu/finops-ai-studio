@@ -1,0 +1,23 @@
+{
+  "name": "FINOPS AI Studio",
+  "short_name": "FINOPS",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "description": "KOBİ'ler için yapay zeka destekli finansal yönetim ve dashboard platformu.",
+  "icons": [
+    {
+      "src": "/brand/finops-logo-Kalkan.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/brand/finops-logo-Kalkan.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+

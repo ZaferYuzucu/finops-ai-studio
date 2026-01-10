@@ -3,26 +3,20 @@ import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ChevronDown, LogOut, Globe, Menu, X } from "lucide-react";
 import logo from '@/assets/brand/finops-logo-Kalkan.png';
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 
 // Navigation config will be dynamic based on translation
 
 export default function Navbar() {
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
-  // Admin kontrolü
-  const isAdmin = localStorage.getItem('isAdminAuthenticated') === 'true' || 
-                  sessionStorage.getItem('isAdminAuthenticated') === 'true';
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      await logout();
       navigate('/');
     } catch (error) {
       console.error("Çıkış yaparken hata oluştu:", error);
@@ -65,7 +59,10 @@ export default function Navbar() {
       children: [
         { name: t('nav.knowledgeBase'), href: "/blog" },
         { name: t('nav.documents'), href: "/docs" },
-        { name: "🔐 Veri Güvenliği", href: "/veri-guvenligi" },
+        { name: t('nav.infoCenterHeader'), href: "#", isHeader: true },
+        { name: t('nav.chartGuide'), href: "/bilgi-merkezi/grafik-rehberi" },
+        { name: t('nav.dataUploadGuide'), href: "/veri-rehberi" },
+        { name: `🔐 ${t('nav.dataSecurity')}`, href: "/veri-guvenligi" },
       ],
     },
     { name: t('nav.pricing'), href: "/pricing" },
@@ -130,18 +127,6 @@ export default function Navbar() {
                       className="px-4 py-1.5 text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 transition-colors rounded-lg shadow-sm">
                         {t('nav.userPanel')}
                     </Link>
-                    {isAdmin && (
-                      <Link 
-                        to="/office"
-                        title="Yönetim Ofisi"
-                        className="px-4 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-all rounded-lg shadow-sm flex items-center gap-2">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          </svg>
-                          Yönetim
-                      </Link>
-                    )}
                     <button
                       onClick={handleLogout}
                       title={t('nav.logout')}
@@ -262,15 +247,6 @@ export default function Navbar() {
                     >
                       {t('nav.userPanel')}
                     </Link>
-                    {isAdmin && (
-                      <Link
-                        to="/office"
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="block w-full px-4 py-2 text-center text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-all rounded-lg shadow-sm"
-                      >
-                        ⚙️ Yönetim Ofisi
-                      </Link>
-                    )}
                     <button
                       onClick={() => {
                         handleLogout();

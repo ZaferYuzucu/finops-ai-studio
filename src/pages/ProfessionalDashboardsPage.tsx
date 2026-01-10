@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { BarChart3, ArrowLeft } from 'lucide-react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
+import { BarChart3, ArrowLeft, Download, Share2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import DeepSurveyPanel from '@/components/surveys/DeepSurveyPanel';
 import { useSurvey } from '@/hooks/useSurvey';
 import type { SectorType } from '@/types/survey';
+import * as XLSX from 'xlsx';
+import { exportElementToPdfA4 } from '@/utils/pdfExport';
+import { copyToClipboard, createShareUrl } from '@/utils/shareLink';
 import {
   RestaurantDashboard,
   RestaurantOperationsDashboard,
@@ -148,6 +151,8 @@ const ProfessionalDashboardsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('restaurant');
   const [selectedDashboard, setSelectedDashboard] = useState<string>('restaurant-general');
   const [showDeepSurvey, setShowDeepSurvey] = useState(false);
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const exportRef = useRef<HTMLDivElement | null>(null);
   
   const { 
     profile, 
@@ -181,6 +186,143 @@ const ProfessionalDashboardsPage = () => {
     dismissDeepSurvey();
     setShowDeepSurvey(false);
   };
+
+  const handleExportPDF = async () => {
+    const el = exportRef.current;
+    if (!el) return;
+
+    const fileName = `FINOPS_Dashboard_${selectedDashboard}_${new Date().toISOString().slice(0, 10)}.pdf`;
+    setIsExportingPdf(true);
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    // Let ResponsiveContainer measure + render
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 700));
+    window.dispatchEvent(new Event('resize'));
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 150));
+
+    try {
+      await exportElementToPdfA4(el, {
+        filename: fileName,
+        orientation: 'landscape',
+        renderAtA4Size: true,
+      });
+    } finally {
+      setIsExportingPdf(false);
+    }
+  };
+
+  const handleExportExcel = () => {
+    const wb = XLSX.utils.book_new();
+
+    // Template dashboards mostly render charts; we export the selection metadata as a usable workbook
+    // (Demo dashboard exports real datasets on /dashboard/demo-preview).
+    const metaRows = [
+      { key: 'category', value: selectedCategory },
+      { key: 'dashboard', value: selectedDashboard },
+      { key: 'exportedAt', value: new Date().toISOString() },
+    ];
+    const wsMeta = XLSX.utils.json_to_sheet(metaRows);
+    XLSX.utils.book_append_sheet(wb, wsMeta, 'Meta');
+
+    const fileName = `FINOPS_Dashboard_${selectedDashboard}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    XLSX.writeFile(wb, fileName);
+  };
+
+  const handleShareLink = async () => {
+    const payload = {
+      kind: 'template' as const,
+      templateId: selectedDashboard,
+      templateLabel: selectedDashboardLabel,
+      categoryLabel: selectedCategoryLabel,
+      generatedAtIso: new Date().toISOString(),
+    };
+    const url = createShareUrl(payload);
+    void copyToClipboard(url);
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const selectedCategoryLabel = DASHBOARD_CATEGORIES[selectedCategory]?.name ?? selectedCategory;
+  const selectedDashboardLabel = useMemo(() => {
+    const cat = DASHBOARD_CATEGORIES[selectedCategory];
+    const found = cat?.dashboards?.find((d) => d.id === selectedDashboard);
+    return found?.name ?? selectedDashboard;
+  }, [selectedCategory, selectedDashboard]);
+
+  const reportNote = useMemo(() => {
+    const today = new Date();
+    const fmt = (d: Date) =>
+      d.toLocaleDateString('tr-TR', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    return {
+      dateRange: `${fmt(today)} – ${fmt(today)}`,
+      currency: 'TRY (₺)',
+      filters: `Kategori: ${selectedCategoryLabel} • Şablon: ${selectedDashboardLabel}`,
+      source: 'Şablon Dashboard (print-ready)',
+    };
+  }, [selectedCategoryLabel, selectedDashboardLabel]);
+
+  const renderSelectedDashboard = () => (
+    <>
+      {/* Restoran Dashboards */}
+      {selectedDashboard === 'restaurant-general' && <RestaurantDashboard />}
+      {selectedDashboard === 'restaurant-operations' && <RestaurantOperationsDashboard />}
+      {selectedDashboard === 'restaurant-sales' && <RestaurantSalesDashboard />}
+      {selectedDashboard === 'restaurant-finance' && <RestaurantFinanceDashboard />}
+      {selectedDashboard === 'restaurant-labor' && <RestaurantLaborDashboard />}
+      
+      {/* Manufacturing Dashboards */}
+      {selectedDashboard === 'manufacturing-control' && <ManufacturingDashboard />}
+      {selectedDashboard === 'quality-control' && <QualityControlDashboard />}
+      {selectedDashboard === 'inventory-management' && <InventoryDashboard />}
+      {selectedDashboard === 'oee-dashboard' && <OEEDashboard />}
+      
+      {/* Finance Dashboards */}
+      {selectedDashboard === 'finance-cfo' && <FinanceDashboard />}
+      {selectedDashboard === 'cash-flow' && <CashFlowDashboard />}
+      
+      {/* Hotel & E-commerce */}
+      {selectedDashboard === 'hotel-management' && <HotelOperationsDashboard />}
+      {selectedDashboard === 'ecommerce-kpi' && <EcommerceDashboard />}
+      
+      {/* Healthcare & Agriculture */}
+      {selectedDashboard === 'healthcare-kpi' && <HealthcareDashboard />}
+      {selectedDashboard === 'agriculture-kpi' && <AgricultureDashboard />}
+      
+      {/* Logistics & Education */}
+      {selectedDashboard === 'logistics-kpi' && <LogisticsDashboard />}
+      {selectedDashboard === 'education-performance' && <EducationDashboard />}
+      
+      {/* Energy & Retail */}
+      {selectedDashboard === 'energy-kpi' && <EnergyDashboard />}
+      {selectedDashboard === 'retail-kpi' && <RetailDashboard />}
+      
+      {/* Call Center & Marketing */}
+      {selectedDashboard === 'callcenter-kpi' && <CallCenterDashboard />}
+      {selectedDashboard === 'marketing-kpi' && <MarketingDashboard />}
+      
+      {/* HR & Supply Chain */}
+      {selectedDashboard === 'hr-metrics' && <HRDashboard />}
+      {selectedDashboard === 'supplychain-kpi' && <SupplyChainDashboard />}
+      
+      {/* Project Management & Customer Service */}
+      {selectedDashboard === 'project-kpi' && <ProjectManagementDashboard />}
+      {selectedDashboard === 'customerservice-kpi' && <CustomerServiceDashboard />}
+      
+      {/* Sales & IT */}
+      {selectedDashboard === 'sales-kpi' && <SalesDashboard />}
+      {selectedDashboard === 'it-ops' && <ITOperationsDashboard />}
+      
+      {/* Web Analytics & Fleet */}
+      {selectedDashboard === 'web-analytics' && <WebAnalyticsDashboard />}
+      {selectedDashboard === 'fleet-kpi' && <FleetManagementDashboard />}
+      
+      {/* Real Estate & Insurance */}
+      {selectedDashboard === 'realestate-kpi' && <RealEstateDashboard />}
+      {selectedDashboard === 'insurance-kpi' && <InsuranceDashboard />}
+      
+      {/* Construction */}
+      {selectedDashboard === 'construction-kpi' && <ConstructionDashboard />}
+    </>
+  );
 
   return (
     <>
@@ -282,67 +424,109 @@ const ProfessionalDashboardsPage = () => {
             </div>
           </div>
 
+          {/* Export actions */}
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div className="text-sm text-gray-600">
+              Seçili dashboard: <span className="font-semibold text-gray-900">{selectedDashboard}</span>
+              <div className="mt-1 text-[11px] text-gray-500">
+                Dashboards and reports generated on FinOps AI Studio are proprietary
+                and licensed for use only within this platform.
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={handleExportPDF}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors shadow-md"
+              >
+                <Download size={18} />
+                <span>PDF İndir (A4 Yatay)</span>
+              </button>
+              <button
+                onClick={handleShareLink}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-md"
+              >
+                <Share2 size={18} />
+                <span>Paylaş (View-only)</span>
+              </button>
+              <button
+                onClick={handleExportExcel}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-md"
+              >
+                <Download size={18} />
+                <span>Excel İndir</span>
+              </button>
+            </div>
+          </div>
+
           {/* Dashboard Display */}
           <div className="bg-white rounded-xl shadow-2xl overflow-auto" style={{ maxHeight: '85vh' }}>
-            {/* Restoran Dashboards */}
-            {selectedDashboard === 'restaurant-general' && <RestaurantDashboard />}
-            {selectedDashboard === 'restaurant-operations' && <RestaurantOperationsDashboard />}
-            {selectedDashboard === 'restaurant-sales' && <RestaurantSalesDashboard />}
-            {selectedDashboard === 'restaurant-finance' && <RestaurantFinanceDashboard />}
-            {selectedDashboard === 'restaurant-labor' && <RestaurantLaborDashboard />}
-            
-            {/* Manufacturing Dashboards */}
-            {selectedDashboard === 'manufacturing-control' && <ManufacturingDashboard />}
-            {selectedDashboard === 'quality-control' && <QualityControlDashboard />}
-            {selectedDashboard === 'inventory-management' && <InventoryDashboard />}
-            {selectedDashboard === 'oee-dashboard' && <OEEDashboard />}
-            
-            {/* Finance Dashboards */}
-            {selectedDashboard === 'finance-cfo' && <FinanceDashboard />}
-            {selectedDashboard === 'cash-flow' && <CashFlowDashboard />}
-            
-            {/* Hotel & E-commerce */}
-            {selectedDashboard === 'hotel-management' && <HotelOperationsDashboard />}
-            {selectedDashboard === 'ecommerce-kpi' && <EcommerceDashboard />}
-            
-            {/* Healthcare & Agriculture */}
-            {selectedDashboard === 'healthcare-kpi' && <HealthcareDashboard />}
-            {selectedDashboard === 'agriculture-kpi' && <AgricultureDashboard />}
-            
-            {/* Logistics & Education */}
-            {selectedDashboard === 'logistics-kpi' && <LogisticsDashboard />}
-            {selectedDashboard === 'education-performance' && <EducationDashboard />}
-            
-            {/* Energy & Retail */}
-            {selectedDashboard === 'energy-kpi' && <EnergyDashboard />}
-            {selectedDashboard === 'retail-kpi' && <RetailDashboard />}
-            
-            {/* Call Center & Marketing */}
-            {selectedDashboard === 'callcenter-kpi' && <CallCenterDashboard />}
-            {selectedDashboard === 'marketing-kpi' && <MarketingDashboard />}
-            
-            {/* HR & Supply Chain */}
-            {selectedDashboard === 'hr-metrics' && <HRDashboard />}
-            {selectedDashboard === 'supplychain-kpi' && <SupplyChainDashboard />}
-            
-            {/* Project Management & Customer Service */}
-            {selectedDashboard === 'project-kpi' && <ProjectManagementDashboard />}
-            {selectedDashboard === 'customerservice-kpi' && <CustomerServiceDashboard />}
-            
-            {/* Sales & IT */}
-            {selectedDashboard === 'sales-kpi' && <SalesDashboard />}
-            {selectedDashboard === 'it-ops' && <ITOperationsDashboard />}
-            
-            {/* Web Analytics & Fleet */}
-            {selectedDashboard === 'web-analytics' && <WebAnalyticsDashboard />}
-            {selectedDashboard === 'fleet-kpi' && <FleetManagementDashboard />}
-            
-            {/* Real Estate & Insurance */}
-            {selectedDashboard === 'realestate-kpi' && <RealEstateDashboard />}
-            {selectedDashboard === 'insurance-kpi' && <InsuranceDashboard />}
-            
-            {/* Construction */}
-            {selectedDashboard === 'construction-kpi' && <ConstructionDashboard />}
+            {/* Export target: during export we render a 2-page print layout */}
+            <div ref={exportRef} className="w-full overflow-visible">
+              {isExportingPdf ? (
+                <div className="space-y-4">
+                  {/* Page 1: scaled overview */}
+                  <div className="bg-white border border-gray-200 rounded-xl p-3">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <div className="text-lg font-bold text-gray-900">Şablon Dashboard Raporu</div>
+                        <div className="mt-1 text-[11px] text-gray-600">
+                          {selectedCategoryLabel} • {selectedDashboardLabel} • {reportNote.dateRange}
+                        </div>
+                      </div>
+                      <div className="text-[11px] text-gray-500">PDF (A4 Yatay)</div>
+                    </div>
+
+                    {/* Fit the whole selected dashboard into ONE page */}
+                    <div className="mt-3 border border-gray-200 rounded-lg p-2" data-pdf-fit="one-page">
+                      {renderSelectedDashboard()}
+                    </div>
+                  </div>
+
+                  {/* Page break */}
+                  <div style={{ breakBefore: 'page', pageBreakBefore: 'always' as any }} />
+
+                  {/* Page 2: notes + metadata */}
+                  <div className="space-y-3">
+                    <div className="bg-gray-50 border border-gray-200 rounded-xl p-3">
+                      <div className="text-sm font-semibold text-gray-800 mb-2">📝 Veri Notu</div>
+                      <div className="grid grid-cols-2 gap-2 text-[11px] text-gray-700">
+                        <div><span className="font-semibold">Tarih aralığı:</span> {reportNote.dateRange}</div>
+                        <div><span className="font-semibold">Para birimi:</span> {reportNote.currency}</div>
+                        <div><span className="font-semibold">Filtreler:</span> {reportNote.filters}</div>
+                        <div><span className="font-semibold">Veri kaynağı:</span> {reportNote.source}</div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white border border-gray-200 rounded-xl p-3">
+                      <div className="text-sm font-semibold text-gray-900 mb-2">📋 Rapor Özeti</div>
+                      <div className="overflow-hidden rounded-lg border border-gray-200">
+                        <table className="w-full text-[11px]">
+                          <tbody>
+                            <tr className="border-t border-gray-100">
+                              <td className="px-2 py-1.5 text-gray-600 font-semibold">Kategori</td>
+                              <td className="px-2 py-1.5 text-gray-900">{selectedCategoryLabel}</td>
+                            </tr>
+                            <tr className="border-t border-gray-100">
+                              <td className="px-2 py-1.5 text-gray-600 font-semibold">Dashboard</td>
+                              <td className="px-2 py-1.5 text-gray-900">{selectedDashboardLabel}</td>
+                            </tr>
+                            <tr className="border-t border-gray-100">
+                              <td className="px-2 py-1.5 text-gray-600 font-semibold">Format</td>
+                              <td className="px-2 py-1.5 text-gray-900">A4 Yatay PDF (Overview + Notlar)</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="mt-2 text-[11px] text-gray-500">
+                        Not: Bu şablon rapor, dashboard’ı tek sayfaya sığdıracak şekilde ölçekler. Bazı dashboard’larda okunabilirlik için zoom önerilebilir.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                renderSelectedDashboard()
+              )}
+            </div>
           </div>
 
           {/* Info Box */}

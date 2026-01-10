@@ -8,6 +8,13 @@ interface AdminProtectedRouteProps {
 }
 
 const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({ children }) => {
+  // Dev-only bypass (do NOT enable in prod builds).
+  const disableAdminGuard =
+    import.meta.env.DEV && import.meta.env.VITE_DISABLE_AUTH_GUARD === 'true';
+  if (disableAdminGuard) {
+    return <>{children}</>;
+  }
+
   // localStorage'dan kontrol et (kalıcı - sayfa yenilendiğinde silinmez!)
   const isAuthenticatedLocal = localStorage.getItem('isAdminAuthenticated');
   const isAuthenticatedSession = sessionStorage.getItem('isAdminAuthenticated');

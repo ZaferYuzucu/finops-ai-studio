@@ -128,7 +128,7 @@ const IntegrationsSection = () => {
                   </div>
 
                   {/* Name (always visible) */}
-                  <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center leading-tight group-hover:text-indigo-700 transition-colors">
+                  <p className="text-xs sm:text-sm font-semibold text-gray-900 text-center leading-tight group-hover:text-indigo-700 transition-colors">
                     {integration.name}
                   </p>
                 </div>

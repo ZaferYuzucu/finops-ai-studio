@@ -1525,7 +1525,16 @@
         "step3Desc": "Drag file here or click \"Upload File\" button",
         "step4": "AI Analysis:",
         "step4Desc": "System automatically recognizes columns, detects date/number formats",
-        "exampleTitle": "✅ Sample CSV Structure:"
+        "exampleTitle": "✅ Sample CSV Structure:",
+        "quickGuide": {
+          "title": "Connect your data in 2 minutes",
+          "step1": "<strong>Drag & drop</strong> your Excel or CSV file. (No template needed.)",
+          "step2": "If there are multiple sheets, <strong>we'll ask you to select</strong> one.",
+          "step3": "We <strong>automatically suggest</strong> header row and columns — you can edit if needed.",
+          "step4": "<strong>Save → Preview → Apply to Dashboard.</strong>",
+          "note": "💡 <strong>Note:</strong> Merged cells / formulas may exist. System flattens them as best as possible.",
+          "downloadSample": "Download sample CSVs"
+        }
       },
       "urlConnection": {
         "title": "Connect to Data Source",
@@ -1550,7 +1559,20 @@
         "advantage1": "Real-time synchronization",
         "advantage2": "Automatic updates",
         "advantage3": "No file upload needed",
-        "advantage4": "Ideal for large datasets"
+        "advantage4": "Ideal for large datasets",
+        "integration": {
+          "title": "Integrate",
+          "phase": "Phase-2",
+          "description1": "Auto-sync with <strong>ERP/CRM/POS/Excel links</strong> <span className=\"text-purple-700 font-semibold\">(Phase-2)</span>.",
+          "description2": "<strong>For now:</strong> you can run the demo by uploading files.",
+          "plannedTitle": "🚀 Planned Integrations (Phase-2):",
+          "planned1": "Google Sheets auto-sync",
+          "planned2": "Airtable API connection",
+          "planned3": "Logo, Netsis, Mikro ERP integration",
+          "planned4": "Paraşüt, Uyumsoft APIs",
+          "whatToDoTitle": "What should you do now?",
+          "whatToDoDesc": "👆 Switch to the <strong>\"Excel/CSV Drag & Drop\"</strong> tab above and upload your file."
+        }
       },
       "selectedFiles": "Selected Files:",
       "uploadButton": "Start Uploading 1 File",

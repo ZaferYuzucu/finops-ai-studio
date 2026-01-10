@@ -4,7 +4,7 @@
  */
 
 export type ApplicationStatus = 'pending' | 'approved' | 'rejected';
-export type ApplicationSource = 'user' | 'admin'; // Kullanıcı mı başvurdu, admin mi teklif etti
+export type ApplicationSource = 'user' | 'admin' | 'beta_form'; // Kullanıcı mı başvurdu, admin mi teklif etti, beta form mu
 
 export interface BetaApplication {
   id: string;
@@ -20,10 +20,16 @@ export interface BetaApplication {
   
   // Süreç Bilgileri
   status: ApplicationStatus;
-  source: ApplicationSource; // 'user' = başvurdu, 'admin' = admin teklif etti
+  source: ApplicationSource; // 'user' = başvurdu, 'admin' = admin teklif etti, 'beta_form' = beta başvuru formu
   appliedAt: string; // ISO timestamp
   reviewedAt?: string; // ISO timestamp
   reviewedBy?: string; // Admin user ID
+  
+  // Anket Cevapları (Beta Form için)
+  surveyAnswers?: {
+    companySize?: string; // 'micro' | 'small' | 'medium'
+    mainChallenge?: string; // 'cash_flow' | 'profitability' | 'cost_control' | 'reporting' | 'all'
+  };
   
   // Onay Sonrası
   userId?: string; // Onaylandıktan sonra oluşturulan Firebase user ID
@@ -65,5 +71,21 @@ export const EMPLOYEE_COUNT_OPTIONS = [
   { value: '1-10', label: '1-10 kişi (Mikro)' },
   { value: '11-50', label: '11-50 kişi (Küçük)' },
   { value: '50+', label: '50+ kişi (Orta/Büyük)' }
+];
+
+// Firma büyüklüğü seçenekleri (Beta Form için)
+export const COMPANY_SIZE_OPTIONS = [
+  { value: 'micro', label: 'Mikro (1-9 çalışan)', icon: '👤' },
+  { value: 'small', label: 'Küçük (10-49 çalışan)', icon: '👥' },
+  { value: 'medium', label: 'Orta (50-249 çalışan)', icon: '👨‍👩‍👧‍👦' }
+];
+
+// Ana zorluk seçenekleri (Beta Form için)
+export const MAIN_CHALLENGE_OPTIONS = [
+  { value: 'cash_flow', label: 'Nakit akışı', icon: '💰' },
+  { value: 'profitability', label: 'Kârlılık', icon: '📈' },
+  { value: 'cost_control', label: 'Maliyet kontrolü', icon: '🎯' },
+  { value: 'reporting', label: 'Raporlama / görünürlük', icon: '📊' },
+  { value: 'all', label: 'Hepsi', icon: '🔥' }
 ];
 

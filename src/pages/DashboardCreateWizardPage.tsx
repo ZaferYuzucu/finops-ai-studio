@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Upload, Database, FileSpreadsheet, Sparkles, ArrowRight, ArrowLeft, Check, Grid3x3, BarChart3, Settings, Eye } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { dashboards } from '../data/dashboards';
+import type { ChartType, DatasetProfile } from '../utils/chartWizard';
+import { ChartSelectionPanel } from '../components/chart-wizard/ChartSelectionPanel';
+import { ChartChoiceWizard } from '../components/chart-wizard/ChartChoiceWizard';
+import { CHART_META } from '../components/chart-wizard/chartMeta';
+import { useAuth } from '../context/AuthContext';
+import type { DashboardBuilderWizardData } from '../types/userDashboard';
+import { createUserDashboard, getUserDashboard, updateUserDashboard } from '../utils/userDashboards';
+import { listTemplateLibrary } from '../utils/templateLibrary';
 
 // Multi-step wizard için step tanımları
 type WizardStep = 1 | 2 | 3 | 4 | 5;
 
 interface WizardData {
+  dashboardName: string;
   dataSource: 'upload' | 'integration' | 'demo' | null;
   dashboardType: 'template' | 'custom' | null;
   selectedTemplate: string | null;
@@ -15,16 +24,37 @@ interface WizardData {
   selectedIntegration: string | null;
   columnMapping: Record<string, string>;
   customizations: {
-    chartTypes: string[];
+    chartTypes: ChartType[];
     selectedMetrics: string[];
     colorScheme: string;
+    chartSettings?: {
+      dateRange?: '30d' | '90d' | 'ytd' | 'all';
+      topN?: number;
+      bottomN?: number;
+      stacked?: boolean;
+      includePdfTable?: boolean;
+    };
   };
 }
 
 const DashboardCreateWizardPage = () => {
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const editId = id;
   const [currentStep, setCurrentStep] = useState<WizardStep>(1);
+  const [showChartWizard, setShowChartWizard] = useState(false);
+  const [datasetProfile, setDatasetProfile] = useState<DatasetProfile>({
+    hasDate: true,
+    hasCategory: true,
+    isRatio: false,
+    hasBridgeSteps: false,
+    rowCount: 365,
+    categoryCount: 10,
+    seriesCount: 3,
+  });
   const [wizardData, setWizardData] = useState<WizardData>({
+    dashboardName: '',
     dataSource: null,
     dashboardType: null,
     selectedTemplate: null,
@@ -32,11 +62,39 @@ const DashboardCreateWizardPage = () => {
     selectedIntegration: null,
     columnMapping: {},
     customizations: {
-      chartTypes: [],
+      chartTypes: ['line'],
       selectedMetrics: [],
       colorScheme: 'blue',
     },
   });
+
+  const userId = currentUser?.uid ?? '';
+
+  const libraryTemplates = useMemo(() => listTemplateLibrary(), []);
+
+  // Load existing dashboard for editing
+  useEffect(() => {
+    if (!editId) return;
+    if (!userId) return;
+    const existing = getUserDashboard(userId, editId);
+    if (!existing) {
+      navigate('/dashboard/my');
+      return;
+    }
+    setWizardData((prev) => ({
+      ...prev,
+      dashboardName: existing.wizardData.dashboardName ?? existing.name ?? '',
+      dataSource: existing.wizardData.dataSource,
+      dashboardType: existing.wizardData.dashboardType,
+      selectedTemplate: existing.wizardData.selectedTemplate,
+      uploadedFile: null, // cannot restore persisted File
+      selectedIntegration: existing.wizardData.selectedIntegration,
+      columnMapping: existing.wizardData.columnMapping ?? {},
+      customizations: existing.wizardData.customizations ?? prev.customizations,
+    }));
+    setCurrentStep(5);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editId, userId]);
 
   // Dropzone için callback
   const onDrop = (acceptedFiles: File[]) => {
@@ -90,10 +148,43 @@ const DashboardCreateWizardPage = () => {
   };
 
   const handleFinish = () => {
-    // Dashboard'u kaydet ve yönlendir
-    console.log('Dashboard oluşturuldu:', wizardData);
-    navigate('/dashboard');
+    if (!userId) {
+      alert('Giriş yapılmadan dashboard kaydedilemez.');
+      navigate('/login');
+      return;
+    }
+
+    const name = wizardData.dashboardName.trim();
+    if (!name) {
+      alert('Lütfen dashboard için bir isim girin.');
+      return;
+    }
+
+    const payload: DashboardBuilderWizardData = {
+      dashboardName: name,
+      datasetProfileSnapshot: datasetProfile,
+      dataSource: wizardData.dataSource,
+      dashboardType: wizardData.dashboardType,
+      selectedTemplate: wizardData.selectedTemplate,
+      uploadedFileMeta: wizardData.uploadedFile
+        ? {
+            name: wizardData.uploadedFile.name,
+            size: wizardData.uploadedFile.size,
+            type: wizardData.uploadedFile.type,
+          }
+        : null,
+      selectedIntegration: wizardData.selectedIntegration,
+      columnMapping: wizardData.columnMapping ?? {},
+      customizations: wizardData.customizations,
+    };
+
+    if (editId) updateUserDashboard(userId, editId, payload);
+    else createUserDashboard(userId, payload);
+
+    navigate('/dashboard/my');
   };
+
+  const pageTitle = useMemo(() => (editId ? 'Dashboard Düzenle' : 'Dashboard Oluştur'), [editId]);
 
   // Entegrasyon seçenekleri
   const integrations = [
@@ -111,7 +202,7 @@ const DashboardCreateWizardPage = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Dashboard Oluştur
+            {pageTitle}
           </h1>
           <p className="text-lg text-gray-600">
             Kendi verilerinizle özelleştirilmiş dashboard'lar oluşturun
@@ -328,6 +419,69 @@ const DashboardCreateWizardPage = () => {
                       </button>
                     ))}
                   </div>
+
+                  {/* Admin onaylı şablonlar (konfigürasyon tabanlı) */}
+                  {libraryTemplates.length > 0 && (
+                    <div className="mt-6">
+                      <div className="flex items-center justify-between gap-3 mb-3">
+                        <h4 className="text-sm font-extrabold text-gray-900">
+                          Admin Onaylı Şablonlar
+                        </h4>
+                        <span className="text-xs font-bold text-gray-600">
+                          {libraryTemplates.length} adet
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {libraryTemplates.slice(0, 20).map((t) => {
+                          const id = `lib:${t.id}`;
+                          const selected = wizardData.selectedTemplate === id;
+                          return (
+                            <button
+                              key={t.id}
+                              onClick={() => {
+                                setWizardData((prev) => ({
+                                  ...prev,
+                                  selectedTemplate: id,
+                                  // Apply template customizations (no data)
+                                  customizations: t.wizardData.customizations ?? prev.customizations,
+                                  // If user hasn't set a name yet, propose one
+                                  dashboardName: prev.dashboardName?.trim()
+                                    ? prev.dashboardName
+                                    : `${t.name} (Kopya)`,
+                                }));
+                              }}
+                              className={`p-4 rounded-xl border-2 text-left transition-all hover:shadow-md ${
+                                selected
+                                  ? 'border-emerald-500 bg-emerald-50'
+                                  : 'border-gray-200 hover:border-emerald-300'
+                              }`}
+                            >
+                              <div className="flex items-start justify-between gap-3">
+                                <div className="min-w-0">
+                                  <div className="text-sm font-extrabold text-gray-900 truncate">
+                                    {t.name}
+                                  </div>
+                                  <div className="mt-1 text-[11px] text-gray-600">
+                                    {t.sectorLabel ? `${t.sectorLabel} • ` : ''}
+                                    Admin onaylı şablon
+                                  </div>
+                                  <div className="mt-2 text-xs text-gray-600">
+                                    Grafik: {t.wizardData.customizations?.chartTypes?.[0] ?? '—'}
+                                  </div>
+                                </div>
+                                <span className="text-xs font-bold px-2 py-1 rounded-full bg-emerald-600 text-white">
+                                  Şablon
+                                </span>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <div className="mt-2 text-[11px] text-gray-500">
+                        Not: Bu şablonlar “konfigürasyon” kopyalar; veri içermez.
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -397,37 +551,71 @@ const DashboardCreateWizardPage = () => {
             <div className="space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Dashboard Özelleştirme</h2>
 
-              {/* Grafik Tipleri */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Grafik Tipleri:</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[
-                    { id: 'bar', name: 'Bar Chart', icon: '📊' },
-                    { id: 'line', name: 'Line Chart', icon: '📈' },
-                    { id: 'pie', name: 'Pie Chart', icon: '🥧' },
-                    { id: 'area', name: 'Area Chart', icon: '📉' },
-                  ].map((chart) => (
-                    <button
-                      key={chart.id}
-                      onClick={() => {
-                        const selected = wizardData.customizations.chartTypes.includes(chart.id)
-                          ? wizardData.customizations.chartTypes.filter((id) => id !== chart.id)
-                          : [...wizardData.customizations.chartTypes, chart.id];
-                        setWizardData({
-                          ...wizardData,
-                          customizations: { ...wizardData.customizations, chartTypes: selected },
-                        });
-                      }}
-                      className={`p-4 rounded-lg border-2 transition-all ${
-                        wizardData.customizations.chartTypes.includes(chart.id)
-                          ? 'border-indigo-500 bg-indigo-50'
-                          : 'border-gray-200 hover:border-indigo-300'
-                      }`}
-                    >
-                      <span className="text-3xl mb-2 block">{chart.icon}</span>
-                      <span className="text-sm font-medium">{chart.name}</span>
-                    </button>
-                  ))}
+              {/* Grafik Seçimi (Wizard + Manual Panel) */}
+              <div className="space-y-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">Grafik Seçimi</h3>
+                    <p className="text-sm text-gray-600">
+                      Fino, verine göre en doğru grafiği önerir. İstersen manuel değiştirebilirsin.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowChartWizard(true)}
+                    className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
+                  >
+                    Grafik Seçim Sihirbazı
+                  </button>
+                </div>
+
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+                  <div className="text-xs font-bold text-gray-700 mb-2">Veri analizi (özet)</div>
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    <span className="px-3 py-1 rounded-full bg-white border border-gray-200">
+                      {datasetProfile.hasDate ? '✅ Tarih var' : '⚠️ Tarih yok'}
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-white border border-gray-200">
+                      {datasetProfile.hasCategory ? '✅ Kategori var' : '⚠️ Kategori yok'}
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-white border border-gray-200">
+                      {datasetProfile.isRatio ? '✅ Oran/%' : '— Mutlak'}
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-white border border-gray-200">
+                      {datasetProfile.hasBridgeSteps ? '✅ Akış yapısı' : '— Akış değil'}
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-white border border-gray-200">
+                      {datasetProfile.rowCount} satır
+                    </span>
+                  </div>
+                </div>
+
+                <ChartSelectionPanel
+                  profile={datasetProfile}
+                  value={wizardData.customizations.chartTypes[0] || 'line'}
+                  onChange={(next) =>
+                    setWizardData({
+                      ...wizardData,
+                      customizations: { ...wizardData.customizations, chartTypes: [next] },
+                    })
+                  }
+                />
+
+                <div className="rounded-2xl border border-gray-200 bg-white p-4">
+                  <div className="text-sm font-semibold text-gray-900">Seçilen Grafik</div>
+                  <div className="mt-2 flex items-center gap-2">
+                    {(() => {
+                      const key = wizardData.customizations.chartTypes[0] || 'line';
+                      const meta = CHART_META[key];
+                      return (
+                        <>
+                          <meta.Icon className="w-5 h-5 text-indigo-700" />
+                          <span className="font-bold text-gray-900">{meta.labelTr}</span>
+                          <span className="text-xs text-gray-500">({key})</span>
+                        </>
+                      );
+                    })()}
+                  </div>
                 </div>
               </div>
 
@@ -468,6 +656,23 @@ const DashboardCreateWizardPage = () => {
           {currentStep === 5 && (
             <div className="space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Dashboard Önizleme</h2>
+
+              <div className="rounded-lg border border-gray-200 bg-white p-5">
+                <label className="block text-sm font-semibold text-gray-900">Dashboard Adı</label>
+                <input
+                  value={wizardData.dashboardName}
+                  onChange={(e) => setWizardData({ ...wizardData, dashboardName: e.target.value })}
+                  placeholder="Örn: CFO Haftalık Özet"
+                  className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                />
+                <div className="mt-2 text-xs text-gray-600">
+                  Kaydetmek için isim zorunludur. Sonrasında “Dashboard’larım” sayfasında görünecek.
+                </div>
+                <div className="mt-3 text-[11px] text-gray-500">
+                  Dashboards and reports generated on FinOps AI Studio are proprietary
+                  and licensed for use only within this platform.
+                </div>
+              </div>
 
               {/* Özet Bilgiler */}
               <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-6">
@@ -564,6 +769,35 @@ const DashboardCreateWizardPage = () => {
             </button>
           )}
         </div>
+
+        {/* Chart Wizard Modal */}
+        {showChartWizard && (
+          <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+            <div className="w-full max-w-5xl">
+              <ChartChoiceWizard
+                profile={datasetProfile}
+                onCancel={() => setShowChartWizard(false)}
+                onComplete={(result) => {
+                  setWizardData({
+                    ...wizardData,
+                    customizations: {
+                      ...wizardData.customizations,
+                      chartTypes: [result.selectedChart],
+                      chartSettings: {
+                        dateRange: result.settings.dateRange,
+                        topN: result.settings.topN,
+                        bottomN: result.settings.bottomN,
+                        stacked: result.settings.stacked,
+                        includePdfTable: result.settings.includePdfTable,
+                      },
+                    },
+                  });
+                  setShowChartWizard(false);
+                }}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

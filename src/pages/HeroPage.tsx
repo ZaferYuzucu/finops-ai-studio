@@ -51,6 +51,14 @@ const HeroPage = () => {
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </a>
               <a
+                href="/beta-basvuru"
+                className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-600 to-teal-600 text-white rounded-xl hover:from-green-700 hover:to-teal-700 transition-all shadow-xl hover:shadow-2xl transform hover:scale-105 font-semibold text-lg"
+              >
+                <Sparkles size={20} />
+                <span>Beta Partner Ol</span>
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+              <a
                 href="#features"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-white/80 backdrop-blur-sm border-2 border-purple-200 text-purple-700 rounded-xl hover:bg-white hover:border-purple-400 transition-all shadow-lg font-semibold text-lg"
                 onClick={(e) => {

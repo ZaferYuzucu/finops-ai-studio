@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { User, Server, FileText, UploadCloud, Clock, Link as LinkIcon, AlertTriangle, ListChecks } from 'lucide-react';
+import { useRobotsMeta } from '../hooks/useRobotsMeta';
 
 // Bölüm başlığı bileşeni
 const GuideSection: React.FC<{
@@ -38,6 +39,7 @@ const Note: React.FC<{ children: React.ReactNode, type: 'warning' | 'info' }> = 
 
 
 const DataGuidePage: React.FC = () => {
+  useRobotsMeta('noarchive, noimageindex');
   return (
     <div className="bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">

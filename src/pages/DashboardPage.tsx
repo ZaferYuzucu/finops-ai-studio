@@ -1,18 +1,17 @@
 
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-import { UploadCloud, BarChart3, TrendingUp, LogOut } from 'lucide-react';
+import { UploadCloud, BarChart3, TrendingUp, LogOut, PlusSquare } from 'lucide-react';
 import UsageLimitsPanel from '../components/UsageLimitsPanel';
 
 const DashboardPage: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await auth.signOut();
+      await logout();
       navigate('/login');
     } catch (error) {
       console.error("Çıkış sırasında hata oluştu:", error);
@@ -40,7 +39,7 @@ const DashboardPage: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           {/* Veri Yükle */}
           <button
-            onClick={() => navigate('/veri-girisi')}
+            onClick={() => navigate('/veri-girisi?lang=tr')}
             className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-blue-500 text-left group"
           >
             <div className="flex items-center gap-4 mb-3">
@@ -54,9 +53,25 @@ const DashboardPage: React.FC = () => {
             </p>
           </button>
 
+          {/* Dashboard Oluştur */}
+          <button
+            onClick={() => navigate('/dashboard/create')}
+            className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-indigo-500 text-left group"
+          >
+            <div className="flex items-center gap-4 mb-3">
+              <div className="p-3 bg-indigo-100 rounded-lg group-hover:bg-indigo-600 transition-colors">
+                <PlusSquare className="text-indigo-600 group-hover:text-white transition-colors" size={28} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Dashboard Oluştur</h3>
+            </div>
+            <p className="text-gray-600 text-sm">
+              Kendi dashboard’unu oluştur ve kaydet
+            </p>
+          </button>
+
           {/* Dashboard'larım */}
           <button
-            onClick={() => navigate('/dashboard/demo-preview')}
+            onClick={() => navigate('/dashboard/my')}
             className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-green-500 text-left group"
           >
             <div className="flex items-center gap-4 mb-3">
