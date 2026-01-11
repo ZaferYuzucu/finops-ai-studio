@@ -290,7 +290,8 @@ const DataImportPage: React.FC = () => {
               ref={filePickerRef}
               type="file"
               accept=".csv,.xlsx"
-              className="hidden"
+              // NOTE: Avoid `display: none` for file inputs — some browsers may block programmatic click.
+              className="absolute -left-[9999px] top-auto h-px w-px opacity-0"
               onChange={handleFilePicked}
             />
 
@@ -299,6 +300,7 @@ const DataImportPage: React.FC = () => {
               className={`mt-8 rounded-lg border-2 border-dashed px-6 pt-10 pb-10 transition-colors ${
                 isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'
               }`}
+              onClick={handlePickFile}
             >
               <input {...getInputProps({ id: 'file-upload' })} />
               <div className="text-center">
