@@ -18,6 +18,7 @@ const DataImportPage: React.FC = () => {
   const [dataUrl, setDataUrl] = useState(''); // Yeni: URL verisi
   const [isConnecting, setIsConnecting] = useState(false); // Yeni: Bağlanma durumu
   const [betaQuota, setBetaQuota] = useState<{ remaining: number; total: number } | null>(null);
+  const [dropError, setDropError] = useState<string | null>(null);
 
   useEffect(() => {
     const refresh = () => {
@@ -33,15 +34,29 @@ const DataImportPage: React.FC = () => {
   }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    setDropError(null);
     setFiles(acceptedFiles);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
+    onDropRejected: (fileRejections) => {
+      // Provide a clear, user-friendly error
+      const first = fileRejections?.[0];
+      const name = first?.file?.name ?? '';
+      const reason = first?.errors?.[0]?.message ?? 'Dosya kabul edilmedi.';
+      setDropError(
+        `Dosya yüklenemedi. (${name || 'dosya'})\n` +
+          `Neden: ${reason}\n\n` +
+          `Desteklenen formatlar: .csv, .xlsx`
+      );
+    },
     accept: {
       'text/csv': ['.csv'],
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
-    }
+    },
+    noClick: true,
+    noKeyboard: true,
   });
 
   const handleUpload = () => {
@@ -255,19 +270,38 @@ const DataImportPage: React.FC = () => {
         {/* 📁 DOSYA YÜKLEME ALANI (importMethod === 'file') */}
         {importMethod === 'file' && (
           <>
-            <div {...getRootProps()} className={`mt-8 flex justify-center rounded-lg border-2 border-dashed px-6 pt-10 pb-10 transition-colors ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'}`}>
-              <input {...getInputProps()} />
+            <div
+              {...getRootProps()}
+              className={`mt-8 rounded-lg border-2 border-dashed px-6 pt-10 pb-10 transition-colors ${
+                isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'
+              }`}
+            >
+              <input {...getInputProps({ id: 'file-upload' })} />
               <div className="text-center">
                 <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
-                <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                  <label htmlFor="file-upload" className="relative cursor-pointer rounded-md bg-white font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500">
-                    <span>{t('dataImport.fileUpload.dragDrop')}</span>
-                  </label>
-                  <p className="pl-1">{t('dataImport.fileUpload.or')}</p>
+                <div className="mt-4 flex flex-col items-center gap-3 text-sm leading-6 text-gray-600">
+                  <p className="text-gray-700">
+                    {t('dataImport.fileUpload.dragDrop')}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={open}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-sm"
+                  >
+                    <UploadCloud size={18} />
+                    Dosya Yükle
+                  </button>
+                  <p className="text-xs text-gray-500">{t('dataImport.fileUpload.or')}</p>
                 </div>
                 <p className="text-xs leading-5 text-gray-600">{t('dataImport.fileUpload.format')}</p>
               </div>
             </div>
+
+            {dropError && (
+              <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800 whitespace-pre-line">
+                {dropError}
+              </div>
+            )}
 
             {/* 📖 VERİ GİRİŞ REHBERİ - YENİ */}
             <div className="mt-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-6 shadow-sm">
