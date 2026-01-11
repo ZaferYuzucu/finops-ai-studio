@@ -852,7 +852,22 @@ const BetaApplicationModal: React.FC<BetaApplicationModalProps> = ({ onClose, re
     
     try {
       setLoading(true);
-      await createUserApplication(formData);
+      // Prefer server-side collection (single source of truth), fallback to local demo store.
+      try {
+        const response = await fetch('/api/beta-apply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...formData, source: 'pricing' }),
+        });
+        const text = await response.text();
+        const data = text ? JSON.parse(text) : {};
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || 'Başvuru kaydedilemedi');
+        }
+      } catch (apiErr) {
+        // fallback to local storage (demo)
+        await createUserApplication(formData);
+      }
       
       alert(
         '✅ Başvurunuz Alındı!\n\n' +

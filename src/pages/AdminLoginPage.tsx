@@ -39,6 +39,22 @@ const AdminLoginPage: React.FC = () => {
       localStorage.setItem('isAdminAuthenticated', 'true');
       sessionStorage.setItem('isAdminAuthenticated', 'true');
 
+      // Create server-side admin session (cookie) for /api/admin/* routes
+      try {
+        const response = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ password }),
+        });
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(text || 'Admin session oluşturulamadı');
+        }
+      } catch (apiErr: any) {
+        console.warn('⚠️ Admin API login failed (demo may still work partially):', apiErr?.message || apiErr);
+      }
+
       console.log('✅ Admin girişi başarılı!');
 
       const queryParams = new URLSearchParams(location.search);

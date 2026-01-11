@@ -20,19 +20,16 @@ import {
   User
 } from 'lucide-react';
 import { BetaApplication, ApplicationStatus, SECTOR_OPTIONS, EMPLOYEE_COUNT_OPTIONS } from '../../types/betaApplication';
-import { 
-  getAllApplications, 
-  approveApplication, 
-  rejectApplication,
-  createAdminOffer,
-  markApprovalEmailSent
-} from '../../services/betaApplicationService';
-import {
-  createEmailRecord,
-  markEmailSent,
-  markEmailFailed,
-} from '../../services/emailOutboxService';
 import { useAuth } from '../../context/AuthContext';
+
+async function safeJson(response: Response) {
+  const text = await response.text();
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    return {};
+  }
+}
 
 const BetaApplicationsPage: React.FC = () => {
   const { currentUser } = useAuth();
@@ -55,20 +52,17 @@ const BetaApplicationsPage: React.FC = () => {
   const loadApplications = async () => {
     try {
       setLoading(true);
-      const data = await getAllApplications();
-      setApplications(data);
+      const response = await fetch('/api/admin/beta-applications', { credentials: 'include' });
+      const data = await safeJson(response);
+      if (!response.ok || !data.success) throw new Error(data.error || 'Başvurular alınamadı');
+      setApplications((data.items || []) as BetaApplication[]);
       
       // Henüz başvuru yoksa bilgilendirme
-      if (data.length === 0) {
+      if ((data.items || []).length === 0) {
         console.log('ℹ️ Henüz Beta Partner başvurusu yok. "Firma Öner" ile ilk teklifi oluşturabilirsiniz.');
       }
     } catch (error: any) {
       console.error('Başvurular yüklenirken hata:', error);
-      
-      // Firebase hatası detayı
-      if (error.code === 'permission-denied') {
-        console.warn('⚠️ Firebase izin hatası. Firestore rules kontrol edilmeli.');
-      }
       
       // Boş array set et, alert gösterme (kullanıcıyı rahatsız etmesin)
       setApplications([]);
@@ -108,9 +102,15 @@ const BetaApplicationsPage: React.FC = () => {
     if (!confirmed) return;
 
     try {
-      await approveApplication(app.id, currentUser?.uid || 'admin');
+      const response = await fetch(`/api/admin/beta-applications/${encodeURIComponent(app.id)}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'approved' }),
+      });
+      const data = await safeJson(response);
+      if (!response.ok || !data.success) throw new Error(data.error || 'Onaylanamadı');
       await sendApprovalEmail(app);
-      await markApprovalEmailSent(app.id);
       alert('✅ Başvuru onaylandı ve e-posta gönderildi!');
       loadApplications();
     } catch (error) {
@@ -127,7 +127,14 @@ const BetaApplicationsPage: React.FC = () => {
     if (reason === null) return; // Cancel basıldı
     
     try {
-      await rejectApplication(app.id, currentUser?.uid || 'admin', reason);
+      const response = await fetch(`/api/admin/beta-applications/${encodeURIComponent(app.id)}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'rejected', adminNotes: reason }),
+      });
+      const data = await safeJson(response);
+      if (!response.ok || !data.success) throw new Error(data.error || 'Reddedilemedi');
       alert('✅ Başvuru reddedildi.');
       loadApplications();
     } catch (error) {
@@ -164,25 +171,10 @@ Sorularınız için: info@finops.ist
 Hoş geldiniz! 🚀
 FINOPS AI Studio Ekibi`;
 
-    let emailRecordId: string | null = null;
-
     try {
-      console.log('📧 E-posta kaydı oluşturuluyor...');
-      
-      // 1. E-posta kaydını oluştur (PENDING)
-      emailRecordId = await createEmailRecord({
-        type: 'approval',
-        to: app.email,
-        subject: subject,
-        bodyPreview: body.substring(0, 200),
-        fullBody: body,
-        relatedId: app.id,
-      });
-      
-      console.log('✅ E-posta kaydı oluşturuldu:', emailRecordId);
       console.log('📧 GoDaddy SMTP ile e-posta gönderiliyor:', app.email);
       
-      // 2. Gerçek e-posta gönder (Vercel Serverless Function - GoDaddy SMTP)
+      // Gerçek e-posta gönder (Vercel Serverless Function - GoDaddy SMTP)
       const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
@@ -196,29 +188,16 @@ FINOPS AI Studio Ekibi`;
         })
       });
 
-      const result = await response.json();
+      const result = await safeJson(response);
       
       if (response.ok && result.success) {
-        // 3. Başarıyla gönderildi olarak işaretle
-        await markEmailSent(emailRecordId, result.messageId);
-        console.log('✅ E-posta başarıyla gönderildi ve kaydedildi!', result);
+        console.log('✅ E-posta başarıyla gönderildi!', result);
         return true;
       } else {
-        // 4. Hata olursa FAILED olarak işaretle
-        await markEmailFailed(emailRecordId, result.error || result.details || 'Bilinmeyen hata');
         throw new Error(result.error || 'E-posta gönderilemedi');
       }
     } catch (error: any) {
       console.error('❌ E-posta gönderme hatası:', error);
-      
-      // E-posta kaydı varsa FAILED olarak işaretle
-      if (emailRecordId) {
-        try {
-          await markEmailFailed(emailRecordId, error.message || 'Bilinmeyen hata');
-        } catch (markError) {
-          console.error('❌ E-posta durumu güncellenemedi:', markError);
-        }
-      }
       
       alert('⚠️ E-posta gönderilemedi! Lütfen tekrar deneyin.\nHata: ' + error.message);
       return false;
@@ -559,16 +538,24 @@ FINOPS AI Studio Ekibi`;
       return;
     }
 
-    let emailRecordId: string | null = null;
-
     try {
       setLoading(true);
       
-      // 1. Teklifi Firestore'a kaydet (uid yerine 'admin' kullan)
-      const offerId = await createAdminOffer(formData, 'admin');
-      console.log('✅ Teklif Firestore\'a kaydedildi:', offerId);
+      // 1) Teklifi server-side havuza kaydet (admin session cookie ile)
+      const offerResp = await fetch('/api/beta-apply', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, source: 'admin' }),
+      });
+      const offerData = await safeJson(offerResp);
+      if (!offerResp.ok || !offerData.success) {
+        throw new Error(offerData.error || 'Teklif kaydedilemedi');
+      }
+      const offerId = offerData.id as string;
+      console.log('✅ Teklif kaydedildi:', offerId);
       
-      // 2. E-posta kaydını oluştur (PENDING)
+      // 2) E-posta içeriğini oluştur
       const emailBody = formData.description
         .replace('[İsim]', formData.contactName)
         .replace('[Firma Adı]', formData.companyName)
@@ -576,19 +563,7 @@ FINOPS AI Studio Ekibi`;
       
       const subject = `✅ ${formData.companyName} - Lansman Partneri Teklifi`;
       
-      console.log('📧 E-posta kaydı oluşturuluyor...');
-      emailRecordId = await createEmailRecord({
-        type: 'offer',
-        to: formData.email,
-        subject: subject,
-        bodyPreview: emailBody.substring(0, 200),
-        fullBody: emailBody,
-        relatedId: offerId,
-      });
-      
-      console.log('✅ E-posta kaydı oluşturuldu:', emailRecordId);
-      
-      // 3. Gerçek e-posta gönder (GoDaddy SMTP!)
+      // 3) Gerçek e-posta gönder (GoDaddy SMTP!)
       console.log('📧 GoDaddy SMTP ile e-posta gönderiliyor:', formData.email);
       
       const response = await fetch('/api/send-email', {
@@ -604,16 +579,12 @@ FINOPS AI Studio Ekibi`;
         })
       });
 
-      const result = await response.json();
+      const result = await safeJson(response);
 
       if (response.ok && result.success) {
-        // 4. Başarıyla gönderildi olarak işaretle
-        await markEmailSent(emailRecordId, result.messageId);
         console.log('✅ E-posta başarıyla gönderildi ve kaydedildi!', result);
         alert(`✅ Teklif oluşturuldu ve ${formData.email} adresine GERÇEK e-posta gönderildi!\n\n📧 Message ID: ${result.messageId}\n\n💡 E-posta geçmişini "E-posta Kayıtları" sayfasından görüntüleyebilirsiniz.`);
       } else {
-        // 5. Hata olursa FAILED olarak işaretle
-        await markEmailFailed(emailRecordId, result.error || result.details || 'Bilinmeyen hata');
         console.error('⚠️ E-posta gönderilemedi:', result.error);
         alert(`⚠️ Teklif kaydedildi ama e-posta gönderilemedi!\nHata: ${result.error || 'Bilinmeyen hata'}\n\nDetayları "E-posta Kayıtları" sayfasından görüntüleyebilirsiniz.`);
       }
@@ -622,16 +593,6 @@ FINOPS AI Studio Ekibi`;
       onClose();
     } catch (error: any) {
       console.error('Teklif oluşturma hatası:', error);
-      
-      // E-posta kaydı varsa FAILED olarak işaretle
-      if (emailRecordId) {
-        try {
-          await markEmailFailed(emailRecordId, error.message || 'Bilinmeyen hata');
-        } catch (markError) {
-          console.error('❌ E-posta durumu güncellenemedi:', markError);
-        }
-      }
-      
       alert('❌ Teklif oluşturulamadı!\nHata: ' + error.message);
     } finally {
       setLoading(false);

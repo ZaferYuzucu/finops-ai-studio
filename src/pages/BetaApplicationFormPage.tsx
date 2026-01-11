@@ -207,6 +207,28 @@ const BetaApplicationFormPage: React.FC = () => {
           navigate('/veri-girisi?lang=tr');
         });
       }, 2000);
+
+      // Also submit to server-side pool (for admin review)
+      try {
+        const response = await fetch('/api/beta-apply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            companyName: formData.companyName,
+            contactName: formData.contactName,
+            email: formData.email,
+            phone: formData.phone,
+            sector: formData.sector,
+            employeeCount: formData.companySize === 'micro' ? '1-10' : formData.companySize === 'small' ? '11-50' : '50+',
+            description: 'Beta Başvuru Formu',
+            source: 'beta_form',
+          }),
+        });
+        // don't block UX; best-effort only
+        await response.text();
+      } catch {
+        // ignore in demo/offline
+      }
       
     } catch (error: any) {
       console.error('❌ KAYIT HATASI:', error);
