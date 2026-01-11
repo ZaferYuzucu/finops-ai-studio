@@ -31,6 +31,71 @@ async function safeJson(response: Response) {
   }
 }
 
+// ------------------------------------------------------------
+// Local fallback (demo safety)
+// ------------------------------------------------------------
+const LOCAL_APPS_KEY = 'finops_beta_applications';
+
+function readLocalApplications(): BetaApplication[] {
+  try {
+    const raw = localStorage.getItem(LOCAL_APPS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as BetaApplication[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalApplications(apps: BetaApplication[]) {
+  try {
+    localStorage.setItem(LOCAL_APPS_KEY, JSON.stringify(apps));
+  } catch {
+    // ignore
+  }
+}
+
+function upsertLocalApplication(app: BetaApplication) {
+  const list = readLocalApplications();
+  const idx = list.findIndex((a) => a.id === app.id);
+  if (idx >= 0) list[idx] = app;
+  else list.push(app);
+  writeLocalApplications(list);
+  try {
+    window.dispatchEvent(new Event('finops-beta-applications-updated'));
+  } catch {
+    // ignore
+  }
+}
+
+function updateLocalApplication(id: string, patch: Partial<BetaApplication>) {
+  const list = readLocalApplications();
+  const idx = list.findIndex((a) => a.id === id);
+  if (idx < 0) return;
+  list[idx] = { ...list[idx], ...patch } as BetaApplication;
+  writeLocalApplications(list);
+  try {
+    window.dispatchEvent(new Event('finops-beta-applications-updated'));
+  } catch {
+    // ignore
+  }
+}
+
+function mergeById(serverItems: BetaApplication[], localItems: BetaApplication[]) {
+  const map = new Map<string, BetaApplication>();
+  for (const a of localItems) map.set(a.id, a);
+  for (const a of serverItems) map.set(a.id, a);
+  return Array.from(map.values()).sort((a, b) => {
+    const ta = new Date(a.appliedAt || 0).getTime();
+    const tb = new Date(b.appliedAt || 0).getTime();
+    return tb - ta;
+  });
+}
+
+function makeLocalId(prefix: string) {
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
 const BetaApplicationsPage: React.FC = () => {
   const { currentUser } = useAuth();
   const [applications, setApplications] = useState<BetaApplication[]>([]);
@@ -47,18 +112,39 @@ const BetaApplicationsPage: React.FC = () => {
   // Başvuruları yükle
   useEffect(() => {
     loadApplications();
+    const onLocal = () => {
+      // if server list is down, at least keep local visible
+      const local = readLocalApplications();
+      if (local.length > 0) {
+        setApplications((prev) => mergeById(prev, local));
+      }
+    };
+    window.addEventListener('storage', onLocal);
+    window.addEventListener('finops-beta-applications-updated', onLocal as any);
+    return () => {
+      window.removeEventListener('storage', onLocal);
+      window.removeEventListener('finops-beta-applications-updated', onLocal as any);
+    };
   }, []);
 
   const loadApplications = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/beta-applications', { credentials: 'include' });
-      const data = await safeJson(response);
-      if (!response.ok || !data.success) throw new Error(data.error || 'Başvurular alınamadı');
-      setApplications((data.items || []) as BetaApplication[]);
+      const local = readLocalApplications();
+      try {
+        const response = await fetch('/api/admin/beta-applications', { credentials: 'include' });
+        const data = await safeJson(response);
+        if (!response.ok || !data.success) throw new Error(data.error || 'Başvurular alınamadı');
+        const serverItems = (data.items || []) as BetaApplication[];
+        setApplications(mergeById(serverItems, local));
+      } catch (apiError) {
+        // API down or not configured yet -> show local data (critical for demo)
+        setApplications(local);
+        console.warn('⚠️ Admin beta applications API unavailable, using localStorage fallback.', apiError);
+      }
       
       // Henüz başvuru yoksa bilgilendirme
-      if ((data.items || []).length === 0) {
+      if (readLocalApplications().length === 0) {
         console.log('ℹ️ Henüz Beta Partner başvurusu yok. "Firma Öner" ile ilk teklifi oluşturabilirsiniz.');
       }
     } catch (error: any) {
@@ -102,14 +188,23 @@ const BetaApplicationsPage: React.FC = () => {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`/api/admin/beta-applications/${encodeURIComponent(app.id)}`, {
-        method: 'PATCH',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'approved' }),
-      });
-      const data = await safeJson(response);
-      if (!response.ok || !data.success) throw new Error(data.error || 'Onaylanamadı');
+      try {
+        const response = await fetch(`/api/admin/beta-applications/${encodeURIComponent(app.id)}`, {
+          method: 'PATCH',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'approved' }),
+        });
+        const data = await safeJson(response);
+        if (!response.ok || !data.success) throw new Error(data.error || 'Onaylanamadı');
+      } catch (apiErr) {
+        // fallback: local status update
+        updateLocalApplication(app.id, {
+          status: 'approved',
+          reviewedAt: new Date().toISOString(),
+          reviewedBy: currentUser?.uid || 'admin',
+        });
+      }
       await sendApprovalEmail(app);
       alert('✅ Başvuru onaylandı ve e-posta gönderildi!');
       loadApplications();
@@ -127,14 +222,24 @@ const BetaApplicationsPage: React.FC = () => {
     if (reason === null) return; // Cancel basıldı
     
     try {
-      const response = await fetch(`/api/admin/beta-applications/${encodeURIComponent(app.id)}`, {
-        method: 'PATCH',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'rejected', adminNotes: reason }),
-      });
-      const data = await safeJson(response);
-      if (!response.ok || !data.success) throw new Error(data.error || 'Reddedilemedi');
+      try {
+        const response = await fetch(`/api/admin/beta-applications/${encodeURIComponent(app.id)}`, {
+          method: 'PATCH',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'rejected', adminNotes: reason }),
+        });
+        const data = await safeJson(response);
+        if (!response.ok || !data.success) throw new Error(data.error || 'Reddedilemedi');
+      } catch (apiErr) {
+        // fallback: local status update
+        updateLocalApplication(app.id, {
+          status: 'rejected',
+          reviewedAt: new Date().toISOString(),
+          reviewedBy: currentUser?.uid || 'admin',
+          adminNotes: reason || 'Reddedildi',
+        });
+      }
       alert('✅ Başvuru reddedildi.');
       loadApplications();
     } catch (error) {
