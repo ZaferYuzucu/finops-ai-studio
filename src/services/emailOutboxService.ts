@@ -12,7 +12,6 @@ import {
   query,
   where,
   orderBy,
-  Timestamp,
   getDoc,
 } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -23,6 +22,48 @@ import {
   EmailType,
   OUTBOUND_EMAILS_COLLECTION,
 } from '../types/emailRecord';
+
+// ---------------------------------------------------------------------------
+// Demo / local fallback (when Firestore is locked by admin rules)
+// ---------------------------------------------------------------------------
+const LS_KEY = 'finops_outbound_emails';
+
+function isPermissionError(error: any) {
+  const code = error?.code;
+  const msg = String(error?.message || '');
+  return code === 'permission-denied' || msg.includes('Missing or insufficient permissions');
+}
+
+function safeParseJson<T>(raw: string | null, fallback: T): T {
+  try {
+    if (!raw) return fallback;
+    return JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
+}
+
+function readLocalEmails(): EmailRecord[] {
+  if (typeof window === 'undefined') return [];
+  return safeParseJson<EmailRecord[]>(window.localStorage.getItem(LS_KEY), []);
+}
+
+function writeLocalEmails(emails: EmailRecord[]) {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(LS_KEY, JSON.stringify(emails));
+}
+
+function updateLocalEmail(emailId: string, patch: Partial<EmailRecord>) {
+  const list = readLocalEmails();
+  const idx = list.findIndex((e) => e.id === emailId);
+  if (idx < 0) return;
+  list[idx] = { ...list[idx], ...patch } as EmailRecord;
+  writeLocalEmails(list);
+}
+
+function makeLocalId(prefix: string) {
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
 
 /**
  * Yeni e-posta kaydı oluştur (PENDING durumunda)
@@ -51,6 +92,14 @@ export async function createEmailRecord(
     return docRef.id;
   } catch (error) {
     console.error('❌ Error creating email record:', error);
+    if (isPermissionError(error)) {
+      const id = makeLocalId('email');
+      const list = readLocalEmails();
+      list.push({ id, ...(emailRecord as any) } as EmailRecord);
+      writeLocalEmails(list);
+      console.warn('⚠️ Firestore permission denied. Stored email record in localStorage:', id);
+      return id;
+    }
     throw error;
   }
 }
@@ -73,6 +122,15 @@ export async function markEmailSent(
     console.log('✅ Email marked as SENT:', emailId);
   } catch (error) {
     console.error('❌ Error marking email as sent:', error);
+    if (isPermissionError(error)) {
+      updateLocalEmail(emailId, {
+        status: 'SENT',
+        sentAt: new Date().toISOString(),
+        messageId,
+      });
+      console.warn('⚠️ Firestore permission denied. Marked email as SENT in localStorage:', emailId);
+      return;
+    }
     throw error;
   }
 }
@@ -95,6 +153,15 @@ export async function markEmailFailed(
     console.log('✅ Email marked as FAILED:', emailId);
   } catch (error) {
     console.error('❌ Error marking email as failed:', error);
+    if (isPermissionError(error)) {
+      updateLocalEmail(emailId, {
+        status: 'FAILED',
+        error: errorMessage,
+        sentAt: new Date().toISOString(),
+      });
+      console.warn('⚠️ Firestore permission denied. Marked email as FAILED in localStorage:', emailId);
+      return;
+    }
     throw error;
   }
 }
@@ -123,6 +190,13 @@ export async function getAllEmails(): Promise<EmailRecord[]> {
     return emails;
   } catch (error) {
     console.error('❌ Error fetching emails:', error);
+    if (isPermissionError(error)) {
+      const emails = readLocalEmails().sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      console.warn('⚠️ Firestore permission denied. Loaded email records from localStorage:', emails.length);
+      return emails;
+    }
     throw error;
   }
 }
@@ -154,6 +228,13 @@ export async function getEmailsByStatus(
     return emails;
   } catch (error) {
     console.error('❌ Error fetching emails by status:', error);
+    if (isPermissionError(error)) {
+      const emails = readLocalEmails()
+        .filter((e) => e.status === status)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      console.warn('⚠️ Firestore permission denied. Loaded emails by status from localStorage:', emails.length);
+      return emails;
+    }
     throw error;
   }
 }
@@ -183,6 +264,13 @@ export async function getEmailsByType(type: EmailType): Promise<EmailRecord[]> {
     return emails;
   } catch (error) {
     console.error('❌ Error fetching emails by type:', error);
+    if (isPermissionError(error)) {
+      const emails = readLocalEmails()
+        .filter((e) => e.type === type)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      console.warn('⚠️ Firestore permission denied. Loaded emails by type from localStorage:', emails.length);
+      return emails;
+    }
     throw error;
   }
 }
@@ -205,6 +293,11 @@ export async function getEmailById(emailId: string): Promise<EmailRecord | null>
     return null;
   } catch (error) {
     console.error('❌ Error fetching email by ID:', error);
+    if (isPermissionError(error)) {
+      const email = readLocalEmails().find((e) => e.id === emailId) || null;
+      console.warn('⚠️ Firestore permission denied. Loaded email by ID from localStorage:', emailId);
+      return email;
+    }
     throw error;
   }
 }
@@ -236,6 +329,13 @@ export async function getEmailsByRelatedId(
     return emails;
   } catch (error) {
     console.error('❌ Error fetching emails by relatedId:', error);
+    if (isPermissionError(error)) {
+      const emails = readLocalEmails()
+        .filter((e) => e.relatedId === relatedId)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      console.warn('⚠️ Firestore permission denied. Loaded emails by relatedId from localStorage:', emails.length);
+      return emails;
+    }
     throw error;
   }
 }

@@ -22,6 +22,56 @@ import {
   BETA_APPLICATIONS_COLLECTION
 } from '../types/betaApplication';
 
+// ---------------------------------------------------------------------------
+// Demo / local fallback
+// ---------------------------------------------------------------------------
+const LS_KEY = 'finops_beta_applications';
+
+function isPermissionError(error: any) {
+  const code = error?.code;
+  const msg = String(error?.message || '');
+  return code === 'permission-denied' || msg.includes('Missing or insufficient permissions');
+}
+
+function safeParseJson<T>(raw: string | null, fallback: T): T {
+  try {
+    if (!raw) return fallback;
+    return JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
+}
+
+function readLocalApplications(): BetaApplication[] {
+  if (typeof window === 'undefined') return [];
+  return safeParseJson<BetaApplication[]>(window.localStorage.getItem(LS_KEY), []);
+}
+
+function writeLocalApplications(apps: BetaApplication[]) {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(LS_KEY, JSON.stringify(apps));
+}
+
+function upsertLocalApplication(app: BetaApplication) {
+  const list = readLocalApplications();
+  const idx = list.findIndex((a) => a.id === app.id);
+  if (idx >= 0) list[idx] = app;
+  else list.push(app);
+  writeLocalApplications(list);
+}
+
+function updateLocalApplication(applicationId: string, patch: Partial<BetaApplication>) {
+  const list = readLocalApplications();
+  const idx = list.findIndex((a) => a.id === applicationId);
+  if (idx < 0) return;
+  list[idx] = { ...list[idx], ...patch } as BetaApplication;
+  writeLocalApplications(list);
+}
+
+function makeLocalId(prefix: string) {
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
 /**
  * Yeni başvuru oluştur (kullanıcı başvurusu)
  */
@@ -44,6 +94,12 @@ export async function createUserApplication(data: BetaApplicationFormData): Prom
     return docRef.id;
   } catch (error) {
     console.error('❌ Error creating user application:', error);
+    if (isPermissionError(error)) {
+      const id = makeLocalId('user_app');
+      upsertLocalApplication({ id, ...(application as any) } as BetaApplication);
+      console.warn('⚠️ Firestore permission denied. Stored user application in localStorage:', id);
+      return id;
+    }
     throw error;
   }
 }
@@ -75,6 +131,12 @@ export async function createAdminOffer(
     return docRef.id;
   } catch (error) {
     console.error('❌ Error creating admin offer:', error);
+    if (isPermissionError(error)) {
+      const id = makeLocalId('admin_offer');
+      upsertLocalApplication({ id, ...(application as any) } as BetaApplication);
+      console.warn('⚠️ Firestore permission denied. Stored admin offer in localStorage:', id);
+      return id;
+    }
     throw error;
   }
 }
@@ -116,6 +178,12 @@ export async function createBetaFormApplication(data: BetaFormApplicationData): 
     return docRef.id;
   } catch (error) {
     console.error('❌ Error creating beta form application:', error);
+    if (isPermissionError(error)) {
+      const id = makeLocalId('beta_form');
+      upsertLocalApplication({ id, ...(application as any) } as BetaApplication);
+      console.warn('⚠️ Firestore permission denied. Stored beta form application in localStorage:', id);
+      return id;
+    }
     throw error;
   }
 }
@@ -144,6 +212,13 @@ export async function getAllApplications(): Promise<BetaApplication[]> {
     return applications;
   } catch (error) {
     console.error('❌ Error fetching applications:', error);
+    if (isPermissionError(error)) {
+      const apps = readLocalApplications().sort(
+        (a, b) => new Date(b.appliedAt).getTime() - new Date(a.appliedAt).getTime()
+      );
+      console.warn('⚠️ Firestore permission denied. Loaded applications from localStorage:', apps.length);
+      return apps;
+    }
     throw error;
   }
 }
@@ -173,6 +248,13 @@ export async function getApplicationsByStatus(status: ApplicationStatus): Promis
     return applications;
   } catch (error) {
     console.error('❌ Error fetching applications by status:', error);
+    if (isPermissionError(error)) {
+      const apps = readLocalApplications()
+        .filter((a) => a.status === status)
+        .sort((a, b) => new Date(b.appliedAt).getTime() - new Date(a.appliedAt).getTime());
+      console.warn('⚠️ Firestore permission denied. Loaded applications by status from localStorage:', apps.length);
+      return apps;
+    }
     throw error;
   }
 }
@@ -197,6 +279,16 @@ export async function approveApplication(
     console.log('✅ Application approved:', applicationId);
   } catch (error) {
     console.error('❌ Error approving application:', error);
+    if (isPermissionError(error)) {
+      updateLocalApplication(applicationId, {
+        status: 'approved',
+        reviewedAt: new Date().toISOString(),
+        reviewedBy: adminId,
+        userId: userId || null,
+      });
+      console.warn('⚠️ Firestore permission denied. Approved application in localStorage:', applicationId);
+      return;
+    }
     throw error;
   }
 }
@@ -221,6 +313,16 @@ export async function rejectApplication(
     console.log('✅ Application rejected:', applicationId);
   } catch (error) {
     console.error('❌ Error rejecting application:', error);
+    if (isPermissionError(error)) {
+      updateLocalApplication(applicationId, {
+        status: 'rejected',
+        reviewedAt: new Date().toISOString(),
+        reviewedBy: adminId,
+        adminNotes: reason || 'Reddedildi',
+      });
+      console.warn('⚠️ Firestore permission denied. Rejected application in localStorage:', applicationId);
+      return;
+    }
     throw error;
   }
 }
@@ -239,6 +341,14 @@ export async function markApprovalEmailSent(applicationId: string): Promise<void
     console.log('✅ Approval email marked as sent:', applicationId);
   } catch (error) {
     console.error('❌ Error marking approval email as sent:', error);
+    if (isPermissionError(error)) {
+      updateLocalApplication(applicationId, {
+        approvalEmailSent: true,
+        approvalEmailSentAt: new Date().toISOString(),
+      });
+      console.warn('⚠️ Firestore permission denied. Marked approval email sent in localStorage:', applicationId);
+      return;
+    }
     throw error;
   }
 }
@@ -259,6 +369,12 @@ export async function updateApplication(
     console.log('✅ Application updated:', applicationId);
   } catch (error) {
     console.error('❌ Error updating application:', error);
+    if (isPermissionError(error)) {
+      const { id, ...updateData } = updates as any;
+      updateLocalApplication(applicationId, updateData);
+      console.warn('⚠️ Firestore permission denied. Updated application in localStorage:', applicationId);
+      return;
+    }
     throw error;
   }
 }
@@ -281,6 +397,11 @@ export async function getApplication(applicationId: string): Promise<BetaApplica
     return null;
   } catch (error) {
     console.error('❌ Error fetching application:', error);
+    if (isPermissionError(error)) {
+      const app = readLocalApplications().find((a) => a.id === applicationId) || null;
+      console.warn('⚠️ Firestore permission denied. Loaded application from localStorage:', applicationId);
+      return app;
+    }
     throw error;
   }
 }
