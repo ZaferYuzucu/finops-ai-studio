@@ -109,9 +109,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = async () => {
     setStoredUser(null);
     setCurrentUser(null);
-    // Clear admin flags
-    localStorage.removeItem('isAdminAuthenticated');
-    sessionStorage.removeItem('isAdminAuthenticated');
   };
 
   const signInWithGoogle = async () => {

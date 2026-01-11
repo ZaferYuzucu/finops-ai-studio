@@ -74,6 +74,7 @@ const PricingCard = ({
   limitWarning
 }: PricingCardProps) => {
   const { t } = useTranslation();
+  const isDarkCard = isPremium || isSpecialOffer || isEnterprise;
   const getCardStyle = () => {
     if (isDisabled) {
       return 'bg-gray-100 text-gray-500 shadow-lg border-2 border-gray-300 opacity-60';
@@ -256,11 +257,11 @@ const PricingCard = ({
       {/* Dahil Değil (Premium upsell context) */}
       {!isPremium && excludedFeatures && excludedFeatures.length > 0 && (
         <div className={`mb-6 rounded-xl p-4 ${
-          isPremium ? 'bg-white/15 border border-white/20' : 'bg-gray-50 border border-gray-200'
+          isDarkCard ? 'bg-white/15 border border-white/20' : 'bg-gray-50 border border-gray-200'
         }`}>
           {excludedTitle && (
             <div className={`text-xs font-bold mb-3 ${
-              isPremium ? 'text-white/90' : 'text-gray-700'
+              isDarkCard ? 'text-white/90' : 'text-gray-700'
             }`}>
               {excludedTitle}
             </div>
@@ -269,10 +270,10 @@ const PricingCard = ({
             {excludedFeatures.map((f, idx) => (
               <li key={idx} className="flex items-start gap-2">
                 <Lock className={`w-4 h-4 mt-0.5 ${
-                  isPremium ? 'text-white/80' : 'text-gray-500'
+                  isDarkCard ? 'text-white/80' : 'text-gray-500'
                 }`} />
                 <span className={`text-xs ${
-                  isPremium ? 'text-white/85' : 'text-gray-600'
+                  isDarkCard ? 'text-white/85' : 'text-gray-600'
                 }`}>
                   {f}
                 </span>
