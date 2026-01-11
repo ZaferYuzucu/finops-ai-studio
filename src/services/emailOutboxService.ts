@@ -71,8 +71,9 @@ function makeLocalId(prefix: string) {
 export async function createEmailRecord(
   data: EmailRecordFormData
 ): Promise<string> {
+  let emailRecord: Record<string, unknown> | null = null;
   try {
-    const emailRecord = {
+    emailRecord = {
       type: data.type,
       to: data.to,
       subject: data.subject,
@@ -95,7 +96,7 @@ export async function createEmailRecord(
     if (isPermissionError(error)) {
       const id = makeLocalId('email');
       const list = readLocalEmails();
-      list.push({ id, ...(emailRecord as any) } as EmailRecord);
+      list.push({ id, ...((emailRecord ?? data) as any) } as EmailRecord);
       writeLocalEmails(list);
       console.warn('⚠️ Firestore permission denied. Stored email record in localStorage:', id);
       return id;

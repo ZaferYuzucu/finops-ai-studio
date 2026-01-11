@@ -76,8 +76,9 @@ function makeLocalId(prefix: string) {
  * Yeni başvuru oluştur (kullanıcı başvurusu)
  */
 export async function createUserApplication(data: BetaApplicationFormData): Promise<string> {
+  let application: Record<string, unknown> | null = null;
   try {
-    const application = {
+    application = {
       ...data,
       status: 'pending' as ApplicationStatus,
       source: 'user' as const,
@@ -96,7 +97,7 @@ export async function createUserApplication(data: BetaApplicationFormData): Prom
     console.error('❌ Error creating user application:', error);
     if (isPermissionError(error)) {
       const id = makeLocalId('user_app');
-      upsertLocalApplication({ id, ...(application as any) } as BetaApplication);
+      upsertLocalApplication({ id, ...((application ?? data) as any) } as BetaApplication);
       console.warn('⚠️ Firestore permission denied. Stored user application in localStorage:', id);
       return id;
     }
@@ -111,8 +112,9 @@ export async function createAdminOffer(
   data: BetaApplicationFormData,
   adminId: string
 ): Promise<string> {
+  let application: Record<string, unknown> | null = null;
   try {
-    const application = {
+    application = {
       ...data,
       status: 'pending' as ApplicationStatus,
       source: 'admin' as const,
@@ -133,7 +135,7 @@ export async function createAdminOffer(
     console.error('❌ Error creating admin offer:', error);
     if (isPermissionError(error)) {
       const id = makeLocalId('admin_offer');
-      upsertLocalApplication({ id, ...(application as any) } as BetaApplication);
+      upsertLocalApplication({ id, ...((application ?? { ...data, reviewedBy: adminId }) as any) } as BetaApplication);
       console.warn('⚠️ Firestore permission denied. Stored admin offer in localStorage:', id);
       return id;
     }
@@ -157,8 +159,9 @@ export interface BetaFormApplicationData {
 }
 
 export async function createBetaFormApplication(data: BetaFormApplicationData): Promise<string> {
+  let application: Record<string, unknown> | null = null;
   try {
-    const application = {
+    application = {
       ...data,
       employeeCount: data.surveyAnswers.companySize === 'micro' ? '1-10' : 
                      data.surveyAnswers.companySize === 'small' ? '11-50' : '50+',
@@ -180,7 +183,7 @@ export async function createBetaFormApplication(data: BetaFormApplicationData): 
     console.error('❌ Error creating beta form application:', error);
     if (isPermissionError(error)) {
       const id = makeLocalId('beta_form');
-      upsertLocalApplication({ id, ...(application as any) } as BetaApplication);
+      upsertLocalApplication({ id, ...((application ?? data) as any) } as BetaApplication);
       console.warn('⚠️ Firestore permission denied. Stored beta form application in localStorage:', id);
       return id;
     }
