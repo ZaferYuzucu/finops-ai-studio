@@ -7,15 +7,19 @@ const ProjectActivityReportPage: React.FC = () => {
   const TimelineItem: React.FC<{ icon: React.ReactNode; title: string; phase: string; children: React.ReactNode; align?: 'left' | 'right' }> = ({ icon, title, phase, children, align = 'left' }) => (
     <div className={`relative flex items-center ${align === 'left' ? 'justify-start' : 'justify-end'}`}>
       <div className={`w-1/2 ${align === 'left' ? 'pr-8' : 'pl-8'} ${align === 'left' ? 'text-right' : 'text-left'}`}>
-        <div className="relative overflow-hidden bg-white border border-gray-200 p-6 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300">
-          {/* Subtle brand texture */}
+        <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-emerald-50 border border-gray-200 p-6 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300">
+          {/* Brand texture (more visible) */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-[0.55]"
+            className="pointer-events-none absolute inset-0 opacity-[0.90]"
             style={{
               backgroundImage:
-                'radial-gradient(700px 260px at 12% 10%, rgba(37,99,235,0.14), transparent 55%), radial-gradient(700px 260px at 88% 0%, rgba(16,185,129,0.14), transparent 55%)',
+                'radial-gradient(900px 320px at 12% 0%, rgba(37,99,235,0.26), transparent 55%), radial-gradient(900px 320px at 88% 0%, rgba(16,185,129,0.22), transparent 55%), radial-gradient(900px 320px at 45% 115%, rgba(37,99,235,0.10), transparent 60%)',
             }}
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-blue-600 via-blue-500 to-emerald-500"
           />
           <div className="relative">
             <p className="text-xs font-semibold uppercase tracking-wider text-blue-700">{phase}</p>
@@ -43,7 +47,7 @@ const ProjectActivityReportPage: React.FC = () => {
           </p>
           <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-50 to-purple-50 text-pink-700 rounded-full border border-pink-200">
             <MessageCircle size={16} />
-            <span className="text-sm font-semibold">Son Güncelleme: 5 Ocak 2026 - 19:30 🎯 Survey Analytics & Fino v2.0!</span>
+            <span className="text-sm font-semibold">Son Güncelleme: 10 Ocak 2026 - Dashboard Governance + Telif Koruma (v5)</span>
           </div>
         </div>
 
