@@ -49,13 +49,16 @@ const BetaApplicationFormPage: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
+  const [recaptchaErrored, setRecaptchaErrored] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   // reCAPTCHA Site Key
-  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LfE4jUsAAAAAOKH1f0ich9FAHIyr81efhTq5XyD';
-  const isRecaptchaEnabled = !!recaptchaSiteKey;
+  // NOTE: reCAPTCHA yanlış domain/site-key eşleşmesinde formu kilitlememeli.
+  // Default: disabled. Enable explicitly via env: VITE_RECAPTCHA_ENABLED="true" and VITE_RECAPTCHA_SITE_KEY.
+  const recaptchaSiteKey = (import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined) || '';
+  const isRecaptchaEnabled = import.meta.env.VITE_RECAPTCHA_ENABLED === 'true' && !!recaptchaSiteKey && !recaptchaErrored;
 
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -609,14 +612,23 @@ const BetaApplicationFormPage: React.FC = () => {
             </div>
 
             {/* reCAPTCHA */}
-            {isRecaptchaEnabled && (
+            {isRecaptchaEnabled ? (
               <div className="flex justify-center">
                 <ReCAPTCHA
                   ref={recaptchaRef}
                   sitekey={recaptchaSiteKey}
                   onChange={(value) => setRecaptchaValue(value)}
+                  onErrored={() => {
+                    setRecaptchaErrored(true);
+                    setRecaptchaValue(null);
+                  }}
+                  onExpired={() => setRecaptchaValue(null)}
                 />
               </div>
+            ) : (
+              <p className="text-xs text-gray-500 text-center">
+                reCAPTCHA şu an devre dışı (alan doğrulaması yapılmadı).
+              </p>
             )}
             {errors.recaptcha && (
               <p className="text-sm text-red-600 text-center">{errors.recaptcha}</p>
