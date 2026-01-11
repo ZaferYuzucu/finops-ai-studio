@@ -1,5 +1,6 @@
-import type { ServiceAccount } from 'firebase-admin';
-import admin from 'firebase-admin';
+import type { ServiceAccount } from 'firebase-admin/app';
+import { cert, getApps, initializeApp } from 'firebase-admin/app';
+import { FieldValue, getFirestore } from 'firebase-admin/firestore';
 
 function getServiceAccount(): ServiceAccount {
   // Preferred: a single JSON env var (easy to paste into Vercel)
@@ -26,14 +27,12 @@ function getServiceAccount(): ServiceAccount {
 }
 
 export function getAdminDb() {
-  if (!admin.apps.length) {
+  if (!getApps().length) {
     const sa = getServiceAccount();
-    admin.initializeApp({
-      credential: admin.credential.cert(sa),
-    });
+    initializeApp({ credential: cert(sa) });
   }
-  return admin.firestore();
+  return getFirestore();
 }
 
-export const FieldValue = admin.firestore.FieldValue;
+export { FieldValue };
 
