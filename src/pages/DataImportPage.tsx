@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { UploadCloud, File as FileIcon, X, Loader, Download, CheckCircle, Zap, Link as LinkIcon, Globe, Database } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -19,6 +19,7 @@ const DataImportPage: React.FC = () => {
   const [isConnecting, setIsConnecting] = useState(false); // Yeni: Bağlanma durumu
   const [betaQuota, setBetaQuota] = useState<{ remaining: number; total: number } | null>(null);
   const [dropError, setDropError] = useState<string | null>(null);
+  const filePickerRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const refresh = () => {
@@ -58,6 +59,20 @@ const DataImportPage: React.FC = () => {
     noClick: true,
     noKeyboard: true,
   });
+
+  const handlePickFile = () => {
+    setDropError(null);
+    // Prefer native input click (most reliable across browsers)
+    filePickerRef.current?.click();
+  };
+
+  const handleFilePicked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setDropError(null);
+    const picked = Array.from(e.target.files ?? []);
+    if (picked.length > 0) setFiles(picked);
+    // allow re-picking same file
+    e.target.value = '';
+  };
 
   const handleUpload = () => {
     if (files.length === 0) return;
@@ -270,6 +285,15 @@ const DataImportPage: React.FC = () => {
         {/* 📁 DOSYA YÜKLEME ALANI (importMethod === 'file') */}
         {importMethod === 'file' && (
           <>
+            {/* Native file picker (reliable) */}
+            <input
+              ref={filePickerRef}
+              type="file"
+              accept=".csv,.xlsx"
+              className="hidden"
+              onChange={handleFilePicked}
+            />
+
             <div
               {...getRootProps()}
               className={`mt-8 rounded-lg border-2 border-dashed px-6 pt-10 pb-10 transition-colors ${
@@ -285,7 +309,16 @@ const DataImportPage: React.FC = () => {
                   </p>
                   <button
                     type="button"
-                    onClick={open}
+                    onClick={() => {
+                      // try dropzone open first, fall back to native input
+                      try {
+                        open();
+                      } catch {
+                        // ignore
+                      }
+                      // always do native click too (safe)
+                      handlePickFile();
+                    }}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-sm"
                   >
                     <UploadCloud size={18} />
@@ -294,6 +327,11 @@ const DataImportPage: React.FC = () => {
                   <p className="text-xs text-gray-500">{t('dataImport.fileUpload.or')}</p>
                 </div>
                 <p className="text-xs leading-5 text-gray-600">{t('dataImport.fileUpload.format')}</p>
+                {files.length > 0 && (
+                  <p className="mt-2 text-xs font-semibold text-emerald-700">
+                    Seçilen dosya: {files[0]?.name}
+                  </p>
+                )}
               </div>
             </div>
 
