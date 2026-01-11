@@ -1,10 +1,11 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { UploadCloud, File as FileIcon, X, Loader, Download, CheckCircle, Zap, Link as LinkIcon, Globe, Database } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { markDataImportCompleted } from '../utils/dataImportGate';
+import { BETA_LIMIT, getLocalRemainingBetaQuota } from '../utils/betaQuota';
 
 const DataImportPage: React.FC = () => {
   const { t } = useTranslation();
@@ -16,6 +17,20 @@ const DataImportPage: React.FC = () => {
   const [importMethod, setImportMethod] = useState<'file' | 'url'>('file'); // Yeni: Yükleme metodu
   const [dataUrl, setDataUrl] = useState(''); // Yeni: URL verisi
   const [isConnecting, setIsConnecting] = useState(false); // Yeni: Bağlanma durumu
+  const [betaQuota, setBetaQuota] = useState<{ remaining: number; total: number } | null>(null);
+
+  useEffect(() => {
+    const refresh = () => {
+      setBetaQuota({ remaining: getLocalRemainingBetaQuota(), total: BETA_LIMIT });
+    };
+    refresh();
+    window.addEventListener('storage', refresh);
+    window.addEventListener('finops-beta-applications-updated', refresh as any);
+    return () => {
+      window.removeEventListener('storage', refresh);
+      window.removeEventListener('finops-beta-applications-updated', refresh as any);
+    };
+  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(acceptedFiles);
@@ -139,6 +154,17 @@ const DataImportPage: React.FC = () => {
           <p className="mt-2 text-center text-sm text-gray-600">
             {t('dataImport.subtitle')}
           </p>
+
+          {/* Beta Partner kontenjan (demo-safe indicator) */}
+          {betaQuota && betaQuota.remaining < betaQuota.total && (
+            <div className="mt-3 flex justify-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-900">
+                <span>🎯 Lansman Partneri Kontenjanı:</span>
+                <span className="font-extrabold">{betaQuota.remaining}/{betaQuota.total}</span>
+                <span className="text-xs font-medium text-amber-700">(bu tarayıcı)</span>
+              </div>
+            </div>
+          )}
           
           {/* Detaylı Rehber Linki */}
           <div className="mt-4 text-center">

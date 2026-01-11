@@ -26,6 +26,7 @@ import {
   MAIN_CHALLENGE_OPTIONS 
 } from '../types/betaApplication';
 import { validateEmail } from '../components/FormValidation';
+import { isLocalBetaQuotaFull, getLocalRemainingBetaQuota } from '../utils/betaQuota';
 
 const BetaApplicationFormPage: React.FC = () => {
   const navigate = useNavigate();
@@ -139,6 +140,12 @@ const BetaApplicationFormPage: React.FC = () => {
     setLoading(true);
 
     try {
+      // Quota guard (demo-safe, client-side)
+      if (isLocalBetaQuotaFull()) {
+        alert(`❌ Üzgünüz, Lansman Partneri kontenjanı dolmuştur.\nKalan Kontenjan: ${getLocalRemainingBetaQuota()}/20`);
+        return;
+      }
+
       // 1. Create user account (localStorage)
       await signup(formData.email, formData.password);
       console.log('✅ Kullanıcı hesabı oluşturuldu');
@@ -165,6 +172,12 @@ const BetaApplicationFormPage: React.FC = () => {
       existingApplications.push(applicationData);
       localStorage.setItem('finops_beta_applications', JSON.stringify(existingApplications));
       console.log('✅ Beta başvuru verisi kaydedildi (localStorage)');
+      // Best-effort notify other tabs/pages
+      try {
+        window.dispatchEvent(new Event('finops-beta-applications-updated'));
+      } catch {
+        // ignore
+      }
       
       // Show success message
       setShowSuccess(true);

@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { BetaApplicationFormData, SECTOR_OPTIONS, EMPLOYEE_COUNT_OPTIONS } from '../types/betaApplication';
 import { createUserApplication } from '../services/betaApplicationService';
+import { BETA_LIMIT, getLocalBetaCount } from '../utils/betaQuota';
 
 interface PricingCardProps {
   title: string;
@@ -396,7 +397,6 @@ export default function PricingSection() {
   const [betaCount, setBetaCount] = useState(0);
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
   const [showBetaModal, setShowBetaModal] = useState(false);
-  const BETA_LIMIT = 20;
   const YEARLY_DISCOUNT = 0.20;
 
   // Beta limit kontrolü
@@ -417,11 +417,29 @@ export default function PricingSection() {
           setBetaLimitReached(false);
         }
       } catch (error) {
-        console.error('Beta limit check error:', error);
+        // Public/beta users may not have Firestore permissions for /system.
+        // Fallback to localStorage-based demo counter.
+        const localCount = getLocalBetaCount();
+        setBetaCount(localCount);
+        setBetaLimitReached(localCount >= BETA_LIMIT);
+        console.warn('Beta limit check fallback (localStorage):', { localCount, error });
       }
     };
 
     checkBetaLimit();
+
+    // Keep in sync when beta applications are created in the same session
+    const onLocalUpdate = () => {
+      const localCount = getLocalBetaCount();
+      setBetaCount(localCount);
+      setBetaLimitReached(localCount >= BETA_LIMIT);
+    };
+    window.addEventListener('storage', onLocalUpdate);
+    window.addEventListener('finops-beta-applications-updated', onLocalUpdate as any);
+    return () => {
+      window.removeEventListener('storage', onLocalUpdate);
+      window.removeEventListener('finops-beta-applications-updated', onLocalUpdate as any);
+    };
   }, []);
 
   const handleSelectPlan = async (planType: PlanType) => {
