@@ -34,28 +34,25 @@ const DataImportPage: React.FC = () => {
     };
   }, []);
 
+  const isAllowedFile = (f: File) => /\.(csv|xlsx)$/i.test(f.name);
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setDropError(null);
-    setFiles(acceptedFiles);
+    const allowed = acceptedFiles.filter(isAllowedFile);
+    if (allowed.length === 0) {
+      setDropError(
+        `Dosya yüklenemedi.\n` +
+          `Desteklenen formatlar: .csv, .xlsx\n` +
+          `Not: Bazı CSV dosyaları tarayıcıda farklı “dosya tipi” ile görünebilir; bu yüzden uzantıya göre kontrol ediyoruz.`
+      );
+      return;
+    }
+    setFiles(allowed);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+  // Dropzone only for drag&drop (no click). We validate by filename extension for reliability.
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    onDropRejected: (fileRejections) => {
-      // Provide a clear, user-friendly error
-      const first = fileRejections?.[0];
-      const name = first?.file?.name ?? '';
-      const reason = first?.errors?.[0]?.message ?? 'Dosya kabul edilmedi.';
-      setDropError(
-        `Dosya yüklenemedi. (${name || 'dosya'})\n` +
-          `Neden: ${reason}\n\n` +
-          `Desteklenen formatlar: .csv, .xlsx`
-      );
-    },
-    accept: {
-      'text/csv': ['.csv'],
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
-    },
     noClick: true,
     noKeyboard: true,
   });
@@ -69,7 +66,15 @@ const DataImportPage: React.FC = () => {
   const handleFilePicked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setDropError(null);
     const picked = Array.from(e.target.files ?? []);
-    if (picked.length > 0) setFiles(picked);
+    const allowed = picked.filter(isAllowedFile);
+    if (picked.length > 0 && allowed.length === 0) {
+      setDropError(
+        `Dosya yüklenemedi. (${picked[0]?.name || 'dosya'})\n` +
+          `Desteklenen formatlar: .csv, .xlsx`
+      );
+    } else if (allowed.length > 0) {
+      setFiles(allowed);
+    }
     // allow re-picking same file
     e.target.value = '';
   };
@@ -300,7 +305,6 @@ const DataImportPage: React.FC = () => {
               className={`mt-8 rounded-lg border-2 border-dashed px-6 pt-10 pb-10 transition-colors ${
                 isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'
               }`}
-              onClick={handlePickFile}
             >
               <input {...getInputProps({ id: 'file-upload' })} />
               <div className="text-center">
@@ -311,16 +315,7 @@ const DataImportPage: React.FC = () => {
                   </p>
                   <button
                     type="button"
-                    onClick={() => {
-                      // try dropzone open first, fall back to native input
-                      try {
-                        open();
-                      } catch {
-                        // ignore
-                      }
-                      // always do native click too (safe)
-                      handlePickFile();
-                    }}
+                    onClick={handlePickFile}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-sm"
                   >
                     <UploadCloud size={18} />
