@@ -375,21 +375,6 @@ const DataImportPage: React.FC = () => {
           
           {/* Download Template Button */}
           <div className="mt-4 flex flex-col items-center gap-3">
-            {/* 🚀 DEMO MODU BUTONU - B2B Sunum İçin */}
-            <button
-              onClick={handleDemoMode}
-              disabled={status === 'uploading'}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-            >
-              <Zap size={22} className="animate-pulse" />
-              <span>{t('dataImport.demoMode.button')}</span>
-            </button>
-            <p className="text-xs text-purple-600 font-medium">
-              {t('dataImport.demoMode.description')}
-            </p>
-            
-            <div className="w-full border-t border-gray-200 my-2"></div>
-            
             <a
               href="/templates/otel_verileri_ornegi.csv"
               download="otel_verileri_ornegi.csv"

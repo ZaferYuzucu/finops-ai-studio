@@ -417,9 +417,10 @@ const DashboardCreateWizardPage = () => {
                     <div className="flex-1"></div>
                     <button
                       onClick={() => navigate('/veri-girisi')}
-                      className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all shadow-sm hover:shadow-md font-medium text-sm"
                     >
-                      + Yeni Veri Yükle
+                      <Upload size={18} />
+                      Yeni Veri Yükle
                     </button>
                   </div>
 
