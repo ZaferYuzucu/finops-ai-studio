@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Upload, Database, FileSpreadsheet, Sparkles, ArrowRight, ArrowLeft, Check, Grid3x3, BarChart3, Settings, Eye, FolderOpen } from 'lucide-react';
+import { Upload, Database, FileSpreadsheet, Sparkles, ArrowRight, ArrowLeft, Check, Grid3x3, BarChart3, Settings, Eye, FolderOpen, FileText } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { dashboards } from '../data/dashboards';
 import type { ChartType, DatasetProfile } from '../utils/chartWizard';
@@ -575,57 +575,41 @@ const DashboardCreateWizardPage = () => {
           {currentStep === 3 && (
             <div className="space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Veri Eşleştirme</h2>
-              <p className="text-gray-600 mb-6">
-                Verilerinizin sütunlarını dashboard alanlarıyla eşleştirin (Otomatik algılama aktif)
-              </p>
-
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <p className="text-sm text-blue-800">
-                  💡 <strong>İpucu:</strong> Sistemimiz verilerinizi otomatik olarak analiz etti ve en uygun eşleştirmeleri önerdi.
+              
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-8 text-center">
+                <div className="mb-4">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-full mb-4">
+                    <Sparkles size={32} />
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  Otomatik Veri Eşleştirme
+                </h3>
+                <p className="text-gray-700 text-lg max-w-2xl mx-auto">
+                  Sistemimiz verilerinizin sütunlarını otomatik olarak analiz eder ve 
+                  dashboard alanlarıyla en uygun şekilde eşleştirir.
                 </p>
+                <div className="mt-6 flex items-center justify-center gap-4 text-sm text-gray-600">
+                  <span className="flex items-center gap-2">
+                    <Check className="text-green-600" size={20} />
+                    Tarih sütunları
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <Check className="text-green-600" size={20} />
+                    Sayısal veriler
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <Check className="text-green-600" size={20} />
+                    Kategoriler
+                  </span>
+                </div>
               </div>
 
-              {/* Örnek mapping tablosu */}
-              <div className="border rounded-lg overflow-hidden">
-                <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">
-                        Veri Sütunu
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">
-                        Dashboard Alanı
-                      </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">
-                        Durum
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {[
-                      { source: 'Tarih', target: 'Zaman Damgası', status: 'auto' },
-                      { source: 'Gelir', target: 'Toplam Gelir', status: 'auto' },
-                      { source: 'Gider', target: 'Toplam Gider', status: 'auto' },
-                      { source: 'Müşteri_ID', target: 'Müşteri Kimliği', status: 'manual' },
-                    ].map((mapping, index) => (
-                      <tr key={index} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 text-sm text-gray-900">{mapping.source}</td>
-                        <td className="px-4 py-3 text-sm text-gray-700">{mapping.target}</td>
-                        <td className="px-4 py-3">
-                          {mapping.status === 'auto' ? (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                              ✓ Otomatik
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                              ⚠ Manuel
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-sm text-blue-800">
+                  💡 <strong>İpucu:</strong> Veri eşleştirmesi dashboard oluşturulurken otomatik olarak yapılır. 
+                  Manuel müdahaleye gerek yoktur.
+                </p>
               </div>
             </div>
           )}
@@ -638,19 +622,30 @@ const DashboardCreateWizardPage = () => {
               {/* Grafik Seçimi (Wizard + Manual Panel) */}
               <div className="space-y-4">
                 <div className="flex items-start justify-between gap-4">
-                  <div>
+                  <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900">Grafik Seçimi</h3>
                     <p className="text-sm text-gray-600">
                       Fino, verine göre en doğru grafiği önerir. İstersen manuel değiştirebilirsin.
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setShowChartWizard(true)}
-                    className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
-                  >
-                    Grafik Seçim Sihirbazı
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href="/bilgi-merkezi/grafik-rehberi"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition-colors border-2 border-blue-300"
+                    >
+                      <FileText size={18} />
+                      <span>Grafik Rehberi</span>
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setShowChartWizard(true)}
+                      className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
+                    >
+                      Grafik Seçim Sihirbazı
+                    </button>
+                  </div>
                 </div>
 
                 <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">

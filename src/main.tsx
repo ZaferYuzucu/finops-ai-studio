@@ -26,9 +26,11 @@ if ('serviceWorker' in navigator) {
 }
 
 // DEV-only: seed known Beta Partner users (idempotent)
-ensureDevSeedAdmin();
-ensureDevSeedElbaSerdar();
-ensureDevSeedTest1();
+if (import.meta.env.DEV) {
+  ensureDevSeedAdmin();
+  ensureDevSeedElbaSerdar();
+  ensureDevSeedTest1();
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
