@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Upload, Database, FileSpreadsheet, Sparkles, ArrowRight, ArrowLeft, Check, Grid3x3, BarChart3, Settings, Eye, FolderOpen, FileText } from 'lucide-react';
+import { Upload, Database, FileSpreadsheet, Sparkles, ArrowRight, ArrowLeft, Check, Grid3x3, BarChart3, Settings, Eye, FolderOpen, FileText, Lightbulb, AlertTriangle } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { dashboards } from '../data/dashboards';
 import type { ChartType, DatasetProfile } from '../utils/chartWizard';
@@ -13,6 +13,7 @@ import { createUserDashboard, getUserDashboard, updateUserDashboard } from '../u
 import { listTemplateLibrary } from '../utils/templateLibrary';
 import { getUserUploadedFiles, DATA_CATEGORIES, type UploadedFile, type DataCategory } from '../utils/userDataStorage';
 import { createDashboardFromLibrary, createDashboardWithData } from '../utils/dashboardProcessor';
+import { parseCSVFile, detectNumericColumns, detectCategoryColumns, detectDateColumn } from '../utils/csvParser';
 
 // Kategori renk eşleştirmesi (Tailwind için statik)
 const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
@@ -86,6 +87,15 @@ const DashboardCreateWizardPage = () => {
   const [showLibraryModal, setShowLibraryModal] = useState(false);
   const [userLibraryFiles, setUserLibraryFiles] = useState<UploadedFile[]>([]);
   const [categoryFilter, setCategoryFilter] = useState<DataCategory | 'all'>('all');
+  
+  // CSV sütunları ve seçimler
+  const [csvHeaders, setCsvHeaders] = useState<string[]>([]);
+  const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
+  const [csvAnalysis, setCsvAnalysis] = useState<{
+    numericColumns: string[];
+    categoryColumns: string[];
+    dateColumn: string | null;
+  }>({ numericColumns: [], categoryColumns: [], dateColumn: null });
 
   const userId = currentUser?.uid ?? '';
 
@@ -98,6 +108,68 @@ const DashboardCreateWizardPage = () => {
       setUserLibraryFiles(files);
     }
   }, [currentUser]);
+
+  // Step 4'e gelince CSV'yi parse et
+  useEffect(() => {
+    if (currentStep === 4) {
+      const loadCSVHeaders = async () => {
+        let file: File | null = null;
+        
+        // Kütüphaneden seçilmiş dosya varsa
+        if (wizardData.selectedLibraryFile) {
+          // Public klasöründen yükle
+          try {
+            const response = await fetch(`/demo-data/${wizardData.selectedLibraryFile.fileName}`);
+            const text = await response.text();
+            const blob = new Blob([text], { type: 'text/csv' });
+            file = new File([blob], wizardData.selectedLibraryFile.fileName, { type: 'text/csv' });
+          } catch (error) {
+            console.error('CSV yükleme hatası:', error);
+            return;
+          }
+        } else if (wizardData.uploadedFile) {
+          file = wizardData.uploadedFile;
+        }
+
+        if (file) {
+          try {
+            const parsed = await parseCSVFile(file);
+            const headers = parsed.headers;
+            setCsvHeaders(headers);
+            
+            // Otomatik analiz
+            const numericCols = detectNumericColumns(parsed);
+            const categoryCols = detectCategoryColumns(parsed);
+            const dateCol = detectDateColumn(parsed);
+            
+            setCsvAnalysis({
+              numericColumns: numericCols,
+              categoryColumns: categoryCols,
+              dateColumn: dateCol,
+            });
+
+            // Dataset profili güncelle
+            setDatasetProfile({
+              hasDate: !!dateCol,
+              hasCategory: categoryCols.length > 0,
+              isRatio: false,
+              hasBridgeSteps: false,
+              rowCount: parsed.rows.length,
+              categoryCount: categoryCols.length,
+              seriesCount: numericCols.length,
+            });
+
+            // Varsayılan olarak tüm sayısal sütunları seç
+            setSelectedColumns(numericCols);
+          } catch (error) {
+            console.error('CSV parsing hatası:', error);
+          }
+        }
+      };
+      
+      loadCSVHeaders();
+    }
+  }, [currentStep, wizardData.selectedLibraryFile, wizardData.uploadedFile]);
 
   // Load existing dashboard for editing
   useEffect(() => {
@@ -619,13 +691,107 @@ const DashboardCreateWizardPage = () => {
             <div className="space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Dashboard Özelleştirme</h2>
 
-              {/* Grafik Seçimi (Wizard + Manual Panel) */}
+              {/* 1. VERİ SÜTUNLARI SEÇİMİ */}
+              <div className="border-2 border-blue-200 rounded-xl p-5 bg-blue-50">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  1️⃣ Grafikte Gösterilecek Veri Sütunlarını Seçin
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  CSV dosyanızdaki hangi sütunların dashboard'da görselleştirileceğini seçin.
+                </p>
+                
+                {csvHeaders.length === 0 ? (
+                  <div className="bg-white rounded-lg p-4 text-center text-gray-500">
+                    CSV yükleniyor...
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {/* Tarih Sütunu */}
+                    {csvAnalysis.dateColumn && (
+                      <div className="bg-white rounded-lg p-3 border-2 border-green-300">
+                        <div className="flex items-center gap-2">
+                          <Check className="text-green-600" size={20} />
+                          <span className="font-semibold text-gray-900">📅 Tarih Sütunu:</span>
+                          <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                            {csvAnalysis.dateColumn}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Sayısal Sütunlar (Seçilebilir) */}
+                    <div className="bg-white rounded-lg p-3">
+                      <div className="font-semibold text-gray-900 mb-2">📊 Sayısal Veriler (Seçebilirsiniz):</div>
+                      <div className="flex flex-wrap gap-2">
+                        {csvAnalysis.numericColumns.map((col) => (
+                          <button
+                            key={col}
+                            onClick={() => {
+                              if (selectedColumns.includes(col)) {
+                                setSelectedColumns(selectedColumns.filter(c => c !== col));
+                              } else {
+                                setSelectedColumns([...selectedColumns, col]);
+                              }
+                            }}
+                            className={`px-3 py-2 rounded-lg border-2 transition-all ${
+                              selectedColumns.includes(col)
+                                ? 'bg-indigo-600 text-white border-indigo-600'
+                                : 'bg-gray-50 text-gray-700 border-gray-300 hover:border-indigo-400'
+                            }`}
+                          >
+                            {selectedColumns.includes(col) && <Check size={16} className="inline mr-1" />}
+                            {col}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Kategori Sütunlar */}
+                    {csvAnalysis.categoryColumns.length > 0 && (
+                      <div className="bg-white rounded-lg p-3">
+                        <div className="font-semibold text-gray-900 mb-2">🏷️ Kategori Sütunları:</div>
+                        <div className="flex flex-wrap gap-2">
+                          {csvAnalysis.categoryColumns.map((col) => (
+                            <span key={col} className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
+                              {col}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* 2. VERİ ANALİZİ ÖZET */}
+              <div className="rounded-2xl border-2 border-gray-300 bg-gradient-to-br from-gray-50 to-white p-5">
+                <div className="text-sm font-bold text-gray-900 mb-3">📈 Veri Analizi (Özet)</div>
+                <div className="flex flex-wrap gap-2 text-sm">
+                  <span className="px-4 py-2 rounded-full bg-white border-2 border-gray-300 text-gray-900 font-medium">
+                    {datasetProfile.hasDate ? '✅ Tarih var' : '⚠️ Tarih yok'}
+                  </span>
+                  <span className="px-4 py-2 rounded-full bg-white border-2 border-gray-300 text-gray-900 font-medium">
+                    {datasetProfile.hasCategory ? '✅ Kategori var' : '⚠️ Kategori yok'}
+                  </span>
+                  <span className="px-4 py-2 rounded-full bg-white border-2 border-gray-300 text-gray-900 font-medium">
+                    {selectedColumns.length} sütun seçildi
+                  </span>
+                  <span className="px-4 py-2 rounded-full bg-white border-2 border-gray-300 text-gray-900 font-medium">
+                    {datasetProfile.rowCount} satır
+                  </span>
+                  <span className="px-4 py-2 rounded-full bg-white border-2 border-gray-300 text-gray-900 font-medium">
+                    {csvHeaders.length} toplam sütun
+                  </span>
+                </div>
+              </div>
+
+              {/* 3. GRAFİK SEÇİMİ */}
               <div className="space-y-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900">Grafik Seçimi</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">2️⃣ Grafik Tipi Seçimi</h3>
                     <p className="text-sm text-gray-600">
-                      Fino, verine göre en doğru grafiği önerir. İstersen manuel değiştirebilirsin.
+                      Seçtiğiniz verilere uygun grafik tipini belirleyin.
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -633,9 +799,9 @@ const DashboardCreateWizardPage = () => {
                       href="/bilgi-merkezi/grafik-rehberi"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition-colors border-2 border-blue-300"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-yellow-100 text-yellow-800 font-semibold hover:bg-yellow-200 transition-colors border-2 border-yellow-400"
                     >
-                      <FileText size={18} />
+                      <Lightbulb size={18} />
                       <span>Grafik Rehberi</span>
                     </a>
                     <button
@@ -645,27 +811,6 @@ const DashboardCreateWizardPage = () => {
                     >
                       Grafik Seçim Sihirbazı
                     </button>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
-                  <div className="text-xs font-bold text-gray-700 mb-2">Veri analizi (özet)</div>
-                  <div className="flex flex-wrap gap-2 text-xs">
-                    <span className="px-3 py-1 rounded-full bg-white border border-gray-200">
-                      {datasetProfile.hasDate ? '✅ Tarih var' : '⚠️ Tarih yok'}
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-white border border-gray-200">
-                      {datasetProfile.hasCategory ? '✅ Kategori var' : '⚠️ Kategori yok'}
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-white border border-gray-200">
-                      {datasetProfile.isRatio ? '✅ Oran/%' : '— Mutlak'}
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-white border border-gray-200">
-                      {datasetProfile.hasBridgeSteps ? '✅ Akış yapısı' : '— Akış değil'}
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-white border border-gray-200">
-                      {datasetProfile.rowCount} satır
-                    </span>
                   </div>
                 </div>
 
@@ -680,27 +825,76 @@ const DashboardCreateWizardPage = () => {
                   }
                 />
 
-                <div className="rounded-2xl border border-gray-200 bg-white p-4">
-                  <div className="text-sm font-semibold text-gray-900">Seçilen Grafik</div>
-                  <div className="mt-2 flex items-center gap-2">
+                {/* Seçilen Grafik + Uygunluk Kontrolü */}
+                <div className="rounded-2xl border-2 border-indigo-200 bg-indigo-50 p-5">
+                  <div className="text-sm font-semibold text-gray-900 mb-3">Seçilen Grafik</div>
+                  <div className="flex items-center gap-3 mb-4">
                     {(() => {
                       const key = wizardData.customizations.chartTypes[0] || 'line';
                       const meta = CHART_META[key];
                       return (
                         <>
-                          <meta.Icon className="w-5 h-5 text-indigo-700" />
-                          <span className="font-bold text-gray-900">{meta.labelTr}</span>
-                          <span className="text-xs text-gray-500">({key})</span>
+                          <meta.Icon className="w-8 h-8 text-indigo-700" />
+                          <div>
+                            <div className="font-bold text-gray-900 text-lg">{meta.labelTr}</div>
+                            <div className="text-xs text-gray-500">Tip: {key}</div>
+                          </div>
                         </>
                       );
                     })()}
                   </div>
+
+                  {/* Uygunluk Kontrolü */}
+                  {(() => {
+                    const chartType = wizardData.customizations.chartTypes[0] || 'line';
+                    const warnings: string[] = [];
+                    
+                    // Line/Area grafik için tarih kontrolü
+                    if ((chartType === 'line' || chartType === 'area') && !datasetProfile.hasDate) {
+                      warnings.push('⚠️ Line/Area grafik için tarih sütunu önerilir');
+                    }
+                    
+                    // Donut grafik için kategori kontrolü
+                    if (chartType === 'donut' && !datasetProfile.hasCategory) {
+                      warnings.push('⚠️ Donut grafik için kategori sütunu gereklidir');
+                    }
+                    
+                    // Veri seçim kontrolü
+                    if (selectedColumns.length === 0) {
+                      warnings.push('❌ En az 1 sayısal sütun seçmelisiniz');
+                    }
+                    
+                    // Çok fazla sütun uyarısı
+                    if (selectedColumns.length > 5) {
+                      warnings.push('💡 5\'ten fazla sütun grafiği karmaşıklaştırabilir');
+                    }
+
+                    if (warnings.length > 0) {
+                      return (
+                        <div className="space-y-2">
+                          {warnings.map((warning, i) => (
+                            <div key={i} className="flex items-start gap-2 text-sm text-gray-800 bg-white rounded-lg p-3 border border-yellow-300">
+                              <AlertTriangle size={16} className="text-yellow-600 mt-0.5 flex-shrink-0" />
+                              <span>{warning}</span>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className="flex items-center gap-2 text-sm text-green-800 bg-green-100 rounded-lg p-3 border border-green-300">
+                          <Check size={16} className="text-green-600" />
+                          <span className="font-medium">✅ Seçilen grafik verilerinizle uyumlu!</span>
+                        </div>
+                      );
+                    }
+                  })()}
                 </div>
               </div>
 
-              {/* Renk Şeması */}
+              {/* 4. RENK ŞEMASI */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Renk Şeması:</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">3️⃣ Renk Şeması</h3>
                 <div className="flex space-x-4">
                   {[
                     { id: 'blue', name: 'Mavi', color: 'bg-blue-500' },
