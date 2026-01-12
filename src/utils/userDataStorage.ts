@@ -8,6 +8,7 @@ export type DataCategory =
   | 'sales'              // Satış Verileri
   | 'inventory'          // Stok & Envanter
   | 'hr'                 // İnsan Kaynakları
+  | 'agriculture'        // Tarım & Hayvancılık
   | 'branch'             // Şube Verileri
   | 'other';             // Diğer
 
@@ -46,6 +47,13 @@ export const DATA_CATEGORIES = {
     icon: '👥',
     description: 'Personel, performans, bordro verileri',
     color: 'pink',
+  },
+  agriculture: {
+    id: 'agriculture',
+    name: 'Tarım & Hayvancılık',
+    icon: '🌾',
+    description: 'Tarımsal üretim, tohum, hasat, hayvancılık verileri',
+    color: 'lime',
   },
   branch: {
     id: 'branch',
