@@ -1,0 +1,119 @@
+{
+  "id": "seedco-tarim-sales-001",
+  "title": "SeedCo Tohum Satış Verileri",
+  "sector": "Tarım",
+  "use_case": "Tohum satış performansı, ürün karlılığı, müşteri analizi ve bölgesel satış trendi takibi",
+  "grain": "daily",
+  "date_range": {
+    "start": "2024-01-15",
+    "end": "2024-12-30"
+  },
+  "entities": [
+    "ABC Tarım",
+    "XYZ Çiftlik",
+    "Bahçe Market",
+    "Yeşil Bahçe",
+    "Çiftçi Kooperatifi",
+    "Mega Tarım",
+    "Organik Üretim"
+  ],
+  "categories": [
+    "Tahıl",
+    "Sebze",
+    "Meyve"
+  ],
+  "metrics": [
+    {
+      "name": "Miktar",
+      "description": "Satış miktarı (kg/adet)",
+      "unit": "kg",
+      "type": "quantity"
+    },
+    {
+      "name": "Birim_Fiyat",
+      "description": "Birim satış fiyatı",
+      "currency": "TL",
+      "type": "currency"
+    },
+    {
+      "name": "Toplam",
+      "description": "Toplam satış tutarı",
+      "currency": "TL",
+      "type": "currency"
+    }
+  ],
+  "recommended_charts": [
+    {
+      "type": "LineChart",
+      "title": "Aylık Satış Trendi",
+      "x": "Ay",
+      "y": "Toplam",
+      "aggregate": "sum"
+    },
+    {
+      "type": "BarChart",
+      "title": "Ürün Kategorisine Göre Satış",
+      "x": "Kategori",
+      "y": "Toplam",
+      "aggregate": "sum"
+    },
+    {
+      "type": "BarChart",
+      "title": "Bölgesel Satış Dağılımı",
+      "x": "Bölge",
+      "y": "Toplam",
+      "aggregate": "sum"
+    },
+    {
+      "type": "PieChart",
+      "title": "Müşteri Bazında Ciro Dağılımı",
+      "category": "Müşteri",
+      "value": "Toplam"
+    }
+  ],
+  "kpi_cards": [
+    {
+      "title": "Toplam Satış",
+      "metric": "Toplam",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Toplam Miktar",
+      "metric": "Miktar",
+      "aggregate": "sum",
+      "format": "number"
+    },
+    {
+      "title": "Ortalama Birim Fiyat",
+      "metric": "Birim_Fiyat",
+      "aggregate": "avg",
+      "format": "currency"
+    },
+    {
+      "title": "Toplam Sipariş",
+      "metric": "count",
+      "aggregate": "count",
+      "format": "number"
+    },
+    {
+      "title": "Ödeme Başarı Oranı",
+      "metric": "Ödeme_Durumu",
+      "aggregate": "percentage",
+      "format": "percentage"
+    }
+  ],
+  "source": "Demo amaçlı veri (zaferyuzucu@gmail.com kullanıcısı tarafından yüklendi)",
+  "license": "MIT",
+  "notes": "SeedCo tohum şirketinin 2024 yılı satış verileri. Tahıl (Buğday, Mısır, Arpa) ve Sebze (Domates, Biber, Salatalık, Patlıcan) kategorilerinde tohum satışlarını içerir. Müşteri analizi, bölgesel performans ve ürün karlılığı analizleri için uygundur.",
+  "version": "1.0.0",
+  "created_at": "2026-01-12",
+  "row_count": 142,
+  "finops_insights": [
+    "Hangi ürün kategorisi en yüksek ciroyu sağlıyor?",
+    "Hangi bölgede satış potansiyeli daha yüksek?",
+    "Hangi müşteriler en değerli (top customers)?",
+    "Aylık satış trendi nasıl? Sezonsal etkiler var mı?",
+    "Ödeme tahsilatı performansı nasıl?"
+  ]
+}

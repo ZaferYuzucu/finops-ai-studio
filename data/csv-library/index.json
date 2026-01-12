@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0",
-  "last_updated": "2025-12-31",
-  "total_datasets": 5,
+  "version": "1.0.2",
+  "last_updated": "2026-01-12",
+  "total_datasets": 7,
   "datasets": [
     {
       "id": "agri-seed-sales-001",
@@ -52,17 +52,37 @@
       "row_count": 4212,
       "file_size_kb": 320,
       "preview_available": false
+    },
+    {
+      "id": "automotiv-termostat-uretim-001",
+      "title": "Otomotiv Termostat Üretim & Maliyet",
+      "sector": "Üretim & Operasyon",
+      "tags": ["otomotiv", "termostat", "üretim", "fire", "maliyet", "stok"],
+      "date_range": "2024-01-02 → 2024-01-24 (51 kayıt)",
+      "row_count": 51,
+      "file_size_kb": 5,
+      "preview_available": true
+    },
+    {
+      "id": "seedco-tarim-sales-001",
+      "title": "SeedCo Tohum Satış Verileri",
+      "sector": "Tarım",
+      "tags": ["tarım", "tohum", "satış", "tahıl", "sebze", "finansal"],
+      "date_range": "2024-01-15 → 2024-12-30 (142 kayıt)",
+      "row_count": 142,
+      "file_size_kb": 15,
+      "preview_available": true
     }
   ],
   "sectors": [
     {
       "name": "Tarım",
-      "count": 3,
+      "count": 4,
       "icon": "🌱"
     },
     {
       "name": "Üretim & Operasyon",
-      "count": 1,
+      "count": 2,
       "icon": "🏭"
     },
     {

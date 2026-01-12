@@ -1,0 +1,126 @@
+{
+  "id": "automotiv-termostat-uretim-001",
+  "title": "Otomotiv Termostat Üretim & Maliyet",
+  "sector": "Üretim & Operasyon",
+  "use_case": "Otomotiv sektöründe termostat üretim süreçleri, maliyet analizi ve stok takibi",
+  "grain": "daily",
+  "date_range": {
+    "start": "2024-01-02",
+    "end": "2024-01-24"
+  },
+  "entities": [
+    "TRST-A100",
+    "TRST-B200",
+    "TRST-C300"
+  ],
+  "categories": [
+    "Hammadde Hazırlık",
+    "Montaj",
+    "Kalite Kontrol"
+  ],
+  "metrics": [
+    {
+      "name": "Üretilen_Adet",
+      "description": "Üretilen toplam adet",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "Hatalı_Adet",
+      "description": "Fire (hatalı) üretim adedi",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "Toplam_Üretim_Maliyeti_USD",
+      "description": "Toplam üretim maliyeti",
+      "currency": "USD",
+      "type": "currency"
+    },
+    {
+      "name": "Mamul_Stok",
+      "description": "Mamul (bitmiş ürün) stok seviyesi",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "Yarı_Mamul_Stok",
+      "description": "Yarı mamul (WIP) stok seviyesi",
+      "unit": "adet",
+      "type": "quantity"
+    }
+  ],
+  "recommended_charts": [
+    {
+      "type": "BarChart",
+      "title": "Üretim Aşamalarına Göre Maliyet Dağılımı",
+      "x": "Üretim_Aşaması",
+      "y": "Toplam_Üretim_Maliyeti_USD",
+      "aggregate": "sum"
+    },
+    {
+      "type": "LineChart",
+      "title": "Gün Bazlı Üretim Adedi",
+      "x": "Tarih",
+      "y": "Üretilen_Adet",
+      "aggregate": "sum"
+    },
+    {
+      "type": "BarChart",
+      "title": "Fire (Hatalı) Oranı Analizi",
+      "x": "Üretim_Emri_No",
+      "y": "Hatalı_Adet",
+      "aggregate": "sum"
+    },
+    {
+      "type": "PieChart",
+      "title": "Stok Dağılımı",
+      "category": "Stok_Tipi",
+      "value": "Stok_Adedi"
+    }
+  ],
+  "kpi_cards": [
+    {
+      "title": "Toplam Üretim Maliyeti",
+      "metric": "Toplam_Üretim_Maliyeti_USD",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Üretilen Toplam Adet",
+      "metric": "Üretilen_Adet",
+      "aggregate": "sum",
+      "format": "number"
+    },
+    {
+      "title": "Hatalı Üretim Oranı",
+      "metric": "Hatalı_Adet",
+      "aggregate": "percentage_of_production",
+      "format": "percentage"
+    },
+    {
+      "title": "Mamul Stok",
+      "metric": "Mamul_Stok",
+      "aggregate": "last",
+      "format": "number"
+    },
+    {
+      "title": "Yarı Mamul Stok",
+      "metric": "Yarı_Mamul_Stok",
+      "aggregate": "last",
+      "format": "number"
+    }
+  ],
+  "source": "Demo amaçlı sentetik veri (finops.ist)",
+  "license": "MIT",
+  "notes": "Bu dataset otomotiv sektöründe termostat üretim süreçlerinin FinOps perspektifiyle nasıl analiz edilebileceğini göstermek için oluşturulmuştur. Üretim aşamaları, fire oranları, maliyet dağılımı ve stok seviyeleri içerir.",
+  "version": "1.0.0",
+  "created_at": "2026-01-12",
+  "row_count": 51,
+  "finops_insights": [
+    "Hangi üretim aşaması maliyetleri yukarı çekiyor?",
+    "Fire oranları maliyetleri nasıl etkiliyor?",
+    "Stok seviyeleri nakit akışını nasıl bağlıyor?",
+    "Mamul ve yarı mamul stok dengesi optimal mi?"
+  ]
+}

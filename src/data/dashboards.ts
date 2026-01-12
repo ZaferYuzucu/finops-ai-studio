@@ -868,6 +868,33 @@ export const dashboards: Dashboard[] = [
         ]
     },
     {
+        id: "otomotiv-termostat-dashboard",
+        name: "Otomotiv Termostat Üretim Dashboard'u",
+        category: "Otomotiv",
+        description: "Termostat üretim süreçleri, maliyet analizi, fire oranları ve stok takibi.",
+        longDescription: "Otomotiv yan sanayi için özel olarak tasarlanmış bu dashboard, termostat üretim süreçlerinin FinOps perspektifiyle izlenmesini sağlar. Finans + Operasyon verilerini birleştirerek üretim aşamalarına göre maliyet dağılımı, fire oranlarının finansal etkisi, mamul ve yarı mamul stok seviyeleri gibi kritik metrikleri görselleştirir. Fabrika yöneticileri ve CFO'lar için karar destek sistemi sunar.",
+        imageUrl: otomotivDashboardImg,
+        keyQuestions: [
+            "Hangi üretim aşaması maliyetleri yukarı çekiyor?",
+            "Fire oranları maliyetleri nasıl etkiliyor?",
+            "Stok seviyeleri nakit akışını nasıl bağlıyor?",
+            "Günlük üretim performansı hedeflere uygun mu?",
+            "Mamul ve yarı mamul stok dengesi optimal mi?",
+            "Hangi ürün kodu en yüksek fire oranına sahip?"
+        ],
+        keyMetrics: [
+            "Toplam Üretim Maliyeti (USD)",
+            "Üretilen Toplam Adet",
+            "Hatalı Üretim Oranı (%)",
+            "Mamul Stok Seviyesi",
+            "Yarı Mamul (WIP) Stok Seviyesi",
+            "Üretim Aşamasına Göre Maliyet Dağılımı",
+            "Gün Bazlı Üretim Adedi",
+            "Fire (Hatalı) Analizi",
+            "Stok Dağılımı (Mamul vs Yarı Mamul)"
+        ]
+    },
+    {
         id: "sales-team-dashboard",
         name: "Satış Ekibi Performans Takibi",
         category: "Satış & Pazarlama",
@@ -964,6 +991,33 @@ export const dashboards: Dashboard[] = [
         ]
     },
     {
+        id: "tarim-seedco-sales-dashboard",
+        name: "SeedCo Tohum Satış & Karlılık Dashboard'u",
+        category: "Tarım",
+        description: "Tohum satış performansı, ürün karlılığı, müşteri analizi ve bölgesel satış trendi.",
+        longDescription: "Tarım sektörü tohum şirketleri için özel olarak geliştirilmiş bu dashboard, satış performansını çok boyutlu analiz eder. Tahıl ve sebze kategorilerinde ürün bazında karlılık, müşteri segmentasyonu, bölgesel satış dağılımı ve ödeme tahsilatı gibi kritik metrikleri FinOps perspektifiyle sunar. Satış yöneticileri, CFO'lar ve pazarlama ekipleri için stratejik karar destek sistemi oluşturur.",
+        imageUrl: agricultureImg,
+        keyQuestions: [
+            "Hangi ürün kategorisi en yüksek ciroyu sağlıyor?",
+            "Hangi bölgede satış potansiyeli daha yüksek?",
+            "Hangi müşteriler en değerli (top customers)?",
+            "Aylık satış trendi nasıl? Sezonsal etkiler var mı?",
+            "Ödeme tahsilatı performansı nasıl?",
+            "Tahıl vs Sebze kategorisi karlılık karşılaştırması nasıl?"
+        ],
+        keyMetrics: [
+            "Toplam Satış Cirosu (TL)",
+            "Toplam Satış Miktarı (kg)",
+            "Ortalama Birim Fiyat",
+            "Ürün Kategorisine Göre Satış Dağılımı",
+            "Bölgesel Satış Performansı",
+            "Müşteri Bazında Ciro Dağılımı",
+            "Aylık Satış Trendi",
+            "Ödeme Başarı Oranı (%)",
+            "Top 5 En Çok Satan Ürünler"
+        ]
+    },
+    {
         id: "manufacturing-profitability",
         name: "Üretim Kârlılığı Analizi",
         category: "Üretim & Operasyon",
@@ -1057,6 +1111,33 @@ export const dashboards: Dashboard[] = [
             "Potansiyel Serbest Nakit",
             "Yavaş Hareket Eden Ürünler",
             "Karar Kartları"
+        ]
+    },
+    {
+        id: "automotiv-termostat-uretim",
+        name: "Otomotiv – Termostat Üretim & Maliyet",
+        category: "Üretim & Operasyon",
+        description: "Otomotiv sektörü termostat üretim süreçleri, maliyet analizi ve stok takibi.",
+        longDescription: "Bu örnek dashboard, otomotiv sektöründe termostat üretimi yapan bir işletmenin üretim, stok ve maliyet verilerinin FinOps bakış açısıyla nasıl izlenebileceğini göstermektedir. Klasik ERP raporlarından farklı olarak Finans + Operasyon verilerini birleştirir, maliyetleri yalnızca muhasebe değil üretim bağlamında ele alır ve karar vericilere aksiyon alınabilir içgörüler sunar. Fabrika yöneticileri, Finans Direktörleri (CFO), Üretim ve Planlama ekipleri ile FinOps & Dijital Dönüşüm ekipleri için tasarlanmıştır.",
+        imageUrl: otomotivDashboardImg,
+        keyQuestions: [
+            "Hangi üretim aşaması maliyetleri yukarı çekiyor?",
+            "Fire oranları maliyetleri nasıl etkiliyor?",
+            "Stok seviyeleri nakit akışını nasıl bağlıyor?",
+            "Üretim süreçlerinin toplam maliyetlere etkisi nedir?",
+            "Günlük üretim performansı hedeflere uygun mu?",
+            "Mamul ve yarı mamul stok dengesi optimal mi?"
+        ],
+        keyMetrics: [
+            "Toplam Üretim Maliyeti (USD)",
+            "Üretilen Toplam Adet",
+            "Hatalı Üretim Oranı (%)",
+            "Mamul Stok Seviyesi",
+            "Yarı Mamul (WIP) Stok Seviyesi",
+            "Üretim Aşamasına Göre Maliyet Dağılımı",
+            "Gün Bazlı Üretim Adedi",
+            "Fire (Hatalı) Analizi",
+            "Stok Dağılımı (Mamul vs Yarı Mamul)"
         ]
     },
     // Eğitim & Akademik
