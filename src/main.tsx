@@ -25,12 +25,14 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// DEV-only: seed known Beta Partner users (idempotent)
+// Seed users (idempotent with flags)
 if (import.meta.env.DEV) {
   ensureDevSeedAdmin();
-  ensureDevSeedElbaSerdar();
   ensureDevSeedTest1();
 }
+
+// ✅ BETA PHASE: Elba Partner her environment'da seed'lenir
+ensureDevSeedElbaSerdar();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
