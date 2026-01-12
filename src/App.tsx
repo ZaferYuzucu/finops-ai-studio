@@ -82,6 +82,7 @@ import ManufacturingPage from './pages/sectors/ManufacturingPage';
 import ManufacturingDashboardsPage from './pages/ManufacturingDashboardsPage';
 import DataIngestionPage from './pages/DataIngestionPage';
 import BetaApplicationFormPage from './pages/BetaApplicationFormPage';
+import AutomotivTermostatDashboard from './pages/dashboards/AutomotivTermostatDashboard';
 
 // Dev-only tools
 const I18nAuditPage = lazy(() => import('./pages/I18nAuditPage'));
@@ -116,6 +117,9 @@ const App: React.FC = () => {
         {/* Sectors */}
         <Route path="/sektorler/uretim" element={<ManufacturingPage />} />
         <Route path="/sektorler/uretim/dashboards" element={<ManufacturingDashboardsPage />} />
+        
+        {/* Demo Dashboards */}
+        <Route path="/dashboards/automotiv-termostat" element={<AutomotivTermostatDashboard />} />
         
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/what-is-finops" element={<WhatIsFinopsPage />} />
