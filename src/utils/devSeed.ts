@@ -178,9 +178,17 @@ export function ensureDevSeedTest1() {
 
 export function ensureDevSeedElbaSerdar() {
   if (typeof window === 'undefined') return;
-  if (!import.meta.env.DEV) return;
+  
+  // ✅ BETA PHASE: Production'da da bu kullanıcıyı seed'le
+  // (Sadece bir kez çalışır - flag kontrolü ile)
 
   try {
+    // Flag kontrolü: Sadece bir kez çalıştır
+    const flagValue = window.localStorage.getItem(SEED_FLAG_KEY);
+    if (flagValue === 'done') {
+      return; // Zaten seed'lendi
+    }
+
     const seed = {
       companyName: 'Elba Otomotiv',
       contactName: 'Serdar Cingir',
@@ -266,14 +274,18 @@ export function ensureDevSeedElbaSerdar() {
       // ignore
     }
 
-    // Helpful console trace for debugging in dev
+    // Helpful console trace for debugging
     // eslint-disable-next-line no-console
-    console.log('✅ DEV SEED: Elba/Serdar Beta Partner created (local + newsletter best-effort)');
+    console.log('✅ BETA SEED: Elba/Serdar Beta Partner created (local + newsletter best-effort)');
     console.log('📧 Email:', seed.email);
     console.log('🔑 Şifre:', seed.password);
+    console.log('🌍 Environment:', import.meta.env.DEV ? 'DEV' : 'PROD');
+    
+    // Flag set et (bir daha çalışmasın)
+    window.localStorage.setItem(SEED_FLAG_KEY, 'done');
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.warn('DEV SEED failed:', err);
+    console.warn('BETA SEED failed:', err);
   }
 }
 
