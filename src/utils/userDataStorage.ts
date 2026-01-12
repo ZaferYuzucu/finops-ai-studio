@@ -4,11 +4,11 @@
 // 📚 VERİ KÜTÜPHANESİ KATEGORİLERİ
 export type DataCategory = 
   | 'financial'           // Finansal Veriler
-  | 'cost-inventory'      // Maliyet ve Stok Verileri
-  | 'cashflow'           // Nakit Akışı Verileri
-  | 'budget-reporting'   // Bütçe ve Raporlama Verileri
-  | 'hr-performance'     // İK/Çalışan Performans Verileri
-  | 'branch'             // Şube Bazlı Veriler
+  | 'operational'         // Operasyonel Veriler
+  | 'sales'              // Satış Verileri
+  | 'inventory'          // Stok & Envanter
+  | 'hr'                 // İnsan Kaynakları
+  | 'branch'             // Şube Verileri
   | 'other';             // Diğer
 
 export const DATA_CATEGORIES = {
@@ -16,49 +16,49 @@ export const DATA_CATEGORIES = {
     id: 'financial',
     name: 'Finansal Veriler',
     icon: '💰',
-    description: 'Gelir, gider, kar-zarar gibi finansal veriler',
+    description: 'Gelir, gider, kar-zarar, bütçe ve raporlama verileri',
     color: 'blue',
   },
-  'cost-inventory': {
-    id: 'cost-inventory',
-    name: 'Maliyet ve Stok Verileri',
-    icon: '📦',
-    description: 'Ürün maliyetleri, stok takibi, envanter verileri',
-    color: 'orange',
-  },
-  cashflow: {
-    id: 'cashflow',
-    name: 'Nakit Akışı Verileri',
-    icon: '💵',
-    description: 'Nakit giriş-çıkış, likidite analizi',
-    color: 'green',
-  },
-  'budget-reporting': {
-    id: 'budget-reporting',
-    name: 'Bütçe ve Raporlama Verileri',
-    icon: '📊',
-    description: 'Bütçe planları, periyodik raporlar',
+  operational: {
+    id: 'operational',
+    name: 'Operasyonel Veriler',
+    icon: '⚙️',
+    description: 'İş süreçleri, üretim, kalite kontrol verileri',
     color: 'purple',
   },
-  'hr-performance': {
-    id: 'hr-performance',
-    name: 'İK/Çalışan Performans Verileri',
+  sales: {
+    id: 'sales',
+    name: 'Satış Verileri',
+    icon: '📈',
+    description: 'Satış rakamları, müşteri verileri, sipariş takibi',
+    color: 'green',
+  },
+  inventory: {
+    id: 'inventory',
+    name: 'Stok & Envanter',
+    icon: '📦',
+    description: 'Stok seviyeleri, envanter takibi, tedarik zinciri',
+    color: 'orange',
+  },
+  hr: {
+    id: 'hr',
+    name: 'İnsan Kaynakları',
     icon: '👥',
-    description: 'Personel verileri, performans metrikleri',
+    description: 'Personel, performans, bordro verileri',
     color: 'pink',
   },
   branch: {
     id: 'branch',
-    name: 'Şube Bazlı Veriler',
+    name: 'Şube Verileri',
     icon: '🏢',
-    description: 'Şube bazlı operasyonel veriler',
+    description: 'Şubeye özgü operasyonel ve finansal veriler',
     color: 'indigo',
   },
   other: {
     id: 'other',
     name: 'Diğer',
     icon: '📁',
-    description: 'Kategorize edilmemiş veriler',
+    description: 'Kategori dışı veriler',
     color: 'gray',
   },
 } as const;
