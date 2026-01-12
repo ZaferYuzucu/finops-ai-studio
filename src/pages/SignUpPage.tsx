@@ -26,8 +26,8 @@ const SignUpPage: React.FC = () => {
   const { completeMiniSurvey, skipMiniSurvey } = useSurvey();
   
   // Google reCAPTCHA Site Key - Environment Variable
-  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LfE4jUsAAAAAOKH1f0ich9FAHIyr81efhTq5XyD';
-  const isRecaptchaEnabled = !!recaptchaSiteKey;
+  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
+  const isRecaptchaEnabled = false; // Beta aşamasında devre dışı
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

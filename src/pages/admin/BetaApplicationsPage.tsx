@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { BetaApplication, ApplicationStatus, SECTOR_OPTIONS, EMPLOYEE_COUNT_OPTIONS } from '../../types/betaApplication';
 import { useAuth } from '../../context/AuthContext';
+import { ensureDevSeedElbaSerdar } from '../../utils/devSeed';
 
 async function safeJson(response: Response) {
   const text = await response.text();
@@ -111,6 +112,10 @@ const BetaApplicationsPage: React.FC = () => {
 
   // Başvuruları yükle
   useEffect(() => {
+    // DEV-only: guarantee the requested manual Beta Partner user exists even if main.tsx didn't run.
+    if (import.meta.env.DEV) {
+      ensureDevSeedElbaSerdar();
+    }
     loadApplications();
     const onLocal = () => {
       // if server list is down, at least keep local visible
@@ -262,9 +267,10 @@ Harika haber! ${app.companyName} için Lansman Partneri programına kabul edildi
 
 🚀 HEMEN BAŞLAYIN:
 
-1. Kayıt Olun: https://finops.ist/signup
+1. Beta Partner Başvurusu Yapın: https://finops.ist/beta-basvuru
 2. E-postanız: ${app.email}
-3. Güçlü bir şifre oluşturun
+3. Formu doldurun ve gönderin
+4. Başvurunuzu inceleyip size geri dönüş yapacağız
 
 📞 Sonraki Adımlar:
 - Kayıt sonrası biz sizinle iletişime geçeceğiz
@@ -609,9 +615,10 @@ Harika haber! [Firma Adı] için Lansman Partneri programına kabul edildiniz! �
 
 🚀 HEMEN BAŞLAYIN:
 
-1. Kayıt Olun: https://finops-ai-studio.vercel.app/signup
+1. Beta Partner Başvurusu Yapın: https://finops.ist/beta-basvuru
 2. E-postanız: [email]
-3. Güçlü bir şifre oluşturun
+3. Formu doldurun ve gönderin
+4. Başvurunuzu inceleyip size geri dönüş yapacağız
 
 📞 Sonraki Adımlar:
 - Kayıt sonrası biz sizinle iletişime geçeceğiz

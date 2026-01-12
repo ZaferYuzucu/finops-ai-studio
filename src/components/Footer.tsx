@@ -6,6 +6,7 @@ import logo from '@/assets/brand/finops-logo-Kalkan.png';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 
 const getFooterSections = (t: any) => ({
   solutions: {
@@ -78,6 +79,11 @@ const getLegalLinks = (t: any) => [
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
+  const { currentUser } = useAuth();
+  const isAdminFlag =
+    typeof window !== 'undefined' &&
+    (localStorage.getItem('isAdminAuthenticated') === 'true' ||
+      sessionStorage.getItem('isAdminAuthenticated') === 'true');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -113,34 +119,36 @@ const Footer: React.FC = () => {
             <Link to="/" className="flex items-center gap-3 mb-8">
               <img src={logo} alt="Finops AI Logo" className="h-12 w-auto" />
             </Link>
-            <div className="max-w-xl">
-              <h3 className="text-lg font-semibold text-gray-800">{t('footer.stayUpdated')}</h3>
-              <p className="mt-2 text-base text-gray-500">{t('footer.stayUpdatedSubtitle')}</p>
-              <form onSubmit={handleSubscribe} className="mt-6 flex flex-col sm:flex-row gap-2.5">
-                <label htmlFor="email-address" className="sr-only">E-posta adresi</label>
-                <input 
-                  type="email" 
-                  required 
-                  className="w-full px-4 py-2.5 rounded-lg bg-white text-gray-900 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow sm:text-sm" 
-                  placeholder={t('footer.emailPlaceholder')} 
-                  value={email} 
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={status === 'loading'}
-                />
-                <button 
-                  type="submit" 
-                  className="flex-shrink-0 px-5 py-2.5 rounded-lg bg-blue-600 text-white font-semibold text-sm shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-60 transition-colors"
-                  disabled={status === 'loading'}
-                >
-                  {status === 'loading' ? t('footer.subscribing') : t('footer.subscribe')}
-                </button>
-              </form>
-              {message && (
-                <p className={`mt-3 text-sm font-medium ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
-                  {message}
-                </p>
-              )}
-            </div>
+            {!currentUser && !isAdminFlag && (
+              <div className="max-w-xl">
+                <h3 className="text-lg font-semibold text-gray-800">{t('footer.stayUpdated')}</h3>
+                <p className="mt-2 text-base text-gray-500">{t('footer.stayUpdatedSubtitle')}</p>
+                <form onSubmit={handleSubscribe} className="mt-6 flex flex-col sm:flex-row gap-2.5">
+                  <label htmlFor="email-address" className="sr-only">E-posta adresi</label>
+                  <input 
+                    type="email" 
+                    required 
+                    className="w-full px-4 py-2.5 rounded-lg bg-white text-gray-900 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow sm:text-sm" 
+                    placeholder={t('footer.emailPlaceholder')} 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={status === 'loading'}
+                  />
+                  <button 
+                    type="submit" 
+                    className="flex-shrink-0 px-5 py-2.5 rounded-lg bg-blue-600 text-white font-semibold text-sm shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-60 transition-colors"
+                    disabled={status === 'loading'}
+                  >
+                    {status === 'loading' ? t('footer.subscribing') : t('footer.subscribe')}
+                  </button>
+                </form>
+                {message && (
+                  <p className={`mt-3 text-sm font-medium ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                    {message}
+                  </p>
+                )}
+              </div>
+            )}
         </div>
 
         <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">

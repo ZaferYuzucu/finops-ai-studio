@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome Seed - Test1 SeedCo</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: white;
+            color: #333;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin: 0 0 20px 0;
+        }
+        .status {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 2px solid #bee5eb;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .details {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Test1 SeedCo - Chrome Seed</h1>
+        <div id="status" class="status info">
+            Hazır... Butona tıklayın!
+        </div>
+        
+        <button onclick="seedData()">🚀 Verileri Chrome'a Yükle</button>
+        <button onclick="checkData()">🔍 Kontrol Et</button>
+        <button onclick="window.location.href='/login'">🔑 Login'e Git</button>
+        <button onclick="window.location.href='/kutuphane'">📚 Kütüphane'ye Git</button>
+        
+        <div id="details" class="details" style="display:none;"></div>
+    </div>
+
+    <script>
+        function seedData() {
+            const status = document.getElementById('status');
+            const details = document.getElementById('details');
+            
+            try {
+                // 1. Kullanıcı kaydı
+                const users = JSON.parse(localStorage.getItem('finops_users') || '{}');
+                users['zaferyuzucu@gmail.com'] = { 
+                    email: 'zaferyuzucu@gmail.com', 
+                    password: 'Zafer1961', 
+                    role: 'user' 
+                };
+                localStorage.setItem('finops_users', JSON.stringify(users));
+                
+                // 2. User Management
+                const mgmt = JSON.parse(localStorage.getItem('finops_users_management') || '[]');
+                if (!mgmt.some(u => u.email === 'zaferyuzucu@gmail.com')) {
+                    mgmt.unshift({
+                        id: 'user_test1_' + Date.now(),
+                        email: 'zaferyuzucu@gmail.com',
+                        displayName: 'Zafer Yuzucu',
+                        createdAt: new Date().toISOString(),
+                        role: 'user',
+                        plan: 'beta_partner',
+                        isActive: true,
+                        companyName: 'Test1 SeedCo'
+                    });
+                    localStorage.setItem('finops_users_management', JSON.stringify(mgmt));
+                }
+                
+                // 3. Beta Applications
+                const apps = JSON.parse(localStorage.getItem('finops_beta_applications') || '[]');
+                if (!apps.some(a => a.email === 'zaferyuzucu@gmail.com')) {
+                    apps.unshift({
+                        id: 'test1_beta_partner',
+                        companyName: 'Test1 SeedCo',
+                        contactName: 'Zafer Yuzucu',
+                        email: 'zaferyuzucu@gmail.com',
+                        phone: '+90 555 123 4567',
+                        employeeCount: '11-50',
+                        sector: 'agriculture',
+                        description: 'Tohum üretimi ve satışı - Tarım Sektörü',
+                        status: 'approved',
+                        source: 'admin',
+                        appliedAt: new Date().toISOString(),
+                        reviewedAt: new Date().toISOString(),
+                        reviewedBy: 'admin',
+                        approvalEmailSent: true,
+                        adminNotes: 'Test1 SeedCo - Owner: Zafer Yuzucu'
+                    });
+                    localStorage.setItem('finops_beta_applications', JSON.stringify(apps));
+                }
+                
+                // 4. VERİ KÜTÜPHANESİ - Test1 SeedCo.csv
+                const library = JSON.parse(localStorage.getItem('finops_user_uploaded_files') || '[]');
+                if (!library.some(f => f.userEmail === 'zaferyuzucu@gmail.com' && f.fileName.includes('Test1 SeedCo'))) {
+                    library.push({
+                        id: 'file_test1_seedco_' + Date.now(),
+                        fileName: 'Test1 SeedCo.csv',
+                        fileType: 'text/csv',
+                        fileSize: 15360,
+                        uploadedAt: new Date().toISOString(),
+                        userEmail: 'zaferyuzucu@gmail.com',
+                        category: 'financial',
+                        branchId: undefined,
+                        branchName: undefined,
+                        description: 'Test1 SeedCo - Tohum üretimi satış verileri (2024)',
+                        tags: ['tohum', 'tarım', '2024', 'satış'],
+                        rowCount: 250,
+                        columnCount: 12,
+                        preview: [
+                            'Tarih,Ürün,Kategori,Miktar,Birim Fiyat,Toplam,Müşteri,Bölge',
+                            '2024-01-15,Buğday Tohumu,Tahıl,500,25,12500,ABC Tarım,Ankara',
+                            '2024-01-16,Mısır Tohumu,Tahıl,300,30,9000,XYZ Çiftlik,İzmir'
+                        ],
+                        isArchived: false
+                    });
+                    localStorage.setItem('finops_user_uploaded_files', JSON.stringify(library));
+                }
+                
+                status.className = 'status success';
+                status.innerHTML = '✅ BAŞARILI! Tüm veriler Chrome localStorage\'a yüklendi!<br><br>Şimdi "Login\'e Git" butonuna tıklayın.';
+                
+                details.style.display = 'block';
+                details.innerHTML = `
+✅ Kullanıcı: zaferyuzucu@gmail.com (şifre: Zafer1961)
+✅ Beta Partner: Test1 SeedCo
+✅ Kütüphane Dosyası: Test1 SeedCo.csv (250 satır × 12 sütun)
+✅ Kategori: 💰 Finansal Veriler
+                `;
+                
+            } catch (error) {
+                status.className = 'status';
+                status.style.background = '#f8d7da';
+                status.style.color = '#721c24';
+                status.innerHTML = '❌ HATA: ' + error.message;
+            }
+        }
+        
+        function checkData() {
+            const status = document.getElementById('status');
+            const details = document.getElementById('details');
+            
+            const users = JSON.parse(localStorage.getItem('finops_users') || '{}');
+            const library = JSON.parse(localStorage.getItem('finops_user_uploaded_files') || '[]');
+            const userFiles = library.filter(f => f.userEmail === 'zaferyuzucu@gmail.com');
+            
+            details.style.display = 'block';
+            details.innerHTML = `
+📊 DURUM KONTROLÜ:
+
+👤 Kullanıcılar: ${Object.keys(users).length} adet
+   - zaferyuzucu@gmail.com: ${users['zaferyuzucu@gmail.com'] ? '✅ VAR' : '❌ YOK'}
+
+📚 Kütüphane:
+   - Toplam dosya: ${library.length} adet
+   - Zafer'e ait: ${userFiles.length} adet
+   ${userFiles.map(f => '   - ' + f.fileName + ' (' + f.category + ')').join('\n')}
+            `;
+            
+            status.className = 'status info';
+            status.innerHTML = '🔍 Kontrol tamamlandı. Detaylar aşağıda.';
+        }
+        
+        // Sayfa yüklendiğinde otomatik kontrol
+        window.onload = () => {
+            checkData();
+        };
+    </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { User, Server, FileText, UploadCloud, Clock, Link as LinkIcon, AlertTriangle, ListChecks } from 'lucide-react';
+import { User, Server, FileText, UploadCloud, Clock, Link as LinkIcon, AlertTriangle, ListChecks, Database, BarChart3, Eye } from 'lucide-react';
 import { useRobotsMeta } from '../hooks/useRobotsMeta';
 
 // Bölüm başlığı bileşeni
@@ -52,6 +52,78 @@ const DataGuidePage: React.FC = () => {
             Sisteme manuel veya otomatik olarak veri aktarımı için gereken adımları ve dikkat edilecek noktaları bu rehberde bulabilirsiniz.
           </p>
         </div>
+
+        {/* VERİ KÜTÜPHANESİ VE DASHBOARD */}
+        <GuideSection 
+          icon={<Database size={28} />} 
+          title="📚 Veri Kütüphanesi ve Dashboard Oluşturma"
+          subtitle="Yüklenen Verilerinizi Yönetin ve Dashboard Oluşturun"
+          className="mb-12"
+        >
+          <p>
+            Sisteme yüklediğiniz CSV/Excel dosyaları otomatik olarak <strong>Veri Kütüphaneniz</strong>'e kaydedilir. Bu kütüphane üzerinden verilerinizi yönetebilir ve dashboard oluşturabilirsiniz.
+          </p>
+          
+          <h4><Database className="inline-block h-5 w-5 align-text-bottom mr-2" /> 1. Veri Kütüphanesine Erişim</h4>
+          <ol>
+            <li><strong>Ana Menü:</strong> Üst menüden profilinize tıklayın</li>
+            <li><strong>Kütüphane:</strong> Açılan menüden "Veri Kütüphanem" seçeneğini tıklayın</li>
+            <li><strong>Görüntüleme:</strong> Tüm yüklediğiniz dosyaları kategori, şube ve tarih bazında görebilirsiniz</li>
+          </ol>
+
+          <h4>2. Veri Kategorileri</h4>
+          <p>Veri yüklerken dosyanızı aşağıdaki kategorilerden birine atayabilirsiniz:</p>
+          <ul>
+            <li>💰 <strong>Finansal Veriler:</strong> Gelir, gider, kar-zarar raporları</li>
+            <li>📦 <strong>Maliyet ve Stok Verileri:</strong> Ürün maliyetleri, envanter</li>
+            <li>💵 <strong>Nakit Akışı Verileri:</strong> Nakit giriş-çıkış takibi</li>
+            <li>📊 <strong>Bütçe ve Raporlama:</strong> Bütçe planları, periyodik raporlar</li>
+            <li>👥 <strong>İK/Performans Verileri:</strong> Personel ve performans metrikleri</li>
+            <li>🏢 <strong>Şube Bazlı Veriler:</strong> Şubelere özel operasyonel veriler</li>
+          </ul>
+
+          <Note type="info">
+            <strong>İpucu:</strong> Dosyalarınızı kategorilere ayırmak, dashboard oluştururken doğru veriyi hızlıca bulmanızı sağlar.
+          </Note>
+
+          <h4><BarChart3 className="inline-block h-5 w-5 align-text-bottom mr-2" /> 3. Dashboard Oluşturma Adımları</h4>
+          <ol>
+            <li><strong>Dashboard Oluştur:</strong> Ana sayfadan "Dashboard Oluştur" butonuna tıklayın</li>
+            <li><strong>Veri Seç:</strong> Kütüphanenizden kullanmak istediğiniz CSV dosyasını seçin</li>
+            <li><strong>Dashboard Tipi:</strong> Hazır şablon (26 adet) veya boş dashboard seçin</li>
+            <li><strong>Grafik Seçimi:</strong> Line, Bar, Area, Donut gibi grafik tiplerinden birini seçin</li>
+            <li><strong>Renk Şeması:</strong> Dashboard renk temasını seçin (Mavi, Mor, Yeşil, Turuncu)</li>
+            <li><strong>Dashboard Adı:</strong> Dashboard'unuza anlamlı bir isim verin</li>
+            <li><strong>Kaydet:</strong> "Dashboard'u Kaydet" butonuna tıklayın</li>
+          </ol>
+
+          <h4><Eye className="inline-block h-5 w-5 align-text-bottom mr-2" /> 4. Dashboard Görüntüleme</h4>
+          <p>Dashboard kaydedildikten sonra verileriniz otomatik olarak analiz edilir (birkaç saniye sürer):</p>
+          <ul>
+            <li><strong>Dashboard'larım:</strong> Ana menüden "Dashboard'larım" sayfasına gidin</li>
+            <li><strong>Görüntüle:</strong> İstediğiniz dashboard'un "Görüntüle" butonuna tıklayın</li>
+            <li><strong>Grafikler:</strong> Verileriniz otomatik olarak analiz edilmiş grafiklerle gösterilir</li>
+            <li><strong>Düzenle:</strong> Dashboard ayarlarını değiştirmek için "Düzenle" butonunu kullanın</li>
+          </ul>
+
+          <Note type="info">
+            <strong>Otomatik Analiz:</strong> Sistemimiz verilerinizi otomatik olarak analiz eder:
+            <ul className="mt-2">
+              <li>📈 Aylık trend grafikleri</li>
+              <li>📊 Kategori bazlı analizler</li>
+              <li>🏆 Top 10 listeleri</li>
+              <li>💡 Özet istatistikler (Toplam, Ortalama, Tarih aralığı)</li>
+            </ul>
+          </Note>
+
+          <h4>5. Arşivleme ve Temizleme</h4>
+          <p>Veri kütüphanenizde:</p>
+          <ul>
+            <li><strong>Arşivle:</strong> Kullanmadığınız dosyaları arşivleyebilirsiniz</li>
+            <li><strong>Sil:</strong> Artık ihtiyacınız olmayan dosyaları kalıcı olarak silebilirsiniz</li>
+            <li><strong>Otomatik Temizleme:</strong> 30 günden eski arşiv dosyalarını toplu temizleyebilirsiniz</li>
+          </ul>
+        </GuideSection>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           

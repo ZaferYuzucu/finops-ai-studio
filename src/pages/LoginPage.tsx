@@ -18,9 +18,9 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login, signInWithGoogle } = useAuth();
 
-  // Google reCAPTCHA Site Key - Environment Variable
-  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LfE4jUsAAAAAOKH1f0ich9FAHIyr81efhTq5XyD';
-  const isRecaptchaEnabled = !!recaptchaSiteKey;
+  // reCAPTCHA - Sadece environment variable tanımlıysa aktif
+  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
+  const isRecaptchaEnabled = false; // Beta aşamasında devre dışı
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
     }
     
     if (!isRecaptchaEnabled) {
-      console.log('⚠️ reCAPTCHA test modu - güvenlik kontrolü atlandı');
+      console.log('⚠️ reCAPTCHA devre dışı (DEV modu)');
     }
     
     setError('');

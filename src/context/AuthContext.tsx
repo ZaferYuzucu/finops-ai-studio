@@ -1,5 +1,6 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { autoSubscribeNewsletter } from '../utils/newsletter';
 
 interface UserProfile {
   uid: string;
@@ -86,6 +87,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const user = saveUser(email, password, 'user');
     setStoredUser(user);
     setCurrentUser(user);
+    // Auto newsletter subscription (best-effort)
+    void autoSubscribeNewsletter(email, 'signup');
   };
 
   const login = async (email: string, password: string) => {
@@ -104,6 +107,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     
     setStoredUser(userProfile);
     setCurrentUser(userProfile);
+    // Auto newsletter subscription (best-effort)
+    void autoSubscribeNewsletter(email, 'login');
   };
 
   const logout = async () => {

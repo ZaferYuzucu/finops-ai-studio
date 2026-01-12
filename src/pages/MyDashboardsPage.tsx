@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Pencil, LayoutDashboard } from 'lucide-react';
+import { Plus, Trash2, Pencil, LayoutDashboard, Eye } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { deleteUserDashboard, listUserDashboards } from '../utils/userDashboards';
 
@@ -90,7 +90,14 @@ export default function MyDashboardsPage() {
                   </div>
                 </div>
 
-                <div className="mt-4 flex items-center gap-2">
+                <div className="mt-4 flex items-center gap-2 flex-wrap">
+                  <button
+                    onClick={() => navigate(`/dashboard/view/${d.id}`)}
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700"
+                  >
+                    <Eye className="w-4 h-4" />
+                    Görüntüle
+                  </button>
                   <button
                     onClick={() => navigate(`/dashboard/edit/${d.id}`)}
                     className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700"

@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { ChevronDown, LogOut, Globe, Menu, X } from "lucide-react";
+import { ChevronDown, LogOut, Globe, Menu, X, Settings, User, Database } from "lucide-react";
 import logo from '@/assets/brand/finops-logo-Kalkan.png';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +13,19 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -119,30 +132,87 @@ export default function Navbar() {
 
             {/* Desktop Auth Buttons */}
             <div className="hidden md:flex items-center gap-x-2">
-                {currentUser ? ( // Kullanıcı giriş yapmış mı?
+                {/* Giriş ve Kayıt Butonları - HER ZAMAN GÖRÜNÜR */}
+                <Link to="/login" className="px-4 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors rounded-lg">
+                    {t('nav.login')}
+                </Link>
+                <Link to="/signup" className="px-4 py-1.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg shadow-sm">
+                    {t('nav.signUp')}
+                </Link>
+                
+                {/* Kullanıcı Giriş Yapmışsa Profil Dropdown */}
+                {currentUser && (
                   <>
-                    <Link 
-                      to="/dashboard"
-                      title={currentUser.email || t('nav.userPanel')}
-                      className="px-4 py-1.5 text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 transition-colors rounded-lg shadow-sm">
-                        {t('nav.userPanel')}
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      title={t('nav.logout')}
-                      className="p-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 transition-colors rounded-lg">
-                        <LogOut className="h-4 w-4"/>
-                    </button>
-                  </>
-                ) : (
-                  // Ziyaretçi ise bunları göster
-                  <>
-                    <Link to="/login" className="px-4 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors rounded-lg">
-                        {t('nav.login')}
-                    </Link>
-                    <Link to="/signup" className="px-4 py-1.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg shadow-sm">
-                        {t('nav.signUp')}
-                    </Link>
+                    <div className="w-px h-6 bg-gray-300 mx-1"></div>
+                    
+                    {/* User Profile Dropdown */}
+                    <div className="relative" ref={userMenuRef}>
+                      <button
+                        onClick={() => setUserMenuOpen(!userMenuOpen)}
+                        className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                          {currentUser.email?.charAt(0).toUpperCase() || 'U'}
+                        </div>
+                        <span className="max-w-[100px] truncate">{currentUser.email}</span>
+                        <ChevronDown size={16} className={`transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                      </button>
+
+                      {/* Dropdown Menu */}
+                      {userMenuOpen && (
+                        <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                          {/* User Info */}
+                          <div className="px-4 py-3 border-b border-gray-100">
+                            <p className="text-sm font-semibold text-gray-900">{currentUser.email}</p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {currentUser.role === 'admin' ? 'Yönetici' : 'Kullanıcı'}
+                            </p>
+                          </div>
+
+                          {/* Menu Items */}
+                          <div className="py-1">
+                            <Link
+                              to="/dashboard"
+                              onClick={() => setUserMenuOpen(false)}
+                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            >
+                              <User size={16} />
+                              Dashboard
+                            </Link>
+                            <Link
+                              to="/kutuphane"
+                              onClick={() => setUserMenuOpen(false)}
+                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            >
+                              <Database size={16} />
+                              Veri Kütüphanem
+                            </Link>
+                            <Link
+                              to="/settings"
+                              onClick={() => setUserMenuOpen(false)}
+                              className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            >
+                              <Settings size={16} />
+                              Ayarlar
+                            </Link>
+                          </div>
+
+                          {/* Logout */}
+                          <div className="border-t border-gray-100 pt-1">
+                            <button
+                              onClick={() => {
+                                setUserMenuOpen(false);
+                                handleLogout();
+                              }}
+                              className="flex items-center gap-3 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                            >
+                              <LogOut size={16} />
+                              Çıkış Yap
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </>
                 )}
             </div>

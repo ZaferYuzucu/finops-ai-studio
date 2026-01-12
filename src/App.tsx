@@ -37,6 +37,7 @@ import TermsOfServicePage from './pages/legal/TermsOfServicePage';
 import CookiePolicyPage from './pages/legal/CookiePolicyPage';
 import DataGuidePage from './pages/DataGuidePage';
 import DataImportPage from './pages/DataImportPage';
+import DataLibraryPage from './pages/DataLibraryPage';
 import UserJourneyMapPage from './pages/UserJourneyMapPage';
 import DemoDashboardPreview from './pages/DemoDashboardPreview';
 import VeriHazirlamaRehberiPage from './pages/VeriHazirlamaRehberiPage'; 
@@ -54,6 +55,8 @@ import AdminProtectedRoute from './components/AdminProtectedRoute';
 import DashboardPage from './pages/DashboardPage';
 import ProfessionalDashboardsPage from './pages/ProfessionalDashboardsPage';
 import MyDashboardsPage from './pages/MyDashboardsPage';
+import DashboardViewPage from './pages/DashboardViewPage';
+import UserSettingsPage from './pages/UserSettingsPage';
 import AdminPanelPage from './pages/AdminPanelPage';
 import NewsletterPanelPage from './pages/admin/NewsletterPanelPage';
 import PlatformAnalyticsPage from './pages/admin/PlatformAnalyticsPage';
@@ -137,10 +140,15 @@ const App: React.FC = () => {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/dashboard/create" element={<DashboardCreateWizardPage />} />
           <Route path="/dashboard/my" element={<MyDashboardsPage />} />
+          <Route path="/dashboard/view/:id" element={<DashboardViewPage />} />
           <Route path="/dashboard/edit/:id" element={<DashboardCreateWizardPage />} />
           <Route path="/dashboards" element={<ProfessionalDashboardsPage />} />
           <Route path="/professional-dashboards" element={<ProfessionalDashboardsPage />} />
           <Route path="/dashboard/demo-preview" element={<DemoDashboardPreview />} />
+          <Route path="/kutuphane" element={<DataLibraryPage />} />
+          <Route path="/data-library" element={<DataLibraryPage />} />
+          <Route path="/settings" element={<UserSettingsPage />} />
+          <Route path="/user/settings" element={<UserSettingsPage />} />
         </Route>
         
         {/* === Yönetici Korumalı Rotalar (Sadece Yöneticiler) === */}

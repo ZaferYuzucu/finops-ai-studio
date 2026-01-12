@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Upload, Database, FileSpreadsheet, Sparkles, ArrowRight, ArrowLeft, Check, Grid3x3, BarChart3, Settings, Eye } from 'lucide-react';
+import { Upload, Database, FileSpreadsheet, Sparkles, ArrowRight, ArrowLeft, Check, Grid3x3, BarChart3, Settings, Eye, FolderOpen } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { dashboards } from '../data/dashboards';
 import type { ChartType, DatasetProfile } from '../utils/chartWizard';
@@ -11,13 +11,27 @@ import { useAuth } from '../context/AuthContext';
 import type { DashboardBuilderWizardData } from '../types/userDashboard';
 import { createUserDashboard, getUserDashboard, updateUserDashboard } from '../utils/userDashboards';
 import { listTemplateLibrary } from '../utils/templateLibrary';
+import { getUserUploadedFiles, DATA_CATEGORIES, type UploadedFile, type DataCategory } from '../utils/userDataStorage';
+import { createDashboardFromLibrary, createDashboardWithData } from '../utils/dashboardProcessor';
+
+// Kategori renk eşleştirmesi (Tailwind için statik)
+const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
+  blue: { bg: 'bg-blue-100', text: 'text-blue-700' },
+  orange: { bg: 'bg-orange-100', text: 'text-orange-700' },
+  green: { bg: 'bg-green-100', text: 'text-green-700' },
+  purple: { bg: 'bg-purple-100', text: 'text-purple-700' },
+  pink: { bg: 'bg-pink-100', text: 'text-pink-700' },
+  indigo: { bg: 'bg-indigo-100', text: 'text-indigo-700' },
+  gray: { bg: 'bg-gray-100', text: 'text-gray-700' },
+};
 
 // Multi-step wizard için step tanımları
 type WizardStep = 1 | 2 | 3 | 4 | 5;
 
 interface WizardData {
   dashboardName: string;
-  dataSource: 'upload' | 'integration' | 'demo' | null;
+  dataSource: 'library' | 'upload' | 'integration' | 'demo' | null;
+  selectedLibraryFile: UploadedFile | null;
   dashboardType: 'template' | 'custom' | null;
   selectedTemplate: string | null;
   uploadedFile: File | null;
@@ -59,6 +73,7 @@ const DashboardCreateWizardPage = () => {
     dashboardType: null,
     selectedTemplate: null,
     uploadedFile: null,
+    selectedLibraryFile: null,
     selectedIntegration: null,
     columnMapping: {},
     customizations: {
@@ -67,10 +82,22 @@ const DashboardCreateWizardPage = () => {
       colorScheme: 'blue',
     },
   });
+  
+  const [showLibraryModal, setShowLibraryModal] = useState(false);
+  const [userLibraryFiles, setUserLibraryFiles] = useState<UploadedFile[]>([]);
+  const [categoryFilter, setCategoryFilter] = useState<DataCategory | 'all'>('all');
 
   const userId = currentUser?.uid ?? '';
 
   const libraryTemplates = useMemo(() => listTemplateLibrary(), []);
+
+  // Kullanıcının kütüphane dosyalarını yükle
+  useEffect(() => {
+    if (currentUser?.email) {
+      const files = getUserUploadedFiles(currentUser.email);
+      setUserLibraryFiles(files);
+    }
+  }, [currentUser]);
 
   // Load existing dashboard for editing
   useEffect(() => {
@@ -121,6 +148,10 @@ const DashboardCreateWizardPage = () => {
   const canProceed = () => {
     switch (currentStep) {
       case 1:
+        // Kütüphane seçildiyse dosya da seçilmiş olmalı
+        if (wizardData.dataSource === 'library') {
+          return wizardData.selectedLibraryFile !== null;
+        }
         return wizardData.dataSource !== null;
       case 2:
         return wizardData.dashboardType !== null;
@@ -147,7 +178,7 @@ const DashboardCreateWizardPage = () => {
     }
   };
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
     if (!userId) {
       alert('Giriş yapılmadan dashboard kaydedilemez.');
       navigate('/login');
@@ -173,15 +204,34 @@ const DashboardCreateWizardPage = () => {
             type: wizardData.uploadedFile.type,
           }
         : null,
+      selectedLibraryFileId: wizardData.selectedLibraryFile?.id,
+      selectedLibraryFileName: wizardData.selectedLibraryFile?.fileName,
       selectedIntegration: wizardData.selectedIntegration,
       columnMapping: wizardData.columnMapping ?? {},
       customizations: wizardData.customizations,
     };
 
-    if (editId) updateUserDashboard(userId, editId, payload);
-    else createUserDashboard(userId, payload);
+    try {
+      if (editId) {
+        updateUserDashboard(userId, editId, payload);
+      } else {
+        // Yeni dashboard oluştur ve CSV'yi işle
+        if (wizardData.dataSource === 'library' && wizardData.selectedLibraryFile) {
+          await createDashboardFromLibrary(userId, payload, wizardData.selectedLibraryFile.fileName);
+        } else if (wizardData.uploadedFile) {
+          await createDashboardWithData(userId, payload, wizardData.uploadedFile);
+        } else {
+          // Demo veya diğer kaynaklar için sadece metadata kaydet
+          createUserDashboard(userId, payload);
+        }
+      }
 
-    navigate('/dashboard/my');
+      // Başarılı, yönlendir
+      navigate('/dashboard/my');
+    } catch (error) {
+      console.error('Dashboard oluşturma hatası:', error);
+      alert('Dashboard oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.');
+    }
   };
 
   const pageTitle = useMemo(() => (editId ? 'Dashboard Düzenle' : 'Dashboard Oluştur'), [editId]);
@@ -256,85 +306,119 @@ const DashboardCreateWizardPage = () => {
           {/* STEP 1: Veri Kaynağı Seçimi */}
           {currentStep === 1 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Veri Kaynağınızı Seçin</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Veri Kütüphanenizden Seçin</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Manuel Yükleme */}
-                <div
-                  {...getRootProps()}
-                  className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all hover:scale-105 ${
-                    wizardData.dataSource === 'upload'
-                      ? 'border-indigo-500 bg-indigo-50'
-                      : 'border-gray-300 hover:border-indigo-400'
-                  } ${isDragActive ? 'border-indigo-500 bg-indigo-50' : ''}`}
-                >
-                  <input {...getInputProps()} />
-                  <Upload className="mx-auto mb-4 text-indigo-600" size={48} />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Manuel Yükleme</h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Excel, CSV veya JSON dosyası yükleyin
-                  </p>
-                  {wizardData.uploadedFile && (
-                    <div className="bg-green-50 text-green-700 text-xs p-2 rounded">
-                      ✓ {wizardData.uploadedFile.name}
-                    </div>
-                  )}
+              {userLibraryFiles.length === 0 ? (
+                <div className="text-center py-12">
+                  <FolderOpen className="mx-auto h-20 w-20 text-gray-300 mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Veri Kütüphaneniz Boş</h3>
+                  <p className="text-gray-600 mb-6">Önce veri yüklemeniz gerekiyor</p>
+                  <button
+                    onClick={() => navigate('/veri-girisi')}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <Upload size={20} />
+                    Veri Yükle
+                  </button>
                 </div>
+              ) : (
+                <div className="space-y-4">
+                  {/* Kategori Filtresi */}
+                  <div className="flex items-center gap-4 mb-4">
+                    <label className="text-sm font-semibold text-gray-700">Kategori:</label>
+                    <select
+                      value={categoryFilter}
+                      onChange={(e) => setCategoryFilter(e.target.value as DataCategory | 'all')}
+                      className="px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="all">Tümü ({userLibraryFiles.length})</option>
+                      {Object.entries(DATA_CATEGORIES).map(([key, cat]) => {
+                        const count = userLibraryFiles.filter(f => f.category === key).length;
+                        if (count === 0) return null;
+                        return (
+                          <option key={key} value={key}>
+                            {cat.icon} {cat.name} ({count})
+                          </option>
+                        );
+                      })}
+                    </select>
+                    <div className="flex-1"></div>
+                    <button
+                      onClick={() => navigate('/veri-girisi')}
+                      className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      + Yeni Veri Yükle
+                    </button>
+                  </div>
 
-                {/* Entegrasyon */}
-                <div
-                  onClick={() => setWizardData({ ...wizardData, dataSource: 'integration' })}
-                  className={`border-2 rounded-xl p-6 text-center cursor-pointer transition-all hover:scale-105 ${
-                    wizardData.dataSource === 'integration'
-                      ? 'border-purple-500 bg-purple-50'
-                      : 'border-gray-300 hover:border-purple-400'
-                  }`}
-                >
-                  <Database className="mx-auto mb-4 text-purple-600" size={48} />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Entegrasyon</h3>
-                  <p className="text-sm text-gray-600">
-                    ERP veya bulut sistemlerinize bağlanın
-                  </p>
-                </div>
-
-                {/* Örnek Veri */}
-                <div
-                  onClick={() => setWizardData({ ...wizardData, dataSource: 'demo' })}
-                  className={`border-2 rounded-xl p-6 text-center cursor-pointer transition-all hover:scale-105 ${
-                    wizardData.dataSource === 'demo'
-                      ? 'border-green-500 bg-green-50'
-                      : 'border-gray-300 hover:border-green-400'
-                  }`}
-                >
-                  <Sparkles className="mx-auto mb-4 text-green-600" size={48} />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Örnek Veri</h3>
-                  <p className="text-sm text-gray-600">
-                    Hızlı başlamak için demo veri kullanın
-                  </p>
-                </div>
-              </div>
-
-              {/* Entegrasyon seçildiyse alt seçenekler */}
-              {wizardData.dataSource === 'integration' && (
-                <div className="mt-6 border-t pt-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Entegrasyon Seçin:</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {integrations.map((integration) => (
-                      <button
-                        key={integration.id}
-                        onClick={() =>
-                          setWizardData({ ...wizardData, selectedIntegration: integration.id })
-                        }
-                        className={`p-4 rounded-lg border-2 transition-all ${
-                          wizardData.selectedIntegration === integration.id
-                            ? 'border-indigo-500 bg-indigo-50'
-                            : 'border-gray-200 hover:border-indigo-300'
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {userLibraryFiles
+                      .filter(file => categoryFilter === 'all' || file.category === categoryFilter)
+                      .map((file) => {
+                        const category = DATA_CATEGORIES[file.category];
+                        return (
+                      <div
+                        key={file.id}
+                        onClick={() => {
+                          setWizardData({
+                            ...wizardData,
+                            dataSource: 'library',
+                            selectedLibraryFile: file,
+                          });
+                        }}
+                        className={`border-2 rounded-xl p-6 cursor-pointer transition-all hover:scale-105 ${
+                          wizardData.selectedLibraryFile?.id === file.id
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-gray-300 hover:border-blue-400'
                         }`}
                       >
-                        <span className="text-3xl mb-2 block">{integration.icon}</span>
-                        <span className="text-sm font-medium">{integration.name}</span>
-                      </button>
-                    ))}
+                        <div className="flex items-start gap-4">
+                          <div className="text-3xl">{category.icon}</div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-gray-900 truncate mb-1">{file.fileName}</h3>
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className={`px-2 py-0.5 text-xs rounded-full ${CATEGORY_COLORS[category.color]?.bg || 'bg-gray-100'} ${CATEGORY_COLORS[category.color]?.text || 'text-gray-700'} font-medium`}>
+                                {category.name}
+                              </span>
+                              {file.branchName && (
+                                <span className="text-xs text-gray-600">🏢 {file.branchName}</span>
+                              )}
+                            </div>
+                            <p className="text-xs text-gray-500">
+                              {new Date(file.uploadedAt).toLocaleDateString('tr-TR')}
+                            </p>
+                            {file.description && (
+                              <p className="text-xs text-gray-600 mt-1 truncate">{file.description}</p>
+                            )}
+                          </div>
+                          {wizardData.selectedLibraryFile?.id === file.id && (
+                            <Check className="text-blue-600 flex-shrink-0" size={24} />
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  </div>
+                </div>
+              )}
+
+              {/* Admin için Örnek Veri */}
+              {currentUser?.role === 'admin' && (
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">🎯 Admin: B2B Demo Verileri</h3>
+                  <div
+                    onClick={() => setWizardData({ ...wizardData, dataSource: 'demo', selectedLibraryFile: null })}
+                    className={`border-2 rounded-xl p-6 text-center cursor-pointer transition-all hover:scale-105 ${
+                      wizardData.dataSource === 'demo'
+                        ? 'border-green-500 bg-green-50'
+                        : 'border-gray-300 hover:border-green-400'
+                    }`}
+                  >
+                    <Sparkles className="mx-auto mb-4 text-green-600" size={48} />
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Örnek Veri (Demo)</h3>
+                    <p className="text-sm text-gray-600">
+                      B2B sunumlar için hazır demo veri
+                    </p>
                   </div>
                 </div>
               )}
@@ -389,7 +473,7 @@ const DashboardCreateWizardPage = () => {
                 <div className="mt-6 border-t pt-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Şablon Seçin:</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
-                    {dashboards.slice(0, 12).map((dashboard) => (
+                    {dashboards.map((dashboard) => (
                       <button
                         key={dashboard.id}
                         onClick={() =>
@@ -658,12 +742,12 @@ const DashboardCreateWizardPage = () => {
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Dashboard Önizleme</h2>
 
               <div className="rounded-lg border border-gray-200 bg-white p-5">
-                <label className="block text-sm font-semibold text-gray-900">Dashboard Adı</label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Dashboard Adı</label>
                 <input
                   value={wizardData.dashboardName}
                   onChange={(e) => setWizardData({ ...wizardData, dashboardName: e.target.value })}
                   placeholder="Örn: CFO Haftalık Özet"
-                  className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="mt-2 w-full rounded-lg border-2 border-gray-300 bg-white px-4 py-3 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 <div className="mt-2 text-xs text-gray-600">
                   Kaydetmek için isim zorunludur. Sonrasında “Dashboard’larım” sayfasında görünecek.
@@ -681,9 +765,15 @@ const DashboardCreateWizardPage = () => {
                   <div>
                     <p className="text-sm text-gray-600">Veri Kaynağı:</p>
                     <p className="text-base font-semibold text-gray-900">
-                      {wizardData.dataSource === 'upload' && '📤 Manuel Yükleme'}
-                      {wizardData.dataSource === 'integration' && '🔗 Entegrasyon'}
-                      {wizardData.dataSource === 'demo' && '✨ Örnek Veri'}
+                      {wizardData.dataSource === 'library' && wizardData.selectedLibraryFile 
+                        ? `📁 ${wizardData.selectedLibraryFile.fileName}`
+                        : wizardData.dataSource === 'upload' 
+                        ? '📤 Manuel Yükleme'
+                        : wizardData.dataSource === 'integration'
+                        ? '🔗 Entegrasyon'
+                        : wizardData.dataSource === 'demo'
+                        ? '✨ Örnek Veri'
+                        : '❌ Seçilmedi'}
                     </p>
                   </div>
                   <div>

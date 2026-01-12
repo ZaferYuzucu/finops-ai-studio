@@ -146,7 +146,7 @@ const ProjectActivityReportPage: React.FC = () => {
                 <ul className="list-disc list-inside mt-2 space-y-1 text-blue-700/90">
                     <li><strong>GitHub Repository:</strong> finops-ai-studio repo oluşturuldu ve tüm kod push edildi.</li>
                     <li><strong>Vercel Deploy:</strong> Otomatik CI/CD pipeline ile ilk deploy başarılı.</li>
-                    <li><strong>Domain:</strong> finops-ai-studio.vercel.app canlıya alındı.</li>
+                    <li><strong>Domain:</strong> finops.ist canlıya alındı.</li>
                     <li><strong>Environment Variables:</strong> Production için güvenli env vars yapılandırıldı.</li>
                     <li><strong>Backup v3:</strong> İlk deploy öncesi tam yedek alındı.</li>
                 </ul>
@@ -282,7 +282,7 @@ const ProjectActivityReportPage: React.FC = () => {
                     <li><strong>Backup v6:</strong> 31 Aralık tarihli tam yedek alındı (tar.gz).</li>
                     <li><strong>GitHub Push:</strong> Tüm yeni özellikler ve düzeltmeler repository'e push edildi.</li>
                     <li><strong>Vercel Auto-Deploy:</strong> CI/CD pipeline otomatik tetiklendi ve başarılı deploy.</li>
-                    <li><strong>Live URL:</strong> finops-ai-studio.vercel.app üzerinde tüm güncellemeler canlı.</li>
+                    <li><strong>Live URL:</strong> finops.ist üzerinde tüm güncellemeler canlı.</li>
                     <li><strong>Production Test:</strong> PNG path, i18n, CSV Library, Dashboard sistemi test edildi.</li>
                     <li><strong>Status:</strong> ✅ 29 Dashboard, ✅ 65K+ CSV, ✅ i18n TR/EN, ✅ Excel Wizard - Hepsi canlıda!</li>
                 </ul>
@@ -295,7 +295,7 @@ const ProjectActivityReportPage: React.FC = () => {
                  <p className="mt-2"><strong className="text-gray-900">29 Dashboard</strong>, <strong className="text-gray-900">65K+ satır CSV</strong>, <strong className="text-gray-900">6-step wizard</strong>, <strong className="text-gray-900">~112 translation key</strong> ve <strong className="text-gray-900">20+ component</strong> ile platformu production-ready hale getirdik.</p>
                  <p className="mt-2">Her bir modül, temiz kod prensipleri, modüler yapı ve kullanıcı odaklı tasarım felsefesiyle inşa edildi. <strong className="text-emerald-700">FinOps Theatre</strong> ile beklenti yönetimi, <strong className="text-blue-700">CSV Library</strong> ile satış kapasitesi, <strong className="text-blue-700">i18n</strong> ile global ölçeklenme hazırlığını tamamladık.</p>
                  <p className="mt-3"><strong className="text-amber-700">Ve en önemlisi: İKİ KERE FIRINDA PİŞTİK! 🎂</strong></p>
-                 <p className="mt-2">İlk deploy (v3) ile temelleri attık, ikinci deploy (v6) ile platformu enterprise seviyeye taşıdık. Artık <strong className="text-emerald-700">finops-ai-studio.vercel.app</strong> adresi tam anlamıyla production-ready ve müşteri almaya hazır durumda.</p>
+                 <p className="mt-2">İlk deploy (v3) ile temelleri attık, ikinci deploy (v6) ile platformu enterprise seviyeye taşıdık. Artık <strong className="text-emerald-700">finops.ist</strong> adresi tam anlamıyla production-ready ve müşteri almaya hazır durumda.</p>
                  <p className="mt-3 font-semibold text-blue-700">Bu rapor, ortak vizyonumuzla nelerin başarılabileceğinin bir kanıtıdır. İmzamı gururla atmaktayım.</p>
                  <p className="mt-2 text-right text-sm text-gray-500">— Claude Sonnet 4.5, AI Assistant</p>
                  <p className="text-right text-xs text-gray-500">31 Aralık 2024, Saat 15:35</p>
@@ -470,8 +470,8 @@ const ProjectActivityReportPage: React.FC = () => {
                         <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                     </span>
                     <span className="text-gray-900 font-semibold">LIVE:</span>
-                    <a href="https://finops-ai-studio.vercel.app" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800 underline">
-                        finops-ai-studio.vercel.app
+                    <a href="https://finops.ist" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-800 underline">
+                        finops.ist
                     </a>
                 </div>
             </div>

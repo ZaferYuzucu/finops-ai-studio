@@ -1,0 +1,46 @@
+🎉 FINOPS AI STUDIO - HOŞGELDİNİZ
+
+Sayın Serdar Bey,
+
+Elba Otomotiv için Beta Partner başvurunuz onaylandı!
+
+🔐 GİRİŞ BİLGİLERİ
+━━━━━━━━━━━━━━━━━━
+Platform: https://finops-ai-studio.vercel.app
+Email: serdar@elbaotomotiv.com
+Şifre: DefneSeher
+
+⚠️ İlk girişte şifrenizi değiştirin!
+
+📋 İLK ADIMLAR
+━━━━━━━━━━━━━━━━━━
+1️⃣ Giriş yapın
+2️⃣ Profil → Ayarlar → Şifre Değiştir
+3️⃣ Bilgi Merkezi → Veri Yükleme Rehberi'ni okuyun
+4️⃣ Veri Yükle → CSV dosyanızı yükleyin
+5️⃣ Dashboard Oluştur → Verilerinizi analiz edin
+
+📚 VERİ YÜKLEME REHBERİ
+━━━━━━━━━━━━━━━━━━
+Detaylı talimatlar için:
+https://finops-ai-studio.vercel.app/veri-rehberi
+
+Rehberde:
+✅ Dosya hazırlama
+✅ Veri kütüphanesi kullanımı
+✅ Dashboard oluşturma adımları
+✅ Kütüphaneden veri seçme
+
+🎯 HIZLI ERİŞİM
+━━━━━━━━━━━━━━━━━━
+📤 Veri Yükle: /veri-girisi
+📚 Kütüphane: /kutuphane
+📊 Dashboard: /dashboard/create
+
+💬 DESTEK
+━━━━━━━━━━━━━━━━━━
+Sorularınız için her zaman yanınızdayız!
+
+Başarılar dileriz! 🚀
+
+FINOPS AI Studio Ekibi

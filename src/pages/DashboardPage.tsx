@@ -1,13 +1,23 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { UploadCloud, BarChart3, TrendingUp, LogOut, PlusSquare } from 'lucide-react';
+import { UploadCloud, BarChart3, TrendingUp, LogOut, PlusSquare, FileText, Trash2 } from 'lucide-react';
 import UsageLimitsPanel from '../components/UsageLimitsPanel';
+import { getUserUploadedFiles, deleteUploadedFile, type UploadedFile } from '../utils/userDataStorage';
 
 const DashboardPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+
+  // Yüklenen dosyaları getir
+  useEffect(() => {
+    if (currentUser?.email) {
+      const files = getUserUploadedFiles(currentUser.email);
+      setUploadedFiles(files);
+    }
+  }, [currentUser]);
 
   const handleLogout = async () => {
     try {
@@ -15,6 +25,15 @@ const DashboardPage: React.FC = () => {
       navigate('/login');
     } catch (error) {
       console.error("Çıkış sırasında hata oluştu:", error);
+    }
+  };
+
+  const handleDeleteFile = (fileId: string) => {
+    if (confirm('Bu dosyayı silmek istediğinizden emin misiniz?')) {
+      deleteUploadedFile(fileId);
+      if (currentUser?.email) {
+        setUploadedFiles(getUserUploadedFiles(currentUser.email));
+      }
     }
   };
 
@@ -132,19 +151,48 @@ const DashboardPage: React.FC = () => {
           </button>
         </div>
 
-            {/* Recent Activity */}
+            {/* Yüklenen Veriler */}
             <div className="bg-white p-6 rounded-xl shadow-md">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">📊 Son Aktiviteler</h2>
-              <div className="space-y-3">
-                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <p className="text-gray-700">Hesap oluşturuldu</p>
-                  <span className="ml-auto text-sm text-gray-500">Az önce</span>
-                </div>
-                <div className="text-center py-8 text-gray-500">
-                  <p>Henüz veri yüklemediniz. Başlamak için yukarıdaki "Veri Yükle" butonuna tıklayın!</p>
-                </div>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-gray-900">📁 Yüklenen Verilerim</h2>
+                <span className="text-sm text-gray-500">{uploadedFiles.length} dosya</span>
               </div>
+              
+              {uploadedFiles.length === 0 ? (
+                <div className="text-center py-12 text-gray-500">
+                  <FileText className="mx-auto h-16 w-16 text-gray-300 mb-4" />
+                  <p className="text-lg font-medium mb-2">Henüz veri yüklemediniz</p>
+                  <p className="text-sm">Başlamak için yukarıdaki "Veri Yükle" butonuna tıklayın!</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {uploadedFiles.map((file) => (
+                    <div key={file.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                      <FileText className="text-blue-600 flex-shrink-0" size={24} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-gray-900 font-medium truncate">{file.fileName}</p>
+                        <p className="text-sm text-gray-500">
+                          {new Date(file.uploadedAt).toLocaleDateString('tr-TR', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                          {file.fileSize && ` • ${(file.fileSize / 1024).toFixed(1)} KB`}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteFile(file.id)}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                        title="Sil"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

@@ -14,12 +14,8 @@ import {
   CheckCircle,
   ArrowRight,
   Shield,
-  Lock,
-  Eye,
-  EyeOff
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
 import { 
   SECTOR_OPTIONS, 
   COMPANY_SIZE_OPTIONS, 
@@ -27,11 +23,11 @@ import {
 } from '../types/betaApplication';
 import { validateEmail } from '../components/FormValidation';
 import { isLocalBetaQuotaFull, getLocalRemainingBetaQuota } from '../utils/betaQuota';
+import { createBetaFormApplication } from '../services/betaApplicationService';
 
 const BetaApplicationFormPage: React.FC = () => {
   const navigate = useNavigate();
   const recaptchaRef = useRef<ReCAPTCHA>(null);
-  const { signup } = useAuth();
   const { i18n } = useTranslation();
   
   // Form states
@@ -40,8 +36,6 @@ const BetaApplicationFormPage: React.FC = () => {
     contactName: '',
     email: '',
     phone: '',
-    password: '',
-    confirmPassword: '',
     sector: '',
     companySize: '',
     mainChallenges: [] as string[] // Çoklu seçim için array
@@ -52,8 +46,6 @@ const BetaApplicationFormPage: React.FC = () => {
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
   const [recaptchaErrored, setRecaptchaErrored] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   // reCAPTCHA Site Key
   // NOTE: reCAPTCHA yanlış domain/site-key eşleşmesinde formu kilitlememeli.
@@ -97,18 +89,6 @@ const BetaApplicationFormPage: React.FC = () => {
       newErrors.phone = 'Telefon numarası zorunludur';
     }
 
-    if (!formData.password.trim()) {
-      newErrors.password = 'Şifre zorunludur';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Şifre en az 6 karakter olmalıdır';
-    }
-
-    if (!formData.confirmPassword.trim()) {
-      newErrors.confirmPassword = 'Şifre tekrarı zorunludur';
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Şifreler eşleşmiyor';
-    }
-
     if (!formData.sector) {
       newErrors.sector = 'Sektör seçimi zorunludur';
     }
@@ -146,37 +126,45 @@ const BetaApplicationFormPage: React.FC = () => {
         return;
       }
 
-      // 1. Create user account (localStorage)
-      await signup(formData.email, formData.password);
-      console.log('✅ Kullanıcı hesabı oluşturuldu');
-
-      // 2. Save beta application data to localStorage (instead of Firestore to avoid permission issues)
-      const applicationData = {
-        id: `beta_${Date.now()}`,
-        companyName: formData.companyName,
-        contactName: formData.contactName,
-        email: formData.email,
-        phone: formData.phone,
-        sector: formData.sector,
-        status: 'approved', // Auto-approved for beta partners
-        source: 'beta_form',
-        appliedAt: new Date().toISOString(),
-        surveyAnswers: {
-          companySize: formData.companySize,
-          mainChallenges: formData.mainChallenges.join(', ')
-        }
-      };
-
-      // Save to localStorage
-      const existingApplications = JSON.parse(localStorage.getItem('finops_beta_applications') || '[]');
-      existingApplications.push(applicationData);
-      localStorage.setItem('finops_beta_applications', JSON.stringify(existingApplications));
-      console.log('✅ Beta başvuru verisi kaydedildi (localStorage)');
-      // Best-effort notify other tabs/pages
+      // 1) Submit beta application to the single pool (beta_applications)
+      // Prefer server-side endpoint, fallback to Firestore/local demo store.
       try {
-        window.dispatchEvent(new Event('finops-beta-applications-updated'));
+        const response = await fetch('/api/beta-apply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            companyName: formData.companyName,
+            contactName: formData.contactName,
+            email: formData.email,
+            phone: formData.phone,
+            sector: formData.sector,
+            employeeCount:
+              formData.companySize === 'micro'
+                ? '1-10'
+                : formData.companySize === 'small'
+                  ? '11-50'
+                  : '50+',
+            description: 'Beta Başvuru Formu',
+            source: 'beta_form',
+          }),
+        });
+        const text = await response.text();
+        const data = text ? JSON.parse(text) : {};
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || 'Başvuru kaydedilemedi');
+        }
       } catch {
-        // ignore
+        await createBetaFormApplication({
+          companyName: formData.companyName,
+          contactName: formData.contactName,
+          email: formData.email,
+          phone: formData.phone,
+          sector: formData.sector,
+          surveyAnswers: {
+            companySize: formData.companySize,
+            mainChallenge: formData.mainChallenges.join(', '),
+          },
+        });
       }
       
       // Show success message
@@ -188,8 +176,6 @@ const BetaApplicationFormPage: React.FC = () => {
         contactName: '',
         email: '',
         phone: '',
-        password: '',
-        confirmPassword: '',
         sector: '',
         companySize: '',
         mainChallenges: []
@@ -199,65 +185,22 @@ const BetaApplicationFormPage: React.FC = () => {
       recaptchaRef.current?.reset();
       setRecaptchaValue(null);
 
-      // Redirect to Turkish data entry page after 2 seconds
-      setTimeout(() => {
-        // Force Turkish language IMMEDIATELY
-        i18n.changeLanguage('tr').then(() => {
-          // Navigate using React Router (soft navigation, keeps cache)
-          navigate('/veri-girisi?lang=tr');
-        });
-      }, 2000);
-
-      // Also submit to server-side pool (for admin review)
-      try {
-        const response = await fetch('/api/beta-apply', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            companyName: formData.companyName,
-            contactName: formData.contactName,
-            email: formData.email,
-            phone: formData.phone,
-            sector: formData.sector,
-            employeeCount: formData.companySize === 'micro' ? '1-10' : formData.companySize === 'small' ? '11-50' : '50+',
-            description: 'Beta Başvuru Formu',
-            source: 'beta_form',
-          }),
-        });
-        // don't block UX; best-effort only
-        await response.text();
-      } catch {
-        // ignore in demo/offline
-      }
-      
     } catch (error: any) {
       console.error('❌ KAYIT HATASI:', error);
       console.error('Hata mesajı:', error.message || error);
       
       // Friendly error messages
-      let errorMessage = 'Kayıt sırasında bir hata oluştu.';
+      let errorMessage = 'Başvuru sırasında bir hata oluştu.';
       let errorDetails = '';
       
-      // Check for localStorage auth errors (string-based)
-      if (error.message && error.message.includes('User already exists')) {
-        errorMessage = 'Bu e-posta adresi zaten kullanımda!';
-        errorDetails = '\n\nBu e-posta ile zaten bir hesap var. Lütfen başka bir e-posta adresi kullanın veya giriş yapın.';
-      } 
-      // Firebase auth errors (code-based)
-      else if (error.code === 'auth/email-already-in-use') {
-        errorMessage = 'Bu e-posta adresi zaten kullanımda.';
-        errorDetails = '\n\nBu e-posta ile zaten bir hesap var. Lütfen giriş yapın veya başka bir e-posta kullanın.';
-      } else if (error.code === 'auth/invalid-email') {
+      if (error.code === 'auth/invalid-email') {
         errorMessage = 'Geçersiz e-posta adresi.';
         errorDetails = '\n\nLütfen geçerli bir e-posta adresi girin.';
-      } else if (error.code === 'auth/weak-password') {
-        errorMessage = 'Şifre çok zayıf.';
-        errorDetails = '\n\nDaha güçlü bir şifre seçin (en az 6 karakter).';
       } else if (error.message) {
         errorDetails = '\n\nDetay: ' + error.message;
       }
       
-      alert(errorMessage + errorDetails + '\n\n💡 Farklı bir e-posta adresi deneyin.');
+      alert(errorMessage + errorDetails);
     } finally {
       setLoading(false);
     }
@@ -282,24 +225,39 @@ const BetaApplicationFormPage: React.FC = () => {
           </motion.div>
           
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            Hoş Geldiniz! 🎉
+            Başvurunuz Alındı! ✅
           </h1>
           
           <p className="text-lg text-gray-600 mb-6">
-            Harika! Hesabınız oluşturuldu. 
-            Şimdi verilerinizi yüklemeye hazırsınız!
+            Başvurunuz incelemeye alındı.
+            Onaylandığında e-posta ile bilgilendireceğiz.
           </p>
           
           <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
             <p className="text-sm text-gray-700">
-              <strong>Artık sisteminizdesiniz!</strong><br />
-              Veri girişi sayfasına yönlendiriliyorsunuz...
+              <strong>Sonraki adım:</strong><br />
+              Admin onayı sonrası kayıt linki e-postanıza gönderilecek.
             </p>
           </div>
           
-          <p className="text-sm text-gray-500">
-            Veri Girişi sayfasına yönlendiriliyorsunuz...
-          </p>
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => {
+                setShowSuccess(false);
+                i18n.changeLanguage('tr');
+                navigate('/pricing');
+              }}
+              className="w-full py-3 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
+            >
+              Fiyatlandırmayı Gör
+            </button>
+            <a
+              href="/"
+              className="text-sm text-gray-600 hover:text-purple-600 transition-colors font-medium"
+            >
+              Ana sayfaya dön
+            </a>
+          </div>
         </motion.div>
       </div>
     );
@@ -324,12 +282,12 @@ const BetaApplicationFormPage: React.FC = () => {
           
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-transparent bg-clip-text">
-              Beta Partner Kayıt
+              Beta Partner Başvurusu
             </span>
           </h1>
           
           <p className="text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed">
-            Hesabınızı oluşturun ve <strong>1 yıl ücretsiz</strong> kullanmaya hemen başlayın!
+            Başvurunuzu gönderin; admin onayı sonrası kayıt linkinizi e-posta ile paylaşacağız.
           </p>
         </div>
 
@@ -337,7 +295,7 @@ const BetaApplicationFormPage: React.FC = () => {
         <div className="flex flex-wrap items-center justify-center gap-6 mb-8 text-sm text-gray-600">
           <div className="flex items-center gap-2">
             <CheckCircle size={16} className="text-green-600" />
-            <span>Anında Aktif</span>
+            <span>Tek Havuz Başvuru</span>
           </div>
           <div className="flex items-center gap-2">
             <Sparkles size={16} className="text-purple-600" />
@@ -437,67 +395,6 @@ const BetaApplicationFormPage: React.FC = () => {
                 />
                 {errors.phone && (
                   <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Şifre & Şifre Tekrarı */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  <Lock className="inline w-4 h-4 mr-1" />
-                  Şifre *
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-gray-900 bg-white ${
-                      errors.password ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="En az 6 karakter"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800"
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
-                {errors.password && (
-                  <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  <Lock className="inline w-4 h-4 mr-1" />
-                  Şifre Tekrarı *
-                </label>
-                <div className="relative">
-                  <input
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-gray-900 bg-white ${
-                      errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="Şifrenizi tekrar girin"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800"
-                  >
-                    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
-                {errors.confirmPassword && (
-                  <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
                 )}
               </div>
             </div>

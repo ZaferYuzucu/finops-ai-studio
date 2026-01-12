@@ -1,15 +1,18 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { UploadCloud, File as FileIcon, X, Loader, Download, CheckCircle, Zap, Link as LinkIcon, Globe, Database } from 'lucide-react';
+import { UploadCloud, File as FileIcon, X, Loader, Download, CheckCircle, Zap, Link as LinkIcon, Globe, Database, Sparkles, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { markDataImportCompleted } from '../utils/dataImportGate';
 import { BETA_LIMIT, getLocalRemainingBetaQuota } from '../utils/betaQuota';
+import { saveUploadedFile, DATA_CATEGORIES, type DataCategory } from '../utils/userDataStorage';
+import { useAuth } from '../context/AuthContext';
 
 const DataImportPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const [files, setFiles] = useState<File[]>([]);
   const [status, setStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -20,6 +23,11 @@ const DataImportPage: React.FC = () => {
   const [betaQuota, setBetaQuota] = useState<{ remaining: number; total: number } | null>(null);
   const [dropError, setDropError] = useState<string | null>(null);
   const filePickerRef = useRef<HTMLInputElement | null>(null);
+  
+  // 📚 Kütüphane özellikleri
+  const [selectedCategory, setSelectedCategory] = useState<DataCategory>('other');
+  const [dataDescription, setDataDescription] = useState('');
+  const [branchName, setBranchName] = useState('');
 
   useEffect(() => {
     const refresh = () => {
@@ -53,11 +61,19 @@ const DataImportPage: React.FC = () => {
   // Dropzone only for drag&drop (no click). We validate by filename extension for reliability.
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    accept: {
+      'text/csv': ['.csv'],
+      'application/vnd.ms-excel': ['.xls'],
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+    },
     noClick: true,
     noKeyboard: true,
+    multiple: false,
   });
 
-  const handlePickFile = () => {
+  const handlePickFile = (e?: React.MouseEvent) => {
+    e?.stopPropagation(); // Dropzone event'ini durdur
+    e?.preventDefault();
     setDropError(null);
     // Prefer native input click (most reliable across browsers)
     filePickerRef.current?.click();
@@ -81,6 +97,31 @@ const DataImportPage: React.FC = () => {
 
   const handleUpload = () => {
     if (files.length === 0) return;
+    
+    // VERİYİ HEMEN KAYDET! (setTimeout'tan önce)
+    if (currentUser && files.length > 0) {
+      try {
+        files.forEach(file => {
+          saveUploadedFile(
+            file, 
+            currentUser.email || 'unknown', 
+            undefined, 
+            undefined, 
+            undefined,
+            {
+              category: selectedCategory,
+              branchName: branchName || undefined,
+              branchId: branchName ? `branch_${Date.now()}` : undefined,
+              description: dataDescription || undefined,
+            }
+          );
+        });
+        console.log('✅ Dosyalar kaydedildi:', files.map(f => f.name), `[${selectedCategory}]`);
+      } catch (error) {
+        console.error('❌ Dosya kaydedilemedi:', error);
+      }
+    }
+    
     setStatus('uploading');
     setIsProcessing(true);
     setProgress(0);
@@ -96,7 +137,7 @@ const DataImportPage: React.FC = () => {
       });
     }, 200);
     
-    // Simulated upload
+    // Simulated upload animation
     setTimeout(() => {
       setStatus('success');
       markDataImportCompleted();
@@ -108,10 +149,6 @@ const DataImportPage: React.FC = () => {
 
   // 🚀 DEMO MODU - Tek tıkla örnek veri yükle
   const handleDemoMode = () => {
-    setStatus('uploading');
-    setIsProcessing(true);
-    setProgress(0);
-    
     // CSV verisi oluştur
     const csvContent = `Tarih,Ürün Adı,Kategori,Sipariş Sayısı,Birim Fiyat (TL),Toplam Gelir (TL),Masraf (TL),Net Kar (TL)
 2024-01-01,Margherita Pizza,Ana Yemek,120,65,7800,2340,5460
@@ -121,6 +158,23 @@ const DataImportPage: React.FC = () => {
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const file = new File([blob], 'demo-restoran-verileri.csv', { type: 'text/csv' });
     setFiles([file]);
+    
+    // VERİYİ HEMEN KAYDET!
+    if (currentUser) {
+      try {
+        saveUploadedFile(file, currentUser.email || 'unknown', 3, 8, undefined, {
+          category: 'financial',
+          description: 'Demo restoran verileri',
+        });
+        console.log('✅ Demo dosyası kaydedildi:', file.name);
+      } catch (error) {
+        console.error('❌ Demo dosyası kaydedilemedi:', error);
+      }
+    }
+    
+    setStatus('uploading');
+    setIsProcessing(true);
+    setProgress(0);
     
     // Progress animation
     const interval = setInterval(() => {
@@ -151,6 +205,24 @@ const DataImportPage: React.FC = () => {
     if (!dataUrl.trim()) {
       alert('⚠️ Lütfen geçerli bir URL girin!');
       return;
+    }
+
+    // Simulated file oluştur (gerçek URL fetch için)
+    const fileName = dataUrl.split('/').pop() || 'url-data.csv';
+    const blob = new Blob(['URL veri bağlantısı kuruldu'], { type: 'text/csv' });
+    const file = new File([blob], fileName, { type: 'text/csv' });
+    
+    // VERİYİ HEMEN KAYDET!
+    if (currentUser) {
+      try {
+        saveUploadedFile(file, currentUser.email || 'unknown', undefined, undefined, undefined, {
+          category: selectedCategory,
+          description: `URL: ${dataUrl}`,
+        });
+        console.log('✅ URL bağlantısı kaydedildi:', fileName);
+      } catch (error) {
+        console.error('❌ URL bağlantısı kaydedilemedi:', error);
+      }
     }
 
     setIsConnecting(true);
@@ -239,6 +311,66 @@ const DataImportPage: React.FC = () => {
                 <span>{t('dataImport.tabs.urlConnection')}</span>
               </button>
             </div>
+          </div>
+
+          {/* 📚 KÜTÜPHANEverisi - Kategori Seçimi */}
+          <div className="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-200">
+            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <Database className="text-blue-600" size={24} />
+              <span>Veri Kütüphanesi Bilgileri</span>
+            </h3>
+            
+            {/* Kategori Seçimi */}
+            <div className="mb-4">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Veri Kategorisi *
+              </label>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value as DataCategory)}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+              >
+                {Object.entries(DATA_CATEGORIES).map(([key, cat]) => (
+                  <option key={key} value={key}>
+                    {cat.icon} {cat.name}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-1 text-xs text-gray-600">
+                {DATA_CATEGORIES[selectedCategory].description}
+              </p>
+            </div>
+
+            {/* Açıklama */}
+            <div className="mb-4">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Açıklama (Opsiyonel)
+              </label>
+              <input
+                type="text"
+                value={dataDescription}
+                onChange={(e) => setDataDescription(e.target.value)}
+                placeholder="Örn: 2024 Q4 Satış Verileri"
+                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            {/* Şube Adı (Eğer şube kategorisi seçiliyse) */}
+            {selectedCategory === 'branch' && (
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Şube Adı *
+                </label>
+                <input
+                  type="text"
+                  value={branchName}
+                  onChange={(e) => setBranchName(e.target.value)}
+                  placeholder="Örn: İstanbul Kadıköy Şubesi"
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+              </div>
+            )}
           </div>
           
           {/* Download Template Button */}
@@ -576,13 +708,18 @@ const DataImportPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className="mt-4 flex flex-col sm:flex-row gap-3">
+                <div className="mt-6 text-center">
                   <button
-                    onClick={() => navigate('/dashboard/demo-preview')}
-                    className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors"
+                    onClick={() => navigate('/dashboard/create')}
+                    className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 text-white text-lg font-bold hover:from-green-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
                   >
-                    {t('dataImport.success.openDashboard')}
+                    <Sparkles size={24} className="animate-pulse" />
+                    <span>Hadi Şimdi Dashboard'umuzu Oluşturalım!</span>
+                    <ArrowRight size={24} />
                   </button>
+                  <p className="mt-3 text-sm text-green-700 font-medium">
+                    ✨ Verileriniz kütüphanenizde saklandı, istediğiniz zaman kullanabilirsiniz
+                  </p>
                 </div>
             </div>
         )}

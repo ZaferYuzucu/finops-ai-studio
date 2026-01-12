@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test5 Tam Temizlik</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .success {
+            color: #10b981;
+            font-size: 48px;
+            display: none;
+        }
+        .message {
+            color: #666;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🧹 Test5 Tam Temizlik</h1>
+        <div class="spinner" id="spinner"></div>
+        <div class="success" id="success">✅</div>
+        <div class="message" id="message">Temizleniyor...</div>
+    </div>
+
+    <script>
+        // OTOMATİK TEMİZLİK
+        setTimeout(() => {
+            // 1. finops_current_user - aktif oturumu temizle
+            localStorage.removeItem('finops_current_user');
+            
+            // 2. finops_users - test5'i sil
+            const users = JSON.parse(localStorage.getItem('finops_users') || '{}');
+            Object.keys(users).forEach(email => {
+                if (email.toLowerCase().includes('test5') || 
+                    email.toLowerCase().includes('example') ||
+                    email.toLowerCase().includes('test')) {
+                    delete users[email];
+                    console.log('Silindi (users):', email);
+                }
+            });
+            localStorage.setItem('finops_users', JSON.stringify(users));
+
+            // 3. finops_users_management - test5'i sil
+            const mgmt = JSON.parse(localStorage.getItem('finops_users_management') || '[]');
+            const cleaned = mgmt.filter(u => {
+                const email = String(u.email || '').toLowerCase();
+                const displayName = String(u.displayName || '').toLowerCase();
+                return !email.includes('test5') && 
+                       !email.includes('example') &&
+                       !email.includes('test') &&
+                       !displayName.includes('test');
+            });
+            localStorage.setItem('finops_users_management', JSON.stringify(cleaned));
+
+            // 4. Session storage da temizle
+            sessionStorage.clear();
+
+            // Başarı göster
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('success').style.display = 'block';
+            document.getElementById('message').textContent = 'Test5 tamamen silindi! Ana sayfaya yönlendiriliyorsunuz...';
+
+            // 2 saniye sonra ana sayfaya git
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+        }, 1000);
+    </script>
+</body>
+</html>
