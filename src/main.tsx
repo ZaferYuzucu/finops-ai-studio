@@ -8,7 +8,7 @@ import App from './App'
 import './index.css'
 import './i18n' // i18n initialization
 import './utils/logger' // Production-safe console logging
-import { ensureDevSeedElbaSerdar, ensureDevSeedTest1, ensureDevSeedAdmin } from './utils/devSeed'
+import { ensureDevSeedElbaSerdar, ensureDevSeedTest1, ensureDevSeedAdmin, seedElbaThermostatDashboard } from './utils/devSeed'
 
 // PWA: Service Worker
 // DEV: Disable/unregister to avoid stale caches during rapid iteration.
@@ -33,6 +33,8 @@ if (import.meta.env.DEV) {
 
 // ✅ BETA PHASE: Elba Partner her environment'da seed'lenir
 ensureDevSeedElbaSerdar();
+// 🎯 REHBER TEST: Elba Termostat Dashboard
+seedElbaThermostatDashboard();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

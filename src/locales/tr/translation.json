@@ -18,7 +18,7 @@
     "knowledgeBase": "Bilgi Merkezi",
     "documents": "Dökümanlar",
     "infoCenterHeader": "Bilgi Merkezi",
-    "chartGuide": "📘 Grafik Rehberi",
+    "chartGuide": "📊 Dashboard Hazırlama Rehberi",
     "dataUploadGuide": "📄 Veri Yükleme Rehberi",
     "dataSecurity": "Veri Güvenliği",
     "pricing": "Fiyatlandırma",
@@ -1537,7 +1537,7 @@
         "hint": "💡 Önce şablonu indirin, doldurun, sonra yükleyin"
       },
       "guideLink": "📖 Veri Yükleme Rehberi",
-      "openChartGuide": "📘 Grafik Rehberi",
+      "openChartGuide": "📊 Dashboard Hazırlama Rehberi",
       "fileUpload": {
         "dragDrop": "Bir dosya yükleyin",
         "or": "veya sürükleyip bırakın",

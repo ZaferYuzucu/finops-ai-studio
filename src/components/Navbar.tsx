@@ -73,7 +73,7 @@ export default function Navbar() {
         { name: t('nav.knowledgeBase'), href: "/blog" },
         { name: t('nav.documents'), href: "/docs" },
         { name: t('nav.infoCenterHeader'), href: "#", isHeader: true },
-        { name: t('nav.chartGuide'), href: "/bilgi-merkezi/grafik-rehberi" },
+        { name: t('nav.chartGuide'), href: "/bilgi-merkezi/dashboard-hazirlama-rehberi" },
         { name: t('nav.dataUploadGuide'), href: "/veri-rehberi" },
         { name: `🔐 ${t('nav.dataSecurity')}`, href: "/veri-guvenligi" },
       ],

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cache Refresh</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        max-width: 720px;
+        margin: 48px auto;
+        padding: 24px;
+        background: #0b1220;
+        color: #e5e7eb;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 20px;
+      }
+      .btn {
+        display: inline-block;
+        background: #2563eb;
+        color: white;
+        padding: 12px 16px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        border: 0;
+        cursor: pointer;
+      }
+      .muted {
+        color: #9ca3af;
+        font-size: 13px;
+        margin-top: 10px;
+      }
+      pre {
+        white-space: pre-wrap;
+        background: rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        padding: 12px;
+        margin-top: 12px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>🧹 Cache Refresh</h1>
+      <p>Bu sayfa tarayıcı cache’ini temizlemeye yardımcı olur ve ana sayfayı yeni bir “versiyon parametresi” ile açar.</p>
+
+      <button class="btn" onclick="run()">Cache temizle ve siteyi aç</button>
+      <div class="muted">
+        Not: localStorage (kullanıcı verileri) silinmez. Sadece cache/Service Worker temizliği hedeflenir.
+      </div>
+
+      <pre id="log">Hazır.</pre>
+    </div>
+
+    <script>
+      const el = document.getElementById('log');
+      const log = (m) => (el.textContent += `\n${m}`);
+
+      async function clearServiceWorkers() {
+        if (!('serviceWorker' in navigator)) return;
+        const regs = await navigator.serviceWorker.getRegistrations();
+        for (const r of regs) {
+          try {
+            await r.unregister();
+            log('✅ Service Worker unregister edildi');
+          } catch (e) {
+            log('⚠️ Service Worker unregister başarısız');
+          }
+        }
+      }
+
+      async function clearCacheStorage() {
+        if (!('caches' in window)) return;
+        const keys = await caches.keys();
+        for (const k of keys) {
+          try {
+            await caches.delete(k);
+            log(`✅ Cache silindi: ${k}`);
+          } catch (e) {
+            log(`⚠️ Cache silinemedi: ${k}`);
+          }
+        }
+      }
+
+      async function run() {
+        el.textContent = 'Başlıyor...';
+        const v = Date.now();
+        try {
+          await clearServiceWorkers();
+          await clearCacheStorage();
+        } catch (e) {
+          log('⚠️ Temizlik sırasında hata oluştu (devam ediyorum)');
+        }
+        log('➡️ Site açılıyor...');
+        window.location.href = `/?v=${v}`;
+      }
+    </script>
+  </body>
+</html>
+

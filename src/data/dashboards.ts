@@ -628,22 +628,26 @@ export const dashboards: Dashboard[] = [
     // Tarım
     {
         id: "agriculture-dashboard",
-        name: "Tarım Operasyonları ve Verimlilik Paneli",
+        name: "Tarım Operasyon Paneli",
         category: "Tarım",
-        description: "Mahsul verimliliğini, ekipman kullanımını ve operasyonel maliyetleri izleyin.",
-        longDescription: "Tarımsal işletmenizin verimliliğini ve karlılığını artırın. Bu pano, dönüm başına mahsul verimini, gübre ve su gibi kaynakların kullanım oranlarını, ekipmanların çalışma sürelerini ve bakım maliyetlerini analiz eder. Hava durumu ve pazar fiyatları gibi dış faktörleri entegre ederek hasat ve satış stratejilerinizi optimize etmenize yardımcı olur.",
+        description: "Mahsul verimliliğini, ekipman kullanımını, satış performansını ve operasyonel maliyetleri izleyin.",
+        longDescription: "Tarımsal işletmenizin verimliliğini ve karlılığını artırın. Bu pano, dönüm başına mahsul verimini, gübre ve su gibi kaynakların kullanım oranlarını, ekipmanların çalışma sürelerini, bakım maliyetlerini, satış performansını ve karlılık analizini bir arada sunar. Hava durumu ve pazar fiyatları gibi dış faktörleri entegre ederek hasat ve satış stratejilerinizi optimize etmenize yardımcı olur.",
         imageUrl: agricultureImg,
         keyQuestions: [
             "Dönüm başına mahsul verimi geçmiş sezonlara göre nasıl?",
             "Girdi maliyetleri (gübre, tohum, su) optimize edilebilir mi?",
             "Ekipman kullanımı ve bakım maliyetleri nasıl yönetiliyor?",
             "Hasat zamanlaması ve pazar fiyatları göz önüne alındığında satış stratejisi nedir?",
-            "İklim ve hava koşullarının üretim üzerindeki etkisi nasıl?",
+            "Hangi ürün kategorisi en yüksek karlılığı sağlıyor?",
+            "Bölgesel satış performansı nasıl?",
+            "İklim ve hava koşullarının üretim üzerindeki etkisi nasıl?"
         ],
         keyMetrics: [
             "Dönüm Başına Verim: Kg veya Ton / Dönüm",
             "Toplam Üretim Maliyeti: Tohum + Gübre + İşçilik + Ekipman",
             "Birim Başına Maliyet: Toplam Maliyet / Toplam Üretim",
+            "Satış Performansı: Toplam Ciro ve Ürün Bazında Karlılık",
+            "Bölgesel Satış Dağılımı",
             "Ekipman Kullanım Oranı ve Arıza Süresi",
             "Su ve Gübre Kullanım Verimliliği",
             "Hasat Kaybı Yüzdesi",
@@ -991,126 +995,28 @@ export const dashboards: Dashboard[] = [
         ]
     },
     {
-        id: "tarim-seedco-sales-dashboard",
-        name: "SeedCo Tohum Satış & Karlılık Dashboard'u",
+        id: "tarim-tohum-yonetim-paneli",
+        name: "Tohum Yönetim Paneli",
         category: "Tarım",
-        description: "Tohum satış performansı, ürün karlılığı, müşteri analizi ve bölgesel satış trendi.",
-        longDescription: "Tarım sektörü tohum şirketleri için özel olarak geliştirilmiş bu dashboard, satış performansını çok boyutlu analiz eder. Tahıl ve sebze kategorilerinde ürün bazında karlılık, müşteri segmentasyonu, bölgesel satış dağılımı ve ödeme tahsilatı gibi kritik metrikleri FinOps perspektifiyle sunar. Satış yöneticileri, CFO'lar ve pazarlama ekipleri için stratejik karar destek sistemi oluşturur.",
+        description: "Modern ve interaktif tohum satış yönetimi dashboard'u - 6 KPI + 4 grafik.",
+        longDescription: "Bu dashboard, FinOps AI Studio'nun modern görselleştirme yeteneklerini sergileyen profesyonel bir örnektir. SeedCo tohum şirketi verilerini kullanarak: 6 KPI kartı (Toplam Miktar, Ortalama Sipariş, En Yüksek/Düşük, Popüler Ürün), 4 interaktif grafik (Aylık Trend Line Chart, Bar Chart, Donut Chart, Top 10 analizi) sunar. Her grafik Recharts kütüphanesi ile render edilir. Profesyonel sunumlar ve executive raporlar için ideal.",
         imageUrl: agricultureImg,
         keyQuestions: [
-            "Hangi ürün kategorisi en yüksek ciroyu sağlıyor?",
+            "Tohum satış performansı nasıl izlenir?",
             "Hangi bölgede satış potansiyeli daha yüksek?",
-            "Hangi müşteriler en değerli (top customers)?",
+            "Hangi ürün kategorisi en çok talep görüyor?",
             "Aylık satış trendi nasıl? Sezonsal etkiler var mı?",
-            "Ödeme tahsilatı performansı nasıl?",
-            "Tahıl vs Sebze kategorisi karlılık karşılaştırması nasıl?"
+            "En çok satan ürünler hangileri?",
+            "Bölgesel dağılım nasıl optimize edilebilir?"
         ],
         keyMetrics: [
-            "Toplam Satış Cirosu (TL)",
-            "Toplam Satış Miktarı (kg)",
-            "Ortalama Birim Fiyat",
-            "Ürün Kategorisine Göre Satış Dağılımı",
-            "Bölgesel Satış Performansı",
-            "Müşteri Bazında Ciro Dağılımı",
-            "Aylık Satış Trendi",
-            "Ödeme Başarı Oranı (%)",
-            "Top 5 En Çok Satan Ürünler"
-        ]
-    },
-    {
-        id: "manufacturing-profitability",
-        name: "Üretim Kârlılığı Analizi",
-        category: "Üretim & Operasyon",
-        description: "Ürün hattı, vardiya ve dönem bazında kârlılık takibi ve karar kartları.",
-        longDescription: "Üretim Kârlılığı Dashboard'u, üretim yapan KOBİ'lerin ürün, hat ve vardiya bazında kârlılığını görselleştirir. Hangi ürünlerin kârlı, hangi hatların zarar ettiğini net bir şekilde gösterir. Karar kartları ile 'Hat C zararda: -₺8K/ay' gibi aksiyon gerektiren durumları vurgular. A4 boyutunda yazdırılabilir rapor formatındadır.",
-        imageUrl: uretimKontrolImg,
-        keyQuestions: [
-            "Hangi üretim hattı en kârlı?",
-            "Vardiya bazında kârlılık farkı nedir?",
-            "Zararda olan ürünler tespit edilebiliyor mu?",
-            "Kâr marjı hedefin üstünde mi?",
-            "Hangi hatta kapasite artışı yapılmalı?"
-        ],
-        keyMetrics: [
-            "Aylık Net Kâr (₺)",
-            "Kâr Marjı (%)",
-            "Üretim Hattı Bazında Kâr",
-            "Vardiya Dağılımı",
-            "Ciro ve Kâr Trendi",
-            "En Kârlı / Zararlı Hat",
-            "Karar Kartları (Action Items)"
-        ]
-    },
-    {
-        id: "manufacturing-scrap-analysis",
-        name: "Fire & Verimsizlik Analizi",
-        category: "Üretim & Operasyon",
-        description: "Fire oranları, TL etkisi ve trend analizi ile verimsizliği görünür kılın.",
-        longDescription: "Fire & Verimsizlik Dashboard'u, üretimde oluşan fire oranlarını % ve TL bazında görselleştirir. 'Fire oranı ↑: Bu ay -₺19,800 kayıp' gibi karar kartları ile fire'nin gerçek maliyetini gösterir. Ürün bazında fire analizi, trend takibi ve yıllık maliyet projeksiyonları ile fire'yi azaltma aksiyonlarını destekler.",
-        imageUrl: kaliteKontrolImg,
-        keyQuestions: [
-            "Fire oranı hedefin üstünde mi?",
-            "Hangi ürünlerde fire en yüksek?",
-            "Fire maliyeti ne kadar?",
-            "Fire trendi artış gösteriyor mu?",
-            "Fire %1 düşürülürse yıllık tasarruf ne olur?"
-        ],
-        keyMetrics: [
-            "Fire Oranı (%)",
-            "Aylık Fire Maliyeti (₺)",
-            "Ürün Bazında Fire",
-            "Fire Trend Analizi",
-            "Yıllık Fire Tahmin",
-            "En Yüksek Fire'li Ürün",
-            "Karar Kartları"
-        ]
-    },
-    {
-        id: "manufacturing-capacity-utilization",
-        name: "Kapasite Kullanımı & Maliyet",
-        category: "Üretim & Operasyon",
-        description: "Kapasite kullanımı, boş kapasite maliyeti ve kâr fırsatları.",
-        longDescription: "Kapasite Dashboard'u, makine ve hat bazında kapasite kullanımını gösterir. Boş kalan kapasitenin TL maliyetini hesaplar: 'Boş kapasite ↑: Aylık fırsat maliyeti ₺32K'. Kapasite %80'e çıkarılırsa potansiyel kâr artışını simüle eder. Makine bazında kullanım analizi ile atıl varlıkları tespit edebilirsiniz.",
-        imageUrl: uretimKontrolImg,
-        keyQuestions: [
-            "Kapasite kullanımı hedefin altında mı?",
-            "Boş kapasitenin maliyeti ne kadar?",
-            "Hangi makine atıl durumdadır?",
-            "Kapasite artışı kâr etkisi nedir?",
-            "Yeni sipariş alınabilir mi?"
-        ],
-        keyMetrics: [
-            "Kapasite Kullanım Oranı (%)",
-            "Boş Kapasite Maliyeti (₺)",
-            "Makine Bazında Kullanım",
-            "Potansiyel Kâr (Hedef Kullanımda)",
-            "Kullanım Trend Analizi",
-            "En Düşük Kullanımlı Makine",
-            "Karar Kartları"
-        ]
-    },
-    {
-        id: "manufacturing-inventory-working-capital",
-        name: "Stok & Çalışma Sermayesi",
-        category: "Üretim & Operasyon",
-        description: "Stok devir hızı, bağlı nakit ve sipariş noktaları yönetimi.",
-        longDescription: "Stok Dashboard'u, üretim KOBİ'lerinin en büyük sorunlarından biri olan 'stokta nakit' problemini görünür kılar. 'Stok gün sayısı ↑: Nakit bağlama +₺75K' gibi karar kartları ile stok optimizasyonunu destekler. Depo bazında stok analizi, devir hızı, sipariş noktaları ve yavaş hareket eden ürünleri gösterir.",
-        imageUrl: inventoryManagementImg,
-        keyQuestions: [
-            "Stok gün sayısı hedefin üstünde mi?",
-            "Stokta ne kadar nakit bağlı?",
-            "Hangi depoda aşırı stok var?",
-            "Stok devir hızı sektör ortalamasıyla nasıl?",
-            "Stok azaltılırsa ne kadar nakit serbest kalır?"
-        ],
-        keyMetrics: [
-            "Stok Gün Sayısı",
-            "Bağlı Nakit (₺)",
-            "Stok Devir Hızı (x/yıl)",
-            "Depo Bazında Stok",
-            "Potansiyel Serbest Nakit",
-            "Yavaş Hareket Eden Ürünler",
-            "Karar Kartları"
+            "6 KPI Kartı (Toplam, Ortalama, En Yüksek, En Düşük, Sipariş Sayısı, Popüler Ürün)",
+            "Aylık Trend (Line Chart)",
+            "Kategori Dağılımı (Bar Chart)",
+            "Bölgesel Satış (Donut Chart)",
+            "Top 10 Ürün (Bar Chart)",
+            "Bölgesel Satış Dağılımı (6 bölge)",
+            "Zaman Serisi Analizi"
         ]
     },
     {

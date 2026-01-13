@@ -1,9 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ManufacturingProfitabilityDashboard from '../components/dashboards/manufacturing/ManufacturingProfitabilityDashboard';
-import ManufacturingScrapDashboard from '../components/dashboards/manufacturing/ManufacturingScrapDashboard';
-import ManufacturingCapacityDashboard from '../components/dashboards/manufacturing/ManufacturingCapacityDashboard';
-import ManufacturingInventoryDashboard from '../components/dashboards/manufacturing/ManufacturingInventoryDashboard';
+import ManufacturingDashboard from '../components/dashboards/ManufacturingDashboard';
 
 export default function ManufacturingDashboardsPage() {
   return (
@@ -25,32 +22,15 @@ export default function ManufacturingDashboardsPage() {
             Üretim Dashboard Örnekleri
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Üretim yapan KOBİ'ler için özel geliştirilmiş 4 profesyonel dashboard. 
-            Her dashboard A4 boyutunda yazdırılabilir ve karar kartları içerir.
+            Üretim yapan KOBİ'ler için özel geliştirilmiş profesyonel dashboard örnekleri.
           </p>
         </div>
 
         {/* Dashboards */}
         <div className="space-y-12">
-          
-          {/* 1. Kârlılık */}
-          <div id="karlilik">
-            <ManufacturingProfitabilityDashboard />
-          </div>
-
-          {/* 2. Fire */}
-          <div id="fire" className="pt-12">
-            <ManufacturingScrapDashboard />
-          </div>
-
-          {/* 3. Kapasite */}
-          <div id="kapasite" className="pt-12">
-            <ManufacturingCapacityDashboard />
-          </div>
-
-          {/* 4. Stok */}
-          <div id="stok" className="pt-12">
-            <ManufacturingInventoryDashboard />
+          {/* ✅ Sadece: Üretim Kontrol Paneli */}
+          <div id="uretim-kontrol">
+            <ManufacturingDashboard />
           </div>
 
         </div>

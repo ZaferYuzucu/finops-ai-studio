@@ -51,12 +51,14 @@ const COLORS = ['#EF4444', '#F59E0B', '#8B5CF6', '#3B82F6', '#10B981'];
 
 const QualityControlDashboard: React.FC = () => {
   return (
-    <div className="w-full h-full overflow-auto bg-gray-100 p-4">
+    <div className="w-full h-full overflow-auto p-4" style={{
+      background: 'linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 25%, #faf5ff 50%, #f0f9ff 75%, #f5f8ff 100%)'
+    }}>
       <div 
-        className="bg-gray-50 p-6 mx-auto"
+        className="p-6 mx-auto"
         style={{
-          width: '98%',
-          maxWidth: '1800px',
+          width: '1123px',
+          maxWidth: '1123px',
           minHeight: 'auto',
           fontFamily: 'Inter, system-ui, sans-serif',
           transformOrigin: 'top center'

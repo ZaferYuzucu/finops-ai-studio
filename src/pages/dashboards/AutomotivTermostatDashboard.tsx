@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { TrendingUp, Package, AlertCircle, Warehouse, Clock } from 'lucide-react';
+import { TrendingUp, Package, AlertCircle, Warehouse, Clock, DollarSign } from 'lucide-react';
 import Papa from 'papaparse';
+import KpiCard from '@/components/dashboards/KpiCard';
 
 // Data types matching CSV structure
 interface ProductionData {
@@ -15,29 +16,6 @@ interface ProductionData {
   Mamul_Stok: number;
   Yarı_Mamul_Stok: number;
 }
-
-// KPI Card Component
-interface KPICardProps {
-  title: string;
-  value: string | number;
-  icon: React.ReactNode;
-  trend?: string;
-  bgColor: string;
-  textColor: string;
-}
-
-const KPICard = ({ title, value, icon, trend, bgColor, textColor }: KPICardProps) => (
-  <div className={`${bgColor} rounded-xl p-6 shadow-lg border border-gray-200`}>
-    <div className="flex items-start justify-between">
-      <div className="flex-1">
-        <p className="text-sm font-medium text-gray-600 mb-2">{title}</p>
-        <p className={`text-3xl font-bold ${textColor}`}>{value}</p>
-        {trend && <p className="text-xs text-gray-500 mt-2">{trend}</p>}
-      </div>
-      <div className={`${textColor} opacity-80`}>{icon}</div>
-    </div>
-  </div>
-);
 
 const AutomotivTermostatDashboard = () => {
   const [data, setData] = useState<ProductionData[]>([]);
@@ -80,6 +58,11 @@ const AutomotivTermostatDashboard = () => {
   const defectRate = kpis.totalProduced > 0 
     ? ((kpis.totalDefects / kpis.totalProduced) * 100).toFixed(2) 
     : '0.00';
+
+  const avgUnitCost = useMemo(() => {
+    if (kpis.totalProduced <= 0) return 0;
+    return kpis.totalCost / kpis.totalProduced;
+  }, [kpis.totalCost, kpis.totalProduced]);
 
   // Chart 1: Cost by Production Stage
   const costByStage = data.reduce((acc, row) => {
@@ -129,81 +112,86 @@ const AutomotivTermostatDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Dashboard yükleniyor...</p>
+      <div className="w-full h-full overflow-auto p-4" style={{
+        background: 'linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 25%, #faf5ff 50%, #f0f9ff 75%, #f5f8ff 100%)'
+      }}>
+        <div className="p-6 mx-auto" style={{ width: '1123px', maxWidth: '1123px' }}>
+          <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600 font-semibold">Dashboard yükleniyor…</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="w-full h-full overflow-auto p-4" style={{
+      background: 'linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 25%, #faf5ff 50%, #f0f9ff 75%, #f5f8ff 100%)'
+    }}>
+      <div
+        className="p-6 mx-auto space-y-4"
+        style={{
+          width: '1123px',
+          maxWidth: '1123px',
+          minHeight: 'auto',
+          fontFamily: 'Inter, system-ui, sans-serif',
+          transformOrigin: 'top center'
+        }}
+      >
         
-        {/* PAGE HEADER */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            🚗 Automotiv – Termostat Üretim & Maliyet Dashboard'u
-          </h1>
-          <p className="text-gray-600">
-            Otomotiv sektörü termostat üretim süreçleri, maliyet analizi ve stok takibi
-          </p>
+        <div className="mb-2">
+          <h1 className="text-2xl font-black text-gray-900">🚗 Otomotiv • Termostat Üretim Dashboard</h1>
+          <p className="text-sm text-gray-600">Üretim • Maliyet • Fire • Stok | Veri: `termostat_uretim_takip_TR.csv`</p>
         </div>
 
-        {/* KPI CARDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          <KPICard
+        {/* KPI CARDS — Stok Yönetimi formatı */}
+        <div className="grid grid-cols-6 gap-4">
+          <KpiCard
             title="Toplam Üretim Maliyeti"
-            value={`$${kpis.totalCost.toLocaleString()}`}
-            icon={<TrendingUp size={32} />}
-            bgColor="bg-blue-50"
-            textColor="text-blue-700"
-            trend="Ocak 2024"
+            value={`$${Math.round(kpis.totalCost).toLocaleString()}`}
+            icon={<DollarSign size={20} />}
+            color="#3B82F6"
           />
-          <KPICard
+          <KpiCard
             title="Üretilen Toplam Adet"
             value={kpis.totalProduced.toLocaleString()}
-            icon={<Package size={32} />}
-            bgColor="bg-green-50"
-            textColor="text-green-700"
-            trend="Tüm ürünler"
+            icon={<Package size={20} />}
+            color="#10B981"
           />
-          <KPICard
-            title="Hatalı Üretim Oranı"
-            value={`${defectRate}%`}
-            icon={<AlertCircle size={32} />}
-            bgColor="bg-red-50"
-            textColor="text-red-700"
-            trend={`${kpis.totalDefects} adet fire`}
+          <KpiCard
+            title="Fire Oranı"
+            value={defectRate}
+            unit="%"
+            icon={<AlertCircle size={20} />}
+            color="#EF4444"
           />
-          <KPICard
-            title="Mamul Stok Seviyesi"
+          <KpiCard
+            title="Fire Adedi"
+            value={kpis.totalDefects.toLocaleString()}
+            icon={<AlertCircle size={20} />}
+            color="#F59E0B"
+          />
+          <KpiCard
+            title="Mamul Stok"
             value={kpis.finishedStock.toLocaleString()}
-            icon={<Warehouse size={32} />}
-            bgColor="bg-purple-50"
-            textColor="text-purple-700"
-            trend="Hazır ürün"
+            icon={<Warehouse size={20} />}
+            color="#8B5CF6"
           />
-          <KPICard
-            title="Yarı Mamul (WIP) Stok"
+          <KpiCard
+            title="Yarı Mamul (WIP)"
             value={kpis.wipStock.toLocaleString()}
-            icon={<Clock size={32} />}
-            bgColor="bg-orange-50"
-            textColor="text-orange-700"
-            trend="İşlemde"
+            icon={<Clock size={20} />}
+            color="#06B6D4"
           />
         </div>
 
-        {/* CHARTS SECTION */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* CHARTS SECTION — Stok Yönetimi formatı */}
+        <div className="grid grid-cols-2 gap-4">
           
           {/* Chart 1: Cost by Production Stage */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              📊 Üretim Aşamalarına Göre Maliyet Dağılımı
-            </h3>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+            <h3 className="text-sm font-bold text-gray-900 mb-3">Üretim Aşamalarına Göre Maliyet Dağılımı</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={costByStageData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -216,10 +204,8 @@ const AutomotivTermostatDashboard = () => {
           </div>
 
           {/* Chart 2: Daily Production Volume */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              📈 Gün Bazlı Üretim Adedi
-            </h3>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+            <h3 className="text-sm font-bold text-gray-900 mb-3">Gün Bazlı Üretim Adedi</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={dailyProductionData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -240,10 +226,8 @@ const AutomotivTermostatDashboard = () => {
           </div>
 
           {/* Chart 3: Defect Analysis */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              ⚠️ Fire (Hatalı) Oranı Analizi
-            </h3>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+            <h3 className="text-sm font-bold text-gray-900 mb-3">Fire (Hatalı) Oranı Analizi</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={defectsByOrder}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -256,10 +240,8 @@ const AutomotivTermostatDashboard = () => {
           </div>
 
           {/* Chart 4: Stock Distribution */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              📦 Stok Dağılımı
-            </h3>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+            <h3 className="text-sm font-bold text-gray-900 mb-3">Stok Dağılımı</h3>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -284,10 +266,8 @@ const AutomotivTermostatDashboard = () => {
         </div>
 
         {/* DATA TABLE */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            📋 Üretim Takip Tablosu
-          </h3>
+        <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+          <h3 className="text-sm font-bold text-gray-900 mb-3">Üretim Takip Tablosu (İlk 20)</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
               <thead className="text-xs text-gray-700 uppercase bg-gray-100">

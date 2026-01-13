@@ -16,7 +16,7 @@ export interface DashboardLayout {
   summary: {
     totalRows: number;
     dateRange?: string;
-    keyMetrics: Record<string, number>;
+    keyMetrics: Record<string, number | string>;  // ← String values için (formatted)
   };
 }
 
@@ -60,15 +60,35 @@ export function generateDashboardLayout(
     });
   }
   
-  // 2. Kategori bazlı analiz
+  // 2. Kategori bazlı analiz (Area Chart - Gradient)
   if (categoryColumns.length > 0 && mainMetricColumn) {
     const categoryColumn = categoryColumns[0];
     const categoryData = aggregateByCategory(sortedData.rows, categoryColumn, mainMetricColumn);
     
     charts.push({
-      type: chartType === 'line' ? 'bar' : chartType,
-      title: `${categoryColumn} Bazında ${mainMetricColumn}`,
+      type: 'bar',  // Bar chart - renkli barlar
+      title: `${categoryColumn} Bazında Satış Dağılımı`,
       data: categoryData,
+      index: 'category',
+      categories: ['value'],
+    });
+  }
+  
+  // 3. Bölgesel Dağılım (Donut Chart)
+  const regionColumn = csvData.headers.find(h => 
+    h.toLowerCase().includes('bölge') || 
+    h.toLowerCase().includes('region') ||
+    h.toLowerCase().includes('şehir') ||
+    h.toLowerCase().includes('city')
+  );
+  
+  if (regionColumn && mainMetricColumn) {
+    const regionData = aggregateByCategory(sortedData.rows, regionColumn, mainMetricColumn);
+    
+    charts.push({
+      type: 'donut',
+      title: `${regionColumn} Bazında Dağılım`,
+      data: regionData.slice(0, 8),  // İlk 8 bölge
       index: 'category',
       categories: ['value'],
     });
@@ -94,30 +114,78 @@ export function generateDashboardLayout(
     });
   }
   
-  // Özet istatistikler
+  // AKILLI KPI HESAPLAMA (GENİŞLETİLMİŞ - 6 KPI)
   const totalValue = sortedData.rows.reduce((sum, row) => {
     const val = row[mainMetricColumn || ''] || 0;
     return sum + (typeof val === 'number' ? val : 0);
   }, 0);
   
   const avgValue = totalValue / sortedData.rowCount;
+  const maxValue = Math.max(...sortedData.rows.map(row => row[mainMetricColumn || ''] || 0));
+  const minValue = Math.min(...sortedData.rows.map(row => row[mainMetricColumn || ''] || 0).filter(v => v > 0));
   
-  const dateRange = dateColumn && sortedData.rows.length > 0
-    ? `${sortedData.rows[0][dateColumn]} - ${sortedData.rows[sortedData.rows.length - 1][dateColumn]}`
-    : undefined;
+  // Birimi tahmin et
+  const unit = mainMetricColumn?.toLowerCase().includes('toplam') || mainMetricColumn?.toLowerCase().includes('total') 
+    ? ' TL' 
+    : mainMetricColumn?.toLowerCase().includes('miktar') || mainMetricColumn?.toLowerCase().includes('amount')
+    ? ' Adet'
+    : '';
+  
+  // 6 ADET İŞ ODAKLI KPI
+  const keyMetrics: Record<string, number | string> = {};
+  
+  // 1. Toplam Ciro/Satış
+  if (mainMetricColumn) {
+    const metricName = mainMetricColumn.includes('Toplam') || mainMetricColumn.includes('Total') 
+      ? '💰 Toplam Ciro'
+      : `📊 Toplam ${mainMetricColumn}`;
+    keyMetrics[metricName] = `${Math.round(totalValue).toLocaleString('tr-TR')}${unit}`;
+  }
+  
+  // 2. Ortalama Sipariş Değeri
+  if (avgValue > 0) {
+    keyMetrics['📈 Ortalama Sipariş'] = `${Math.round(avgValue).toLocaleString('tr-TR')}${unit}`;
+  }
+  
+  // 3. Toplam Sipariş Sayısı
+  keyMetrics['📦 Sipariş Sayısı'] = `${sortedData.rowCount} adet`;
+  
+  // 4. En Yüksek Sipariş
+  if (maxValue > 0) {
+    keyMetrics['🚀 En Yüksek Sipariş'] = `${Math.round(maxValue).toLocaleString('tr-TR')}${unit}`;
+  }
+  
+  // 5. En Düşük Sipariş
+  if (minValue > 0 && minValue < Infinity) {
+    keyMetrics['📉 En Düşük Sipariş'] = `${Math.round(minValue).toLocaleString('tr-TR')}${unit}`;
+  }
+  
+  // 6. En Çok Satan Kategori
+  if (categoryColumns.length > 0 && mainMetricColumn) {
+    const categoryColumn = categoryColumns[0];
+    const categoryTotals = new Map<string, number>();
+    sortedData.rows.forEach(row => {
+      const cat = row[categoryColumn] || 'Diğer';
+      const val = row[mainMetricColumn || ''] || 0;
+      categoryTotals.set(cat, (categoryTotals.get(cat) || 0) + val);
+    });
+    const topCategory = Array.from(categoryTotals.entries())
+      .sort((a, b) => b[1] - a[1])[0];
+    if (topCategory) {
+      keyMetrics['🌟 En Popüler'] = `${topCategory[0]}`;
+    }
+  }
   
   return {
     title: customTitle || 'Dashboard Analizi',
-    description: `${csvData.rowCount} satır veri analizi`,
+    description: `${csvData.rowCount} satır veri analizi - ${dateColumn ? 'Zaman serisi dahil' : 'Kategori bazlı'}`,
     charts,
     summary: {
       totalRows: csvData.rowCount,
-      dateRange,
-      keyMetrics: {
-        [`Toplam ${mainMetricColumn || 'Değer'}`]: Math.round(totalValue),
-        [`Ortalama ${mainMetricColumn || 'Değer'}`]: Math.round(avgValue),
-        'Kategori Sayısı': categoryColumns.length,
-      },
+      dateRange: dateColumn && sortedData.rows.length > 0
+        ? `${sortedData.rows[0][dateColumn]} - ${sortedData.rows[sortedData.rows.length - 1][dateColumn]}`
+        : undefined,
+      keyMetrics,
     },
   };
 }

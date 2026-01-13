@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Durum Kontrol</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        max-width: 860px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #0b1220;
+        color: #e5e7eb;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 18px;
+        margin-bottom: 14px;
+      }
+      a {
+        color: #93c5fd;
+        text-decoration: none;
+        font-weight: 700;
+      }
+      a:hover { text-decoration: underline; }
+      .btn {
+        display: inline-block;
+        background: #2563eb;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 800;
+        margin-right: 8px;
+        margin-top: 8px;
+      }
+      .muted { color: #9ca3af; font-size: 13px; }
+      ul { margin: 8px 0 0 18px; }
+      code { background: rgba(0,0,0,0.35); padding: 2px 6px; border-radius: 6px; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>✅ Durum Kontrol</h1>
+      <div class="muted">Bu sayfa her açıldığında “yeni” olduğunu kanıtlamak için anlık zaman basar.</div>
+      <p>
+        Sayfa zamanı: <code id="now"></code>
+      </p>
+      <script>
+        document.getElementById('now').textContent = new Date().toLocaleString('tr-TR');
+      </script>
+      <a class="btn" href="/cache-refresh.html">1) Cache temizle ve siteyi aç</a>
+      <a class="btn" href="/?v=1">2) Ana sayfa</a>
+    </div>
+
+    <div class="card">
+      <h2>Kontrol linkleri</h2>
+      <ul>
+        <li><a href="/sektorler/uretim/dashboards?v=1">Üretim Dashboard Örnekleri</a> — sadece “Üretim Kontrol” kalmalı</li>
+        <li><a href="/professional-dashboards?v=1">Profesyonel Dashboard Örnekleri</a></li>
+        <li><a href="/dashboards/automotiv-termostat?v=1">Otomotiv Termostat Üretim</a> — “Stok Yönetimi” formatında görünmeli</li>
+      </ul>
+      <p class="muted">
+        Eğer bu sayfalarda hâlâ eski içerik varsa, en üstteki “Cache temizle” butonuna tıkla ve tekrar dene.
+      </p>
+    </div>
+  </body>
+</html>
+

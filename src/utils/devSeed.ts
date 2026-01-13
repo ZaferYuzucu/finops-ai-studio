@@ -1,4 +1,6 @@
 import { autoSubscribeNewsletter } from './newsletter';
+import { createDashboardFromLibrary } from './dashboardProcessor';
+import type { DashboardBuilderWizardData } from '../types/userDashboard';
 
 // localStorage keys used by the app (demo/local auth + admin panels)
 const AUTH_USERS_KEY = 'finops_users';
@@ -7,6 +9,7 @@ const BETA_APPS_KEY = 'finops_beta_applications';
 
 const SEED_FLAG_KEY = 'finops_dev_seed:elba_serdar_v1';
 const SEED_FLAG_TEST1 = 'finops_dev_seed:test1_zafer_v1';
+const SEED_FLAG_SEEDCO_DASHBOARD = 'finops_dev_seed:seedco_dashboard_v4';  // ← v4: RECHARTS + <Cell> = RENKLI BARLAR!
 
 type AuthUsers = Record<string, { email: string; password: string; role: string }>;
 
@@ -45,6 +48,9 @@ export function ensureDevSeedTest1() {
 
   // Önce test kullanıcılarını engelle
   blockTestUsers();
+  
+  // Tohum Yönetim Paneli Dashboard'unu ekle
+  ensureSeedCoDashboard();
 
   try {
     const seed = {
@@ -71,7 +77,8 @@ export function ensureDevSeedTest1() {
     const existsMgmt = mgmt.some((u) => String(u.email || '').toLowerCase() === seed.email.toLowerCase());
     if (!existsMgmt) {
       mgmt.unshift({
-        id: `user_test1_${Date.now()}`,
+        // Deterministic id: same email => same uid
+        id: `user_${String(seed.email || '').toLowerCase()}`,
         email: seed.email,
         displayName: seed.contactName,
         createdAt: new Date().toISOString(),
@@ -136,9 +143,9 @@ export function ensureDevSeedTest1() {
       (f) => !(String(f.userEmail || '').toLowerCase() === seed.email.toLowerCase())
     );
     
-    // Yeni dosya ekle
+    // Yeni dosya ekle (SABİT ID - dashboard'larla uyumlu)
     cleanLibrary.push({
-      id: `file_test1_seedco_${Date.now()}`,
+      id: 'test1-seedco-001',  // ← Dashboard ile aynı ID
       fileName: 'Test1 SeedCo.csv',
       fileType: 'text/csv',
       fileSize: 15360,
@@ -214,7 +221,8 @@ export function ensureDevSeedElbaSerdar() {
     const existsMgmt = mgmt.some((u) => String(u.email || '').toLowerCase() === seed.email.toLowerCase());
     if (!existsMgmt) {
       mgmt.unshift({
-        id: `user_${Date.now()}`,
+        // Deterministic id: same email => same uid
+        id: `user_${String(seed.email || '').toLowerCase()}`,
         email: seed.email,
         displayName: seed.contactName,
         createdAt: new Date().toISOString(),
@@ -326,4 +334,132 @@ export function ensureDevSeedAdmin() {
   } catch (err) {
     console.warn('Admin seed failed:', err);
   }
+}
+
+// SeedCo Tohum Yönetim Paneli Dashboard'u
+function ensureSeedCoDashboard() {
+  if (typeof window === 'undefined') return;
+  
+  try {
+    // Daha önce eklendiyse tekrar ekleme
+    const seeded = localStorage.getItem(SEED_FLAG_SEEDCO_DASHBOARD);
+    if (seeded) return;
+
+    const userEmail = 'zaferyuzucu@gmail.com';
+    const userId = `user_${userEmail.toLowerCase()}`;  // ← AuthContext ile uyumlu UID (deterministic)
+    
+    // Dashboard wizard data
+    const wizardData: DashboardBuilderWizardData = {
+      dashboardName: 'Tohum Yönetim Paneli',
+      dataSource: 'library',
+      dashboardType: 'custom',
+      selectedTemplate: null,
+      uploadedFileMeta: null,
+      selectedLibraryFileId: 'test1-seedco-001',
+      selectedLibraryFileName: 'Test1 SeedCo.csv',
+      selectedIntegration: null,
+      columnMapping: {},
+      customizations: {
+        chartTypes: ['line', 'bar', 'donut'],
+        selectedMetrics: ['Toplam', 'Miktar', 'Birim Fiyat'],
+        colorScheme: 'green',
+        chartSettings: {
+          dateRange: 'all',
+          topN: 10,
+          stacked: false,
+          includePdfTable: true,
+        },
+      },
+      datasetProfileSnapshot: {
+        hasDate: true,
+        hasCategory: true,
+        isRatio: false,
+        hasBridgeSteps: false,
+        rowCount: 141,
+        categoryCount: 2,
+        seriesCount: 3,
+      },
+    };
+
+    // Dashboard'u oluştur + CSV'yi işle (tek, modern işlem hattı)
+    void createDashboardFromLibrary(userId, wizardData, 'Test1 SeedCo.csv');
+    
+    // Flag'i kaydet
+    localStorage.setItem(SEED_FLAG_SEEDCO_DASHBOARD, 'true');
+    
+    console.log('✅ SeedCo Tohum Yönetim Paneli eklendi');
+  } catch (err) {
+    console.warn('SeedCo dashboard seed failed:', err);
+  }
+}
+
+// ============================================
+// ELBA OTOMOTİV - TERMOSTAT ÜRETİM DASHBOARD
+// ============================================
+const SEED_FLAG_ELBA_TERMOSTAT = 'devSeed_elbaThermostat_v1';
+
+export function seedElbaThermostatDashboard() {
+  void (async () => {
+    try {
+      // Daha önce oluşturulduysa skip
+      if (localStorage.getItem(SEED_FLAG_ELBA_TERMOSTAT)) {
+        console.log('✅ Elba Termostat Dashboard zaten oluşturulmuş (skip)');
+        return;
+      }
+
+      const email = 'serdar@elbaotomotiv.com';
+      const stableUserId = `user_${email.toLowerCase()}`;
+
+      // ADIM 1: CSV
+      const csvFileName = 'termostat_uretim_takip_TR.csv';
+
+      // Dashboard wizard data (minimal + compatible with dashboardProcessor)
+      const wizardData: DashboardBuilderWizardData = {
+        dashboardName: '🏭 Termostat Üretim Dashboard (Rehber Test)',
+        dataSource: 'library',
+        dashboardType: 'custom',
+        selectedTemplate: null,
+        uploadedFileMeta: null,
+        selectedLibraryFileId: null,
+        selectedLibraryFileName: csvFileName,
+        selectedIntegration: null,
+        columnMapping: {},
+        customizations: {
+          chartTypes: ['line', 'bar', 'donut'],
+          selectedMetrics: [
+            'Üretilen_Adet',
+            'Toplam_Üretim_Maliyeti_USD',
+            'Hatalı_Adet',
+            'Mamul_Stok',
+            'Yarı_Mamul_Stok',
+          ],
+          colorScheme: 'default',
+          chartSettings: {
+            dateRange: 'all',
+            topN: 10,
+            stacked: false,
+            includePdfTable: false,
+          },
+        },
+        datasetProfileSnapshot: {
+          hasDate: true,
+          hasCategory: true,
+          isRatio: false,
+          hasBridgeSteps: false,
+          rowCount: 0,
+          categoryCount: 0,
+          seriesCount: 0,
+        },
+      };
+
+      console.log('🚀 Elba Termostat dashboard seed başlıyor…', { userId: stableUserId, csvFileName });
+      const dashboard = await createDashboardFromLibrary(stableUserId, wizardData, csvFileName);
+      console.log('✅ Elba Termostat dashboard oluşturuldu:', dashboard.id);
+
+      localStorage.setItem(SEED_FLAG_ELBA_TERMOSTAT, 'true');
+    } catch (err) {
+      console.error('❌ Elba Termostat dashboard seed FAILED:', err);
+      console.error('Error stack:', err instanceof Error ? err.stack : err);
+    }
+  })();
 }

@@ -22,7 +22,7 @@ import BringingTeamsTogetherPage from './pages/blog/BringingTeamsTogetherPage';
 import DataDrivenDecisionsPage from './pages/blog/DataDrivenDecisionsPage';
 import DocsPage from './pages/DocsPage';
 import GetStartedDocPage from './pages/docs/GetStartedDocPage';
-import ChartGuidePage from './pages/docs/ChartGuidePage';
+import DashboardPreparationGuide from './pages/DashboardPreparationGuide';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import BrandKitPage from './pages/BrandKitPage'; // ✅ DÜZELTİLDİ - Eksik asset'ler kaldırıldı
@@ -103,7 +103,7 @@ const App: React.FC = () => {
         <Route path="/chart-wizard" element={<ChartWizardDemoPage />} />
         <Route path="/veri-girisi" element={<DataImportPage />} />
         <Route path="/veri-rehberi" element={<DataGuidePage />} />
-        <Route path="/bilgi-merkezi/grafik-rehberi" element={<ChartGuidePage />} />
+        <Route path="/bilgi-merkezi/dashboard-hazirlama-rehberi" element={<DashboardPreparationGuide />} />
         <Route path="/solutions/financial-data-analysis" element={<FinancialDataAnalysisPage />} />
         <Route path="/solutions/cost-inventory-management" element={<CostInventoryManagementPage />} />
         <Route path="/solutions/cash-flow" element={<CashFlowPage />} />
@@ -143,6 +143,7 @@ const App: React.FC = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/dashboard/create" element={<DashboardCreateWizardPage />} />
+          <Route path="/dashboard/preparation-guide" element={<DashboardPreparationGuide />} />
           <Route path="/dashboard/my" element={<MyDashboardsPage />} />
           <Route path="/dashboard/view/:id" element={<DashboardViewPage />} />
           <Route path="/dashboard/edit/:id" element={<DashboardCreateWizardPage />} />

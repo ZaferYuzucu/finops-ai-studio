@@ -396,7 +396,7 @@ const DataImportPage: React.FC = () => {
               {t('dataImport.guideLink')}
             </Link>
             <Link
-              to="/bilgi-merkezi/grafik-rehberi"
+              to="/bilgi-merkezi/dashboard-hazirlama-rehberi"
               className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition-colors"
             >
               {t('dataImport.openChartGuide')}

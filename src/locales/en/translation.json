@@ -18,7 +18,7 @@
     "knowledgeBase": "Knowledge Base",
     "documents": "Documents",
     "infoCenterHeader": "Info Center",
-    "chartGuide": "📘 Chart Guide",
+    "chartGuide": "📊 Dashboard Preparation Guide",
     "dataUploadGuide": "📄 Data Upload Guide",
     "dataSecurity": "Data Security",
     "pricing": "Pricing",
@@ -1537,7 +1537,7 @@
         "hint": "💡 Download template first, fill it, then upload"
       },
       "guideLink": "📖 Data Upload Guide",
-      "openChartGuide": "📘 Chart Guide",
+      "openChartGuide": "📊 Dashboard Preparation Guide",
       "fileUpload": {
         "dragDrop": "Upload a file",
         "or": "or drag and drop",

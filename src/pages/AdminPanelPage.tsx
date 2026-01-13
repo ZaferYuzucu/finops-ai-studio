@@ -84,7 +84,8 @@ const AdminPanelPage: React.FC = () => {
       const existsMgmt = mgmt.some((u) => String(u.email || '').toLowerCase() === seed.email.toLowerCase());
       if (!existsMgmt) {
         mgmt.unshift({
-          id: `user_${Date.now()}`,
+          // Deterministic id: prevents "same email, different uid" issues
+          id: `user_${String(seed.email || '').toLowerCase()}`,
           email: seed.email,
           displayName: seed.contactName,
           createdAt: new Date().toISOString(),

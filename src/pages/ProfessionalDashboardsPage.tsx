@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { BarChart3, ArrowLeft, Download, Share2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DeepSurveyPanel from '@/components/surveys/DeepSurveyPanel';
 import { useSurvey } from '@/hooks/useSurvey';
 import type { SectorType } from '@/types/survey';
@@ -41,6 +41,7 @@ import {
   InsuranceDashboard,
   ConstructionDashboard
 } from '../components/dashboards';
+import AutomotivTermostatDashboard from './dashboards/AutomotivTermostatDashboard';
 
 // Sektörel kategoriler ve dashboard'lar
 const DASHBOARD_CATEGORIES = {
@@ -65,6 +66,7 @@ const DASHBOARD_CATEGORIES = {
       { id: 'quality-control', name: 'Kalite Kontrol', component: 'QualityControlDashboard' },
       { id: 'inventory-management', name: 'Stok Yönetimi', component: 'InventoryDashboard' },
       { id: 'oee-dashboard', name: 'OEE Dashboard', component: 'OEEDashboard' },
+      { id: 'automotive-termostat', name: 'Otomotiv Termostat Üretim', component: 'AutomotivTermostatDashboard' },
     ]
   },
   finance: {
@@ -148,6 +150,7 @@ const DASHBOARD_CATEGORIES = {
 
 const ProfessionalDashboardsPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState<string>('restaurant');
   const [selectedDashboard, setSelectedDashboard] = useState<string>('restaurant-general');
   const [showDeepSurvey, setShowDeepSurvey] = useState(false);
@@ -176,6 +179,43 @@ const ProfessionalDashboardsPage = () => {
       }, 3000); // Show after 3 seconds of viewing
     }
   }, []);
+
+  // Allow direct deep links like:
+  // /professional-dashboards?category=manufacturing&dashboard=automotive-termostat
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(location.search);
+      const cat = params.get('category');
+      const dash = params.get('dashboard');
+      if (!cat && !dash) return;
+
+      const safeCategory = cat && DASHBOARD_CATEGORIES[cat as keyof typeof DASHBOARD_CATEGORIES] ? cat : null;
+      const safeDashboard =
+        dash &&
+        Object.values(DASHBOARD_CATEGORIES)
+          .flatMap((c) => c.dashboards)
+          .some((d) => d.id === dash)
+          ? dash
+          : null;
+
+      if (safeCategory) setSelectedCategory(safeCategory);
+
+      // Ensure dashboard belongs to the selected category when possible
+      if (safeDashboard) {
+        const effectiveCategory = safeCategory ?? selectedCategory;
+        const existsInCat = DASHBOARD_CATEGORIES[effectiveCategory]?.dashboards?.some((d) => d.id === safeDashboard);
+        if (existsInCat) setSelectedDashboard(safeDashboard);
+        else if (!safeCategory) setSelectedDashboard(safeDashboard);
+      } else if (safeCategory) {
+        // If only category provided, select first dashboard
+        const first = DASHBOARD_CATEGORIES[safeCategory]?.dashboards?.[0]?.id;
+        if (first) setSelectedDashboard(first);
+      }
+    } catch {
+      // ignore
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
 
   const handleDeepSurveyComplete = (answers: Record<string, string | string[]>) => {
     completeDeepSurvey(answers);
@@ -274,7 +314,8 @@ const ProfessionalDashboardsPage = () => {
       {selectedDashboard === 'quality-control' && <QualityControlDashboard />}
       {selectedDashboard === 'inventory-management' && <InventoryDashboard />}
       {selectedDashboard === 'oee-dashboard' && <OEEDashboard />}
-      
+      {selectedDashboard === 'automotive-termostat' && <AutomotivTermostatDashboard />}
+
       {/* Finance Dashboards */}
       {selectedDashboard === 'finance-cfo' && <FinanceDashboard />}
       {selectedDashboard === 'cash-flow' && <CashFlowDashboard />}

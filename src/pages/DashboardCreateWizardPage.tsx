@@ -96,6 +96,37 @@ const DashboardCreateWizardPage = () => {
     categoryColumns: string[];
     dateColumn: string | null;
   }>({ numericColumns: [], categoryColumns: [], dateColumn: null });
+  
+  // CSV preview data (first 10 rows)
+  const [csvPreviewData, setCsvPreviewData] = useState<Record<string, any>[]>([]);
+  
+  // Dashboard Architecture (NEW!)
+  const [dashboardArchitecture, setDashboardArchitecture] = useState<{
+    kpiCount: 0 | 3 | 4 | 6;
+    chartCount: 0 | 2 | 3 | 4 | 5 | 6;
+    layoutType: 'auto' | 'custom';
+  }>({ kpiCount: 3, chartCount: 3, layoutType: 'auto' });
+  
+  // KPI Configuration
+  const [kpiConfigs, setKpiConfigs] = useState<Array<{
+    id: string;
+    title: string;
+    column: string | null;
+    calculation: 'sum' | 'avg' | 'max' | 'min' | 'count';
+    showTrend: boolean;
+  }>>([]);
+  
+  // Chart Configuration
+  const [chartConfigs, setChartConfigs] = useState<Array<{
+    id: string;
+    chartType: ChartType;
+    xAxis: string | null;
+    yAxis: string[];
+    title: string;
+  }>>([]);
+  
+  // Step 4 substep (wizard içinde wizard!)
+  const [step4SubStep, setStep4SubStep] = useState<1 | 2 | 3>(1);
 
   const userId = currentUser?.uid ?? '';
 
@@ -137,6 +168,9 @@ const DashboardCreateWizardPage = () => {
             const headers = parsed.headers;
             setCsvHeaders(headers);
             
+            // CSV Preview (first 10 rows)
+            setCsvPreviewData(parsed.rows.slice(0, 10));
+            
             // Otomatik analiz
             const numericCols = detectNumericColumns(parsed);
             const categoryCols = detectCategoryColumns(parsed);
@@ -161,6 +195,26 @@ const DashboardCreateWizardPage = () => {
 
             // Varsayılan olarak tüm sayısal sütunları seç
             setSelectedColumns(numericCols);
+            
+            // Auto-initialize KPI configs based on architecture
+            const defaultKpis = numericCols.slice(0, dashboardArchitecture.kpiCount || 3).map((col, idx) => ({
+              id: `kpi-${idx + 1}`,
+              title: col,
+              column: col,
+              calculation: 'sum' as const,
+              showTrend: true,
+            }));
+            setKpiConfigs(defaultKpis);
+            
+            // Auto-initialize Chart configs
+            const defaultCharts = Array.from({ length: dashboardArchitecture.chartCount || 3 }, (_, idx) => ({
+              id: `chart-${idx + 1}`,
+              chartType: (idx === 0 ? 'line' : idx === 1 ? 'bar' : 'donut') as ChartType,
+              xAxis: dateCol || categoryCols[0] || null,
+              yAxis: [numericCols[idx] || numericCols[0]].filter(Boolean),
+              title: `Grafik ${idx + 1}`,
+            }));
+            setChartConfigs(defaultCharts);
           } catch (error) {
             console.error('CSV parsing hatası:', error);
           }
@@ -687,242 +741,655 @@ const DashboardCreateWizardPage = () => {
             </div>
           )}
 
-          {/* STEP 4: Özelleştirme */}
+          {/* STEP 4: Dashboard İnşa Sihirbazı (3 Sub-Step) */}
           {currentStep === 4 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Dashboard Özelleştirme</h2>
-
-              {/* 1. VERİ SÜTUNLARI SEÇİMİ */}
-              <div className="border-2 border-blue-200 rounded-xl p-5 bg-blue-50">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                  1️⃣ Grafikte Gösterilecek Veri Sütunlarını Seçin
-                </h3>
-                <p className="text-sm text-gray-600 mb-4">
-                  CSV dosyanızdaki hangi sütunların dashboard'da görselleştirileceğini seçin.
-                </p>
-                
-                {csvHeaders.length === 0 ? (
-                  <div className="bg-white rounded-lg p-4 text-center text-gray-500">
-                    CSV yükleniyor...
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {/* Tarih Sütunu */}
-                    {csvAnalysis.dateColumn && (
-                      <div className="bg-white rounded-lg p-3 border-2 border-green-300">
-                        <div className="flex items-center gap-2">
-                          <Check className="text-green-600" size={20} />
-                          <span className="font-semibold text-gray-900">📅 Tarih Sütunu:</span>
-                          <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-                            {csvAnalysis.dateColumn}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Sayısal Sütunlar (Seçilebilir) */}
-                    <div className="bg-white rounded-lg p-3">
-                      <div className="font-semibold text-gray-900 mb-2">📊 Sayısal Veriler (Seçebilirsiniz):</div>
-                      <div className="flex flex-wrap gap-2">
-                        {csvAnalysis.numericColumns.map((col) => (
-                          <button
-                            key={col}
-                            onClick={() => {
-                              if (selectedColumns.includes(col)) {
-                                setSelectedColumns(selectedColumns.filter(c => c !== col));
-                              } else {
-                                setSelectedColumns([...selectedColumns, col]);
-                              }
-                            }}
-                            className={`px-3 py-2 rounded-lg border-2 transition-all ${
-                              selectedColumns.includes(col)
-                                ? 'bg-indigo-600 text-white border-indigo-600'
-                                : 'bg-gray-50 text-gray-700 border-gray-300 hover:border-indigo-400'
-                            }`}
-                          >
-                            {selectedColumns.includes(col) && <Check size={16} className="inline mr-1" />}
-                            {col}
-                          </button>
-                        ))}
-                      </div>
+              {/* Sub-Step Progress */}
+              <div className="flex items-center justify-center gap-4 mb-6">
+                {[
+                  { num: 1, label: 'Mimari' },
+                  { num: 2, label: 'KPI\'lar' },
+                  { num: 3, label: 'Grafikler' },
+                ].map((step) => (
+                  <div key={step.num} className="flex items-center gap-2">
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                        step4SubStep >= step.num
+                          ? 'bg-indigo-600 text-white'
+                          : 'bg-gray-300 text-gray-600'
+                      }`}
+                    >
+                      {step4SubStep > step.num ? <Check size={16} /> : step.num}
                     </div>
-
-                    {/* Kategori Sütunlar */}
-                    {csvAnalysis.categoryColumns.length > 0 && (
-                      <div className="bg-white rounded-lg p-3">
-                        <div className="font-semibold text-gray-900 mb-2">🏷️ Kategori Sütunları:</div>
-                        <div className="flex flex-wrap gap-2">
-                          {csvAnalysis.categoryColumns.map((col) => (
-                            <span key={col} className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
-                              {col}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+                    <span className="text-sm font-medium text-gray-700">{step.label}</span>
+                    {step.num < 3 && <ArrowRight size={16} className="text-gray-400" />}
                   </div>
-                )}
+                ))}
               </div>
 
-              {/* 2. VERİ ANALİZİ ÖZET */}
-              <div className="rounded-2xl border-2 border-gray-300 bg-gradient-to-br from-gray-50 to-white p-5">
-                <div className="text-sm font-bold text-gray-900 mb-3">📈 Veri Analizi (Özet)</div>
-                <div className="flex flex-wrap gap-2 text-sm">
-                  <span className="px-4 py-2 rounded-full bg-white border-2 border-gray-300 text-gray-900 font-medium">
-                    {datasetProfile.hasDate ? '✅ Tarih var' : '⚠️ Tarih yok'}
-                  </span>
-                  <span className="px-4 py-2 rounded-full bg-white border-2 border-gray-300 text-gray-900 font-medium">
-                    {datasetProfile.hasCategory ? '✅ Kategori var' : '⚠️ Kategori yok'}
-                  </span>
-                  <span className="px-4 py-2 rounded-full bg-white border-2 border-gray-300 text-gray-900 font-medium">
-                    {selectedColumns.length} sütun seçildi
-                  </span>
-                  <span className="px-4 py-2 rounded-full bg-white border-2 border-gray-300 text-gray-900 font-medium">
-                    {datasetProfile.rowCount} satır
-                  </span>
-                  <span className="px-4 py-2 rounded-full bg-white border-2 border-gray-300 text-gray-900 font-medium">
-                    {csvHeaders.length} toplam sütun
-                  </span>
-                </div>
-              </div>
-
-              {/* 3. GRAFİK SEÇİMİ */}
-              <div className="space-y-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900">2️⃣ Grafik Tipi Seçimi</h3>
-                    <p className="text-sm text-gray-600">
-                      Seçtiğiniz verilere uygun grafik tipini belirleyin.
+              {/* SUB-STEP 1: Dashboard Mimarisi */}
+              {step4SubStep === 1 && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">🏗️ Dashboard Mimarinizi Tasarlayın</h2>
+                    <p className="text-gray-600">Dashboard'unuzda kaç KPI ve kaç grafik olsun?</p>
+                    
+                    {/* DASHBOARD HAZIR LAMA REHBERİ BUTONU */}
+                    <div className="mt-4 flex justify-center">
+                      <button
+                        onClick={() => window.open('/dashboard/preparation-guide', '_blank')}
+                        className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl"
+                      >
+                        <Lightbulb size={20} className="animate-pulse" />
+                        <span className="font-semibold">📊 Dashboard Hazırlama Rehberi</span>
+                        <ArrowRight size={16} />
+                      </button>
+                    </div>
+                    
+                    <p className="text-sm text-purple-600 mt-2">
+                      💡 <strong>Kapsamlı rehber:</strong> Mimari • KPI • Grafik • Entegrasyon
                     </p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <a
-                      href="/bilgi-merkezi/grafik-rehberi"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-yellow-100 text-yellow-800 font-semibold hover:bg-yellow-200 transition-colors border-2 border-yellow-400"
-                    >
-                      <Lightbulb size={18} />
-                      <span>Grafik Rehberi</span>
-                    </a>
-                    <button
-                      type="button"
-                      onClick={() => setShowChartWizard(true)}
-                      className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors"
-                    >
-                      Grafik Seçim Sihirbazı
-                    </button>
+
+                  {/* CSV PREVIEW TABLE */}
+                  {csvPreviewData.length > 0 && (
+                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-5 border-2 border-blue-200">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-lg font-bold text-gray-900">📊 Veri Önizleme (İlk 10 Satır)</h3>
+                        <span className="text-sm text-gray-600">{datasetProfile.rowCount} satır × {csvHeaders.length} sütun</span>
+                      </div>
+                      <div className="bg-white rounded-lg overflow-auto max-h-64 border border-gray-300">
+                        <table className="w-full text-sm">
+                          <thead className="bg-gray-100 sticky top-0">
+                            <tr>
+                              {csvHeaders.map((header) => (
+                                <th key={header} className="px-3 py-2 text-left font-semibold text-gray-900 border-b border-gray-300 whitespace-nowrap">
+                                  {header}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {csvPreviewData.map((row, idx) => (
+                              <tr key={idx} className="hover:bg-gray-50 border-b border-gray-200">
+                                {csvHeaders.map((header) => (
+                                  <td key={header} className="px-3 py-2 text-gray-700 whitespace-nowrap">
+                                    {row[header] ?? '—'}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* KPI COUNT SELECTION */}
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-bold text-gray-900">❓ Kaç KPI Kartı İstiyorsunuz? (Üst Bölüm)</h3>
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
+                      <p className="text-xs text-blue-900">
+                        <strong>💡 Rehber Önerisi:</strong> Üretim/Finans: 4-6 KPI • Satış: 3-4 KPI • KPI nedir? → Ana metrikler (Toplam, Ortalama, Trend)
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {[
+                        { count: 0, label: 'Yok', icon: '🚫' },
+                        { count: 3, label: '3 Kart', icon: '●●●' },
+                        { count: 4, label: '4 Kart', icon: '●●●●' },
+                        { count: 6, label: '6 Kart', icon: '●●●●●●' },
+                      ].map((option) => (
+                        <button
+                          key={option.count}
+                          onClick={() => setDashboardArchitecture({ ...dashboardArchitecture, kpiCount: option.count as any })}
+                          className={`p-4 rounded-xl border-2 transition-all text-center ${
+                            dashboardArchitecture.kpiCount === option.count
+                              ? 'border-indigo-600 bg-indigo-50'
+                              : 'border-gray-300 hover:border-indigo-400'
+                          }`}
+                        >
+                          <div className="text-3xl mb-2">{option.icon}</div>
+                          <div className="font-bold text-gray-900">{option.label}</div>
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                <ChartSelectionPanel
-                  profile={datasetProfile}
-                  value={wizardData.customizations.chartTypes[0] || 'line'}
-                  onChange={(next) =>
-                    setWizardData({
-                      ...wizardData,
-                      customizations: { ...wizardData.customizations, chartTypes: [next] },
-                    })
-                  }
-                />
-
-                {/* Seçilen Grafik + Uygunluk Kontrolü */}
-                <div className="rounded-2xl border-2 border-indigo-200 bg-indigo-50 p-5">
-                  <div className="text-sm font-semibold text-gray-900 mb-3">Seçilen Grafik</div>
-                  <div className="flex items-center gap-3 mb-4">
-                    {(() => {
-                      const key = wizardData.customizations.chartTypes[0] || 'line';
-                      const meta = CHART_META[key];
-                      return (
-                        <>
-                          <meta.Icon className="w-8 h-8 text-indigo-700" />
-                          <div>
-                            <div className="font-bold text-gray-900 text-lg">{meta.labelTr}</div>
-                            <div className="text-xs text-gray-500">Tip: {key}</div>
-                          </div>
-                        </>
-                      );
-                    })()}
+                  {/* CHART COUNT SELECTION */}
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-bold text-gray-900">❓ Kaç Grafik İstiyorsunuz? (Orta/Alt Bölüm)</h3>
+                    <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 mb-3">
+                      <p className="text-xs text-purple-900">
+                        <strong>💡 Rehber Önerisi:</strong> 5 Grafik (3+2 düzen) dengeli ve estetik • 3 Grafik: Basit dashboard'lar için
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                      {[
+                        { count: 2, label: '2 Grafik', layout: 'Yan yana' },
+                        { count: 3, label: '3 Grafik', layout: '2+1 düzen' },
+                        { count: 4, label: '4 Grafik', layout: '2×2 grid' },
+                        { count: 5, label: '5 Grafik', layout: '3+2 düzen' },
+                        { count: 6, label: '6 Grafik', layout: '3×2 grid' },
+                      ].map((option) => (
+                        <button
+                          key={option.count}
+                          onClick={() => setDashboardArchitecture({ ...dashboardArchitecture, chartCount: option.count as any })}
+                          className={`p-4 rounded-xl border-2 transition-all text-center ${
+                            dashboardArchitecture.chartCount === option.count
+                              ? 'border-purple-600 bg-purple-50'
+                              : 'border-gray-300 hover:border-purple-400'
+                          }`}
+                        >
+                          <div className="font-bold text-gray-900 mb-1">{option.label}</div>
+                          <div className="text-xs text-gray-600">{option.layout}</div>
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Uygunluk Kontrolü */}
-                  {(() => {
-                    const chartType = wizardData.customizations.chartTypes[0] || 'line';
-                    const warnings: string[] = [];
-                    
-                    // Line/Area grafik için tarih kontrolü
-                    if ((chartType === 'line' || chartType === 'area') && !datasetProfile.hasDate) {
-                      warnings.push('⚠️ Line/Area grafik için tarih sütunu önerilir');
-                    }
-                    
-                    // Donut grafik için kategori kontrolü
-                    if (chartType === 'donut' && !datasetProfile.hasCategory) {
-                      warnings.push('⚠️ Donut grafik için kategori sütunu gereklidir');
-                    }
-                    
-                    // Veri seçim kontrolü
-                    if (selectedColumns.length === 0) {
-                      warnings.push('❌ En az 1 sayısal sütun seçmelisiniz');
-                    }
-                    
-                    // Çok fazla sütun uyarısı
-                    if (selectedColumns.length > 5) {
-                      warnings.push('💡 5\'ten fazla sütun grafiği karmaşıklaştırabilir');
-                    }
-
-                    if (warnings.length > 0) {
-                      return (
-                        <div className="space-y-2">
-                          {warnings.map((warning, i) => (
-                            <div key={i} className="flex items-start gap-2 text-sm text-gray-800 bg-white rounded-lg p-3 border border-yellow-300">
-                              <AlertTriangle size={16} className="text-yellow-600 mt-0.5 flex-shrink-0" />
-                              <span>{warning}</span>
+                  {/* ARCHITECTURE PREVIEW */}
+                  <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border-2 border-gray-300">
+                    <h3 className="text-lg font-bold text-gray-900 mb-4 text-center">📐 Dashboard Önizleme</h3>
+                    <div className="space-y-3">
+                      {/* KPI Row */}
+                      {dashboardArchitecture.kpiCount > 0 && (
+                        <div className={`grid gap-2`} style={{ gridTemplateColumns: `repeat(${dashboardArchitecture.kpiCount}, 1fr)` }}>
+                          {Array.from({ length: dashboardArchitecture.kpiCount }).map((_, i) => (
+                            <div key={i} className="bg-indigo-100 border border-indigo-300 rounded p-3 text-center">
+                              <div className="text-xs font-bold text-indigo-900">KPI {i + 1}</div>
                             </div>
                           ))}
                         </div>
-                      );
-                    } else {
-                      return (
-                        <div className="flex items-center gap-2 text-sm text-green-800 bg-green-100 rounded-lg p-3 border border-green-300">
-                          <Check size={16} className="text-green-600" />
-                          <span className="font-medium">✅ Seçilen grafik verilerinizle uyumlu!</span>
+                      )}
+                      {/* Chart Grid */}
+                      {dashboardArchitecture.chartCount === 5 ? (
+                        <div className="space-y-2">
+                          {/* İlk 3 Grafik */}
+                          <div className="grid grid-cols-3 gap-2">
+                            {Array.from({ length: 3 }).map((_, i) => (
+                              <div key={i} className="bg-purple-100 border border-purple-300 rounded p-4 text-center">
+                                <div className="text-xs font-bold text-purple-900">Grafik {i + 1}</div>
+                              </div>
+                            ))}
+                          </div>
+                          {/* Son 2 Grafik (Ortalanmış) */}
+                          <div className="grid grid-cols-2 gap-2 max-w-2xl mx-auto">
+                            {Array.from({ length: 2 }).map((_, i) => (
+                              <div key={i + 3} className="bg-purple-100 border border-purple-300 rounded p-4 text-center">
+                                <div className="text-xs font-bold text-purple-900">Grafik {i + 4}</div>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      );
-                    }
-                  })()}
-                </div>
-              </div>
+                      ) : (
+                        <div className={`grid gap-2`} style={{ gridTemplateColumns: dashboardArchitecture.chartCount === 2 ? 'repeat(2, 1fr)' : dashboardArchitecture.chartCount === 3 ? 'repeat(2, 1fr)' : dashboardArchitecture.chartCount === 4 ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)' }}>
+                          {Array.from({ length: dashboardArchitecture.chartCount }).map((_, i) => (
+                            <div key={i} className={`bg-purple-100 border border-purple-300 rounded p-4 text-center ${dashboardArchitecture.chartCount === 3 && i === 2 ? 'col-span-2' : ''}`}>
+                              <div className="text-xs font-bold text-purple-900">Grafik {i + 1}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
-              {/* 4. RENK ŞEMASI */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">3️⃣ Renk Şeması</h3>
-                <div className="flex space-x-4">
-                  {[
-                    { id: 'blue', name: 'Mavi', color: 'bg-blue-500' },
-                    { id: 'purple', name: 'Mor', color: 'bg-purple-500' },
-                    { id: 'green', name: 'Yeşil', color: 'bg-green-500' },
-                    { id: 'orange', name: 'Turuncu', color: 'bg-orange-500' },
-                  ].map((scheme) => (
+                  <div className="flex justify-end">
                     <button
-                      key={scheme.id}
-                      onClick={() =>
+                      onClick={() => {
+                        // Initialize KPI & Chart configs based on architecture
+                        const newKpis = Array.from({ length: dashboardArchitecture.kpiCount }, (_, i) => ({
+                          id: `kpi-${i + 1}`,
+                          title: csvAnalysis.numericColumns[i] || `KPI ${i + 1}`,
+                          column: csvAnalysis.numericColumns[i] || null,
+                          calculation: 'sum' as const,
+                          showTrend: true,
+                        }));
+                        setKpiConfigs(newKpis);
+
+                        const newCharts = Array.from({ length: dashboardArchitecture.chartCount }, (_, i) => ({
+                          id: `chart-${i + 1}`,
+                          chartType: (i === 0 ? 'line' : i === 1 ? 'bar' : 'donut') as ChartType,
+                          xAxis: csvAnalysis.dateColumn || csvAnalysis.categoryColumns[0] || null,
+                          yAxis: [csvAnalysis.numericColumns[i] || csvAnalysis.numericColumns[0]].filter(Boolean),
+                          title: `Grafik ${i + 1}`,
+                        }));
+                        setChartConfigs(newCharts);
+                        
+                        setStep4SubStep(2);
+                      }}
+                      className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700 transition-all"
+                    >
+                      Devam Et →
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* SUB-STEP 2: KPI Configuration */}
+              {step4SubStep === 2 && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">📊 KPI Kartlarınızı Yapılandırın</h2>
+                    <p className="text-gray-600">Her KPI kartı için 4 bilgi doldur: Başlık • Sütun • Hesaplama • Trend</p>
+                    
+                    {/* REHBER İPUÇLARI */}
+                    <div className="mt-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-4 text-left max-w-4xl mx-auto">
+                      <p className="text-sm font-bold text-blue-900 mb-2">💡 Rehberden Hatırlatma:</p>
+                      <div className="text-xs text-blue-800 space-y-1">
+                        <p>1️⃣ <strong>Başlık:</strong> Anlaşılır isim ver (örn: "Toplam Üretim", "Ortalama Maliyet")</p>
+                        <p>2️⃣ <strong>Sütun:</strong> Dropdown'dan sayısal sütun seç (sürükle-bırak YOK)</p>
+                        <p>3️⃣ <strong>Hesaplama:</strong> SUM (toplam), AVG (ortalama), MAX (en yüksek), MIN (en düşük)</p>
+                        <p>4️⃣ <strong>Trend:</strong> Aylık değişimi göster mi? (MoM trendi)</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {dashboardArchitecture.kpiCount === 0 ? (
+                    <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+                      <p className="text-gray-600">KPI kartı eklemediniz. Bu adımı atlayabilirsiniz.</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {kpiConfigs.map((kpi, index) => (
+                        <div key={kpi.id} className="border-2 border-blue-200 rounded-xl p-5 bg-blue-50">
+                          <h3 className="text-lg font-bold text-gray-900 mb-4">KPI Kartı #{index + 1}</h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {/* Title */}
+                            <div>
+                              <label className="block text-sm font-semibold text-gray-900 mb-2">📌 Kart Başlığı</label>
+                              <input
+                                type="text"
+                                value={kpi.title}
+                                onChange={(e) => {
+                                  const newKpis = [...kpiConfigs];
+                                  newKpis[index].title = e.target.value;
+                                  setKpiConfigs(newKpis);
+                                }}
+                                className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
+                                placeholder="Örn: Toplam Satış"
+                              />
+                            </div>
+
+                            {/* Column Selection */}
+                            <div>
+                              <label className="block text-sm font-semibold text-gray-900 mb-2">🔢 Veri Sütunu</label>
+                              <select
+                                value={kpi.column || ''}
+                                onChange={(e) => {
+                                  const newKpis = [...kpiConfigs];
+                                  newKpis[index].column = e.target.value;
+                                  setKpiConfigs(newKpis);
+                                }}
+                                className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
+                              >
+                                <option value="" className="text-gray-500">Seçiniz...</option>
+                                {csvAnalysis.numericColumns.map((col) => (
+                                  <option key={col} value={col} className="text-gray-900">{col}</option>
+                                ))}
+                              </select>
+                            </div>
+
+                            {/* Calculation Type */}
+                            <div>
+                              <label className="block text-sm font-semibold text-gray-900 mb-2">⚙️ Hesaplama</label>
+                              <div className="flex gap-2">
+                                {[
+                                  { value: 'sum', label: 'Toplam' },
+                                  { value: 'avg', label: 'Ortalama' },
+                                  { value: 'max', label: 'Maks' },
+                                  { value: 'min', label: 'Min' },
+                                ].map((calc) => (
+                                  <button
+                                    key={calc.value}
+                                    onClick={() => {
+                                      const newKpis = [...kpiConfigs];
+                                      newKpis[index].calculation = calc.value as any;
+                                      setKpiConfigs(newKpis);
+                                    }}
+                                    className={`flex-1 px-3 py-2 rounded-lg border-2 text-sm font-medium transition-all ${
+                                      kpi.calculation === calc.value
+                                        ? 'bg-indigo-600 text-white border-indigo-600'
+                                        : 'bg-white text-gray-700 border-gray-300 hover:border-indigo-400'
+                                    }`}
+                                  >
+                                    {calc.label}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Show Trend */}
+                            <div>
+                              <label className="block text-sm font-semibold text-gray-900 mb-2">📈 Trend Göster</label>
+                              <button
+                                onClick={() => {
+                                  const newKpis = [...kpiConfigs];
+                                  newKpis[index].showTrend = !newKpis[index].showTrend;
+                                  setKpiConfigs(newKpis);
+                                }}
+                                className={`w-full px-3 py-2 rounded-lg border-2 font-medium transition-all ${
+                                  kpi.showTrend
+                                    ? 'bg-green-600 text-white border-green-600'
+                                    : 'bg-gray-200 text-gray-700 border-gray-300'
+                                }`}
+                              >
+                                {kpi.showTrend ? '✅ Evet' : '❌ Hayır'}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="flex justify-between">
+                    <button
+                      onClick={() => setStep4SubStep(1)}
+                      className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-bold hover:bg-gray-300 transition-all"
+                    >
+                      ← Geri
+                    </button>
+                    <button
+                      onClick={() => setStep4SubStep(3)}
+                      className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700 transition-all"
+                    >
+                      Devam Et →
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* SUB-STEP 3: Chart Configuration (Drag & Drop) */}
+              {step4SubStep === 3 && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">📈 Grafiklerinizi Yapılandırın</h2>
+                    <p className="text-gray-600">Her grafik için: Tip seç • X-Y ekseni belirle • Başlık ver</p>
+                    
+                    {/* REHBER İPUÇLARI */}
+                    <div className="mt-4 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-300 rounded-xl p-4 text-left max-w-4xl mx-auto">
+                      <p className="text-sm font-bold text-purple-900 mb-2">💡 Rehberden Hatırlatma:</p>
+                      <div className="text-xs text-purple-800 space-y-1">
+                        <p>1️⃣ <strong>Grafik Tipi:</strong> Line (trend), Bar (karşılaştırma), Donut (dağılım)</p>
+                        <p>2️⃣ <strong>X Ekseni:</strong> Sol panelden Tarih veya Kategori sütunu sürükle-bırak</p>
+                        <p>3️⃣ <strong>Y Ekseni:</strong> Sayısal sütun sürükle-bırak (maliyet, adet, gelir...)</p>
+                        <p>4️⃣ <strong>Başlık:</strong> Açıklayıcı isim ("Günlük Üretim Trendi", "Ürün Bazlı Satış")</p>
+                      </div>
+                    </div>
+
+                    <div className="mt-3">
+                      <a
+                        href="/bilgi-merkezi/dashboard-hazirlama-rehberi"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-yellow-100 text-yellow-800 font-semibold hover:bg-yellow-200 transition-colors border-2 border-yellow-400"
+                      >
+                        <Lightbulb size={18} />
+                        <span>Dashboard Hazırlama Rehberi</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* CSV COLUMN PALETTE (Sticky Sidebar) */}
+                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    {/* LEFT: Column Palette */}
+                    <div className="lg:col-span-1">
+                      <div className="sticky top-24 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border-2 border-blue-300">
+                        <h3 className="text-sm font-bold text-gray-900 mb-3">📂 Veri Sütunları</h3>
+                        
+                        {/* Date Columns */}
+                        {csvAnalysis.dateColumn && (
+                          <div className="mb-3">
+                            <div className="text-xs font-bold text-gray-700 mb-1">📅 Tarih:</div>
+                            <div
+                              draggable
+                              onDragStart={(e) => e.dataTransfer.setData('column', csvAnalysis.dateColumn!)}
+                              className="px-3 py-2 bg-green-100 border-2 border-green-400 rounded-lg text-sm font-medium text-green-900 cursor-move hover:bg-green-200 transition-all"
+                            >
+                              {csvAnalysis.dateColumn}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Numeric Columns */}
+                        <div className="mb-3">
+                          <div className="text-xs font-bold text-gray-700 mb-1">🔢 Sayısal:</div>
+                          <div className="space-y-1">
+                            {csvAnalysis.numericColumns.map((col) => (
+                              <div
+                                key={col}
+                                draggable
+                                onDragStart={(e) => e.dataTransfer.setData('column', col)}
+                                className="px-3 py-2 bg-blue-100 border-2 border-blue-400 rounded-lg text-sm font-medium text-blue-900 cursor-move hover:bg-blue-200 transition-all"
+                              >
+                                {col}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Category Columns */}
+                        {csvAnalysis.categoryColumns.length > 0 && (
+                          <div>
+                            <div className="text-xs font-bold text-gray-700 mb-1">🏷️ Kategori:</div>
+                            <div className="space-y-1">
+                              {csvAnalysis.categoryColumns.map((col) => (
+                                <div
+                                  key={col}
+                                  draggable
+                                  onDragStart={(e) => e.dataTransfer.setData('column', col)}
+                                  className="px-3 py-2 bg-purple-100 border-2 border-purple-400 rounded-lg text-sm font-medium text-purple-900 cursor-move hover:bg-purple-200 transition-all"
+                                >
+                                  {col}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* RIGHT: Chart Configs */}
+                    <div className="lg:col-span-3 space-y-4">
+                      {chartConfigs.map((chart, index) => (
+                        <div key={chart.id} className="border-2 border-purple-200 rounded-xl p-5 bg-purple-50">
+                          <h3 className="text-lg font-bold text-gray-900 mb-4">📈 Grafik #{index + 1}</h3>
+                          
+                          <div className="space-y-4">
+                            {/* Chart Type Selection */}
+                            <div>
+                              <label className="block text-sm font-semibold text-gray-900 mb-2">🎨 Grafik Tipi</label>
+                              <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+                                {['line', 'bar', 'area', 'donut', 'combo', 'waterfall'].map((type) => {
+                                  const meta = CHART_META[type as ChartType];
+                                  return (
+                                    <button
+                                      key={type}
+                                      onClick={() => {
+                                        const newCharts = [...chartConfigs];
+                                        newCharts[index].chartType = type as ChartType;
+                                        setChartConfigs(newCharts);
+                                      }}
+                                      className={`p-3 rounded-lg border-2 transition-all ${
+                                        chart.chartType === type
+                                          ? 'bg-indigo-600 text-white border-indigo-600'
+                                          : 'bg-white text-gray-700 border-gray-300 hover:border-indigo-400'
+                                      }`}
+                                      title={meta.labelTr}
+                                    >
+                                      <meta.Icon className="w-5 h-5 mx-auto" />
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            {/* X Axis (Drop Zone) */}
+                            <div>
+                              <label className="block text-sm font-semibold text-gray-900 mb-2">X EKSENİ (Yatay) - ZORUNLU</label>
+                              <div
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={(e) => {
+                                  e.preventDefault();
+                                  const col = e.dataTransfer.getData('column');
+                                  const newCharts = [...chartConfigs];
+                                  newCharts[index].xAxis = col;
+                                  setChartConfigs(newCharts);
+                                }}
+                                className={`min-h-[80px] p-4 rounded-lg border-2 border-dashed transition-all ${
+                                  chart.xAxis
+                                    ? 'bg-green-50 border-green-400'
+                                    : 'bg-gray-50 border-gray-400 hover:border-blue-400'
+                                }`}
+                              >
+                                {chart.xAxis ? (
+                                  <div className="flex items-center justify-between">
+                                    <span className="px-3 py-2 bg-green-200 border border-green-400 rounded-lg font-medium text-green-900">
+                                      {chart.xAxis}
+                                    </span>
+                                    <button
+                                      onClick={() => {
+                                        const newCharts = [...chartConfigs];
+                                        newCharts[index].xAxis = null;
+                                        setChartConfigs(newCharts);
+                                      }}
+                                      className="text-red-600 hover:text-red-800"
+                                    >
+                                      ❌
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <div className="text-center text-gray-500 text-sm">
+                                    👈 Sol panelden sütun sürükle-bırak
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Y Axis (Drop Zone - Multiple) */}
+                            <div>
+                              <label className="block text-sm font-semibold text-gray-900 mb-2">Y EKSENİ (Dikey) - ZORUNLU</label>
+                              <div
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={(e) => {
+                                  e.preventDefault();
+                                  const col = e.dataTransfer.getData('column');
+                                  const newCharts = [...chartConfigs];
+                                  if (!newCharts[index].yAxis.includes(col)) {
+                                    newCharts[index].yAxis.push(col);
+                                    setChartConfigs(newCharts);
+                                  }
+                                }}
+                                className={`min-h-[80px] p-4 rounded-lg border-2 border-dashed transition-all ${
+                                  chart.yAxis.length > 0
+                                    ? 'bg-blue-50 border-blue-400'
+                                    : 'bg-gray-50 border-gray-400 hover:border-blue-400'
+                                }`}
+                              >
+                                {chart.yAxis.length > 0 ? (
+                                  <div className="flex flex-wrap gap-2">
+                                    {chart.yAxis.map((col) => (
+                                      <div key={col} className="flex items-center gap-2 px-3 py-2 bg-blue-200 border border-blue-400 rounded-lg font-medium text-blue-900">
+                                        <span>{col}</span>
+                                        <button
+                                          onClick={() => {
+                                            const newCharts = [...chartConfigs];
+                                            newCharts[index].yAxis = newCharts[index].yAxis.filter(c => c !== col);
+                                            setChartConfigs(newCharts);
+                                          }}
+                                          className="text-red-600 hover:text-red-800"
+                                        >
+                                          ❌
+                                        </button>
+                                      </div>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <div className="text-center text-gray-500 text-sm">
+                                    👈 Sol panelden sütun sürükle-bırak (Çoklu seçim)
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Smart Compatibility Check */}
+                            {chart.xAxis && chart.yAxis.length > 0 && (
+                              <div className="rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 p-4">
+                                {(() => {
+                                  const warnings: string[] = [];
+                                  
+                                  // Line/Area needs date
+                                  if ((chart.chartType === 'line' || chart.chartType === 'area') && !csvAnalysis.dateColumn) {
+                                    warnings.push('⚠️ Line/Area grafik için tarih sütunu önerilir');
+                                  }
+                                  
+                                  // Donut needs category
+                                  if (chart.chartType === 'donut' && chart.xAxis === csvAnalysis.dateColumn) {
+                                    warnings.push('⚠️ Donut grafik için X ekseninde kategori sütunu kullanın');
+                                  }
+                                  
+                                  if (warnings.length > 0) {
+                                    return (
+                                      <div className="space-y-2">
+                                        <div className="flex items-center gap-2 text-yellow-800">
+                                          <AlertTriangle size={18} />
+                                          <span className="font-bold">Uyarılar:</span>
+                                        </div>
+                                        {warnings.map((w, i) => (
+                                          <div key={i} className="text-sm text-gray-800">{w}</div>
+                                        ))}
+                                      </div>
+                                    );
+                                  }
+                                  
+                                  return (
+                                    <div className="flex items-center gap-2 text-green-800">
+                                      <Check size={18} />
+                                      <span className="font-bold">✅ Grafik yapılandırması uyumlu!</span>
+                                    </div>
+                                  );
+                                })()}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <button
+                      onClick={() => setStep4SubStep(2)}
+                      className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-bold hover:bg-gray-300 transition-all"
+                    >
+                      ← Geri
+                    </button>
+                    <button
+                      onClick={() => {
+                        // Save configurations and proceed
                         setWizardData({
                           ...wizardData,
-                          customizations: { ...wizardData.customizations, colorScheme: scheme.id },
-                        })
-                      }
-                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg border-2 transition-all ${
-                        wizardData.customizations.colorScheme === scheme.id
-                          ? 'border-gray-900'
-                          : 'border-gray-300'
+                          customizations: {
+                            ...wizardData.customizations,
+                            chartTypes: chartConfigs.map(c => c.chartType),
+                            selectedMetrics: [...new Set(chartConfigs.flatMap(c => c.yAxis))],
+                          }
+                        });
+                        setCurrentStep(5);
+                      }}
+                      disabled={chartConfigs.some(c => !c.xAxis || c.yAxis.length === 0)}
+                      className={`px-6 py-3 rounded-lg font-bold transition-all ${
+                        chartConfigs.some(c => !c.xAxis || c.yAxis.length === 0)
+                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          : 'bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700'
                       }`}
                     >
-                      <div className={`w-6 h-6 rounded ${scheme.color}`}></div>
-                      <span className="text-sm font-medium">{scheme.name}</span>
+                      Tamamla ✓
                     </button>
-                  ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
 

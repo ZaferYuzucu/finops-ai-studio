@@ -63,10 +63,6 @@ const DASHBOARD_CATEGORIES = {
       { id: 'inventory-management', name: 'Stok Yönetimi', component: 'InventoryDashboard' },
       { id: 'oee-dashboard', name: 'OEE Dashboard', component: 'OEEDashboard' },
       { id: 'automotive-termostat', name: 'Otomotiv Termostat Üretim', component: 'AutomotivTermostatDashboard' },
-      { id: 'manufacturing-profitability', name: 'Üretim Kârlılığı Analizi', component: 'ManufacturingDashboard' },
-      { id: 'manufacturing-scrap', name: 'Fire & Verimsizlik Analizi', component: 'QualityControlDashboard' },
-      { id: 'manufacturing-capacity', name: 'Kapasite Kullanımı', component: 'ManufacturingDashboard' },
-      { id: 'manufacturing-inventory-wc', name: 'Stok & Çalışma Sermayesi', component: 'InventoryDashboard' },
     ]
   },
   finance: {
@@ -145,10 +141,9 @@ const DASHBOARD_CATEGORIES = {
     name: 'Tarım',
     color: 'lime',
     dashboards: [
-      { id: 'agriculture-operations', name: 'Tarım Operasyonları', component: 'AgricultureDashboard' },
+      { id: 'agriculture-operations', name: 'Tarım Operasyon Paneli', component: 'AgricultureDashboard' },
       { id: 'agriculture-harvest', name: 'Hasat Yönetimi', component: 'FleetManagementDashboard' },
-      { id: 'agriculture-seedco', name: 'SeedCo Tohum Satış & Karlılık', component: 'AgricultureDashboard' },
-      { id: 'agriculture-dashboard', name: 'Tarım Verimlilik Paneli', component: 'AgricultureDashboard' },
+      { id: 'tarim-tohum-yonetim', name: 'Tohum Yönetim Paneli', component: 'AgricultureDashboard' },
     ]
   },
   education: {
@@ -1105,10 +1100,6 @@ const PlatformAnalyticsPage = () => {
                 {selectedDashboard === 'inventory-management' && <InventoryDashboard />}
                 {selectedDashboard === 'oee-dashboard' && <OEEDashboard />}
                 {selectedDashboard === 'automotive-termostat' && <AutomotivTermostatDashboard />}
-                {selectedDashboard === 'manufacturing-profitability' && <ManufacturingDashboard />}
-                {selectedDashboard === 'manufacturing-scrap' && <QualityControlDashboard />}
-                {selectedDashboard === 'manufacturing-capacity' && <ManufacturingDashboard />}
-                {selectedDashboard === 'manufacturing-inventory-wc' && <InventoryDashboard />}
                 
                 {/* Finance Dashboards */}
                 {selectedDashboard === 'finance-cfo' && <FinanceDashboard />}
@@ -1133,8 +1124,12 @@ const PlatformAnalyticsPage = () => {
                 {selectedDashboard === 'healthcare-kpi' && <HealthcareDashboard />}
                 {selectedDashboard === 'agriculture-operations' && <AgricultureDashboard />}
                 {selectedDashboard === 'agriculture-harvest' && <FleetManagementDashboard />}
-                {selectedDashboard === 'agriculture-seedco' && <AgricultureDashboard />}
-                {selectedDashboard === 'agriculture-dashboard' && <AgricultureDashboard />}
+                {selectedDashboard === 'tarim-tohum-yonetim' && (
+                  <DemoDashboardFromCSV 
+                    csvPath="/demo-data/Test1 SeedCo.csv" 
+                    dashboardName="Tohum Yönetim Paneli" 
+                  />
+                )}
                 
                 {/* Logistics & Education */}
                 {selectedDashboard === 'logistics-kpi' && <LogisticsDashboard />}
@@ -1202,7 +1197,7 @@ const PlatformAnalyticsPage = () => {
                 <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
                   <div>🍽️ Restoran: 6 | 🏭 Üretim: 9 | 💰 Finans: 7</div>
                   <div>🏨 Otel: 4 | 🛒 E-ticaret: 4 | 👥 İK: 3</div>
-                  <div>🚗 Otomotiv: 5 | 📊 Satış: 6 | 🌾 Tarım: 4 | 🎓 Eğitim: 3</div>
+                  <div>🚗 Otomotiv: 5 | 📊 Satış: 6 | 🌾 Tarım: 3 | 🎓 Eğitim: 3</div>
                 </div>
               </div>
             </div>

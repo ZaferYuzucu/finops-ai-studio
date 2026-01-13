@@ -73,7 +73,10 @@ export async function parseCSVFromURL(url: string): Promise<ParsedCSVData> {
 /**
  * Tarih sütununu otomatik algılar
  */
-export function detectDateColumn(headers: string[]): string | null {
+export function detectDateColumn(data: ParsedCSVData | string[]): string | null {
+  // Backward compatibility: accept both ParsedCSVData and string[]
+  const headers = Array.isArray(data) ? data : data.headers;
+  
   const dateKeywords = ['tarih', 'date', 'time', 'zaman', 'gun', 'ay', 'yil'];
   
   for (const header of headers) {
