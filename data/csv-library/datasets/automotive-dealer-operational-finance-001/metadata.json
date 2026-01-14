@@ -1,0 +1,119 @@
+{
+  "id": "automotive-dealer-operational-finance-001",
+  "title": "Otomotiv Bayi - Yıllık Operasyon & Finans",
+  "sector": "Otomotiv",
+  "use_case": "Araç grubu bazlı gelir, brüt kâr ve nakit akışını yıllık olarak izlemek",
+  "grain": "monthly",
+  "date_range": {
+    "start": "2025-01-01",
+    "end": "2025-12-01"
+  },
+  "entities": [
+    "Merkez Bayi"
+  ],
+  "categories": [
+    "Binek",
+    "SUV",
+    "Ticari",
+    "Tarım"
+  ],
+  "metrics": [
+    {
+      "name": "Gelir_TL",
+      "description": "Araç grubu bazlı aylık toplam gelir",
+      "currency": "TRY",
+      "type": "currency"
+    },
+    {
+      "name": "COGS_TL",
+      "description": "Satılan malın maliyeti (COGS)",
+      "currency": "TRY",
+      "type": "currency"
+    },
+    {
+      "name": "Brut_Kar_TL",
+      "description": "Brüt kâr (Gelir - COGS)",
+      "currency": "TRY",
+      "type": "currency"
+    },
+    {
+      "name": "Nakit_Akisi_TL",
+      "description": "Operasyonel nakit akışı",
+      "currency": "TRY",
+      "type": "currency"
+    },
+    {
+      "name": "Satilan_Adet",
+      "description": "Satılan araç adedi",
+      "unit": "adet",
+      "type": "quantity"
+    }
+  ],
+  "recommended_charts": [
+    {
+      "type": "GroupedBar",
+      "title": "Araç Grubu Bazlı Gelir Dağılımı",
+      "x": "Arac_Grubu",
+      "y": "Gelir_TL",
+      "aggregate": "sum"
+    },
+    {
+      "type": "LineChart",
+      "title": "Aylık Nakit Akışı",
+      "x": "Ay",
+      "y": "Nakit_Akisi_TL",
+      "aggregate": "sum"
+    },
+    {
+      "type": "StackedBar",
+      "title": "Brüt Kâr Trendleri",
+      "x": "Ay",
+      "y": "Brut_Kar_TL",
+      "groupBy": "Arac_Grubu"
+    },
+    {
+      "type": "Donut",
+      "title": "Gelir Katkısı (%)",
+      "category": "Arac_Grubu",
+      "value": "Gelir_TL"
+    }
+  ],
+  "kpi_cards": [
+    {
+      "title": "Toplam Gelir",
+      "metric": "Gelir_TL",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Brüt Kâr",
+      "metric": "Brut_Kar_TL",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Nakit Akışı",
+      "metric": "Nakit_Akisi_TL",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Araç Satış Adedi",
+      "metric": "Satilan_Adet",
+      "aggregate": "sum",
+      "format": "number"
+    }
+  ],
+  "source": "Demo amaçlı sentetik veri (finops.ist)",
+  "license": "MIT",
+  "notes": "Araç grubu bazlı gelir, brüt kâr ve nakit akışı trendlerini 12 aylık periyotta takip etmek için oluşturulmuştur.",
+  "version": "1.0.0",
+  "created_at": "2026-01-14",
+  "row_count": 48,
+  "finops_insights": [
+    "Hangi araç grubu toplam geliri ve kârlılığı sürüklüyor?",
+    "Nakit akışı hangi aylarda güçleniyor veya zayıflıyor?",
+    "Brüt kâr marjı araç grubu bazında nasıl değişiyor?",
+    "Satış adedi ile nakit akışı arasındaki ilişki nedir?"
+  ]
+}

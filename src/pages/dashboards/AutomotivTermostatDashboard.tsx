@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { TrendingUp, Package, AlertCircle, Warehouse, Clock, DollarSign } from 'lucide-react';
 import Papa from 'papaparse';
+import { useTranslation } from 'react-i18next';
 import KpiCard from '@/components/dashboards/KpiCard';
 
 // Data types matching CSV structure
@@ -18,6 +19,7 @@ interface ProductionData {
 }
 
 const AutomotivTermostatDashboard = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState<ProductionData[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -118,7 +120,7 @@ const AutomotivTermostatDashboard = () => {
         <div className="p-6 mx-auto" style={{ width: '1123px', maxWidth: '1123px' }}>
           <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600 font-semibold">Dashboard yükleniyor…</p>
+            <p className="mt-4 text-gray-600 font-semibold">{t('automotivTermostatDashboard.loading')}</p>
           </div>
         </div>
       </div>
@@ -141,20 +143,20 @@ const AutomotivTermostatDashboard = () => {
       >
         
         <div className="mb-2">
-          <h1 className="text-2xl font-black text-gray-900">🚗 Otomotiv • Termostat Üretim Dashboard</h1>
-          <p className="text-sm text-gray-600">Üretim • Maliyet • Fire • Stok | Veri: `termostat_uretim_takip_TR.csv`</p>
+          <h1 className="text-2xl font-black text-gray-900">{t('automotivTermostatDashboard.title')}</h1>
+          <p className="text-sm text-gray-600">{t('automotivTermostatDashboard.subtitle')}</p>
         </div>
 
         {/* KPI CARDS — Stok Yönetimi formatı */}
         <div className="grid grid-cols-6 gap-4">
           <KpiCard
-            title="Toplam Üretim Maliyeti"
+            title={t('automotivTermostatDashboard.kpi.totalCost')}
             value={`$${Math.round(kpis.totalCost).toLocaleString()}`}
             icon={<DollarSign size={20} />}
             color="#3B82F6"
           />
           <KpiCard
-            title="Üretilen Toplam Adet"
+            title={t('automotivTermostatDashboard.kpi.totalProduced')}
             value={kpis.totalProduced.toLocaleString()}
             icon={<Package size={20} />}
             color="#10B981"
@@ -173,13 +175,13 @@ const AutomotivTermostatDashboard = () => {
             color="#F59E0B"
           />
           <KpiCard
-            title="Mamul Stok"
+            title={t('automotivTermostatDashboard.kpi.finishedStock')}
             value={kpis.finishedStock.toLocaleString()}
             icon={<Warehouse size={20} />}
             color="#8B5CF6"
           />
           <KpiCard
-            title="Yarı Mamul (WIP)"
+            title={t('automotivTermostatDashboard.kpi.wipStock')}
             value={kpis.wipStock.toLocaleString()}
             icon={<Clock size={20} />}
             color="#06B6D4"
@@ -191,7 +193,7 @@ const AutomotivTermostatDashboard = () => {
           
           {/* Chart 1: Cost by Production Stage */}
           <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
-            <h3 className="text-sm font-bold text-gray-900 mb-3">Üretim Aşamalarına Göre Maliyet Dağılımı</h3>
+            <h3 className="text-sm font-bold text-gray-900 mb-3">{t('automotivTermostatDashboard.charts.costByStage')}</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={costByStageData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -205,7 +207,7 @@ const AutomotivTermostatDashboard = () => {
 
           {/* Chart 2: Daily Production Volume */}
           <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
-            <h3 className="text-sm font-bold text-gray-900 mb-3">Gün Bazlı Üretim Adedi</h3>
+            <h3 className="text-sm font-bold text-gray-900 mb-3">{t('automotivTermostatDashboard.charts.dailyProduction')}</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={dailyProductionData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -227,7 +229,7 @@ const AutomotivTermostatDashboard = () => {
 
           {/* Chart 3: Defect Analysis */}
           <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
-            <h3 className="text-sm font-bold text-gray-900 mb-3">Fire (Hatalı) Oranı Analizi</h3>
+            <h3 className="text-sm font-bold text-gray-900 mb-3">{t('automotivTermostatDashboard.charts.defectAnalysis')}</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={defectsByOrder}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -241,7 +243,7 @@ const AutomotivTermostatDashboard = () => {
 
           {/* Chart 4: Stock Distribution */}
           <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
-            <h3 className="text-sm font-bold text-gray-900 mb-3">Stok Dağılımı</h3>
+            <h3 className="text-sm font-bold text-gray-900 mb-3">{t('automotivTermostatDashboard.charts.stockDistribution')}</h3>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -267,18 +269,18 @@ const AutomotivTermostatDashboard = () => {
 
         {/* DATA TABLE */}
         <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
-          <h3 className="text-sm font-bold text-gray-900 mb-3">Üretim Takip Tablosu (İlk 20)</h3>
+          <h3 className="text-sm font-bold text-gray-900 mb-3">{t('automotivTermostatDashboard.table.title')}</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
               <thead className="text-xs text-gray-700 uppercase bg-gray-100">
                 <tr>
-                  <th className="px-4 py-3">Tarih</th>
-                  <th className="px-4 py-3">Üretim Emri No</th>
-                  <th className="px-4 py-3">Ürün Kodu</th>
-                  <th className="px-4 py-3">Üretim Aşaması</th>
-                  <th className="px-4 py-3">Üretilen Adet</th>
-                  <th className="px-4 py-3">Hatalı Adet</th>
-                  <th className="px-4 py-3">Maliyet (USD)</th>
+                  <th className="px-4 py-3">{t('automotivTermostatDashboard.table.headers.date')}</th>
+                  <th className="px-4 py-3">{t('automotivTermostatDashboard.table.headers.orderNo')}</th>
+                  <th className="px-4 py-3">{t('automotivTermostatDashboard.table.headers.productCode')}</th>
+                  <th className="px-4 py-3">{t('automotivTermostatDashboard.table.headers.stage')}</th>
+                  <th className="px-4 py-3">{t('automotivTermostatDashboard.table.headers.produced')}</th>
+                  <th className="px-4 py-3">{t('automotivTermostatDashboard.table.headers.defect')}</th>
+                  <th className="px-4 py-3">{t('automotivTermostatDashboard.table.headers.cost')}</th>
                 </tr>
               </thead>
               <tbody>

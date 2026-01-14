@@ -1,6 +1,11 @@
 // Dashboard Components Export
 export { default as KpiCard } from './KpiCard';
 
+// Otomotiv Dashboards (3)
+export { default as AutomotiveExecutiveDashboard } from './AutomotiveExecutiveDashboard';
+export { default as AutomotiveSalesDashboard } from './AutomotiveSalesDashboard';
+export { default as AutomotiveServiceDashboard } from './AutomotiveServiceDashboard';
+
 // Restoran Dashboards (4)
 export { default as RestaurantDashboard } from './RestaurantDashboard';
 export { default as RestaurantOperationsDashboard } from './RestaurantOperationsDashboard';

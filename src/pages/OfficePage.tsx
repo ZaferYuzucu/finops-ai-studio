@@ -134,6 +134,12 @@ const adminSections: AdminSection[] = [
         icon: ClipboardList
       },
       {
+        name: 'Proje Faaliyet Raporu',
+        href: '/admin/management-office/project-activity-report',
+        description: 'Geliştirme günlüğü ve proje safhaları (iç kullanım)',
+        icon: ClipboardList
+      },
+      {
         name: 'Dashboard Kütüphanesi (Admin)',
         href: '/admin/dashboard-library',
         description: 'Kullanıcı dashboard’larını incele, uyarı bırak, beğendiklerini şablonlaştır',

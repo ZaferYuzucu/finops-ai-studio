@@ -898,6 +898,22 @@
     "ecommerce-kpi-dashboard": {
       "name": "E-Ticaret KPI Paneli",
       "description": "Online satış, dönüşüm oranları ve müşteri davranışlarını optimize edin."
+    },
+    "tarim-tohum-yonetim-paneli": {
+      "name": "Tohum Yönetim Paneli",
+      "description": "Modern ve interaktif tohum satış yönetimi dashboard'u - 6 KPI + 4 grafik."
+    },
+    "automotiv-termostat-uretim": {
+      "name": "Otomotiv – Termostat Üretim & Maliyet",
+      "description": "Otomotiv sektörü termostat üretim süreçleri, maliyet analizi ve stok takibi."
+    },
+    "otomotiv-termostat-dashboard": {
+      "name": "Otomotiv Termostat Üretim Dashboard'u",
+      "description": "Termostat üretim süreçleri, maliyet analizi, fire oranları ve stok takibi."
+    },
+    "egitim-performans-paneli": {
+      "name": "Eğitim Performans Paneli",
+      "description": "Öğrenci başarısı, devam oranları, fakülte yükü ve akademik performans analizi."
     }
   },
   "login": {
@@ -1907,6 +1923,36 @@
     },
     "table": {
       "title": "Veri Önizleme (İlk 10 satır)"
+    }
+  },
+  "automotivTermostatDashboard": {
+    "loading": "Dashboard yükleniyor…",
+    "title": "🚗 Otomotiv • Termostat Üretim Dashboard",
+    "subtitle": "Üretim • Maliyet • Fire • Stok | Veri: `termostat_uretim_takip_TR.csv`",
+    "kpi": {
+      "totalCost": "Toplam Üretim Maliyeti",
+      "totalProduced": "Üretilen Toplam Adet",
+      "defectRate": "Hatalı Üretim Oranı",
+      "finishedStock": "Mamul Stok",
+      "wipStock": "Yarı Mamul Stok"
+    },
+    "charts": {
+      "costByStage": "Üretim Aşamalarına Göre Maliyet Dağılımı",
+      "dailyProduction": "Gün Bazlı Üretim Adedi",
+      "defectAnalysis": "Fire (Hatalı) Analizi",
+      "stockDistribution": "Stok Dağılımı"
+    },
+    "table": {
+      "title": "Üretim Takip Tablosu (İlk 20)",
+      "headers": {
+        "date": "Tarih",
+        "orderNo": "Üretim Emri",
+        "productCode": "Ürün Kodu",
+        "stage": "Aşama",
+        "produced": "Üretilen",
+        "defect": "Hatalı",
+        "cost": "Maliyet (USD)"
+      }
     }
   },
   "survey": {

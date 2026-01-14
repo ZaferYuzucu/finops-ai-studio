@@ -39,7 +39,10 @@ import {
   FleetManagementDashboard,
   RealEstateDashboard,
   InsuranceDashboard,
-  ConstructionDashboard
+  ConstructionDashboard,
+  AutomotiveExecutiveDashboard,
+  AutomotiveSalesDashboard,
+  AutomotiveServiceDashboard
 } from '../components/dashboards';
 import AutomotivTermostatDashboard from './dashboards/AutomotivTermostatDashboard';
 
@@ -115,8 +118,9 @@ const DASHBOARD_CATEGORIES = {
     name: 'Otomotiv',
     color: 'red',
     dashboards: [
-      { id: 'automotive-sales', name: 'Satış Dashboard', component: 'ProjectManagementDashboard' },
-      { id: 'automotive-service', name: 'Servis Performansı', component: 'CustomerServiceDashboard' },
+      { id: 'automotive-executive', name: 'Yönetici Özeti', component: 'AutomotiveExecutiveDashboard' },
+      { id: 'automotive-sales', name: 'Satış Performansı', component: 'AutomotiveSalesDashboard' },
+      { id: 'automotive-service', name: 'Servis & After-Sales', component: 'AutomotiveServiceDashboard' },
     ]
   },
   sales: {
@@ -315,6 +319,9 @@ const ProfessionalDashboardsPage = () => {
       {selectedDashboard === 'inventory-management' && <InventoryDashboard />}
       {selectedDashboard === 'oee-dashboard' && <OEEDashboard />}
       {selectedDashboard === 'automotive-termostat' && <AutomotivTermostatDashboard />}
+      {selectedDashboard === 'automotive-executive' && <AutomotiveExecutiveDashboard />}
+      {selectedDashboard === 'automotive-sales' && <AutomotiveSalesDashboard />}
+      {selectedDashboard === 'automotive-service' && <AutomotiveServiceDashboard />}
 
       {/* Finance Dashboards */}
       {selectedDashboard === 'finance-cfo' && <FinanceDashboard />}

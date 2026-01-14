@@ -2,7 +2,6 @@ import React from 'react';
 import { Cpu, LayoutTemplate, Layers, Database, PencilRuler, Bot, Milestone, FileText, CreditCard, Shield, Megaphone, BarChart3, Video, Globe, Factory, Leaf, PackageSearch, Languages, TestTube, MessageCircle } from 'lucide-react';
 
 const ProjectActivityReportPage: React.FC = () => {
-
   // Zaman tüneli öğesi bileşeni
   const TimelineItem: React.FC<{ icon: React.ReactNode; title: string; phase: string; children: React.ReactNode; align?: 'left' | 'right' }> = ({ icon, title, phase, children, align = 'left' }) => (
     <div className={`relative flex items-center ${align === 'left' ? 'justify-start' : 'justify-end'}`}>

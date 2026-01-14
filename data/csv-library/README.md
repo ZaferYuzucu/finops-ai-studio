@@ -128,6 +128,11 @@ mv normalized.csv data/csv-library/datasets/hotel-revpar-001/data.csv
 3. **agri-yield-irrigation-003**: Tarımsal Verim & Sulama (3,000 satır)
 4. **mfg-oee-scrap-001**: Üretim OEE & Fire Analizi (52,560 satır)
 5. **rest-ops-001**: Restoran Operasyonel Performans (4,212 satır)
+6. **automotive-dealer-operational-finance-001**: Otomotiv Bayi Yıllık Operasyon & Finans (48 satır)
+7. **automotive-dealer-sales-kpi-001**: Otomotiv Bayi Satış KPI Detay (48 satır)
+8. **automotive-after-sales-performance-001**: Servis & After-Sales Performans (36 satır)
+9. **automotiv-termostat-uretim-001**: Otomotiv Termostat Üretim & Maliyet (51 satır)
+10. **seedco-tarim-sales-001**: SeedCo Tohum Satış Verileri (142 satır)
 
 ## 🔐 Veri Gizliliği
 
@@ -144,7 +149,7 @@ mv normalized.csv data/csv-library/datasets/hotel-revpar-001/data.csv
 
 ---
 
-**Son Güncelleme**: 2025-12-31  
+**Son Güncelleme**: 2026-01-14  
 **Maintainer**: FinOps.ist Data Team
 
 

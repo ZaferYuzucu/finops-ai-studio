@@ -1,0 +1,116 @@
+{
+  "id": "automotive-dealer-sales-kpi-001",
+  "title": "Otomotiv Bayi - Satış KPI Detay",
+  "sector": "Otomotiv",
+  "use_case": "Satış danışmanı bazında hedef-gerçekleşme, gelir ve brüt kâr analizi",
+  "grain": "monthly",
+  "date_range": {
+    "start": "2025-01-01",
+    "end": "2025-04-01"
+  },
+  "entities": [
+    "Aylin",
+    "Baran",
+    "Cem",
+    "Deniz"
+  ],
+  "categories": [
+    "Binek",
+    "SUV",
+    "Ticari"
+  ],
+  "metrics": [
+    {
+      "name": "Hedef_Adet",
+      "description": "Aylık satış hedefi (adet)",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "Gerceklesen_Adet",
+      "description": "Gerçekleşen satış (adet)",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "Gelir_TL",
+      "description": "Araç satış geliri",
+      "currency": "TRY",
+      "type": "currency"
+    },
+    {
+      "name": "Brut_Kar_TL",
+      "description": "Araç satış brüt kârı",
+      "currency": "TRY",
+      "type": "currency"
+    }
+  ],
+  "recommended_charts": [
+    {
+      "type": "GroupedBar",
+      "title": "Satış Danışmanı Bazlı Hedef vs Gerçekleşme",
+      "x": "Satis_Ajani",
+      "y": "Gerceklesen_Adet",
+      "compareWith": "Hedef_Adet"
+    },
+    {
+      "type": "StackedBar",
+      "title": "Araç Grubu Bazlı Satış Hacmi",
+      "x": "Arac_Grubu",
+      "y": "Gerceklesen_Adet",
+      "groupBy": "Ay"
+    },
+    {
+      "type": "LineChart",
+      "title": "Hedef Gerçekleşme (%)",
+      "x": "Ay",
+      "y": "Gerceklesen_Adet",
+      "divideBy": "Hedef_Adet"
+    },
+    {
+      "type": "BarChart",
+      "title": "Brüt Kâr ve Marj",
+      "x": "Satis_Ajani",
+      "y": "Brut_Kar_TL"
+    }
+  ],
+  "kpi_cards": [
+    {
+      "title": "Toplam Satış Adedi",
+      "metric": "Gerceklesen_Adet",
+      "aggregate": "sum",
+      "format": "number"
+    },
+    {
+      "title": "Hedef Gerçekleşme",
+      "metric": "Gerceklesen_Adet",
+      "divideBy": "Hedef_Adet",
+      "aggregate": "ratio",
+      "format": "percentage"
+    },
+    {
+      "title": "Toplam Gelir",
+      "metric": "Gelir_TL",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Brüt Kâr",
+      "metric": "Brut_Kar_TL",
+      "aggregate": "sum",
+      "format": "currency"
+    }
+  ],
+  "source": "Demo amaçlı sentetik veri (finops.ist)",
+  "license": "MIT",
+  "notes": "Satış danışmanı ve araç grubu kırılımında hedef, gerçekleşen adet, gelir ve brüt kâr verileri içerir.",
+  "version": "1.0.0",
+  "created_at": "2026-01-14",
+  "row_count": 48,
+  "finops_insights": [
+    "Hangi danışman hedefini aşıyor, hangisi geride kalıyor?",
+    "Araç grubu bazında satış hacmi ve kârlılık dengesi nedir?",
+    "Hedef gerçekleşme yüzdesi aylara göre nasıl değişiyor?",
+    "Brüt kâr katkısı en yüksek danışman ve grup hangisi?"
+  ]
+}

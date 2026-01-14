@@ -7,6 +7,7 @@ import DashboardDrawer from '../../components/DashboardDrawer';
 import AIChatModal from '../../components/AIChatModal';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import AutomotiveShowcase from '../../components/AutomotiveShowcase';
 
 const DataVisualizationDashboardExamplesPage = () => {
   const { t } = useTranslation();
@@ -83,6 +84,15 @@ const DataVisualizationDashboardExamplesPage = () => {
           <p className="text-lg md:text-xl leading-relaxed text-gray-600 max-w-3xl mx-auto">
             {t('dashboardExamples.subtitle')}
           </p>
+        </motion.div>
+
+        {/* Automotive Showcase */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <AutomotiveShowcase />
         </motion.div>
 
         {/* Filtreler */}

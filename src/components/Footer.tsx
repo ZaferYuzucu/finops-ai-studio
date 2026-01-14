@@ -44,7 +44,6 @@ const getFooterSections = (t: any) => ({
     links: [
       { name: t('footer.links.about'), href: "/about" },
       { name: t('footer.links.contact'), href: "/contact" },
-      { name: t('footer.links.projectActivityReport'), href: "/project-activity-report" },
       { name: "Yönetim Ofisi", href: "/admin-login?redirect=/office" },
     ],
     style: {

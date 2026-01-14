@@ -130,7 +130,6 @@ const App: React.FC = () => {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/brand-kit" element={<AdminProtectedRoute><BrandKitPage /></AdminProtectedRoute>} />
-        <Route path="/project-activity-report" element={<ProjectActivityReportPage />} />
         {/* <Route path="/illustration-demo" element={<IllustrationDemoPage />} /> */}
         {/* <Route path="/undraw-comparison" element={<UndrawComparisonPage />} /> */}
 
@@ -173,6 +172,7 @@ const App: React.FC = () => {
         <Route path="/admin/internal-pricing" element={<AdminProtectedRoute><InternalPricingGuidePage /></AdminProtectedRoute>} />
         <Route path="/admin/chart-rules" element={<AdminProtectedRoute><ChartRulesAdminPage /></AdminProtectedRoute>} />
         <Route path="/admin/management-office/executive-report" element={<AdminProtectedRoute><ExecutiveStatusReportPage /></AdminProtectedRoute>} />
+        <Route path="/admin/management-office/project-activity-report" element={<AdminProtectedRoute><ProjectActivityReportPage /></AdminProtectedRoute>} />
         <Route path="/admin/dashboard-library" element={<AdminProtectedRoute><DashboardLibraryAdminPage /></AdminProtectedRoute>} />
         <Route path="/marketing-plan" element={<AdminProtectedRoute><MarketingPlanPage /></AdminProtectedRoute>} />
         <Route path="/launch-roadmap" element={<AdminProtectedRoute><LaunchRoadmapPage /></AdminProtectedRoute>} />

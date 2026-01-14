@@ -1,7 +1,7 @@
 {
-  "version": "1.0.2",
-  "last_updated": "2026-01-12",
-  "total_datasets": 7,
+  "version": "1.1.0",
+  "last_updated": "2026-01-14",
+  "total_datasets": 10,
   "datasets": [
     {
       "id": "agri-seed-sales-001",
@@ -54,6 +54,36 @@
       "preview_available": false
     },
     {
+      "id": "automotive-dealer-operational-finance-001",
+      "title": "Otomotiv Bayi - Yıllık Operasyon & Finans",
+      "sector": "Otomotiv",
+      "tags": ["otomotiv", "dealer", "gelir", "brüt-kâr", "nakit-akışı"],
+      "date_range": "2025-01 → 2025-12 (12 ay)",
+      "row_count": 48,
+      "file_size_kb": 16,
+      "preview_available": true
+    },
+    {
+      "id": "automotive-dealer-sales-kpi-001",
+      "title": "Otomotiv Bayi - Satış KPI Detay",
+      "sector": "Otomotiv",
+      "tags": ["otomotiv", "satış", "hedef", "kpi", "brüt-kâr"],
+      "date_range": "2025-01 → 2025-04 (4 ay)",
+      "row_count": 48,
+      "file_size_kb": 18,
+      "preview_available": true
+    },
+    {
+      "id": "automotive-after-sales-performance-001",
+      "title": "Otomotiv Servis & After-Sales",
+      "sector": "Otomotiv",
+      "tags": ["otomotiv", "servis", "after-sales", "teknisyen", "aksesuar", "sigorta"],
+      "date_range": "2025-01 → 2025-06 (6 ay)",
+      "row_count": 36,
+      "file_size_kb": 20,
+      "preview_available": true
+    },
+    {
       "id": "automotiv-termostat-uretim-001",
       "title": "Otomotiv Termostat Üretim & Maliyet",
       "sector": "Üretim & Operasyon",
@@ -89,6 +119,11 @@
       "name": "Restoran & Kafe",
       "count": 1,
       "icon": "🍽️"
+    },
+    {
+      "name": "Otomotiv",
+      "count": 3,
+      "icon": "🚗"
     }
   ]
 }

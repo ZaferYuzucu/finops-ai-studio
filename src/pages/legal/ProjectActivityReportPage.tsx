@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Cpu, LayoutTemplate, Layers, Database, PencilRuler, Bot, Milestone, FileText, CreditCard, Shield, Megaphone, BarChart3, Video, Globe, Factory, Leaf, PackageSearch, Languages, TestTube } from 'lucide-react';
 
 const ProjectActivityReportPage: React.FC = () => {
+  const [pass, setPass] = useState('');
+  const [authorized, setAuthorized] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pass.trim() === 'ATA1923') {
+      setAuthorized(true);
+      setError('');
+    } else {
+      setAuthorized(false);
+      setError('Yanlış şifre. Lütfen yönetici kodunu girin.');
+    }
+  };
 
   // Zaman tüneli öğesi bileşeni
   const TimelineItem: React.FC<{ icon: React.ReactNode; title: string; phase: string; children: React.ReactNode; align?: 'left' | 'right' }> = ({ icon, title, phase, children, align = 'left' }) => (
@@ -36,7 +50,40 @@ const ProjectActivityReportPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Yönetici Girişi */}
+        {!authorized && (
+          <div className="max-w-2xl mx-auto mb-12 bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h2 className="text-xl font-bold text-white">Yönetici Girişi</h2>
+                <p className="text-sm text-slate-300">Proje Faaliyet Raporu’na erişmek için kodu girin.</p>
+              </div>
+              <Shield size={24} className="text-blue-300" />
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div>
+                <label className="text-xs uppercase tracking-wide text-slate-400 block mb-1">Giriş Kodu</label>
+                <input
+                  type="password"
+                  value={pass}
+                  onChange={(e) => setPass(e.target.value)}
+                  className="w-full rounded-lg bg-slate-900 border border-slate-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Kodu girin (ATA1923)"
+                />
+              </div>
+              {error && <div className="text-sm text-red-300">{error}</div>}
+              <button
+                type="submit"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 transition"
+              >
+                Girişi Doğrula
+              </button>
+            </form>
+          </div>
+        )}
+
         {/* Zaman Tüneli */}
+        {authorized && (
         <div className="relative">
           {/* Merkez Çizgi */}
           <div className="absolute left-1/2 h-full w-0.5 bg-slate-700 top-0" aria-hidden="true"></div>
@@ -303,6 +350,7 @@ const ProjectActivityReportPage: React.FC = () => {
 
           </div>
         </div>
+        )}
 
       </div>
     </div>

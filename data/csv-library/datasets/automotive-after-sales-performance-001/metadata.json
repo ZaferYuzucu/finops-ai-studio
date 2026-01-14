@@ -1,0 +1,135 @@
+{
+  "id": "automotive-after-sales-performance-001",
+  "title": "Otomotiv Servis & After-Sales Performans",
+  "sector": "Otomotiv",
+  "use_case": "Servis türüne göre iş emri hacmi, gelir-maliyet analizi, tamir süresi ve teknisyen verimliliği",
+  "grain": "monthly",
+  "date_range": {
+    "start": "2025-01-01",
+    "end": "2025-06-01"
+  },
+  "entities": [
+    "Merkez Servis"
+  ],
+  "categories": [
+    "Periyodik Bakım",
+    "Mekanik Onarım",
+    "Kaporta & Boya",
+    "Elektrik/Diagnostik",
+    "Sigorta",
+    "Aksesuar"
+  ],
+  "metrics": [
+    {
+      "name": "Is_Emri_Sayisi",
+      "description": "Aylık iş emri adedi",
+      "unit": "adet",
+      "type": "quantity"
+    },
+    {
+      "name": "Gelir_TL",
+      "description": "Servis geliri",
+      "currency": "TRY",
+      "type": "currency"
+    },
+    {
+      "name": "Maliyet_TL",
+      "description": "Servis maliyeti",
+      "currency": "TRY",
+      "type": "currency"
+    },
+    {
+      "name": "Ortalama_Tamir_Suresi_Saat",
+      "description": "İş emri başına ortalama tamir süresi (saat)",
+      "unit": "saat",
+      "type": "duration"
+    },
+    {
+      "name": "Teknisyen_Saat",
+      "description": "Toplam çalışılan teknisyen saati",
+      "unit": "saat",
+      "type": "duration"
+    },
+    {
+      "name": "Faturalanan_Saat",
+      "description": "Faturalanan teknisyen saati",
+      "unit": "saat",
+      "type": "duration"
+    },
+    {
+      "name": "Parca_Geliri_TL",
+      "description": "Parça ve aksesuar geliri",
+      "currency": "TRY",
+      "type": "currency"
+    }
+  ],
+  "recommended_charts": [
+    {
+      "type": "BarChart",
+      "title": "Servis Türüne Göre İş Emri Hacmi",
+      "x": "Servis_Turu",
+      "y": "Is_Emri_Sayisi",
+      "aggregate": "sum"
+    },
+    {
+      "type": "GroupedBar",
+      "title": "Servis Gelir & Maliyet",
+      "x": "Servis_Turu",
+      "y": "Gelir_TL",
+      "compareWith": "Maliyet_TL"
+    },
+    {
+      "type": "LineChart",
+      "title": "Ortalama Tamir Süresi",
+      "x": "Ay",
+      "y": "Ortalama_Tamir_Suresi_Saat",
+      "aggregate": "mean"
+    },
+    {
+      "type": "Donut",
+      "title": "Aksesuar & Sigorta Gelir Payı",
+      "category": "Servis_Turu",
+      "value": "Parca_Geliri_TL"
+    }
+  ],
+  "kpi_cards": [
+    {
+      "title": "Toplam Servis Geliri",
+      "metric": "Gelir_TL",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Brüt Kâr",
+      "metric": "Gelir_TL",
+      "subtract": "Maliyet_TL",
+      "aggregate": "sum",
+      "format": "currency"
+    },
+    {
+      "title": "Ortalama Tamir Süresi",
+      "metric": "Ortalama_Tamir_Suresi_Saat",
+      "aggregate": "mean",
+      "format": "number"
+    },
+    {
+      "title": "Teknisyen Saat Verimliliği",
+      "metric": "Faturalanan_Saat",
+      "divideBy": "Teknisyen_Saat",
+      "aggregate": "ratio",
+      "format": "percentage"
+    }
+  ],
+  "source": "Demo amaçlı sentetik veri (finops.ist)",
+  "license": "MIT",
+  "notes": "Servis türü, iş emri hacmi, gelir-maliyet, tamir süresi ve teknisyen verimliliği içeren after-sales veri seti.",
+  "version": "1.0.0",
+  "created_at": "2026-01-14",
+  "row_count": 36,
+  "finops_insights": [
+    "Hangi servis türü iş hacmini ve geliri sürüklüyor?",
+    "Teknisyen saat verimliliği ve faturalanma oranı nedir?",
+    "Aksesuar & sigorta gelirleri toplam gelire nasıl katkı yapıyor?",
+    "Ortalama tamir süresi ve kârlılık arasındaki ilişki nedir?"
+  ]
+}

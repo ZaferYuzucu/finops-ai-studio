@@ -38,7 +38,7 @@ const ROUTES: RouteEntry[] = [
   { path: '/docs/get-started', label: 'Docs: Get Started', kind: 'public' },
   { path: '/about', label: 'About', kind: 'public' },
   { path: '/contact', label: 'Contact', kind: 'public' },
-  { path: '/project-activity-report', label: 'Project Activity Report', kind: 'public' },
+  { path: '/admin/management-office/project-activity-report', label: 'Project Activity Report', kind: 'admin' },
 
   // Auth pages
   { path: '/login', label: 'Login', kind: 'public' },

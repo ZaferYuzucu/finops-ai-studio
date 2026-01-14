@@ -898,6 +898,22 @@
     "ecommerce-kpi-dashboard": {
       "name": "E-Commerce KPI Panel",
       "description": "Optimize online sales, conversion rates, and customer behavior."
+    },
+    "tarim-tohum-yonetim-paneli": {
+      "name": "Seed Management Panel",
+      "description": "Modern and interactive seed sales management dashboard - 6 KPIs + 4 charts."
+    },
+    "automotiv-termostat-uretim": {
+      "name": "Automotive - Thermostat Production & Cost",
+      "description": "Automotive sector thermostat production processes, cost analysis and inventory tracking."
+    },
+    "otomotiv-termostat-dashboard": {
+      "name": "Automotive Thermostat Production Dashboard",
+      "description": "Thermostat production processes, cost analysis, scrap rates and inventory tracking."
+    },
+    "egitim-performans-paneli": {
+      "name": "Education Performance Panel",
+      "description": "Student achievement, attendance rates, faculty workload and academic performance analysis."
     }
   },
   "login": {
@@ -1907,6 +1923,36 @@
     },
     "table": {
       "title": "Data Preview (First 10 rows)"
+    }
+  },
+  "automotivTermostatDashboard": {
+    "loading": "Loading dashboard…",
+    "title": "🚗 Automotive • Thermostat Production Dashboard",
+    "subtitle": "Production • Cost • Scrap • Inventory | Data: `termostat_uretim_takip_TR.csv`",
+    "kpi": {
+      "totalCost": "Total Production Cost",
+      "totalProduced": "Total Units Produced",
+      "defectRate": "Defect Rate",
+      "finishedStock": "Finished Goods Stock",
+      "wipStock": "Work in Progress Stock"
+    },
+    "charts": {
+      "costByStage": "Cost Distribution by Production Stage",
+      "dailyProduction": "Daily Production Volume",
+      "defectAnalysis": "Scrap (Defect) Analysis",
+      "stockDistribution": "Inventory Distribution"
+    },
+    "table": {
+      "title": "Production Tracking Table (First 20)",
+      "headers": {
+        "date": "Date",
+        "orderNo": "Production Order",
+        "productCode": "Product Code",
+        "stage": "Stage",
+        "produced": "Produced",
+        "defect": "Defect",
+        "cost": "Cost (USD)"
+      }
     }
   },
   "survey": {

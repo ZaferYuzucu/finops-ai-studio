@@ -602,6 +602,29 @@ export const dashboards: Dashboard[] = [
         ]
     },
     {
+        id: "automotive-executive-demo",
+        name: "Otomotiv Yönetici Özeti (Demo Seti)",
+        category: "Otomotiv",
+        description: "Yönetici özeti, satış performansı ve servis panoları tek CSV kütüphanesinden beslenir.",
+        longDescription: "Üç paylaşılan CSV (operasyon-finans, satış KPI, servis/aksesuar/sigorta) ile gerçekçi KPI kartları, bar/line/donut grafikler ve tabloları render eder. Araç grubu katkısı, hedef gerçekleşme, brüt kâr marjı, teknisyen verimliliği ve aksesuar payı gibi metrikleri FinTech görünümünde sunar.",
+        imageUrl: automotiveImg,
+        keyQuestions: [
+            "Hangi araç grubu kârlılığı sürüklüyor ve nakit akışını etkiliyor?",
+            "Satış ekipleri hedeflerini tutturabiliyor mu, hangi danışman önde?",
+            "Servis operasyonları brüt kâr ve nakit üretimine nasıl katkı veriyor?",
+            "Aksesuar ve sigorta gelirlerinin toplam gelire etkisi nedir?",
+            "Teknisyen saat verimliliği ve ortalama tamir süresi trendi nasıl?"
+        ],
+        keyMetrics: [
+            "Toplam Gelir & Brüt Kâr (Yönetici Özeti)",
+            "Araç Grubu Katkı Payı (Binek, SUV, Ticari, Tarım)",
+            "Hedef Gerçekleşme % ve Satış Danışmanı Performansı",
+            "Brüt Kâr Marjı ve Ortalama Araç Geliri",
+            "Servis Brüt Kârı, Tamir Süresi, Teknisyen Verimliliği",
+            "Aksesuar & Sigorta Gelir Payı"
+        ]
+    },
+    {
         id: "automotive-dashboard",
         name: "Otomotiv Satış ve Servis Paneli",
         category: "Otomotiv",
