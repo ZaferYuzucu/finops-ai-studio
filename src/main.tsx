@@ -6,6 +6,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import LanguageRouteSync from './components/LanguageRouteSync'
 import App from './App'
 import './index.css'
+import './styles/finops-palette.css' // FINOPS Brand Color Palette
 import './i18n' // i18n initialization
 import './utils/logger' // Production-safe console logging
 import { ensureDevSeedElbaSerdar, ensureDevSeedTest1, ensureDevSeedAdmin, seedElbaThermostatDashboard } from './utils/devSeed'

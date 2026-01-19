@@ -1,0 +1,1131 @@
+// ✅ FINOPS Restaurant Dashboard - Single-Page Executive View Standard
+// A4 Landscape | Zero-Scroll | Blue-to-Purple Gradient Brand Identity
+// INTERAKTIF: Filtreler değiştiğinde veriler otomatik güncellenir (Tableau/Power BI gibi)
+import React from 'react';
+import { DollarSign, ShoppingCart, Users, TrendingUp, Clock, Star, Download, Share2, Printer, FileSpreadsheet } from 'lucide-react';
+import { 
+  LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
+} from 'recharts';
+// Mock data generator (inline)
+const generateMockData = (dateRange: string, location: string) => {
+  const base = dateRange === 'ytd' ? 4.8 : dateRange === 'wtd' ? 0.35 : 1.0;
+  const loc = location === 'kadikoy' ? 0.38 : location === 'besiktas' ? 0.35 : 1.0;
+  return {
+    kpi: {
+      revenue: 125000 * base * loc,
+      orders: 850 * base * loc,
+      avgOrder: 147 * base,
+      revenueChange: 7.6,
+      ordersChange: 5.2,
+      ordersCompare: 807
+    },
+    dailyRevenue: Array.from({length: 7}, (_, i) => ({
+      date: `${String(i+1).padStart(2,'0')} Ara`,
+      revenue: Math.round(18000 * base * loc * (0.8 + Math.random() * 0.4))
+    })),
+    hourlyBusy: Array.from({length: 24}, (_, i) => ({
+      hour: `${String(i).padStart(2,'0')}:00`,
+      count: Math.round(35 * (0.3 + Math.sin(i/4) * 0.7))
+    })),
+    productSales: [
+      {name: 'Ana Yemek', value: Math.round(45000 * base * loc)},
+      {name: 'İçecek', value: Math.round(28000 * base * loc)},
+      {name: 'Tatlı', value: Math.round(22000 * base * loc)},
+      {name: 'Aperatif', value: Math.round(18000 * base * loc)},
+      {name: 'Diğer', value: Math.round(12000 * base * loc)}
+    ]
+  };
+};
+
+// Brand Colors (Blue-to-Purple Gradient)
+const FINOPS_COLORS = {
+  primary: '#0000FF',
+  secondary: '#8000FF',
+  gradient: 'linear-gradient(135deg, #0000FF 0%, #8000FF 100%)',
+  chart1: '#0066FF',
+  chart2: '#3385FF',
+  chart3: '#6600FF',
+  chart4: '#9933FF',
+  chart5: '#CC66FF',
+  success: '#10B981',
+  warning: '#F59E0B',
+  danger: '#EF4444',
+};
+
+// CEO/CFO Format Helper - Kısa & Net
+const formatKpiValue = (value: number): string => {
+  if (value >= 1000000000) return `${(value / 1000000000).toFixed(1)}B`;
+  if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
+  if (value >= 1000) return `${(value / 1000).toFixed(1)}K`;
+  return value.toFixed(0);
+};
+
+const RestaurantDashboardFinops: React.FC = () => {
+  const [showInterpretation, setShowInterpretation] = React.useState(false);
+  const [dateRange, setDateRange] = React.useState('mtd');
+  const [location, setLocation] = React.useState('all');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [dashboardData, setDashboardData] = React.useState<any>(null);
+
+  // İlk yükleme ve filtre değişikliklerinde veri çekme
+  React.useEffect(() => {
+    fetchDashboardData();
+  }, [dateRange, location]);
+
+  // Mock veri çekme fonksiyonu (gerçek API'ye dönüştürülebilir)
+  const fetchDashboardData = async () => {
+    setIsLoading(true);
+    
+    // Simüle edilmiş API gecikmesi (gerçek görünüm için)
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // BACKEND ENTEGRASYON HAZIRLIĞI:
+    // Gerçek sistemde bu kod kullanılacak:
+    /*
+    try {
+      const response = await fetch(
+        `/api/dashboard/restaurant?period=${dateRange}&location=${location}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      if (!response.ok) throw new Error('Data fetch failed');
+      
+      const data = await response.json();
+      setDashboardData(data);
+    } catch (error) {
+      console.error('Dashboard data fetch error:', error);
+      // Fallback to mock data
+      setDashboardData(generateMockData(dateRange, location));
+    }
+    */
+    
+    // Şimdilik mock veri kullanıyoruz:
+    const mockData = generateMockData(dateRange, location);
+    setDashboardData(mockData);
+    
+    setIsLoading(false);
+  };
+
+  const handlePrint = () => {
+    // A4 Yatay tek sayfa PDF çıktısı
+    window.print();
+  };
+
+  const handlePdfExport = () => {
+    // PDF Export aslında window.print() ile aynı
+    // Tarayıcı "Save as PDF" seçeneği sunacak
+    window.print();
+  };
+
+  const handleExcelExport = () => {
+    try {
+      // Excel export için veriyi hazırla
+      const kpiData = [
+        { label: 'Günlük Ciro', value: `₺${kpi.revenue >= 1000000 ? `${(kpi.revenue / 1000000).toFixed(1)}M` : `${Math.round(kpi.revenue / 1000)}K`}`, change: `${kpi.revenueChange >= 0 ? '↑' : '↓'} ${Math.abs(kpi.revenueChange).toFixed(1)}%` },
+        { label: 'Sipariş Sayısı', value: kpi.orders, change: `${kpi.ordersChange >= 0 ? '↑' : '↓'} ${Math.abs(kpi.ordersChange).toFixed(1)}%` },
+        { label: 'Ortalama Sepet', value: `₺${kpi.avgBasket}`, change: `${kpi.avgBasketChange >= 0 ? '↑' : '↓'} ${Math.abs(kpi.avgBasketChange).toFixed(1)}%` },
+        { label: 'Food Cost %', value: `${kpi.foodCost.toFixed(1)}%`, change: `${kpi.foodCostChange >= 0 ? '↑' : '↓'} ${Math.abs(kpi.foodCostChange).toFixed(1)}%` },
+        { label: 'Labor Cost %', value: `${kpi.laborCost.toFixed(1)}%`, change: `${kpi.laborCostChange >= 0 ? '↑' : '↓'} ${Math.abs(kpi.laborCostChange).toFixed(1)}%` },
+        { label: 'Müşteri Memnuniyeti', value: `${kpi.satisfaction.toFixed(1)}/5`, change: `${kpi.satisfactionChange >= 0 ? '↑' : '↓'} ${Math.abs(kpi.satisfactionChange).toFixed(1)}%` },
+      ];
+
+      // CSV formatında export (Excel açabilir)
+      let csv = 'Dashboard: Restoran Operasyon Paneli\n';
+      csv += `Tarih Aralığı: ${dateRange === 'mtd' ? 'MTD' : dateRange === 'wtd' ? 'WTD' : 'YTD'}\n`;
+      csv += `Lokasyon: ${location === 'all' ? 'Tüm Lokasyonlar' : location}\n`;
+      csv += `Export Tarihi: ${new Date().toLocaleString('tr-TR')}\n\n`;
+      
+      csv += 'KPI,Değer,Değişim\n';
+      kpiData.forEach(row => {
+        csv += `${row.label},${row.value},${row.change}\n`;
+      });
+      
+      csv += '\n\nGünlük Ciro Trendi\n';
+      csv += 'Tarih,Ciro,Hedef\n';
+      dailyRevenue.forEach(row => {
+        csv += `${row.name},${row.value},${row.target}\n`;
+      });
+
+      // CSV dosyasını indir
+      const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `Restoran_Dashboard_${dateRange}_${location}_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Toast notification
+      showToast('✅ Excel dosyası indirildi!', 'success');
+    } catch (error) {
+      console.error('Excel export error:', error);
+      alert('Excel export başarısız. Lütfen tekrar deneyin.');
+    }
+  };
+
+  const handleShare = () => {
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('period', dateRange);
+      url.searchParams.set('location', location);
+      
+      navigator.clipboard.writeText(url.toString());
+      showToast('✅ Dashboard linki panoya kopyalandı!', 'success');
+    } catch (error) {
+      console.error('Share error:', error);
+      alert('Link kopyalama başarısız.');
+    }
+  };
+
+  // Toast notification helper
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6'};
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 10000;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      document.body.removeChild(toast);
+    }, 3000);
+  };
+
+  // Veri henüz yüklenmediyse loading göster
+  if (!dashboardData) {
+    return (
+      <div style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#E8EAED',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: '60px',
+            height: '60px',
+            border: '4px solid #E5E7EB',
+            borderTop: '4px solid #8000FF',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 16px'
+          }} />
+          <p style={{ fontSize: '16px', color: '#6B7280' }}>Dashboard yükleniyor...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const { kpi, dailyRevenue, hourlyBusy, productSales } = dashboardData;
+
+  // Custom Tooltip Components
+  const CustomRevenueTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const actual = payload[0].value;
+      const target = payload[1]?.value || 50000;
+      const diff = ((actual - target) / target * 100).toFixed(1);
+      return (
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.98)',
+          border: '2px solid #8000FF',
+          borderRadius: '8px',
+          padding: '10px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+        }}>
+          <p style={{ margin: 0, fontWeight: 700, fontSize: '13px', color: '#111827' }}>
+            {payload[0].payload.name}
+          </p>
+          <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#0000FF' }}>
+            Ciro: <strong>₺{(actual/1000).toFixed(0)}K</strong>
+          </p>
+          <p style={{ margin: '2px 0 0 0', fontSize: '11px', color: Number(diff) >= 0 ? '#10B981' : '#EF4444' }}>
+            {Number(diff) >= 0 ? '↑' : '↓'} {Math.abs(Number(diff))}% vs hedef
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const CustomHourlyTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const value = payload[0].value;
+      const hour = payload[0].payload.name;
+      const isPeak = value > 70;
+      return (
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.98)',
+          border: '2px solid #8000FF',
+          borderRadius: '8px',
+          padding: '10px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+        }}>
+          <p style={{ margin: 0, fontWeight: 700, fontSize: '13px', color: '#111827' }}>
+            {hour}
+          </p>
+          <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#0000FF' }}>
+            Sipariş: <strong>{value}</strong>
+          </p>
+          {isPeak && (
+            <p style={{ margin: '2px 0 0 0', fontSize: '11px', color: '#EF4444', fontWeight: 600 }}>
+              🔥 Yoğun saat - Personel artırın
+            </p>
+          )}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const CustomPieTooltip = ({ active, payload, productSalesData }: any) => {
+    if (active && payload && payload.length && productSalesData) {
+      const total = productSalesData.reduce((sum: number, item: any) => sum + item.value, 0);
+      const percentage = ((payload[0].value / total) * 100).toFixed(1);
+      return (
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.98)',
+          border: '2px solid #8000FF',
+          borderRadius: '8px',
+          padding: '10px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+        }}>
+          <p style={{ margin: 0, fontWeight: 700, fontSize: '13px', color: '#111827' }}>
+            {payload[0].name}
+          </p>
+          <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#0000FF' }}>
+            Satış: <strong>₺{(payload[0].value/1000).toFixed(0)}K</strong>
+          </p>
+          <p style={{ margin: '2px 0 0 0', fontSize: '11px', color: '#6B7280' }}>
+            Toplam satışın <strong>%{percentage}</strong>'i
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <>
+      <style>{`
+        @media print {
+          body * {
+            visibility: hidden;
+          }
+          .dashboard-print-area, .dashboard-print-area * {
+            visibility: visible;
+          }
+          .dashboard-print-area {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 297mm !important;
+            height: 210mm !important;
+            padding: 8mm 10mm !important;
+            margin: 0 !important;
+            overflow: hidden !important;
+            transform: scale(0.95);
+            transform-origin: top left;
+            page-break-inside: avoid;
+            page-break-after: avoid;
+          }
+          .no-print {
+            display: none !important;
+          }
+          .kpi-grid {
+            max-height: 110px !important;
+            gap: 6px !important;
+          }
+          .kpi-card {
+            min-height: 100px !important;
+            max-height: 110px !important;
+            padding: 8px 10px !important;
+          }
+          .charts-grid {
+            height: 320px !important;
+            gap: 6px !important;
+          }
+          .chart-card {
+            padding: 8px !important;
+          }
+          .dashboard-header {
+            padding: 8px 12px !important;
+            min-height: 50px !important;
+          }
+        }
+        
+        @page {
+          size: A4 landscape;
+          margin: 0;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .loading-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(255, 255, 255, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          backdrop-filter: blur(2px);
+        }
+
+        .loading-spinner {
+          width: 40px;
+          height: 40px;
+          border: 4px solid #E5E7EB;
+          border-top: 4px solid #8000FF;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+
+        .dashboard-container {
+          width: 100vw;
+          height: 100vh;
+          max-height: 100vh;
+          overflow: hidden;
+          background: #E8EAED;
+          display: flex;
+          flex-direction: column;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        .dashboard-print-area {
+          width: 100%;
+          max-width: 1600px;
+          height: calc(100vh - 40px);
+          margin: 0 auto;
+          padding: 16px;
+          background: white;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          overflow-y: auto;
+        }
+
+        .dashboard-header {
+          background: linear-gradient(135deg, #0000FF 0%, #8000FF 100%);
+          color: white;
+          padding: 12px 16px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-radius: 8px;
+          flex-shrink: 0;
+          min-height: 60px;
+        }
+
+        .dashboard-actions {
+          display: flex;
+          gap: 12px;
+        }
+
+        .action-btn {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 16px;
+          border: none;
+          border-radius: 6px;
+          color: white;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 500;
+          transition: all 0.2s;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .action-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .action-btn-red { background: #DC2626; }
+        .action-btn-red:hover { background: #B91C1C; }
+        .action-btn-blue { background: #4F46E5; }
+        .action-btn-blue:hover { background: #4338CA; }
+        .action-btn-green { background: #16A34A; }
+        .action-btn-green:hover { background: #15803D; }
+
+        .kpi-grid {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 10px;
+          flex-shrink: 0;
+          max-height: 130px;
+        }
+
+        .kpi-card {
+          background: #FFFFFF;
+          border: 2px solid #D1D5DB;
+          border-radius: 8px;
+          padding: 10px 12px 8px 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          transition: all 0.3s ease;
+          min-height: 120px;
+          max-height: 130px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .kpi-card:hover {
+          border-color: #8000FF;
+          box-shadow: 0 6px 16px rgba(128, 0, 255, 0.15);
+          transform: translateY(-3px);
+          background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FF 100%);
+        }
+
+        .kpi-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .kpi-icon {
+          width: 28px;
+          height: 28px;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #0000FF 0%, #8000FF 100%);
+          color: white;
+          flex-shrink: 0;
+        }
+
+        .kpi-label {
+          font-size: 10px;
+          color: #6B7280;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          line-height: 1.2;
+          flex: 1;
+        }
+
+        .kpi-value {
+          font-size: 24px;
+          font-weight: 700;
+          color: #111827;
+          line-height: 1;
+          letter-spacing: -0.5px;
+        }
+
+        .kpi-change {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 11px;
+          font-weight: 600;
+        }
+
+        .kpi-change.positive { color: #10B981; }
+        .kpi-change.negative { color: #EF4444; }
+
+        .kpi-insight {
+          font-size: 9px;
+          color: #4B5563;
+          background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+          border-left: 2px solid #8000FF;
+          border-radius: 3px;
+          padding: 4px 6px;
+          margin-top: auto;
+          line-height: 1.3;
+          font-weight: 500;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .charts-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+          flex-shrink: 0;
+          height: 360px;
+          min-height: 360px;
+          max-height: 360px;
+        }
+
+        .chart-card {
+          background: #FFFFFF;
+          border: 2px solid #D1D5DB;
+          border-radius: 8px;
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+          height: 100%;
+          transition: all 0.3s ease;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-card:hover {
+          border-color: #8000FF;
+          box-shadow: 0 8px 20px rgba(128, 0, 255, 0.12);
+          transform: translateY(-3px);
+          background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FF 100%);
+        }
+        
+        .interpretation-toggle-btn {
+          width: 100%;
+          padding: 10px;
+          background: linear-gradient(135deg, #0000FF 0%, #8000FF 100%);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 13px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          transition: all 0.3s;
+          margin-top: 8px;
+          flex-shrink: 0;
+          min-height: 40px;
+        }
+
+        .interpretation-toggle-btn:hover {
+          background: linear-gradient(135deg, #0000CC 0%, #6600CC 100%);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 255, 0.3);
+        }
+
+        .management-interpretation {
+          background: #FFFFFF;
+          border: 2px solid rgba(128, 0, 255, 0.4);
+          border-radius: 8px;
+          padding: 12px;
+          margin-top: 8px;
+          margin-bottom: 8px;
+          flex-shrink: 0;
+          box-shadow: 0 4px 12px rgba(128, 0, 255, 0.12);
+        }
+        
+        .interpretation-title {
+          font-size: 14px;
+          font-weight: 700;
+          color: #6600FF;
+          margin-bottom: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        
+        .interpretation-section {
+          margin-bottom: 10px;
+        }
+        
+        .interpretation-label {
+          font-size: 11px;
+          font-weight: 700;
+          color: #8000FF;
+          text-transform: uppercase;
+          margin-bottom: 4px;
+        }
+        
+        .interpretation-text {
+          font-size: 13px;
+          color: #1F2937;
+          line-height: 1.5;
+        }
+
+        .chart-title {
+          font-size: 12px;
+          font-weight: 700;
+          color: #111827;
+          margin-bottom: 6px;
+          flex-shrink: 0;
+        }
+
+        .chart-container {
+          flex: 1;
+          min-height: 0;
+          height: 240px;
+          max-height: 240px;
+        }
+
+        .chart-insight {
+          margin-top: 6px;
+          padding: 6px 8px;
+          background: linear-gradient(135deg, #E0E7FF 0%, #EDE9FE 100%);
+          border-left: 3px solid #8000FF;
+          border-radius: 4px;
+          font-size: 10px;
+          color: #374151;
+          line-height: 1.3;
+          flex-shrink: 0;
+        }
+
+        .filter-container {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+        }
+
+        .filter-select {
+          padding: 6px 12px;
+          background: rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 6px;
+          color: white;
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .filter-select:hover {
+          background: rgba(255, 255, 255, 0.3);
+        }
+
+        .filter-select option {
+          background: #1F2937;
+          color: white;
+        }
+
+        /* RESPONSIVE DESIGN - TABLET/MOBILE */
+        @media (max-width: 1280px) {
+          .kpi-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            max-height: 240px !important;
+          }
+          .charts-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            height: auto !important;
+            max-height: none !important;
+          }
+          .chart-card {
+            height: 400px !important;
+          }
+        }
+
+        @media (max-width: 1024px) {
+          .dashboard-header h1 {
+            font-size: 16px !important;
+          }
+          .dashboard-header p {
+            font-size: 10px !important;
+          }
+          .action-btn span {
+            display: none;
+          }
+          .kpi-value {
+            font-size: 20px !important;
+          }
+          .kpi-label {
+            font-size: 9px !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .dashboard-container {
+            height: auto !important;
+            overflow-y: auto !important;
+          }
+          .dashboard-print-area {
+            height: auto !important;
+            overflow-y: visible !important;
+          }
+          .kpi-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            max-height: none !important;
+            height: auto !important;
+          }
+          .charts-grid {
+            grid-template-columns: 1fr !important;
+            height: auto !important;
+          }
+          .chart-card {
+            height: 350px !important;
+          }
+          .dashboard-actions {
+            flex-wrap: wrap;
+          }
+          .action-btn {
+            padding: 6px 10px !important;
+            font-size: 12px !important;
+          }
+          .filter-container {
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+          }
+          .filter-select {
+            width: 100%;
+          }
+        }
+      `}</style>
+
+      <div className="dashboard-container">
+        <div className="dashboard-print-area">
+          {/* Header */}
+          <div className="dashboard-header">
+            <div>
+              <h1 style={{ fontSize: '20px', fontWeight: 800, margin: 0 }}>
+                Restoran Operasyon Paneli - Executive View
+              </h1>
+              <p style={{ fontSize: '12px', margin: '4px 0 0 0', opacity: 0.9 }}>
+                {dateRange === 'mtd' && '01-07 Aralık 2025 (MTD)'}
+                {dateRange === 'wtd' && '01-07 Aralık 2025 (WTD)'}
+                {dateRange === 'ytd' && 'Oca-Ara 2025 (YTD)'}
+                {' | Para Birimi: ₺ | '}
+                {location === 'all' && 'Tüm Lokasyonlar'}
+                {location === 'kadikoy' && 'Kadıköy Şube'}
+                {location === 'besiktas' && 'Beşiktaş Şube'}
+                {location === 'taksim' && 'Taksim Şube'}
+              </p>
+              
+              {/* Filters */}
+              <div className="filter-container no-print" style={{ marginTop: '8px' }}>
+                <select 
+                  className="filter-select" 
+                  value={dateRange} 
+                  onChange={(e) => setDateRange(e.target.value)}
+                >
+                  <option value="mtd">📅 MTD (Ay İçi)</option>
+                  <option value="wtd">📅 WTD (Hafta İçi)</option>
+                  <option value="ytd">📅 YTD (Yıl İçi)</option>
+                </select>
+                
+                <select 
+                  className="filter-select" 
+                  value={location} 
+                  onChange={(e) => setLocation(e.target.value)}
+                >
+                  <option value="all">📍 Tüm Lokasyonlar</option>
+                  <option value="kadikoy">📍 Kadıköy Şube</option>
+                  <option value="besiktas">📍 Beşiktaş Şube</option>
+                  <option value="taksim">📍 Taksim Şube</option>
+                </select>
+              </div>
+            </div>
+            <div className="dashboard-actions no-print">
+              <button className="action-btn action-btn-blue" onClick={handleShare} title="Dashboard linkini paylaş">
+                <Share2 size={16} />
+                <span>Paylaş</span>
+              </button>
+              <button className="action-btn action-btn-green" onClick={handleExcelExport} title="Excel/CSV formatında indir">
+                <FileSpreadsheet size={16} />
+                <span>Excel</span>
+              </button>
+              <button className="action-btn action-btn-red" onClick={handlePdfExport} title="PDF olarak kaydet (A4 Yatay)">
+                <Download size={16} />
+                <span>PDF</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Loading Overlay */}
+          {isLoading && (
+            <div className="loading-overlay">
+              <div className="loading-spinner" />
+            </div>
+          )}
+
+          {/* KPI Cards - 6 Cards */}
+          <div className="kpi-grid">
+            {/* KPI 1 - Günlük Ciro */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon">
+                  <DollarSign size={16} />
+                </div>
+                <div className="kpi-label">
+                  {dateRange === 'mtd' ? 'Günlük Ciro (MTD)' : 
+                   dateRange === 'wtd' ? 'Günlük Ciro (WTD)' : 'Aylık Ciro (YTD)'}
+                </div>
+              </div>
+              <div className="kpi-value">
+                ₺{kpi.revenue >= 1000000 
+                  ? `${(kpi.revenue / 1000000).toFixed(1)}M` 
+                  : `${Math.round(kpi.revenue / 1000)}K`}
+              </div>
+              <div className={`kpi-change ${kpi.revenueChange >= 0 ? 'positive' : 'negative'}`}>
+                {kpi.revenueChange >= 0 ? '↑' : '↓'} {Math.abs(kpi.revenueChange).toFixed(1)}% vs ₺{Math.round(kpi.revenueCompare / 1000)}K
+              </div>
+              <div className="kpi-insight">
+                Ciro {kpi.revenueChange >= 0 ? 'artışı' : 'düşüşü'} müşteri trafiği ve sipariş hacmi değişiminden kaynaklanıyor.
+              </div>
+            </div>
+
+            {/* KPI 2 - Sipariş Sayısı */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon">
+                  <ShoppingCart size={16} />
+                </div>
+                <div className="kpi-label">Sipariş Sayısı</div>
+              </div>
+              <div className="kpi-value">{formatKpiValue(kpi.orders)}</div>
+              <div className={`kpi-change ${kpi.ordersChange >= 0 ? 'positive' : 'negative'}`}>
+                {kpi.ordersChange >= 0 ? '↑' : '↓'} {Math.abs(kpi.ordersChange).toFixed(1)}% vs {formatKpiValue(kpi.ordersCompare)}
+              </div>
+              <div className="kpi-insight">
+                {kpi.ordersChange >= 0 
+                  ? 'Artış kampanya etkisi ve yeni müşteri kazanımından kaynaklanıyor.' 
+                  : 'Düşüş mevsimsel etkiler ve rekabetten kaynaklanıyor.'}
+              </div>
+            </div>
+
+            {/* KPI 3 - Ortalama Sepet */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon">
+                  <Users size={16} />
+                </div>
+                <div className="kpi-label">Ort. Sepet</div>
+              </div>
+              <div className="kpi-value">₺{kpi.avgBasket}</div>
+              <div className={`kpi-change ${kpi.avgBasketChange >= 0 ? 'positive' : 'negative'}`}>
+                {kpi.avgBasketChange >= 0 ? '↑' : '↓'} {Math.abs(kpi.avgBasketChange).toFixed(1)}% vs ₺{kpi.avgBasketCompare}
+              </div>
+              <div className="kpi-insight">
+                {kpi.avgBasketChange >= 0 
+                  ? 'Artış upselling stratejisi ve premium ürün tercihlerinden.' 
+                  : 'Düşüş düşük fiyatlı ürünlere yönelimden, combo menü stratejisi gerekli.'}
+              </div>
+            </div>
+
+            {/* KPI 4 - Food Cost % */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon">
+                  <TrendingUp size={16} />
+                </div>
+                <div className="kpi-label">Food Cost %</div>
+              </div>
+              <div className="kpi-value">{kpi.foodCost.toFixed(1)}%</div>
+              <div className={`kpi-change ${kpi.foodCostChange <= 0 ? 'positive' : 'negative'}`}>
+                {kpi.foodCostChange >= 0 ? '↑' : '↓'} {Math.abs(kpi.foodCostChange).toFixed(1)}% vs {kpi.foodCostCompare.toFixed(1)}%
+              </div>
+              <div className="kpi-insight">
+                {kpi.foodCostChange >= 0 
+                  ? 'Artış taze ürün fiyatlarından, tedarikçi görüşmeleri yapılmalı.' 
+                  : 'Düşüş tedarik optimizasyonu ve fire kontrolünden kaynaklanıyor.'}
+              </div>
+            </div>
+
+            {/* KPI 5 - Labor Cost % */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon">
+                  <Clock size={16} />
+                </div>
+                <div className="kpi-label">Labor Cost %</div>
+              </div>
+              <div className="kpi-value">{kpi.laborCost.toFixed(1)}%</div>
+              <div className={`kpi-change ${kpi.laborCostChange <= 0 ? 'positive' : 'negative'}`}>
+                {kpi.laborCostChange >= 0 ? '↑' : '↓'} {Math.abs(kpi.laborCostChange).toFixed(1)}% vs {kpi.laborCostCompare.toFixed(1)}%
+              </div>
+              <div className="kpi-insight">
+                {kpi.laborCostChange <= 0 
+                  ? 'İyileşme vardiya planlaması optimizasyonundan kaynaklanıyor.' 
+                  : 'Artış fazla mesai ve personel eksikliğinden kaynaklanıyor.'}
+              </div>
+            </div>
+
+            {/* KPI 6 - Müşteri Memnuniyeti */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon">
+                  <Star size={16} />
+                </div>
+                <div className="kpi-label">Müş. Memnuniyeti</div>
+              </div>
+              <div className="kpi-value">{kpi.satisfaction.toFixed(1)}/5</div>
+              <div className={`kpi-change ${kpi.satisfactionChange >= 0 ? 'positive' : 'negative'}`}>
+                {kpi.satisfactionChange >= 0 ? '↑' : '↓'} {Math.abs(kpi.satisfactionChange).toFixed(1)}% vs {kpi.satisfactionCompare.toFixed(2)}
+              </div>
+              <div className="kpi-insight">
+                {kpi.satisfactionChange >= 0 
+                  ? 'Artış personel eğitimi ve hızlı servis iyileştirmesinden kaynaklanıyor.' 
+                  : 'Düşüş servis hızı ve ürün kalitesi geri bildirimlerinden.'}
+              </div>
+            </div>
+          </div>
+
+          {/* Charts - 3 Charts */}
+          <div className="charts-grid">
+            {/* Chart 1: Revenue Trend */}
+            <div className="chart-card">
+              <div className="chart-title">
+                {dateRange === 'ytd' ? 'Aylık Ciro Trendi (₺)' : 'Günlük Ciro Trendi (₺)'}
+              </div>
+              <div className="chart-container">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={dailyRevenue}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                    <XAxis dataKey="name" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} />
+                    <Tooltip content={<CustomRevenueTooltip />} />
+                    <Line type="monotone" dataKey="value" stroke={FINOPS_COLORS.primary} strokeWidth={3} />
+                    <Line type="monotone" dataKey="target" stroke="#9CA3AF" strokeDasharray="5 5" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-insight">
+                💡 <strong>Executive Insight:</strong> {
+                  dailyRevenue[dailyRevenue.length - 1]?.value > dailyRevenue[dailyRevenue.length - 1]?.target 
+                    ? `Son periyotta hedefin ${((dailyRevenue[dailyRevenue.length - 1].value / dailyRevenue[dailyRevenue.length - 1].target - 1) * 100).toFixed(0)}% üzerinde, güçlü trend.`
+                    : `Son periyotta hedefin ${((1 - dailyRevenue[dailyRevenue.length - 1].value / dailyRevenue[dailyRevenue.length - 1].target) * 100).toFixed(0)}% altında, iyileştirme gerekli.`
+                }
+              </div>
+            </div>
+
+            {/* Chart 2: Hourly Orders */}
+            <div className="chart-card">
+              <div className="chart-title">Saat Bazlı Sipariş Yoğunluğu</div>
+              <div className="chart-container">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={hourlyBusy}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                    <XAxis dataKey="name" tick={{ fontSize: 9 }} angle={-45} textAnchor="end" height={50} />
+                    <YAxis tick={{ fontSize: 10 }} />
+                    <Tooltip content={<CustomHourlyTooltip />} />
+                    <Bar dataKey="value">
+                      {hourlyBusy.map((entry: any, index: number) => (
+                        <Cell key={`cell-${index}`} fill={entry.value > 70 ? FINOPS_COLORS.chart5 : FINOPS_COLORS.chart2} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-insight">
+                💡 <strong>Executive Insight:</strong> {
+                  (() => {
+                    const peakHours = hourlyBusy.filter((h: any) => h.value > 70).map((h: any) => h.name.slice(0, 5));
+                    return peakHours.length > 0 
+                      ? `${peakHours.join(', ')} zirvede, personel planlaması kritik.`
+                      : 'Yoğunluk dengeli, mevcut personel planlaması yeterli.';
+                  })()
+                }
+              </div>
+            </div>
+
+            {/* Chart 3: Product Sales */}
+            <div className="chart-card">
+              <div className="chart-title">Ürün Satış Katkısı (Top 7)</div>
+              <div className="chart-container">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={productSales}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={60}
+                      label={(entry) => `${entry.name.split(' ')[0]}`}
+                    >
+                      {productSales.map((entry: any, index: number) => (
+                        <Cell key={`cell-${index}`} fill={[FINOPS_COLORS.chart1, FINOPS_COLORS.chart2, FINOPS_COLORS.chart3, FINOPS_COLORS.chart4, FINOPS_COLORS.chart5, FINOPS_COLORS.primary, FINOPS_COLORS.secondary][index % 7]} />
+                      ))}
+                    </Pie>
+                    <Tooltip content={<CustomPieTooltip productSalesData={productSales} />} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-insight">
+                💡 <strong>Executive Insight:</strong> {
+                  productSales[0]?.name || 'Pizza Margherita'
+                } ₺{Math.round(productSales[0]?.value / 1000)}K ile lider, stok önceliği.
+              </div>
+            </div>
+          </div>
+
+          {/* MANAGEMENT INTERPRETATION TOGGLE BUTTON */}
+          <button 
+            className="interpretation-toggle-btn no-print"
+            onClick={() => setShowInterpretation(!showInterpretation)}
+          >
+            📊 Yönetim Değerlendirmesi
+            <span style={{ fontSize: '12px' }}>
+              {showInterpretation ? '▲ Gizle' : '▼ Göster'}
+            </span>
+          </button>
+
+          {/* MANAGEMENT INTERPRETATION BLOCK - COLLAPSIBLE */}
+          {showInterpretation && (
+            <div className="management-interpretation">
+              <div className="interpretation-title">📊 Yönetim Değerlendirmesi</div>
+              
+              <div className="interpretation-section">
+                <div className="interpretation-label">Ne Oluyor?</div>
+                <div className="interpretation-text">
+                  {location === 'all' ? 'Tüm lokasyonlarda' : 
+                   location === 'kadikoy' ? 'Kadıköy şubesinde' :
+                   location === 'besiktas' ? 'Beşiktaş şubesinde' : 'Taksim şubesinde'} {' '}
+                  {dateRange === 'mtd' ? 'haftalık' : dateRange === 'wtd' ? 'hafta içi' : 'yıllık'} ciro {' '}
+                  ₺{kpi.revenue >= 1000000 ? `${(kpi.revenue / 1000000).toFixed(1)}M` : `${Math.round(kpi.revenue / 1000)}K`} seviyesinde.
+                  Sipariş sayısı {kpi.ordersChange >= 0 ? `%${kpi.ordersChange.toFixed(1)} artarken` : `%${Math.abs(kpi.ordersChange).toFixed(1)} düşerken`}, 
+                  ortalama sepet tutarı {kpi.avgBasketChange >= 0 ? `%${kpi.avgBasketChange.toFixed(1)} arttı` : `%${Math.abs(kpi.avgBasketChange).toFixed(1)} geriledi`}.
+                  Müşteri memnuniyeti {kpi.satisfaction.toFixed(1)}/5 ile {kpi.satisfaction >= 4.5 ? 'mükemmel' : kpi.satisfaction >= 4.0 ? 'iyi' : 'orta'} seviyede.
+                </div>
+              </div>
+              
+              <div className="interpretation-section">
+                <div className="interpretation-label">Neden Oluyor?</div>
+                <div className="interpretation-text">
+                  {kpi.ordersChange >= 0 ? 'Müşteri trafiği arttı' : 'Müşteri trafiği düştü'} {' '}
+                  {kpi.avgBasketChange < 0 ? 'ancak düşük fiyatlı ürünlere yönelim var.' : 've ortalama sepet tutarı yükseldi.'}
+                  {' '}{productSales[0]?.name} ve {productSales[1]?.name} satışları yüksek.
+                  İşgücü maliyeti {kpi.laborCostChange <= 0 ? 'optimizasyonu başarılı' : 'yükselişte'},
+                  food cost %{kpi.foodCost.toFixed(1)} ile {kpi.foodCost < 32 ? 'kontrol altında' : 'yüksek seviyede'}.
+                </div>
+              </div>
+              
+              <div className="interpretation-section">
+                <div className="interpretation-label">Yönetim Ne Yapmalı?</div>
+                <div className="interpretation-text">
+                  <strong>Acil Aksiyonlar:</strong> {' '}
+                  (1) {kpi.avgBasketChange < 0 ? 'Upselling stratejisi başlatın - garsonlara premium ürün eğitimi verin.' : 'Mevcut upselling stratejisini sürdürün.'} {' '}
+                  (2) {kpi.avgBasketChange < 0 ? 'Combo menüler oluşturup ortalama sepet tutarını artırın.' : 'Mevcut combo menüleri optimize edin.'} {' '}
+                  (3) {hourlyBusy.filter((h: any) => h.value > 70).length > 0 
+                    ? `${hourlyBusy.filter((h: any) => h.value > 70).map((h: any) => h.name.slice(0, 5)).join(', ')} yoğunluğu için personel planlamasını optimize edin.`
+                    : 'Personel planlaması dengeli, mevcut yapıyı koruyun.'} {' '}
+                  (4) {productSales[0]?.name} stok takibini günlük yapın - en karlı ürün.
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default RestaurantDashboardFinops;

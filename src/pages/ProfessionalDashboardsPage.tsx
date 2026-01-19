@@ -8,11 +8,11 @@ import * as XLSX from 'xlsx';
 import { exportElementToPdfA4 } from '@/utils/pdfExport';
 import { copyToClipboard, createShareUrl } from '@/utils/shareLink';
 import {
-  RestaurantDashboard,
-  RestaurantOperationsDashboard,
+  RestaurantDashboardFinops,
   RestaurantSalesDashboard,
   RestaurantFinanceDashboard,
   RestaurantLaborDashboard,
+  AutomotivTermostatDashboard,
   ManufacturingDashboard,
   QualityControlDashboard,
   InventoryDashboard,
@@ -44,119 +44,16 @@ import {
   AutomotiveSalesDashboard,
   AutomotiveServiceDashboard
 } from '../components/dashboards';
-import AutomotivTermostatDashboard from './dashboards/AutomotivTermostatDashboard';
+import { DASHBOARD_CATEGORIES, DASHBOARD_STATS } from '../config/dashboardCategoriesConfig';
 
-// Sektörel kategoriler ve dashboard'lar
-const DASHBOARD_CATEGORIES = {
-  restaurant: {
-    icon: '🍽️',
-    name: 'Restoran & Kafe',
-    color: 'green',
-    dashboards: [
-      { id: 'restaurant-general', name: 'Genel Kontrol Paneli', component: 'RestaurantDashboard' },
-      { id: 'restaurant-operations', name: 'Operasyon Paneli', component: 'RestaurantOperationsDashboard' },
-      { id: 'restaurant-sales', name: 'Satış Göstergeleri', component: 'RestaurantSalesDashboard' },
-      { id: 'restaurant-finance', name: 'Finansal Performans', component: 'RestaurantFinanceDashboard' },
-      { id: 'restaurant-labor', name: 'İşgücü Yönetimi', component: 'RestaurantLaborDashboard' },
-    ]
-  },
-  manufacturing: {
-    icon: '🏭',
-    name: 'Üretim & Operasyon',
-    color: 'blue',
-    dashboards: [
-      { id: 'manufacturing-control', name: 'Üretim Kontrol', component: 'ManufacturingDashboard' },
-      { id: 'quality-control', name: 'Kalite Kontrol', component: 'QualityControlDashboard' },
-      { id: 'inventory-management', name: 'Stok Yönetimi', component: 'InventoryDashboard' },
-      { id: 'oee-dashboard', name: 'OEE Dashboard', component: 'OEEDashboard' },
-      { id: 'automotive-termostat', name: 'Otomotiv Termostat Üretim', component: 'AutomotivTermostatDashboard' },
-    ]
-  },
-  finance: {
-    icon: '💰',
-    name: 'Finans & Muhasebe',
-    color: 'purple',
-    dashboards: [
-      { id: 'finance-cfo', name: 'CFO Kontrol Paneli', component: 'FinanceDashboard' },
-      { id: 'cash-flow', name: 'Nakit Akışı', component: 'CashFlowDashboard' },
-      { id: 'profit-loss', name: 'Kâr-Zarar Analizi', component: 'HealthcareDashboard' },
-      { id: 'budget-actual', name: 'Bütçe & Gerçekleşen', component: 'LogisticsDashboard' },
-      { id: 'ceo-dashboard', name: 'CEO Dashboard', component: 'EducationDashboard' },
-    ]
-  },
-  hotel: {
-    icon: '🏨',
-    name: 'Otel & Konaklama',
-    color: 'amber',
-    dashboards: [
-      { id: 'hotel-management', name: 'Otel Yönetim Paneli', component: 'HotelOperationsDashboard' },
-      { id: 'hotel-occupancy', name: 'Doluluk & Gelir', component: 'EnergyDashboard' },
-      { id: 'hotel-guest', name: 'Misafir Deneyimi', component: 'RetailDashboard' },
-    ]
-  },
-  ecommerce: {
-    icon: '🛒',
-    name: 'E-Ticaret & Retail',
-    color: 'orange',
-    dashboards: [
-      { id: 'ecommerce-kpi', name: 'E-ticaret KPI', component: 'EcommerceDashboard' },
-      { id: 'ecommerce-orders', name: 'Sipariş Analizi', component: 'CallCenterDashboard' },
-      { id: 'ecommerce-products', name: 'Ürün Performansı', component: 'MarketingDashboard' },
-    ]
-  },
-  hr: {
-    icon: '👥',
-    name: 'İnsan Kaynakları',
-    color: 'teal',
-    dashboards: [
-      { id: 'hr-metrics', name: 'İK Metrikleri', component: 'HRDashboard' },
-      { id: 'hr-performance', name: 'Performans Yönetimi', component: 'SupplyChainDashboard' },
-    ]
-  },
-  automotive: {
-    icon: '🚗',
-    name: 'Otomotiv',
-    color: 'red',
-    dashboards: [
-      { id: 'automotive-executive', name: 'Yönetici Özeti', component: 'AutomotiveExecutiveDashboard' },
-      { id: 'automotive-sales', name: 'Satış Performansı', component: 'AutomotiveSalesDashboard' },
-      { id: 'automotive-service', name: 'Servis & After-Sales', component: 'AutomotiveServiceDashboard' },
-    ]
-  },
-  sales: {
-    icon: '📊',
-    name: 'Satış & Pazarlama',
-    color: 'indigo',
-    dashboards: [
-      { id: 'sales-team', name: 'Satış Ekibi Performansı', component: 'SalesDashboard' },
-      { id: 'marketing-campaign', name: 'Kampanya Analizi', component: 'ITOperationsDashboard' },
-      { id: 'sales-funnel', name: 'Satış Hunisi', component: 'WebAnalyticsDashboard' },
-    ]
-  },
-  agriculture: {
-    icon: '🌾',
-    name: 'Tarım',
-    color: 'lime',
-    dashboards: [
-      { id: 'agriculture-operations', name: 'Tarım Operasyonları', component: 'AgricultureDashboard' },
-      { id: 'agriculture-harvest', name: 'Hasat Yönetimi', component: 'FleetManagementDashboard' },
-    ]
-  },
-  education: {
-    icon: '🎓',
-    name: 'Eğitim & Akademik',
-    color: 'cyan',
-    dashboards: [
-      { id: 'education-performance', name: 'Eğitim Performans Paneli', component: 'EducationDashboard' },
-    ]
-  }
-};
+// Sektörel kategoriler - Ortak config'den import edildi
+// DASHBOARD_CATEGORIES artık ../config/dashboardCategoriesConfig.ts'den geliyor
 
 const ProfessionalDashboardsPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState<string>('restaurant');
-  const [selectedDashboard, setSelectedDashboard] = useState<string>('restaurant-general');
+  const [selectedDashboard, setSelectedDashboard] = useState<string>('restaurant-sales');
   const [showDeepSurvey, setShowDeepSurvey] = useState(false);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
   const exportRef = useRef<HTMLDivElement | null>(null);
@@ -306,69 +203,91 @@ const ProfessionalDashboardsPage = () => {
 
   const renderSelectedDashboard = () => (
     <>
-      {/* Restoran Dashboards */}
-      {selectedDashboard === 'restaurant-general' && <RestaurantDashboard />}
-      {selectedDashboard === 'restaurant-operations' && <RestaurantOperationsDashboard />}
+      {/* ✅ Restaurant & Kafe */}
+      {selectedDashboard === 'restaurant-finops' && <RestaurantDashboardFinops />}
       {selectedDashboard === 'restaurant-sales' && <RestaurantSalesDashboard />}
       {selectedDashboard === 'restaurant-finance' && <RestaurantFinanceDashboard />}
       {selectedDashboard === 'restaurant-labor' && <RestaurantLaborDashboard />}
       
-      {/* Manufacturing Dashboards */}
-      {selectedDashboard === 'manufacturing-control' && <ManufacturingDashboard />}
-      {selectedDashboard === 'quality-control' && <QualityControlDashboard />}
-      {selectedDashboard === 'inventory-management' && <InventoryDashboard />}
-      {selectedDashboard === 'oee-dashboard' && <OEEDashboard />}
+      {/* ✅ Üretim & Operasyon */}
       {selectedDashboard === 'automotive-termostat' && <AutomotivTermostatDashboard />}
+      {selectedDashboard === 'manufacturing' && <ManufacturingDashboard />}
+      {selectedDashboard === 'quality-control' && <QualityControlDashboard />}
+      {selectedDashboard === 'oee' && <OEEDashboard />}
+      
+      {/* ✅ Finans & Muhasebe */}
+      {selectedDashboard === 'finance' && <FinanceDashboard />}
+      {selectedDashboard === 'cashflow' && <CashFlowDashboard />}
+      
+      {/* ✅ Otel & Konaklama */}
+      {selectedDashboard === 'hotel-management' && <HotelOperationsDashboard />}
+      {selectedDashboard === 'retail' && <RetailDashboard />}
+      {selectedDashboard === 'energy' && <EnergyDashboard />}
+      
+      {/* ✅ E-Ticaret & Retail */}
+      {selectedDashboard === 'ecommerce' && <EcommerceDashboard />}
+      {selectedDashboard === 'inventory' && <InventoryDashboard />}
+      
+      {/* ✅ İnsan Kaynakları */}
+      {selectedDashboard === 'hr' && <HRDashboard />}
+      {selectedDashboard === 'supply-chain' && <SupplyChainDashboard />}
+      
+      {/* ✅ Automotive */}
       {selectedDashboard === 'automotive-executive' && <AutomotiveExecutiveDashboard />}
       {selectedDashboard === 'automotive-sales' && <AutomotiveSalesDashboard />}
       {selectedDashboard === 'automotive-service' && <AutomotiveServiceDashboard />}
-
-      {/* Finance Dashboards */}
-      {selectedDashboard === 'finance-cfo' && <FinanceDashboard />}
-      {selectedDashboard === 'cash-flow' && <CashFlowDashboard />}
       
-      {/* Hotel & E-commerce */}
-      {selectedDashboard === 'hotel-management' && <HotelOperationsDashboard />}
-      {selectedDashboard === 'ecommerce-kpi' && <EcommerceDashboard />}
-      
-      {/* Healthcare & Agriculture */}
-      {selectedDashboard === 'healthcare-kpi' && <HealthcareDashboard />}
-      {selectedDashboard === 'agriculture-kpi' && <AgricultureDashboard />}
-      
-      {/* Logistics & Education */}
-      {selectedDashboard === 'logistics-kpi' && <LogisticsDashboard />}
-      {selectedDashboard === 'education-performance' && <EducationDashboard />}
-      
-      {/* Energy & Retail */}
-      {selectedDashboard === 'energy-kpi' && <EnergyDashboard />}
-      {selectedDashboard === 'retail-kpi' && <RetailDashboard />}
-      
-      {/* Call Center & Marketing */}
-      {selectedDashboard === 'callcenter-kpi' && <CallCenterDashboard />}
-      {selectedDashboard === 'marketing-kpi' && <MarketingDashboard />}
-      
-      {/* HR & Supply Chain */}
-      {selectedDashboard === 'hr-metrics' && <HRDashboard />}
-      {selectedDashboard === 'supplychain-kpi' && <SupplyChainDashboard />}
-      
-      {/* Project Management & Customer Service */}
-      {selectedDashboard === 'project-kpi' && <ProjectManagementDashboard />}
-      {selectedDashboard === 'customerservice-kpi' && <CustomerServiceDashboard />}
-      
-      {/* Sales & IT */}
-      {selectedDashboard === 'sales-kpi' && <SalesDashboard />}
-      {selectedDashboard === 'it-ops' && <ITOperationsDashboard />}
-      
-      {/* Web Analytics & Fleet */}
+      {/* ✅ Satış & Pazarlama */}
+      {selectedDashboard === 'sales' && <SalesDashboard />}
+      {selectedDashboard === 'marketing' && <MarketingDashboard />}
       {selectedDashboard === 'web-analytics' && <WebAnalyticsDashboard />}
-      {selectedDashboard === 'fleet-kpi' && <FleetManagementDashboard />}
       
-      {/* Real Estate & Insurance */}
-      {selectedDashboard === 'realestate-kpi' && <RealEstateDashboard />}
-      {selectedDashboard === 'insurance-kpi' && <InsuranceDashboard />}
+      {/* ✅ Tarım */}
+      {selectedDashboard === 'agriculture' && <AgricultureDashboard />}
       
-      {/* Construction */}
-      {selectedDashboard === 'construction-kpi' && <ConstructionDashboard />}
+      {/* ✅ Eğitim & Akademik */}
+      {selectedDashboard === 'education' && <EducationDashboard />}
+      {selectedDashboard === 'healthcare' && <HealthcareDashboard />}
+      
+      {/* ✅ Lojistik & Tedarik */}
+      {selectedDashboard === 'logistics' && <LogisticsDashboard />}
+      {selectedDashboard === 'fleet-management' && <FleetManagementDashboard />}
+      
+      {/* ✅ Hizmet Sektörü */}
+      {selectedDashboard === 'call-center' && <CallCenterDashboard />}
+      {selectedDashboard === 'customer-service' && <CustomerServiceDashboard />}
+      {selectedDashboard === 'it-operations' && <ITOperationsDashboard />}
+      
+      {/* ✅ İnşaat & Enerji */}
+      {selectedDashboard === 'construction' && <ConstructionDashboard />}
+      {selectedDashboard === 'real-estate' && <RealEstateDashboard />}
+      
+      {/* ✅ Sigorta & Finans */}
+      {selectedDashboard === 'insurance' && <InsuranceDashboard />}
+      {selectedDashboard === 'project-management' && <ProjectManagementDashboard />}
+      
+      {/* Fallback - Eğer dashboard bulunamazsa */}
+      {!['restaurant-finops', 'restaurant-sales', 'restaurant-finance', 'restaurant-labor',
+          'automotive-termostat', 'manufacturing', 'quality-control', 'oee',
+          'finance', 'cashflow', 'hotel-management', 'retail', 'energy',
+          'ecommerce', 'inventory', 'hr', 'supply-chain',
+          'automotive-executive', 'automotive-sales', 'automotive-service',
+          'sales', 'marketing', 'web-analytics', 'agriculture',
+          'education', 'healthcare', 'logistics', 'fleet-management',
+          'call-center', 'customer-service', 'it-operations',
+          'construction', 'real-estate', 'insurance', 'project-management'
+      ].includes(selectedDashboard) && (
+        <div className="p-12 text-center">
+          <div className="text-6xl mb-4">⚠️</div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">Dashboard Bulunamadı</h3>
+          <p className="text-gray-600 mb-4">
+            Seçili dashboard ID: <code className="bg-gray-100 px-2 py-1 rounded">{selectedDashboard}</code>
+          </p>
+          <p className="text-sm text-gray-500">
+            Lütfen farklı bir dashboard seçin veya destek ile iletişime geçin.
+          </p>
+        </div>
+      )}
     </>
   );
 
@@ -397,7 +316,7 @@ const ProfessionalDashboardsPage = () => {
             Profesyonel Dashboard Örnekleri
           </h1>
           <p className="text-gray-600">
-            30 adet profesyonel dashboard, 10 sektör kategorisinde. Zengin CSV verileri ile beslenen, print-ready görseller.
+            {DASHBOARD_STATS.totalDashboards} adet profesyonel dashboard, {DASHBOARD_STATS.totalCategories} sektör kategorisinde. Zengin CSV verileri ile beslenen, print-ready görseller.
           </p>
         </div>
 
@@ -409,10 +328,10 @@ const ProfessionalDashboardsPage = () => {
               <BarChart3 className="text-green-600" size={28} />
               Sektör ve Dashboard Seçimi
             </h2>
-            <p className="text-gray-700 mb-4">
-              <strong>30 adet</strong> profesyonel dashboard, <strong>10 sektör</strong> kategorisinde gruplandırılmış. 
-              Zengin CSV verileri ile beslenen, A4 print-ready, Recharts + Tailwind ile kodlanmış.
-            </p>
+                <p className="text-gray-700 mb-4">
+                  <strong>{DASHBOARD_STATS.totalDashboards} adet</strong> profesyonel dashboard, <strong>{DASHBOARD_STATS.totalCategories} sektör</strong> kategorisinde gruplandırılmış. 
+                  Zengin CSV verileri ile beslenen, A4 print-ready, Recharts + Tailwind ile kodlanmış.
+                </p>
             
             {/* Kategori Seçimi */}
             <div className="flex flex-wrap gap-3 mb-4">
@@ -431,6 +350,10 @@ const ProfessionalDashboardsPage = () => {
                   else if (category.color === 'indigo') activeClass = 'bg-indigo-600 text-white shadow-lg';
                   else if (category.color === 'lime') activeClass = 'bg-lime-600 text-white shadow-lg';
                   else if (category.color === 'cyan') activeClass = 'bg-cyan-600 text-white shadow-lg';
+                  else if (category.color === 'emerald') activeClass = 'bg-emerald-600 text-white shadow-lg';
+                  else if (category.color === 'rose') activeClass = 'bg-rose-600 text-white shadow-lg';
+                  else if (category.color === 'yellow') activeClass = 'bg-yellow-600 text-white shadow-lg';
+                  else if (category.color === 'slate') activeClass = 'bg-slate-600 text-white shadow-lg';
                 }
                 
                 return (
@@ -472,44 +395,24 @@ const ProfessionalDashboardsPage = () => {
             </div>
           </div>
 
-          {/* Export actions */}
+            {/* Dashboard Info */}
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
             <div className="text-sm text-gray-600">
-              Seçili dashboard: <span className="font-semibold text-gray-900">{selectedDashboard}</span>
+              Seçili dashboard: <span className="font-semibold text-gray-900">{selectedDashboardLabel} ({selectedDashboard})</span>
               <div className="mt-1 text-[11px] text-gray-500">
                 Dashboards and reports generated on FinOps AI Studio are proprietary
                 and licensed for use only within this platform.
               </div>
             </div>
-            <div className="flex gap-3">
-              <button
-                onClick={handleExportPDF}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors shadow-md"
-              >
-                <Download size={18} />
-                <span>PDF İndir (A4 Yatay)</span>
-              </button>
-              <button
-                onClick={handleShareLink}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-md"
-              >
-                <Share2 size={18} />
-                <span>Paylaş (View-only)</span>
-              </button>
-              <button
-                onClick={handleExportExcel}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-md"
-              >
-                <Download size={18} />
-                <span>Excel İndir</span>
-              </button>
+            <div className="text-xs text-indigo-600 font-medium px-3 py-1 bg-indigo-50 rounded-full">
+              ✓ Dashboard aktif ve görünür
             </div>
           </div>
 
           {/* Dashboard Display */}
-          <div className="bg-white rounded-xl shadow-2xl overflow-auto" style={{ maxHeight: '85vh' }}>
+          <div className="bg-white rounded-xl shadow-2xl overflow-auto" style={{ maxHeight: '85vh', minHeight: '500px' }}>
             {/* Export target: during export we render a 2-page print layout */}
-            <div ref={exportRef} className="w-full overflow-visible">
+            <div ref={exportRef} className="w-full overflow-visible min-h-[400px]">
               {isExportingPdf ? (
                 <div className="space-y-4">
                   {/* Page 1: scaled overview */}
@@ -580,8 +483,8 @@ const ProfessionalDashboardsPage = () => {
           {/* Info Box */}
           <div className="mt-6 bg-blue-50 rounded-lg p-4 border border-blue-200">
             <p className="text-sm text-blue-900">
-              <strong>ℹ️ Bilgi:</strong> Toplam <strong>29 dashboard</strong> | 
-              <strong> 9 sektör kategorisi</strong> | 
+              <strong>ℹ️ Bilgi:</strong> Toplam <strong>{DASHBOARD_STATS.totalDashboards} dashboard</strong> | 
+              <strong> {DASHBOARD_STATS.totalCategories} sektör kategorisi</strong> | 
               <strong> 20+ zengin CSV dosyası</strong> | 
               Standart boyut: %98 genişlik, 1800px max | 
               Detaylar: <code className="bg-blue-100 px-2 py-1 rounded">DASHBOARD_STANDARDS.md</code>

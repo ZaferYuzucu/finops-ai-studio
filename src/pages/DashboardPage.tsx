@@ -2,14 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { UploadCloud, BarChart3, TrendingUp, LogOut, PlusSquare, FileText, Trash2 } from 'lucide-react';
+import { UploadCloud, BarChart3, TrendingUp, LogOut, PlusSquare, FileText, Trash2, Eye } from 'lucide-react';
 import UsageLimitsPanel from '../components/UsageLimitsPanel';
 import { getUserUploadedFiles, deleteUploadedFile, type UploadedFile } from '../utils/userDataStorage';
+import { getUserDashboardConfigs, deleteUserDashboardConfig } from '../utils/wizardToConfig';
 
 const DashboardPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   // Yüklenen dosyaları getir
   useEffect(() => {
@@ -17,7 +19,7 @@ const DashboardPage: React.FC = () => {
       const files = getUserUploadedFiles(currentUser.email);
       setUploadedFiles(files);
     }
-  }, [currentUser]);
+  }, [currentUser, refreshKey]);
 
   const handleLogout = async () => {
     try {
@@ -37,6 +39,14 @@ const DashboardPage: React.FC = () => {
     }
   };
 
+  const handleDeleteDashboard = (dashboardId: string) => {
+    if (!currentUser?.email) return;
+    if (confirm('Bu dashboard\'u silmek istediğinizden emin misiniz?')) {
+      deleteUserDashboardConfig(currentUser.email, dashboardId);
+      setRefreshKey(prev => prev + 1);
+    }
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="container mx-auto px-4 py-8">
@@ -50,16 +60,14 @@ const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Left Column - Quick Actions & Activity (2 columns) */}
-          <div className="lg:col-span-2 space-y-6">
+        {/* Main Content - Full Width */}
+        <div className="max-w-7xl mx-auto space-y-6 mb-8">
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           {/* Veri Yükle */}
           <button
             onClick={() => navigate('/veri-girisi?lang=tr')}
-            className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-blue-500 text-left group"
+            className="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-blue-200 hover:border-blue-400 text-left group"
           >
             <div className="flex items-center gap-4 mb-3">
               <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-600 transition-colors">
@@ -75,7 +83,7 @@ const DashboardPage: React.FC = () => {
           {/* Dashboard Oluştur */}
           <button
             onClick={() => navigate('/dashboard/create')}
-            className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-indigo-500 text-left group"
+            className="bg-gradient-to-br from-indigo-50 to-blue-50 p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-indigo-200 hover:border-indigo-400 text-left group"
           >
             <div className="flex items-center gap-4 mb-3">
               <div className="p-3 bg-indigo-100 rounded-lg group-hover:bg-indigo-600 transition-colors">
@@ -88,68 +96,97 @@ const DashboardPage: React.FC = () => {
             </p>
           </button>
 
-          {/* Dashboard'larım */}
+          {/* FINOPS AI Sihirbazı */}
           <button
-            onClick={() => navigate('/dashboard/my')}
-            className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-green-500 text-left group"
+            onClick={() => navigate('/dashboard/smart-create')}
+            className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-purple-300 hover:border-purple-500 text-left group relative"
           >
-            <div className="flex items-center gap-4 mb-3">
-              <div className="p-3 bg-green-100 rounded-lg group-hover:bg-green-600 transition-colors">
-                <BarChart3 className="text-green-600 group-hover:text-white transition-colors" size={28} />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900">Dashboard'larım</h3>
+            <div className="absolute top-3 right-3 px-2.5 py-1 bg-purple-600 text-white text-[10px] font-bold rounded-md shadow-sm">
+              AI
             </div>
-            <p className="text-gray-600 text-sm">
-              Oluşturduğunuz dashboard'ları görüntüleyin
+            <div className="flex items-center gap-4 mb-3">
+              <div className="p-3 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg group-hover:from-purple-600 group-hover:to-pink-600 transition-all">
+                <svg className="w-7 h-7 text-purple-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                FINOPS Senin İçin Yapsın
+              </h3>
+            </div>
+            <p className="text-gray-700 text-sm font-medium">
+              AI otomatik dashboard oluşturur
             </p>
           </button>
         </div>
 
-        {/* Profesyonel Dashboard Örnekleri - Büyük Banner */}
-        <button
-          onClick={() => navigate('/professional-dashboards')}
-          className="w-full bg-gradient-to-r from-green-600 to-teal-600 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all border-2 border-transparent hover:border-green-400 text-left group mb-6"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="text-4xl">📊</div>
-                <h3 className="text-2xl font-black text-white">Profesyonel Dashboard Örnekleri</h3>
-                <span className="px-3 py-1 bg-yellow-400 text-yellow-900 text-xs font-bold rounded-full">YENİ!</span>
+        {/* Kullanıcı Dashboard'ları */}
+            <div className="bg-white p-6 rounded-xl shadow-md mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-gray-900">📊 Kayıtlı Dashboard'larım</h2>
+                <button
+                  onClick={() => navigate('/dashboard/my')}
+                  className="text-sm text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1"
+                >
+                  Tümünü Gör
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
               </div>
-              <p className="text-green-100 text-lg mb-2">
-                <strong>29 adet</strong> profesyonel dashboard, <strong>9 sektör</strong> kategorisinde
-              </p>
-              <p className="text-green-50 text-sm">
-                🍽️ Restoran • 🏭 Üretim • 💰 Finans • 🏨 Otel • 🛒 E-ticaret • 👥 İK • 🚗 Otomotiv • 📊 Satış • 🌾 Tarım
-              </p>
+              
+              {(() => {
+                const userDashboards = currentUser?.email ? getUserDashboardConfigs(currentUser.email) : [];
+                void refreshKey; // Trigger re-render on delete
+                
+                return userDashboards.length === 0 ? (
+                  <div className="text-center py-12 text-gray-500">
+                    <BarChart3 className="mx-auto h-16 w-16 text-gray-300 mb-4" />
+                    <p className="text-lg font-medium mb-2">Henüz dashboard oluşturmadınız</p>
+                    <p className="text-sm">Manuel veya AI ile dashboard oluşturabilirsiniz!</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {userDashboards.map((dashboard: any) => (
+                      <div
+                        key={dashboard.id}
+                        className="p-4 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg border-2 border-indigo-200 hover:border-indigo-400 transition-all group"
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="text-2xl">{dashboard.icon}</div>
+                          <div className="flex gap-1">
+                            <button
+                              onClick={() => navigate(`/dashboard/view-standard/${dashboard.id}`)}
+                              className="p-1.5 bg-green-100 hover:bg-green-200 rounded-lg transition-colors"
+                              title="Görüntüle"
+                            >
+                              <Eye className="w-4 h-4 text-green-600" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteDashboard(dashboard.id)}
+                              className="p-1.5 bg-red-100 hover:bg-red-200 rounded-lg transition-colors"
+                              title="Sil"
+                            >
+                              <Trash2 className="w-4 h-4 text-red-600" />
+                            </button>
+                          </div>
+                        </div>
+                        <h3 className="font-bold text-gray-900 mb-1 truncate">{dashboard.title}</h3>
+                        <p className="text-sm text-gray-600 truncate">{dashboard.subtitle}</p>
+                        <div className="mt-2 flex items-center justify-between">
+                          <div className="text-xs text-gray-500">
+                            {dashboard.kpis.length} KPI • {dashboard.charts.length} Grafik
+                          </div>
+                          <div className="text-xs text-gray-400">
+                            {new Date(dashboard.createdAt).toLocaleDateString('tr-TR')}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
             </div>
-            <div className="text-white group-hover:translate-x-2 transition-transform">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </div>
-        </button>
-
-        {/* Diğer Özellikler */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Analizler */}
-          <button
-            onClick={() => alert('Yakında: Gelişmiş analiz araçları!')}
-            className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-purple-500 text-left group"
-          >
-            <div className="flex items-center gap-4 mb-3">
-              <div className="p-3 bg-purple-100 rounded-lg group-hover:bg-purple-600 transition-colors">
-                <TrendingUp className="text-purple-600 group-hover:text-white transition-colors" size={28} />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900">AI Analizleri</h3>
-            </div>
-            <p className="text-gray-600 text-sm">
-              Akıllı içgörüler ve öneriler
-            </p>
-          </button>
-        </div>
 
             {/* Yüklenen Veriler */}
             <div className="bg-white p-6 rounded-xl shadow-md">
@@ -194,12 +231,6 @@ const DashboardPage: React.FC = () => {
                 </div>
               )}
             </div>
-          </div>
-
-          {/* Right Column - Usage Limits (1 column) */}
-          <div className="lg:col-span-1">
-            <UsageLimitsPanel />
-          </div>
         </div>
 
         {/* Logout */}

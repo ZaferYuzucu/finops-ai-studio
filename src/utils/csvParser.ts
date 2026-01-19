@@ -8,9 +8,9 @@ export interface ParsedCSVData {
 }
 
 /**
- * CSV dosyasını parse eder
+ * CSV dosyasını parse eder (File objesi VEYA string içerik)
  */
-export async function parseCSVFile(file: File): Promise<ParsedCSVData> {
+export async function parseCSVFile(file: File | string): Promise<ParsedCSVData> {
   return new Promise((resolve, reject) => {
     Papa.parse(file, {
       header: true,

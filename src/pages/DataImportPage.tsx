@@ -8,6 +8,7 @@ import { markDataImportCompleted } from '../utils/dataImportGate';
 import { BETA_LIMIT, getLocalRemainingBetaQuota } from '../utils/betaQuota';
 import { saveUploadedFile, DATA_CATEGORIES, type DataCategory } from '../utils/userDataStorage';
 import { useAuth } from '../context/AuthContext';
+import { runtimeFileStore } from '../store/runtimeFileStore';
 
 const DataImportPage: React.FC = () => {
   const { t } = useTranslation();
@@ -45,20 +46,129 @@ const DataImportPage: React.FC = () => {
   const isAllowedFile = (f: File) => /\.(csv|xlsx)$/i.test(f.name);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    console.log('🎯 onDrop çağrıldı, gelen dosyalar:', acceptedFiles.length);
     setDropError(null);
     const allowed = acceptedFiles.filter(isAllowedFile);
+    console.log('✅ İzin verilen dosyalar:', allowed.length, allowed.map(f => f.name));
     if (allowed.length === 0) {
       setDropError(
-        `Dosya yüklenemedi.\n` +
+        `❌ DOSYA REDDEDİLDİ!\n\n` +
           `Desteklenen formatlar: .csv, .xlsx\n` +
-          `Not: Bazı CSV dosyaları tarayıcıda farklı “dosya tipi” ile görünebilir; bu yüzden uzantıya göre kontrol ediyoruz.`
+          `Lütfen geçerli bir CSV veya Excel dosyası sürükleyin.`
       );
       return;
     }
+    console.log('📁 setFiles çağrılıyor:', allowed[0]?.name);
     setFiles(allowed);
-  }, []);
+    
+    // ✅ OTOMATIK KAYDET VE YÖNLENDİR
+    console.log('👤 currentUser:', currentUser?.email || 'YOK!');
+    if (!currentUser) {
+      console.warn('⚠️ currentUser YOK - kaydetme atlanıyor!');
+      setDropError('⚠️ GİRİŞ YAPILMAMIŞ!\n\nLütfen önce giriş yapın.');
+      return;
+    }
+    
+    if (currentUser && allowed.length > 0) {
+      console.log('🚀 ASYNC İŞLEM BAŞLIYOR!!!');
+      (async () => {
+        try {
+          console.log('🔥 STATUS UPLOADING\'E ÇEKİLİYOR...');
+          setStatus('uploading');
+          setIsProcessing(true);
+          setProgress(0);
+          console.log('⏳ PROGRESS BAR BAŞLATILDI!');
+          
+          // Progress animasyonu
+          const interval = setInterval(() => {
+            setProgress(prev => {
+              const newVal = Math.min(prev + 15, 95);
+              console.log('📊 Progress:', newVal);
+              return newVal;
+            });
+          }, 200);
+          
+          console.log('📂 DOSYA OKUMA BAŞLIYOR...');
+          for (const file of allowed) {
+            console.log('📄 Dosya okunuyor:', file.name);
+            
+            // ✅ UTF-8 ile oku (Türkçe karakter desteği)
+            const fileContent = await new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (e) => resolve(e.target?.result as string);
+              reader.onerror = reject;
+              reader.readAsText(file, 'UTF-8'); // ✅ UTF-8 encoding belirtildi
+            });
+            
+            // Trim BOM if present
+            const cleanContent = fileContent.replace(/^\uFEFF/, '');
+            
+            // Validate content
+            if (cleanContent.length < 10) {
+              throw new Error(`Dosya içeriği çok kısa veya boş: ${file.name}`);
+            }
+            
+            console.log('💾 KAYDETME BAŞLIYOR, içerik uzunluğu:', cleanContent.length);
+            
+            // Save metadata to localStorage (NO content)
+            const savedFile = await saveUploadedFile(
+              file,
+              currentUser.email || 'unknown',
+              undefined,
+              undefined,
+              undefined,
+              {
+                category: selectedCategory || 'other',
+                // Do NOT store content in localStorage
+                fileContent: undefined,
+              }
+            );
+            
+            // Store content in runtime store
+            runtimeFileStore.set(savedFile.id, cleanContent);
+            
+            console.log('✅ DOSYA KAYDEDİLDİ! ID:', savedFile.id);
+            
+            // ✅ Diğer sayfaları bilgilendir (aynı sekmede)
+            window.dispatchEvent(new Event('finops-data-updated'));
+          }
+          
+          console.log('🛑 INTERVAL TEMİZLENİYOR...');
+          clearInterval(interval);
+          setProgress(100);
+          console.log('✅ Dosya otomatik kaydedildi (sürükle-bırak):', allowed[0].name);
+          
+          // Başarı durumunu göster
+          console.log('🎉 STATUS SUCCESS\'E ÇEKİLİYOR...');
+          setStatus('success');
+          setIsProcessing(false);
+          markDataImportCompleted();
+          console.log('✅ SUCCESS STATE AYARLANDI!');
+          
+          // Sayfa başına scroll et ki kullanıcı mesajı görsün
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          
+          // Alert ile de bildir (kesin görsün diye!)
+          alert(`✅ BAŞARILI!\n\nDosya kütüphanenize kaydedildi: ${allowed[0].name}\n\nDashboard hazırlama sayfasına yönlendiriliyorsunuz...`);
+          
+          // 2 saniye sonra dashboard'a yönlendir
+          console.log('⏰ 2 SANİYE TIMER BAŞLATILIYOR...');
+          setTimeout(() => {
+            console.log('🚀 DASHBOARD\'A YÖNLENDİRİLİYOR...');
+            navigate('/dashboard');
+          }, 2000);
+          
+        } catch (error) {
+          console.error('❌ Otomatik kaydetme hatası (sürükle-bırak):', error);
+          setDropError(`❌ DOSYA KAYDEDİLEMEDİ!\n\nHata: ${error instanceof Error ? error.message : 'Bilinmeyen hata'}`);
+          setStatus('error');
+          setIsProcessing(false);
+        }
+      })();
+    }
+  }, [currentUser, selectedCategory, navigate]);
 
-  // Dropzone only for drag&drop (no click). We validate by filename extension for reliability.
+  // Dropzone for drag&drop AND click
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
@@ -66,7 +176,7 @@ const DataImportPage: React.FC = () => {
       'application/vnd.ms-excel': ['.xls'],
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
     },
-    noClick: true,
+    noClick: false,  // DUZELTME: Tiklama aktif
     noKeyboard: true,
     multiple: false,
   });
@@ -79,7 +189,7 @@ const DataImportPage: React.FC = () => {
     filePickerRef.current?.click();
   };
 
-  const handleFilePicked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleFilePicked: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
     setDropError(null);
     const picked = Array.from(e.target.files ?? []);
     const allowed = picked.filter(isAllowedFile);
@@ -90,19 +200,79 @@ const DataImportPage: React.FC = () => {
       );
     } else if (allowed.length > 0) {
       setFiles(allowed);
+      
+      // ✅ OTOMATIK KAYDET: Dosya seçilir seçilmez hemen kaydet!
+      if (currentUser && allowed.length > 0) {
+        try {
+          for (const file of allowed) {
+            // ✅ UTF-8 ile oku
+            const fileContent = await new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (e) => resolve(e.target?.result as string);
+              reader.onerror = reject;
+              reader.readAsText(file, 'UTF-8');
+            });
+            
+            // Trim BOM
+            const cleanContent = fileContent.replace(/^\uFEFF/, '');
+            
+            // Validate
+            if (cleanContent.length < 10) {
+              throw new Error(`Dosya içeriği çok kısa: ${file.name}`);
+            }
+            
+            // Save metadata only
+            const savedFile = await saveUploadedFile(
+              file,
+              currentUser.email || 'unknown',
+              undefined,
+              undefined,
+              undefined,
+              {
+                category: selectedCategory || 'other',
+                fileContent: undefined,  // NO content in localStorage
+              }
+            );
+            
+            // Store content in runtime
+            runtimeFileStore.set(savedFile.id, cleanContent);
+          }
+          console.log('✅ Dosya otomatik kaydedildi:', allowed[0].name);
+        } catch (error) {
+          console.error('❌ Otomatik kaydetme hatası:', error);
+        }
+      }
     }
     // allow re-picking same file
     e.target.value = '';
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (files.length === 0) return;
     
-    // VERİYİ HEMEN KAYDET! (setTimeout'tan önce)
+    // VERIYI HEMEN KAYDET! (setTimeout'tan once)
     if (currentUser && files.length > 0) {
       try {
-        files.forEach(file => {
-          saveUploadedFile(
+        // Her dosya icin icerigi oku ve kaydet
+        for (const file of files) {
+          // ✅ UTF-8 ile oku
+          const fileContent = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target?.result as string);
+            reader.onerror = reject;
+            reader.readAsText(file, 'UTF-8');
+          });
+          
+          // Trim BOM
+          const cleanContent = fileContent.replace(/^\uFEFF/, '');
+          
+          // Validate
+          if (cleanContent.length < 10) {
+            throw new Error(`Dosya içeriği çok kısa: ${file.name}`);
+          }
+          
+          // Save metadata only
+          const savedFile = await saveUploadedFile(
             file, 
             currentUser.email || 'unknown', 
             undefined, 
@@ -113,12 +283,18 @@ const DataImportPage: React.FC = () => {
               branchName: branchName || undefined,
               branchId: branchName ? `branch_${Date.now()}` : undefined,
               description: dataDescription || undefined,
+              fileContent: undefined,  // NO content in localStorage
             }
           );
-        });
-        console.log('✅ Dosyalar kaydedildi:', files.map(f => f.name), `[${selectedCategory}]`);
+          
+          // Store content in runtime
+          runtimeFileStore.set(savedFile.id, cleanContent);
+        }
+        console.log('Dosyalar kaydedildi:', files.map(f => f.name), `[${selectedCategory}]`);
       } catch (error) {
-        console.error('❌ Dosya kaydedilemedi:', error);
+        console.error('Dosya kaydedilemedi:', error);
+        alert('Dosya kaydedilirken hata olustu. Lutfen tekrar deneyin.');
+        return;  // Hata varsa islemi durdur
       }
     }
     
@@ -148,7 +324,7 @@ const DataImportPage: React.FC = () => {
   };
 
   // 🚀 DEMO MODU - Tek tıkla örnek veri yükle
-  const handleDemoMode = () => {
+  const handleDemoMode = async () => {
     // CSV verisi oluştur
     const csvContent = `Tarih,Ürün Adı,Kategori,Sipariş Sayısı,Birim Fiyat (TL),Toplam Gelir (TL),Masraf (TL),Net Kar (TL)
 2024-01-01,Margherita Pizza,Ana Yemek,120,65,7800,2340,5460
@@ -162,10 +338,27 @@ const DataImportPage: React.FC = () => {
     // VERİYİ HEMEN KAYDET!
     if (currentUser) {
       try {
-        saveUploadedFile(file, currentUser.email || 'unknown', 3, 8, undefined, {
+        // ✅ UTF-8 ile oku
+        const fileContent = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target?.result as string);
+          reader.onerror = reject;
+          reader.readAsText(file, 'UTF-8');
+        });
+        
+        // Trim BOM
+        const cleanContent = fileContent.replace(/^\uFEFF/, '');
+        
+        // Save metadata only
+        const savedFile = await saveUploadedFile(file, currentUser.email || 'unknown', 3, 8, undefined, {
           category: 'financial',
           description: 'Demo restoran verileri',
+          fileContent: undefined,  // NO content in localStorage
         });
+        
+        // Store content in runtime
+        runtimeFileStore.set(savedFile.id, cleanContent);
+        
         console.log('✅ Demo dosyası kaydedildi:', file.name);
       } catch (error) {
         console.error('❌ Demo dosyası kaydedilemedi:', error);
@@ -203,25 +396,29 @@ const DataImportPage: React.FC = () => {
   // 🌐 URL İLE VERİ BAĞLANTISI
   const handleUrlConnect = async () => {
     if (!dataUrl.trim()) {
-      alert('⚠️ Lütfen geçerli bir URL girin!');
+      alert('Lutfen gecerli bir URL girin!');
       return;
     }
 
-    // Simulated file oluştur (gerçek URL fetch için)
+    // Simulated file olustur (gercek URL fetch icin)
     const fileName = dataUrl.split('/').pop() || 'url-data.csv';
-    const blob = new Blob(['URL veri bağlantısı kuruldu'], { type: 'text/csv' });
+    const blob = new Blob(['URL veri baglantisi kuruldu'], { type: 'text/csv' });
     const file = new File([blob], fileName, { type: 'text/csv' });
     
-    // VERİYİ HEMEN KAYDET!
+    // VERIYI HEMEN KAYDET!
     if (currentUser) {
       try {
-        saveUploadedFile(file, currentUser.email || 'unknown', undefined, undefined, undefined, {
+        const savedFile = await saveUploadedFile(file, currentUser.email || 'unknown', undefined, undefined, undefined, {
           category: selectedCategory,
           description: `URL: ${dataUrl}`,
+          fileContent: undefined,  // NO content in localStorage
         });
-        console.log('✅ URL bağlantısı kaydedildi:', fileName);
+        // Note: URL data source not fully implemented - no content stored
+        console.log('URL baglantisi kaydedildi:', fileName);
       } catch (error) {
-        console.error('❌ URL bağlantısı kaydedilemedi:', error);
+        console.error('URL baglantisi kaydedilemedi:', error);
+        alert('URL baglantisi kaydedilirken hata olustu.');
+        return;
       }
     }
 
@@ -250,6 +447,69 @@ const DataImportPage: React.FC = () => {
       clearInterval(interval);
       setProgress(100);
     }, 2000);
+  };
+
+  // 📚 ORNEK VERİ YÜKLEME (RestFinops Dashboard icin)
+  const handleLoadSampleData = async () => {
+    if (!currentUser?.email) {
+      alert('Once giris yapmaniz gerekiyor!');
+      return;
+    }
+
+    setIsConnecting(true);
+    setIsProcessing(true);
+    
+    try {
+      // Restoran Operasyon CSV'sini fetch et
+      const operasyonRes = await fetch('/mockup-data/restoran/restoran-operasyon.csv');
+      const operasyonText = await operasyonRes.text();
+      const operasyonFile = new File([operasyonText], 'restoran-operasyon.csv', { type: 'text/csv' });
+      
+      // Restoran Finansal CSV'sini fetch et
+      const finansalRes = await fetch('/mockup-data/restoran/restoran-finansal.csv');
+      const finansalText = await finansalRes.text();
+      const finansalFile = new File([finansalText], 'restoran-finansal.csv', { type: 'text/csv' });
+      
+      // Trim BOM
+      const cleanOperasyonText = operasyonText.replace(/^\uFEFF/, '');
+      const cleanFinansalText = finansalText.replace(/^\uFEFF/, '');
+      
+      // Her ikisini de yukle
+      const savedOperasyon = await saveUploadedFile(operasyonFile, currentUser.email, undefined, undefined, undefined, {
+        category: 'operational',
+        description: 'Restoran Operasyonel Performans (Ornek Veri - RestFinops)',
+        branchName: 'Tum Lokasyonlar',
+        fileContent: undefined,
+      });
+      
+      const savedFinansal = await saveUploadedFile(finansalFile, currentUser.email, undefined, undefined, undefined, {
+        category: 'financial',
+        description: 'Restoran Finansal Performans (Ornek Veri - RestFinops)',
+        branchName: 'Tum Lokasyonlar',
+        fileContent: undefined,
+      });
+      
+      // Store content in runtime
+      runtimeFileStore.set(savedOperasyon.id, cleanOperasyonText);
+      runtimeFileStore.set(savedFinansal.id, cleanFinansalText);
+      
+      setStatus('success');
+      markDataImportCompleted();
+      
+      alert('✓ RestFinops ornek verileri basariyla yuklendi!\n\n2 dosya kutuphanenize eklendi.\nDashboard sayfasina yonlendiriliyorsunuz...');
+      
+      // 2 saniye sonra dashboard'a yonlendir
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Sample data load error:', error);
+      alert('Ornek veri yuklenirken hata olustu: ' + error);
+    } finally {
+      setIsConnecting(false);
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -285,173 +545,100 @@ const DataImportPage: React.FC = () => {
             </a>
           </div>
 
-          {/* 🔀 YÜKLEME YÖNTEMİ SEÇİMİ - TAB MENU */}
-          <div className="mt-6 flex justify-center">
-            <div className="inline-flex rounded-lg border-2 border-gray-200 p-1 bg-gray-50">
-              <button
-                onClick={() => setImportMethod('file')}
-                className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-md text-sm font-medium transition-all ${
-                  importMethod === 'file' 
-                    ? 'bg-blue-600 text-white shadow-md' 
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <UploadCloud size={18} />
-                <span>{t('dataImport.tabs.fileUpload')}</span>
-              </button>
-              <button
-                onClick={() => setImportMethod('url')}
-                className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-md text-sm font-medium transition-all ${
-                  importMethod === 'url' 
-                    ? 'bg-green-600 text-white shadow-md' 
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <Globe size={18} />
-                <span>{t('dataImport.tabs.urlConnection')}</span>
-              </button>
-            </div>
-          </div>
-
-          {/* 📚 KÜTÜPHANEverisi - Kategori Seçimi */}
-          <div className="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-200">
-            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <Database className="text-blue-600" size={24} />
-              <span>Veri Kütüphanesi Bilgileri</span>
-            </h3>
-            
-            {/* Kategori Seçimi */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Veri Kategorisi *
-              </label>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value as DataCategory)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-              >
-                {Object.entries(DATA_CATEGORIES).map(([key, cat]) => (
-                  <option key={key} value={key}>
-                    {cat.icon} {cat.name}
-                  </option>
-                ))}
-              </select>
-              <p className="mt-1 text-xs text-gray-600">
-                {DATA_CATEGORIES[selectedCategory].description}
-              </p>
-            </div>
-
-            {/* Açıklama */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Açıklama (Opsiyonel)
-              </label>
-              <input
-                type="text"
-                value={dataDescription}
-                onChange={(e) => setDataDescription(e.target.value)}
-                placeholder="Örn: 2024 Q4 Satış Verileri"
-                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-
-            {/* Şube Adı (Eğer şube kategorisi seçiliyse) */}
-            {selectedCategory === 'branch' && (
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Şube Adı *
-                </label>
-                <input
-                  type="text"
-                  value={branchName}
-                  onChange={(e) => setBranchName(e.target.value)}
-                  placeholder="Örn: İstanbul Kadıköy Şubesi"
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
-                />
-              </div>
-            )}
-          </div>
-          
-          {/* Download Template Button */}
-          <div className="mt-4 flex flex-col items-center gap-3">
-            <a
-              href="/templates/otel_verileri_ornegi.csv"
-              download="otel_verileri_ornegi.csv"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-            >
-              <Download size={20} />
-              <span>{t('dataImport.template.download')}</span>
-            </a>
-            <p className="text-xs text-gray-500">
-              {t('dataImport.template.hint')}
-            </p>
-          </div>
-           
-          <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              to="/veri-rehberi"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-blue-50 text-blue-700 text-sm font-semibold border border-blue-200 hover:bg-blue-100 transition-colors"
-            >
-              {t('dataImport.guideLink')}
-            </Link>
-            <Link
-              to="/bilgi-merkezi/dashboard-hazirlama-rehberi"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition-colors"
-            >
-              {t('dataImport.openChartGuide')}
-            </Link>
-          </div>
         </div>
 
-        {/* 📁 DOSYA YÜKLEME ALANI (importMethod === 'file') */}
-        {importMethod === 'file' && (
-          <>
-            {/* Native file picker (reliable) */}
+        {/* 📁 VERİ YÜKLEME - YAN YANA 2 YÖNTEM */}
+        <div className="mt-8">
+          {/* Üstte Bilgilendirme */}
+          <p className="text-center text-sm text-gray-600 bg-blue-50 rounded-lg p-3 border border-blue-200 mb-6">
+            💡 Dosyanızı <strong>bilgisayarınızdan seçin</strong>, <strong>URL ile bağlanın</strong> veya <strong>aşağıya sürükleyip bırakın</strong>
+          </p>
+
+          {/* YAN YANA BUTONLAR */}
+          <div className="flex justify-center gap-4 mb-4">
             <input
               ref={filePickerRef}
               type="file"
               accept=".csv,.xlsx"
-              // NOTE: Avoid `display: none` for file inputs — some browsers may block programmatic click.
-              className="absolute -left-[9999px] top-auto h-px w-px opacity-0"
+              style={{ display: 'none' }}
               onChange={handleFilePicked}
             />
+            <button
+              type="button"
+              onClick={handlePickFile}
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl text-lg"
+            >
+              <UploadCloud size={24} />
+              Dosya Seç
+            </button>
+            <button
+              type="button"
+              onClick={() => setImportMethod('url')}
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-green-600 text-white font-bold hover:bg-green-700 transition-all shadow-lg hover:shadow-xl text-lg"
+            >
+              <Globe size={24} />
+              URL Bağlantısı
+            </button>
+          </div>
 
+          {/* YEŞİL TİK - DAHA BELİRGİN */}
+          {files.length > 0 && (
+            <div className="mb-6 bg-emerald-50 border-2 border-emerald-300 rounded-xl p-4">
+              <p className="text-center text-base font-bold text-emerald-700 flex items-center justify-center gap-2">
+                <CheckCircle size={20} className="text-emerald-600" />
+                <span>Seçilen Dosya: {files[0]?.name}</span>
+              </p>
+              <p className="text-center text-xs text-emerald-600 mt-1">
+                Dosya otomatik olarak kütüphanenize kaydedildi
+              </p>
+            </div>
+          )}
+
+          {/* VEYA - Sürükle Bırak İçin */}
+          <div className="my-6 text-center text-sm text-gray-500 font-semibold">
+            - VEYA -
+          </div>
+
+          {/* SURUKLE-BIRAK ALANI */}
             <div
               {...getRootProps()}
-              className={`mt-8 rounded-lg border-2 border-dashed px-6 pt-10 pb-10 transition-colors ${
-                isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'
+              className={`rounded-xl border-4 border-dashed px-8 py-16 transition-all cursor-pointer ${
+                isDragActive 
+                  ? 'border-green-500 bg-green-100 scale-105 shadow-2xl' 
+                  : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50 bg-gray-50'
               }`}
             >
-              <input {...getInputProps({ id: 'file-upload' })} />
+              <input {...getInputProps()} />
               <div className="text-center">
-                <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
-                <div className="mt-4 flex flex-col items-center gap-3 text-sm leading-6 text-gray-600">
-                  <p className="text-gray-700">
-                    {t('dataImport.fileUpload.dragDrop')}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={handlePickFile}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-sm"
-                  >
-                    <UploadCloud size={18} />
-                    Dosya Yükle
-                  </button>
-                  <p className="text-xs text-gray-500">{t('dataImport.fileUpload.or')}</p>
+                <div className={`text-8xl mb-6 ${isDragActive ? 'animate-bounce' : ''}`}>
+                  {isDragActive ? '📂' : '📁'}
                 </div>
-                <p className="text-xs leading-5 text-gray-600">{t('dataImport.fileUpload.format')}</p>
-                {files.length > 0 && (
-                  <p className="mt-2 text-xs font-semibold text-emerald-700">
-                    Seçilen dosya: {files[0]?.name}
+                <p className={`text-2xl font-extrabold mb-3 ${
+                  isDragActive ? 'text-green-800' : 'text-gray-900'
+                }`}>
+                  {isDragActive ? '✅ DOSYAYI ŞİMDİ BIRAK!' : '📤 Dosyayı Buraya Sürükleyin'}
+                </p>
+                <p className={`text-base ${isDragActive ? 'text-green-700 font-bold' : 'text-gray-600'}`}>
+                  CSV veya XLSX formatında
+                </p>
+                {!isDragActive && (
+                  <p className="text-xs text-gray-500 mt-3">
+                    veya buraya tıklayarak dosya seçin
                   </p>
                 )}
               </div>
             </div>
 
             {dropError && (
-              <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800 whitespace-pre-line">
-                {dropError}
+              <div className="mt-4 rounded-xl border-2 border-red-400 bg-red-100 p-6 shadow-lg animate-pulse">
+                <div className="flex items-start gap-3">
+                  <div className="text-3xl">⚠️</div>
+                  <div className="flex-1">
+                    <p className="text-lg font-bold text-red-900 whitespace-pre-line">
+                      {dropError}
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -497,10 +684,9 @@ const DataImportPage: React.FC = () => {
                 </div>
               </div>
             </div>
-          </>
-        )}
+        </div>
 
-        {/* 🌐 URL BAĞLANTISI ALANI (importMethod === 'url') */}
+        {/* 🌐 URL BAĞLANTISI ALANI */}
         {importMethod === 'url' && (
           <div className="mt-8 space-y-4">
             <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-2 border-green-200 p-6">
@@ -617,7 +803,7 @@ const DataImportPage: React.FC = () => {
           </div>
         )}
 
-        {importMethod === 'file' && files.length > 0 && (
+        {files.length > 0 && (
           <div className="mt-6">
             <h3 className="text-lg font-medium text-gray-800">{t('dataImport.selectedFiles')}</h3>
             <ul className="mt-2 divide-y divide-gray-200 border border-gray-200 rounded-md">
@@ -648,18 +834,31 @@ const DataImportPage: React.FC = () => {
           </div>
         )}
 
-        {/* 📊 PROGRESS BAR - Veri İşleme Animasyonu */}
+        {/* 📊 PROGRESS BAR - SAYFANIN EN ÜSTÜNDE SABİT! */}
         {isProcessing && (
-          <div className="mt-6 space-y-3 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-semibold text-gray-700">{t('dataImport.processing.title')}</span>
-              <span className="text-sm font-bold text-blue-600">{progress}%</span>
+          <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-600 to-purple-600 shadow-2xl">
+            <div className="max-w-7xl mx-auto p-6 space-y-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-lg font-bold text-white">⏳ DOSYA KAYDEDİLİYOR...</span>
+                <span className="text-2xl font-extrabold text-yellow-300">{progress}%</span>
+              </div>
+              <div className="w-full bg-white/30 rounded-full h-6 overflow-hidden shadow-inner">
+                <div 
+                  className="bg-gradient-to-r from-green-400 to-emerald-500 h-6 rounded-full transition-all duration-300 ease-out flex items-center justify-center"
+                  style={{ width: `${progress}%` }}
+                >
+                  <span className="text-white font-bold text-sm">{progress > 10 ? `${progress}%` : ''}</span>
+                </div>
+              </div>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-              <div 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 h-3 rounded-full transition-all duration-300 ease-out"
-                style={{ width: `${progress}%` }}
-              ></div>
+          </div>
+        )}
+        
+        {/* ALT KISIM - Detaylı Progress */}
+        {isProcessing && (
+          <div className="mt-6 space-y-3 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border-2 border-blue-400 shadow-xl">
+            <div className="text-center mb-4">
+              <p className="text-xl font-bold text-blue-900 animate-pulse">⏳ İŞLEM DEVAM EDİYOR...</p>
             </div>
             <div className="text-xs text-gray-600 space-y-1">
               <p className="flex items-center gap-2">
@@ -679,27 +878,30 @@ const DataImportPage: React.FC = () => {
         )}
 
         {status === 'success' && (
-             <div className="mt-4 rounded-md bg-green-50 p-4">
-                <div className="flex">
-                    <div className="flex-shrink-0">
-                        <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
-                        </svg>
-                    </div>
-                    <div className="ml-3">
-                        <h3 className="text-sm font-medium text-green-800">{t('dataImport.success.title')}</h3>
-                        <div className="mt-2 text-sm text-green-700">
-                            <p>{t('dataImport.success.message')}</p>
+             <div className="mt-4 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-400 p-6 shadow-xl">
+                <div className="text-center space-y-4">
+                    <div className="flex justify-center">
+                        <div className="rounded-full bg-green-500 p-3">
+                            <CheckCircle size={48} className="text-white" />
                         </div>
+                    </div>
+                    <div>
+                        <h3 className="text-2xl font-bold text-green-900">✅ DOSYA BAŞARIYLA KAYDEDİLDİ!</h3>
+                        <p className="mt-2 text-lg text-green-700">
+                          Dosyanız kütüphanenize eklendi ve dashboard hazırlama arayüzüne yönlendiriliyorsunuz...
+                        </p>
+                        <p className="mt-1 text-sm text-green-600 font-medium">
+                          📁 {files[0]?.name}
+                        </p>
                     </div>
                 </div>
                 <div className="mt-6 text-center">
                   <button
-                    onClick={() => navigate('/dashboard/create')}
+                    onClick={() => navigate('/dashboard')}
                     className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 text-white text-lg font-bold hover:from-green-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
                   >
                     <Sparkles size={24} className="animate-pulse" />
-                    <span>Hadi Şimdi Dashboard'umuzu Oluşturalım!</span>
+                    <span>Dashboard Sayfasına Git!</span>
                     <ArrowRight size={24} />
                   </button>
                   <p className="mt-3 text-sm text-green-700 font-medium">

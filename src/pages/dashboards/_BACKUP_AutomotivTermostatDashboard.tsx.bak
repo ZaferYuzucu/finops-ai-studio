@@ -1,0 +1,330 @@
+// ✅ FINOPS Automotive Termostat Dashboard - CSV Data Reader
+// Production tracking from termostat_uretim_takip_TR.csv
+import React, { useEffect, useMemo, useState } from 'react';
+import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { DollarSign, Package, AlertCircle, Warehouse, Clock } from 'lucide-react';
+import Papa from 'papaparse';
+import { useTranslation } from 'react-i18next';
+
+// Data types matching CSV structure
+interface ProductionData {
+  Tarih: string;
+  Üretim_Emri_No: string;
+  Ürün_Kodu: string;
+  Üretim_Aşaması: string;
+  Üretilen_Adet: number;
+  Hatalı_Adet: number;
+  Toplam_Üretim_Maliyeti_USD: number;
+  Mamul_Stok: number;
+  Yarı_Mamul_Stok: number;
+}
+
+const AutomotivTermostatDashboard = () => {
+  const { t } = useTranslation();
+  const [data, setData] = useState<ProductionData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load and parse CSV data
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await fetch('/demo-data/termostat_uretim_takip_TR.csv');
+        const csvText = await response.text();
+        
+        Papa.parse(csvText, {
+          header: true,
+          dynamicTyping: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            setData(results.data as ProductionData[]);
+            setLoading(false);
+          },
+        });
+      } catch (error) {
+        console.error('CSV yükleme hatası:', error);
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  // Calculate KPIs
+  const kpis = {
+    totalCost: data.reduce((sum, row) => sum + (row.Toplam_Üretim_Maliyeti_USD || 0), 0),
+    totalProduced: data.reduce((sum, row) => sum + (row.Üretilen_Adet || 0), 0),
+    totalDefects: data.reduce((sum, row) => sum + (row.Hatalı_Adet || 0), 0),
+    finishedStock: data.length > 0 ? data[data.length - 1]?.Mamul_Stok || 0 : 0,
+    wipStock: data.length > 0 ? data[data.length - 1]?.Yarı_Mamul_Stok || 0 : 0,
+  };
+
+  const defectRate = kpis.totalProduced > 0 
+    ? ((kpis.totalDefects / kpis.totalProduced) * 100).toFixed(2) 
+    : '0.00';
+
+  // Chart 1: Cost by Production Stage
+  const costByStage = data.reduce((acc, row) => {
+    const stage = row.Üretim_Aşaması || 'Unknown';
+    if (!acc[stage]) acc[stage] = 0;
+    acc[stage] += row.Toplam_Üretim_Maliyeti_USD || 0;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const costByStageData = Object.entries(costByStage).map(([stage, cost]) => ({
+    stage,
+    cost,
+  })).slice(0, 10);
+
+  // Chart 2: Daily Production Volume
+  const dailyProduction = data.reduce((acc, row) => {
+    const date = row.Tarih || 'Unknown';
+    if (!acc[date]) acc[date] = 0;
+    acc[date] += row.Üretilen_Adet || 0;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const dailyProductionData = Object.entries(dailyProduction)
+    .map(([date, count]) => ({ date, count }))
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .slice(0, 15);
+
+  // Chart 3: Stock Distribution
+  const stockData = [
+    { name: 'Mamul Stok', value: kpis.finishedStock },
+    { name: 'Yarı Mamul', value: kpis.wipStock },
+  ];
+
+  const COLORS = ['#0066FF', '#8000FF'];
+
+  const formatKpiValue = (value: number, type: 'currency' | 'number' | 'percentage') => {
+    if (type === 'currency') {
+      if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
+      if (value >= 1000) return `$${(value / 1000).toFixed(1)}K`;
+      return `$${value.toFixed(0)}`;
+    }
+    if (type === 'percentage') return `%${value}`;
+    if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
+    if (value >= 1000) return `${(value / 1000).toFixed(1)}K`;
+    return value.toString();
+  };
+
+  if (loading) {
+    return (
+      <div style={{width:'100vw',height:'100vh',display:'flex',alignItems:'center',justifyContent:'center',background:'#E8EAED'}}>
+        <div style={{width:'60px',height:'60px',border:'4px solid #E5E7EB',borderTop:'4px solid #8000FF',borderRadius:'50%',animation:'spin 1s linear infinite'}}/>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <style>{`
+        @media print { 
+          body * { visibility: hidden; } 
+          .dashboard-print-area, .dashboard-print-area * { visibility: visible; } 
+          .dashboard-print-area { 
+            position: absolute; 
+            left: 0; 
+            top: 0; 
+            width: 297mm !important; 
+            height: 210mm !important; 
+            padding: 8mm 10mm !important; 
+            margin: 0 !important; 
+            overflow: hidden !important; 
+            transform: scale(0.95);
+            transform-origin: top left;
+            page-break-inside: avoid;
+            page-break-after: avoid;
+          } 
+          .no-print { display: none !important; }
+          .kpi-grid { max-height: 110px !important; gap: 6px !important; }
+          .kpi-card { min-height: 100px !important; max-height: 110px !important; padding: 8px 10px !important; }
+          .charts-grid { height: 320px !important; gap: 6px !important; }
+          .chart-card { padding: 8px !important; }
+          .dashboard-header { padding: 8px 12px !important; min-height: 50px !important; }
+        }
+        @page { size: A4 landscape; margin: 0; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .dashboard-container { width: 100vw; height: 100vh; overflow: hidden; background: #E8EAED; display: flex; flex-direction: column; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .dashboard-print-area { width: 100%; max-width: 1600px; height: calc(100vh - 40px); margin: 0 auto; padding: 16px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+        .dashboard-header { background: linear-gradient(135deg, #0000FF 0%, #8000FF 100%); color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; min-height: 60px; }
+        .dashboard-actions { display: flex; gap: 12px; }
+        .action-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .action-btn-red { background: #DC2626; }
+        .action-btn-red:hover { background: #B91C1C; }
+        .action-btn-blue { background: #4F46E5; }
+        .action-btn-blue:hover { background: #4338CA; }
+        .action-btn-green { background: #16A34A; }
+        .action-btn-green:hover { background: #15803D; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; max-height: 130px; }
+        .kpi-card { background: #FFF; border: 2px solid #D1D5DB; border-radius: 8px; padding: 10px 12px 8px 12px; display: flex; flex-direction: column; gap: 4px; transition: all 0.3s; min-height: 120px; max-height: 130px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .kpi-card:hover { border-color: #8000FF; box-shadow: 0 6px 16px rgba(128,0,255,0.15); transform: translateY(-3px); background: linear-gradient(135deg, #FFF 0%, #F8F9FF 100%); }
+        .kpi-header { display: flex; align-items: center; gap: 8px; }
+        .kpi-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0000FF 0%, #8000FF 100%); color: white; }
+        .kpi-label { font-size: 10px; color: #6B7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; line-height: 1.2; flex: 1; }
+        .kpi-value { font-size: 24px; font-weight: 700; color: #111827; line-height: 1; letter-spacing: -0.5px; }
+        .kpi-change { font-size: 11px; font-weight: 600; }
+        .kpi-change.positive { color: #10B981; }
+        .kpi-change.negative { color: #EF4444; }
+        .kpi-insight { font-size: 9px; color: #4B5563; background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%); border-left: 2px solid #8000FF; border-radius: 3px; padding: 4px 6px; margin-top: auto; line-height: 1.3; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+        .charts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; height: 360px; }
+        .chart-card { background: #FFF; border: 2px solid #D1D5DB; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; height: 100%; transition: all 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .chart-card:hover { border-color: #8000FF; box-shadow: 0 8px 20px rgba(128,0,255,0.12); transform: translateY(-3px); background: linear-gradient(135deg, #FFF 0%, #F8F9FF 100%); }
+        .chart-title { font-size: 12px; font-weight: 700; color: #111827; margin-bottom: 6px; }
+        .chart-container { flex: 1; min-height: 0; height: 240px; }
+        .chart-insight { margin-top: 6px; padding: 6px 8px; background: linear-gradient(135deg, #E0E7FF 0%, #EDE9FE 100%); border-left: 3px solid #8000FF; border-radius: 4px; font-size: 10px; color: #374151; line-height: 1.3; }
+      `}</style>
+
+      <div className="dashboard-container">
+        <div className="dashboard-print-area">
+          <div className="dashboard-header">
+            <div>
+              <h1 style={{fontSize:'20px',fontWeight:800,margin:0}}>✅ {t('automotivTermostatDashboard.title')}</h1>
+              <p style={{fontSize:'12px',margin:'4px 0 0 0',opacity:0.9}}>
+                {t('automotivTermostatDashboard.subtitle')} | FINOPS Standart Format | Veri: termostat_uretim_takip_TR.csv
+              </p>
+            </div>
+            <div className="dashboard-actions no-print">
+              <button className="action-btn action-btn-blue">📤 Paylaş</button>
+              <button className="action-btn action-btn-green">📊 Excel</button>
+              <button className="action-btn action-btn-red" onClick={() => window.print()}>📄 PDF</button>
+            </div>
+          </div>
+
+          <div className="kpi-grid">
+            {/* KPI 1: Total Cost */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon"><DollarSign size={16} /></div>
+                <div className="kpi-label">{t('automotivTermostatDashboard.kpi.totalCost')}</div>
+              </div>
+              <div className="kpi-value">{formatKpiValue(kpis.totalCost, 'currency')}</div>
+              <div className="kpi-change positive">↑ 5.2%</div>
+              <div className="kpi-insight">Toplam maliyet hedef dahilinde</div>
+            </div>
+
+            {/* KPI 2: Total Produced */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon"><Package size={16} /></div>
+                <div className="kpi-label">{t('automotivTermostatDashboard.kpi.totalProduced')}</div>
+              </div>
+              <div className="kpi-value">{formatKpiValue(kpis.totalProduced, 'number')}</div>
+              <div className="kpi-change positive">↑ 3.1%</div>
+              <div className="kpi-insight">Üretim hedefleri aşıldı</div>
+            </div>
+
+            {/* KPI 3: Defect Rate */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon"><AlertCircle size={16} /></div>
+                <div className="kpi-label">Fire Oranı</div>
+              </div>
+              <div className="kpi-value">{formatKpiValue(parseFloat(defectRate), 'percentage')}</div>
+              <div className="kpi-change negative">↓ 0.2%</div>
+              <div className="kpi-insight">Fire oranı düşüyor, kalite iyileşiyor</div>
+            </div>
+
+            {/* KPI 4: Total Defects */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon"><AlertCircle size={16} /></div>
+                <div className="kpi-label">Fire Adedi</div>
+              </div>
+              <div className="kpi-value">{formatKpiValue(kpis.totalDefects, 'number')}</div>
+              <div className="kpi-change negative">↓ 1.5%</div>
+              <div className="kpi-insight">Toplam hatalı ürün azalıyor</div>
+            </div>
+
+            {/* KPI 5: Finished Stock */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon"><Warehouse size={16} /></div>
+                <div className="kpi-label">{t('automotivTermostatDashboard.kpi.finishedStock')}</div>
+              </div>
+              <div className="kpi-value">{formatKpiValue(kpis.finishedStock, 'number')}</div>
+              <div className="kpi-change positive">↑ 6.7%</div>
+              <div className="kpi-insight">Mamul stok seviyesi uygun</div>
+            </div>
+
+            {/* KPI 6: WIP Stock */}
+            <div className="kpi-card">
+              <div className="kpi-header">
+                <div className="kpi-icon"><Clock size={16} /></div>
+                <div className="kpi-label">{t('automotivTermostatDashboard.kpi.wipStock')}</div>
+              </div>
+              <div className="kpi-value">{formatKpiValue(kpis.wipStock, 'number')}</div>
+              <div className="kpi-change positive">↑ 13.6%</div>
+              <div className="kpi-insight">Yarı mamul stok yükseliyor</div>
+            </div>
+          </div>
+
+          <div className="charts-grid">
+            {/* Chart 1: Cost by Stage */}
+            <div className="chart-card">
+              <div className="chart-title">{t('automotivTermostatDashboard.charts.costByStage')}</div>
+              <div className="chart-container">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={costByStageData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                    <XAxis dataKey="stage" tick={{fontSize:9}} angle={-15} textAnchor="end" height={60} />
+                    <YAxis tick={{fontSize:9}} />
+                    <Tooltip formatter={(value) => `$${Number(value).toLocaleString()}`} />
+                    <Bar dataKey="cost" fill="#0066FF" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-insight">Montaj aşamasında en yüksek maliyet görülüyor</div>
+            </div>
+
+            {/* Chart 2: Daily Production */}
+            <div className="chart-card">
+              <div className="chart-title">{t('automotivTermostatDashboard.charts.dailyProduction')}</div>
+              <div className="chart-container">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={dailyProductionData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                    <XAxis dataKey="date" tick={{fontSize:9}} angle={-15} textAnchor="end" height={60} />
+                    <YAxis tick={{fontSize:9}} />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="count" stroke="#0066FF" strokeWidth={3} dot={{ fill: '#8000FF', strokeWidth: 2, r: 4 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-insight">Günlük üretim trendi stabil seyrediyor</div>
+            </div>
+
+            {/* Chart 3: Stock Distribution */}
+            <div className="chart-card">
+              <div className="chart-title">{t('automotivTermostatDashboard.charts.stockDistribution')}</div>
+              <div className="chart-container">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={stockData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      label={(entry) => `${entry.name}: ${entry.value}`}
+                      dataKey="value"
+                    >
+                      {stockData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-insight">Mamul/Yarı mamul dağılımı dengeli</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default AutomotivTermostatDashboard;

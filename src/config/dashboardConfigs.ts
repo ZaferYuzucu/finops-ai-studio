@@ -1,0 +1,757 @@
+// ✅ FINOPS Dashboard Configurations - Tüm Dashboard Tanımları
+// Her dashboard için sadece config, format hepsi aynı
+import { DashboardConfig } from '../components/dashboards/DashboardFactory';
+import { 
+  DollarSign, ShoppingCart, Users, TrendingUp, Clock, Star,
+  Percent, Target, Award, AlertCircle, TrendingDown,
+  PieChart as PieIcon, BarChart3, Activity, Briefcase,
+  Building, Car, Factory, Package, Truck, Heart, GraduationCap,
+  Home, Zap, Leaf, Store, ShoppingBag, Shield, Phone, Clipboard
+} from 'lucide-react';
+
+export const DASHBOARD_CONFIGS: Record<string, DashboardConfig> = {
+  // ========== RESTAURANT & HOSPITALITY ==========
+  'restaurant-finance': {
+    id: 'restaurant-finance',
+    title: 'Restoran Finansal Performans',
+    subtitle: 'Finansal Analiz & Kârlılık',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'netMargin', label: 'Net Kâr Marjı', icon: DollarSign, format: 'percentage', insight: 'Hedef %25 seviyesine ulaşıldı, kârlılık iyileşiyor.' },
+      { id: 'foodCost', label: 'Food Cost %', icon: TrendingUp, format: 'percentage', insight: 'Gıda maliyeti kontrol altında.' },
+      { id: 'laborCost', label: 'Labor Cost %', icon: TrendingDown, format: 'percentage', insight: 'İşgücü maliyeti optimize edildi.' },
+      { id: 'primeCost', label: 'Prime Cost %', icon: Percent, format: 'percentage', insight: 'Prime cost %60 altında, mükemmel.' },
+      { id: 'roe', label: 'ROE %', icon: Target, format: 'percentage', insight: 'Özsermaye karlılığı sektör ortalamasının üzerinde.' },
+      { id: 'revenue', label: 'Toplam Gelir', icon: DollarSign, format: 'currency', insight: 'Gelir artışı sürdürülebilir.' },
+    ],
+    charts: [
+      { id: 'revenue', title: 'Gelir & Kârlılık Trendi', type: 'line', dataKey: 'revenue', insight: 'Gelir trendi pozitif, hedefle paralel.' },
+      { id: 'costs', title: 'Maliyet Dağılımı', type: 'pie', dataKey: 'costs', insight: 'Gıda ve işçilik maliyetleri dengeli.' },
+      { id: 'prime', title: 'Prime Cost Trendi', type: 'line', dataKey: 'prime', insight: 'Prime cost %60 hedefinin altında.' },
+    ],
+  },
+
+  'restaurant-labor': {
+    id: 'restaurant-labor',
+    title: 'Restoran İşgücü Yönetimi',
+    subtitle: 'Personel & Verimlilik Analizi',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'laborCost', label: 'İşgücü Maliyeti', icon: DollarSign, format: 'currency', insight: 'Hedef bütçe içinde seyirde.' },
+      { id: 'laborPct', label: 'Labor Cost %', icon: Percent, format: 'percentage', insight: 'Sektör ortalamasının altında.' },
+      { id: 'productivity', label: 'Verimlilik', icon: TrendingUp, format: 'number', insight: 'Personel verimliliği artıyor.' },
+      { id: 'turnover', label: 'İşten Çıkış %', icon: AlertCircle, format: 'percentage', insight: 'Devir oranı kontrol altında.' },
+      { id: 'overtime', label: 'Fazla Mesai Saat', icon: Clock, format: 'number', insight: 'Fazla mesai optimize edilmeli.' },
+      { id: 'headcount', label: 'Personel Sayısı', icon: Users, format: 'number', insight: 'Kadro dengeli, planlı artış.' },
+    ],
+    charts: [
+      { id: 'cost', title: 'Haftalık İşgücü Maliyeti', type: 'bar', dataKey: 'laborCost', insight: 'Maliyetler stabil seyirde.' },
+      { id: 'productivity', title: 'Personel Verimliliği', type: 'bar', dataKey: 'productivity', insight: 'En verimli çalışanlar belirlendi.' },
+      { id: 'shifts', title: 'Vardiya Performansı', type: 'bar', dataKey: 'shifts', insight: 'Öğle vardiyası en verimli.' },
+    ],
+  },
+
+  'restaurant-sales': {
+    id: 'restaurant-sales',
+    title: 'Restoran Satış Göstergeleri',
+    subtitle: 'Satış Analizi & Trend',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'revenue', label: 'Toplam Satış', icon: DollarSign, format: 'currency', insight: 'Satış hedefin %15 üzerinde.' },
+      { id: 'orders', label: 'Sipariş Sayısı', icon: ShoppingCart, format: 'number', insight: 'Sipariş hacmi artıyor.' },
+      { id: 'avgBasket', label: 'Ort. Sepet', icon: ShoppingBag, format: 'currency', insight: 'Upselling stratejisi etkili.' },
+      { id: 'checkSize', label: 'Ort. Hesap', icon: DollarSign, format: 'currency', insight: 'Hesap tutarı yükseliyor.' },
+      { id: 'tableCount', label: 'Masa Devir', icon: Clock, format: 'decimal', insight: 'Masa devir hızı optimum.' },
+      { id: 'satisfaction', label: 'Müş. Memnuniyeti', icon: Star, format: 'decimal', insight: 'Memnuniyet mükemmel seviyede.' },
+    ],
+    charts: [
+      { id: 'daily', title: 'Günlük Satış Trendi', type: 'line', dataKey: 'sales', insight: 'Satış trendi pozitif seyirde.' },
+      { id: 'products', title: 'En Çok Satan Ürünler', type: 'pie', dataKey: 'products', insight: 'Pizza ve burger lider ürünler.' },
+      { id: 'hourly', title: 'Saatlik Satış Dağılımı', type: 'bar', dataKey: 'hourly', insight: 'Öğle ve akşam zirvesi.' },
+    ],
+  },
+
+  'hotel-management': {
+    id: 'hotel-management',
+    title: 'Otel Operasyon Paneli',
+    subtitle: 'Otel İşletme & Doluluk',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'occupancy', label: 'Doluluk Oranı', icon: Building, format: 'percentage', insight: 'Doluluk hedefin üzerinde.' },
+      { id: 'adr', label: 'Ort. Oda Fiyatı', icon: DollarSign, format: 'currency', insight: 'ADR sektör ortalamasının üzerinde.' },
+      { id: 'revpar', label: 'RevPAR', icon: TrendingUp, format: 'currency', insight: 'RevPAR artış trendinde.' },
+      { id: 'roomRevenue', label: 'Oda Geliri', icon: DollarSign, format: 'currency', insight: 'Oda geliri beklentiyi aştı.' },
+      { id: 'satisfaction', label: 'Müşteri Puanı', icon: Star, format: 'decimal', insight: 'Misafir memnuniyeti yüksek.' },
+      { id: 'availability', label: 'Müsait Oda', icon: Building, format: 'number', insight: 'Kapasite iyi yönetiliyor.' },
+    ],
+    charts: [
+      { id: 'occupancy', title: 'Günlük Doluluk Trendi', type: 'line', dataKey: 'occupancy', insight: 'Hafta sonları dolu.' },
+      { id: 'revenue', title: 'Gelir Dağılımı', type: 'pie', dataKey: 'revenue', insight: 'Oda geliri dominant.' },
+      { id: 'segment', title: 'Misafir Segmentleri', type: 'bar', dataKey: 'segment', insight: 'İş seyahati yoğun.' },
+    ],
+  },
+
+  // ========== AUTOMOTIVE ==========
+  'automotive-executive': {
+    id: 'automotive-executive',
+    title: 'Otomotiv Executive Dashboard',
+    subtitle: 'Yönetim Özeti & Performans',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'revenue', label: 'Toplam Ciro', icon: DollarSign, format: 'currency', insight: 'Ciro hedefin %12 üzerinde.' },
+      { id: 'units', label: 'Satılan Araç', icon: Car, format: 'number', insight: 'Birim satış artış trendinde.' },
+      { id: 'margin', label: 'Brüt Kâr Marjı', icon: Percent, format: 'percentage', insight: 'Marj hedefin üzerinde.' },
+      { id: 'inventory', label: 'Stok Devir', icon: Package, format: 'number', insight: 'Stok devir hızı optimum.' },
+      { id: 'service', label: 'Servis Geliri', icon: Award, format: 'currency', insight: 'Servis katkısı yükseliyor.' },
+      { id: 'satisfaction', label: 'Müşteri NPS', icon: Star, format: 'number', insight: 'NPS skoru sektör lideri.' },
+    ],
+    charts: [
+      { id: 'sales', title: 'Aylık Satış Performansı', type: 'line', dataKey: 'sales', insight: 'Satış trendi güçlü.' },
+      { id: 'models', title: 'Model Bazlı Dağılım', type: 'pie', dataKey: 'models', insight: 'SUV segmenti lider.' },
+      { id: 'regions', title: 'Bölgesel Satışlar', type: 'bar', dataKey: 'regions', insight: 'İstanbul en yüksek.' },
+    ],
+  },
+
+  'automotive-service': {
+    id: 'automotive-service',
+    title: 'Otomotiv Servis Dashboard',
+    subtitle: 'Servis & Bakım Analizi',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'revenue', label: 'Servis Geliri', icon: DollarSign, format: 'currency', insight: 'Servis geliri rekor seviyede.' },
+      { id: 'appointments', label: 'Randevu Sayısı', icon: Clock, format: 'number', insight: 'Randevu talepleri yüksek.' },
+      { id: 'efficiency', label: 'Servis Verimliliği', icon: TrendingUp, format: 'percentage', insight: 'Verimlilik artıyor.' },
+      { id: 'parts', label: 'Yedek Parça Satış', icon: Package, format: 'currency', insight: 'Parça satışı güçlü.' },
+      { id: 'satisfaction', label: 'Müşteri Memnuniyeti', icon: Star, format: 'decimal', insight: 'Memnuniyet yüksek.' },
+      { id: 'utilization', label: 'Kapasite Kullanım', icon: Percent, format: 'percentage', insight: 'Kapasite optimum kullanılıyor.' },
+    ],
+    charts: [
+      { id: 'revenue', title: 'Haftalık Servis Geliri', type: 'bar', dataKey: 'revenue', insight: 'Gelir istikrarlı artıyor.' },
+      { id: 'types', title: 'Servis Tipleri', type: 'pie', dataKey: 'types', insight: 'Periyodik bakım dominant.' },
+      { id: 'techs', title: 'Teknisyen Verimliliği', type: 'bar', dataKey: 'techs', insight: 'En verimli ekip belirlendi.' },
+    ],
+  },
+
+  'automotive-sales': {
+    id: 'automotive-sales',
+    title: 'Otomotiv Satış Dashboard',
+    subtitle: 'Satış Performansı & Pipeline',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'revenue', label: 'Satış Cirosu', icon: DollarSign, format: 'currency', insight: 'Ciro hedefin üzerinde.' },
+      { id: 'units', label: 'Satılan Araç', icon: Car, format: 'number', insight: 'Birim satış artışta.' },
+      { id: 'leads', label: 'Potansiyel Müşteri', icon: Users, format: 'number', insight: 'Lead kalitesi yükseliyor.' },
+      { id: 'conversion', label: 'Dönüşüm Oranı', icon: Percent, format: 'percentage', insight: 'Dönüşüm oranı optimize edildi.' },
+      { id: 'testDrive', label: 'Test Sürüşü', icon: Car, format: 'number', insight: 'Test sürüşü talebi yüksek.' },
+      { id: 'dealSize', label: 'Ort. Satış Tutarı', icon: DollarSign, format: 'currency', insight: 'Satış tutarı büyüyor.' },
+    ],
+    charts: [
+      { id: 'monthly', title: 'Aylık Satış Trendi', type: 'line', dataKey: 'sales', insight: 'Trend pozitif seyirde.' },
+      { id: 'segments', title: 'Segment Dağılımı', type: 'pie', dataKey: 'segments', insight: 'Orta segment lider.' },
+      { id: 'salespeople', title: 'Satış Danışmanı Performansı', type: 'bar', dataKey: 'salespeople', insight: 'En başarılı danışman belirlendi.' },
+    ],
+  },
+
+  // ========== FINANCE & ACCOUNTING ==========
+  'finance': {
+    id: 'finance',
+    title: 'Finans Dashboard',
+    subtitle: 'Finansal Durum & Performans',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'revenue', label: 'Toplam Gelir', icon: DollarSign, format: 'currency', insight: 'Gelir bütçenin üzerinde.' },
+      { id: 'netIncome', label: 'Net Kâr', icon: TrendingUp, format: 'currency', insight: 'Kârlılık arttı.' },
+      { id: 'margin', label: 'Net Kâr Marjı', icon: Percent, format: 'percentage', insight: 'Marj hedefte.' },
+      { id: 'expenses', label: 'Toplam Gider', icon: TrendingDown, format: 'currency', insight: 'Giderler kontrol altında.' },
+      { id: 'ebitda', label: 'EBITDA', icon: DollarSign, format: 'currency', insight: 'EBITDA güçlü.' },
+      { id: 'roe', label: 'ROE %', icon: Target, format: 'percentage', insight: 'Özsermaye getirisi yüksek.' },
+    ],
+    charts: [
+      { id: 'pnl', title: 'Gelir & Gider Trendi', type: 'line', dataKey: 'pnl', insight: 'Kâr marjı genişliyor.' },
+      { id: 'expenses', title: 'Gider Dağılımı', type: 'pie', dataKey: 'expenses', insight: 'İşletme giderleri dominant.' },
+      { id: 'kpi', title: 'Finansal KPI Trendi', type: 'line', dataKey: 'kpi', insight: 'Tüm KPI değerleri hedefte.' },
+    ],
+  },
+
+  'cashflow': {
+    id: 'cashflow',
+    title: 'Nakit Akış Dashboard',
+    subtitle: 'Cash Flow & Likidite',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'cashBalance', label: 'Nakit Bakiye', icon: DollarSign, format: 'currency', insight: 'Nakit pozisyonu güçlü.' },
+      { id: 'inflow', label: 'Gelen Nakit', icon: TrendingUp, format: 'currency', insight: 'Nakit girişi istikrarlı.' },
+      { id: 'outflow', label: 'Çıkan Nakit', icon: TrendingDown, format: 'currency', insight: 'Nakit çıkışı kontrollü.' },
+      { id: 'netCash', label: 'Net Nakit Akışı', icon: DollarSign, format: 'currency', insight: 'Net akış pozitif.' },
+      { id: 'dso', label: 'DSO (Gün)', icon: Clock, format: 'number', insight: 'Tahsilat süresi kısalıyor.' },
+      { id: 'workingCapital', label: 'İşletme Sermayesi', icon: Briefcase, format: 'currency', insight: 'Sermaye yeterli.' },
+    ],
+    charts: [
+      { id: 'flow', title: 'Nakit Akış Trendi', type: 'line', dataKey: 'flow', insight: 'Akış pozitif seyirde.' },
+      { id: 'sources', title: 'Nakit Kaynakları', type: 'pie', dataKey: 'sources', insight: 'Operasyonel akış dominant.' },
+      { id: 'forecast', title: '3 Aylık Nakit Projeksiyonu', type: 'line', dataKey: 'forecast', insight: 'Gelecek görünüm olumlu.' },
+    ],
+  },
+
+  // ========== HR & IT & OPERATIONS ==========
+  'hr': {
+    id: 'hr',
+    title: 'İnsan Kaynakları Dashboard',
+    subtitle: 'Personel Yönetimi & HR KPI',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'headcount', label: 'Toplam Personel', icon: Users, format: 'number', insight: 'Kadro planında.' },
+      { id: 'turnover', label: 'İşten Ayrılma %', icon: TrendingDown, format: 'percentage', insight: 'Devir oranı düşük.' },
+      { id: 'avgTenure', label: 'Ort. Çalışma Süresi', icon: Clock, format: 'number', insight: 'Deneyim arttı.' },
+      { id: 'satisfaction', label: 'Çalışan Memnuniyeti', icon: Star, format: 'decimal', insight: 'Memnuniyet yüksek.' },
+      { id: 'timeToHire', label: 'İşe Alım Süresi (Gün)', icon: Clock, format: 'number', insight: 'İşe alım hızlanıyor.' },
+      { id: 'trainingHours', label: 'Eğitim Saati', icon: GraduationCap, format: 'number', insight: 'Eğitim yatırımı artıyor.' },
+    ],
+    charts: [
+      { id: 'headcount', title: 'Aylık Personel Trendi', type: 'line', dataKey: 'headcount', insight: 'Kadro büyüyor.' },
+      { id: 'departments', title: 'Departman Dağılımı', type: 'pie', dataKey: 'departments', insight: 'Operasyon en büyük departman.' },
+      { id: 'performance', title: 'Performans Dağılımı', type: 'bar', dataKey: 'performance', insight: 'Performans dengeli.' },
+    ],
+  },
+
+  'it-operations': {
+    id: 'it-operations',
+    title: 'IT Operasyon Dashboard',
+    subtitle: 'Sistem & Altyapı Performansı',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'uptime', label: 'Sistem Uptime', icon: Activity, format: 'percentage', insight: 'Uptime %99.9, mükemmel.' },
+      { id: 'incidents', label: 'Olay Sayısı', icon: AlertCircle, format: 'number', insight: 'Olaylar azalıyor.' },
+      { id: 'resolution', label: 'Ort. Çözüm Süresi', icon: Clock, format: 'number', insight: 'Çözüm hızlanıyor.' },
+      { id: 'tickets', label: 'Destek Talebi', icon: Clipboard, format: 'number', insight: 'Talep hacmi normal.' },
+      { id: 'satisfaction', label: 'Kullanıcı Memnuniyeti', icon: Star, format: 'decimal', insight: 'Memnuniyet yüksek.' },
+      { id: 'security', label: 'Güvenlik Skoru', icon: Shield, format: 'number', insight: 'Güvenlik güçlü.' },
+    ],
+    charts: [
+      { id: 'uptime', title: 'Günlük Uptime Trendi', type: 'line', dataKey: 'uptime', insight: 'Stabilite yüksek.' },
+      { id: 'incidents', title: 'Olay Kategorileri', type: 'pie', dataKey: 'incidents', insight: 'Yazılım olayları dominant.' },
+      { id: 'response', title: 'Müdahale Süreleri', type: 'bar', dataKey: 'response', insight: 'Yanıt süreleri SLA içinde.' },
+    ],
+  },
+
+  // ========== MANUFACTURING ==========
+  'manufacturing': {
+    id: 'manufacturing',
+    title: 'Üretim Dashboard',
+    subtitle: 'Üretim & Verimlilik',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'output', label: 'Üretim Miktarı', icon: Factory, format: 'number', insight: 'Üretim hedefin üzerinde.' },
+      { id: 'oee', label: 'OEE %', icon: Target, format: 'percentage', insight: 'OEE %85, mükemmel.' },
+      { id: 'defects', label: 'Hata Oranı', icon: AlertCircle, format: 'percentage', insight: 'Hata oranı düşük.' },
+      { id: 'downtime', label: 'Duruş Süresi (Saat)', icon: Clock, format: 'number', insight: 'Duruşlar minimize edildi.' },
+      { id: 'productivity', label: 'Verimlilik', icon: TrendingUp, format: 'percentage', insight: 'Verimlilik arttı.' },
+      { id: 'capacity', label: 'Kapasite Kullanım', icon: Percent, format: 'percentage', insight: 'Kapasite optimum.' },
+    ],
+    charts: [
+      { id: 'output', title: 'Günlük Üretim Trendi', type: 'bar', dataKey: 'output', insight: 'Üretim istikrarlı.' },
+      { id: 'oee', title: 'OEE Bileşenleri', type: 'pie', dataKey: 'oee', insight: 'Availability en yüksek.' },
+      { id: 'lines', title: 'Hat Bazlı Performans', type: 'bar', dataKey: 'lines', insight: 'Hat 1 en verimli.' },
+    ],
+  },
+
+  'oee': {
+    id: 'oee',
+    title: 'OEE Dashboard',
+    subtitle: 'Overall Equipment Effectiveness',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'oee', label: 'OEE %', icon: Target, format: 'percentage', insight: 'OEE world class seviyede.' },
+      { id: 'availability', label: 'Availability %', icon: Activity, format: 'percentage', insight: 'Erişilebilirlik yüksek.' },
+      { id: 'performance', label: 'Performance %', icon: TrendingUp, format: 'percentage', insight: 'Performans optimum.' },
+      { id: 'quality', label: 'Quality %', icon: Award, format: 'percentage', insight: 'Kalite mükemmel.' },
+      { id: 'mtbf', label: 'MTBF (Saat)', icon: Clock, format: 'number', insight: 'Arızasız çalışma arttı.' },
+      { id: 'mttr', label: 'MTTR (Dakika)', icon: Clock, format: 'number', insight: 'Onarım hızlanıyor.' },
+    ],
+    charts: [
+      { id: 'trend', title: 'OEE Trend Analizi', type: 'line', dataKey: 'oee', insight: 'OEE istikrarlı yükseliyor.' },
+      { id: 'components', title: 'OEE Bileşenleri', type: 'pie', dataKey: 'components', insight: 'Performance geliştirilmeli.' },
+      { id: 'machines', title: 'Makine Bazlı OEE', type: 'bar', dataKey: 'machines', insight: 'M-101 en yüksek OEE.' },
+    ],
+  },
+
+  'quality-control': {
+    id: 'quality-control',
+    title: 'Kalite Kontrol Dashboard',
+    subtitle: 'Kalite & Uygunluk',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'defectRate', label: 'Hata Oranı', icon: AlertCircle, format: 'percentage', insight: 'Hata oranı Six Sigma seviyesinde.' },
+      { id: 'firstPass', label: 'İlk Geçiş Verimi', icon: Award, format: 'percentage', insight: 'İlk geçiş yüksek.' },
+      { id: 'inspections', label: 'Yapılan Kontrol', icon: Clipboard, format: 'number', insight: 'Kontrol sıklığı optimum.' },
+      { id: 'rejections', label: 'Red Oranı', icon: TrendingDown, format: 'percentage', insight: 'Red oranı azalıyor.' },
+      { id: 'customerComplaints', label: 'Müşteri Şikayeti', icon: AlertCircle, format: 'number', insight: 'Şikayetler minimize edildi.' },
+      { id: 'auditScore', label: 'Denetim Puanı', icon: Award, format: 'number', insight: 'Denetim skoru mükemmel.' },
+    ],
+    charts: [
+      { id: 'defects', title: 'Haftalık Hata Trendi', type: 'line', dataKey: 'defects', insight: 'Hatalar azalma trendinde.' },
+      { id: 'types', title: 'Hata Tipleri', type: 'pie', dataKey: 'types', insight: 'Boyut hataları dominant.' },
+      { id: 'stations', title: 'İstasyon Bazlı Kalite', type: 'bar', dataKey: 'stations', insight: 'Montaj istasyonu en iyi.' },
+    ],
+  },
+
+  // ========== SALES & MARKETING ==========
+  'sales': {
+    id: 'sales',
+    title: 'Satış Dashboard',
+    subtitle: 'Satış Performansı & Pipeline',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'revenue', label: 'Toplam Satış', icon: DollarSign, format: 'currency', insight: 'Satış kotayı aştı.' },
+      { id: 'deals', label: 'Kapanan Anlaşma', icon: Briefcase, format: 'number', insight: 'Anlaşma sayısı arttı.' },
+      { id: 'pipeline', label: 'Pipeline Değeri', icon: TrendingUp, format: 'currency', insight: 'Pipeline güçlü.' },
+      { id: 'conversion', label: 'Dönüşüm Oranı', icon: Percent, format: 'percentage', insight: 'Dönüşüm yükseliyor.' },
+      { id: 'avgDealSize', label: 'Ort. Anlaşma Tutarı', icon: DollarSign, format: 'currency', insight: 'Anlaşma tutarı büyüyor.' },
+      { id: 'salesCycle', label: 'Satış Döngüsü (Gün)', icon: Clock, format: 'number', insight: 'Döngü kısalıyor.' },
+    ],
+    charts: [
+      { id: 'monthly', title: 'Aylık Satış Trendi', type: 'line', dataKey: 'sales', insight: 'Satış trendi güçlü.' },
+      { id: 'regions', title: 'Bölge Bazlı Satış', type: 'pie', dataKey: 'regions', insight: 'Marmara bölgesi lider.' },
+      { id: 'reps', title: 'Satış Temsilcisi Performansı', type: 'bar', dataKey: 'reps', insight: 'En başarılı temsilci belirlendi.' },
+    ],
+  },
+
+  'marketing': {
+    id: 'marketing',
+    title: 'Pazarlama Dashboard',
+    subtitle: 'Kampanya & ROI Analizi',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'budget', label: 'Pazarlama Bütçesi', icon: DollarSign, format: 'currency', insight: 'Bütçe verimli kullanılıyor.' },
+      { id: 'leads', label: 'Oluşan Lead', icon: Users, format: 'number', insight: 'Lead hacmi yükseliyor.' },
+      { id: 'mql', label: 'MQL Sayısı', icon: Target, format: 'number', insight: 'Kaliteli lead artıyor.' },
+      { id: 'roi', label: 'Pazarlama ROI', icon: TrendingUp, format: 'decimal', insight: 'ROI hedefin üzerinde.' },
+      { id: 'cpl', label: 'Lead Başına Maliyet', icon: DollarSign, format: 'currency', insight: 'CPL optimize edildi.' },
+      { id: 'conversionRate', label: 'Lead-MQL Dönüşüm', icon: Percent, format: 'percentage', insight: 'Dönüşüm arttı.' },
+    ],
+    charts: [
+      { id: 'campaigns', title: 'Kampanya Performansı', type: 'bar', dataKey: 'campaigns', insight: 'Digital kampanyalar etkili.' },
+      { id: 'channels', title: 'Kanal Dağılımı', type: 'pie', dataKey: 'channels', insight: 'Online kanallar dominant.' },
+      { id: 'funnel', title: 'Pazarlama Funnel', type: 'bar', dataKey: 'funnel', insight: 'Funnel optimize edildi.' },
+    ],
+  },
+
+  // ========== SUPPLY CHAIN & LOGISTICS ==========
+  'supply-chain': {
+    id: 'supply-chain',
+    title: 'Tedarik Zinciri Dashboard',
+    subtitle: 'Tedarik & Stok Yönetimi',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'inventoryValue', label: 'Stok Değeri', icon: Package, format: 'currency', insight: 'Stok seviyesi optimal.' },
+      { id: 'turnover', label: 'Stok Devir Hızı', icon: TrendingUp, format: 'number', insight: 'Devir hızı yükseliyor.' },
+      { id: 'otif', label: 'OTIF %', icon: Target, format: 'percentage', insight: 'Zamanında teslimat mükemmel.' },
+      { id: 'supplierPerf', label: 'Tedarikçi Performansı', icon: Award, format: 'number', insight: 'Tedarikçi skoru yüksek.' },
+      { id: 'leadTime', label: 'Temin Süresi (Gün)', icon: Clock, format: 'number', insight: 'Temin süresi kısalıyor.' },
+      { id: 'stockout', label: 'Stoksuzluk Oranı', icon: AlertCircle, format: 'percentage', insight: 'Stoksuzluk minimize edildi.' },
+    ],
+    charts: [
+      { id: 'inventory', title: 'Stok Seviye Trendi', type: 'line', dataKey: 'inventory', insight: 'Stok optimize.' },
+      { id: 'categories', title: 'Kategori Bazlı Stok', type: 'pie', dataKey: 'categories', insight: 'Hammadde dominant.' },
+      { id: 'suppliers', title: 'Tedarikçi Performansı', type: 'bar', dataKey: 'suppliers', insight: 'En iyi tedarikçi belirlendi.' },
+    ],
+  },
+
+  'logistics': {
+    id: 'logistics',
+    title: 'Lojistik Dashboard',
+    subtitle: 'Nakliye & Dağıtım',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'shipments', label: 'Sevkiyat Sayısı', icon: Truck, format: 'number', insight: 'Sevkiyat hacmi arttı.' },
+      { id: 'onTime', label: 'Zamanında Teslimat', icon: Clock, format: 'percentage', insight: 'Teslimat performansı yüksek.' },
+      { id: 'cost', label: 'Lojistik Maliyeti', icon: DollarSign, format: 'currency', insight: 'Maliyet optimize edildi.' },
+      { id: 'costPerShipment', label: 'Sevkiyat Başına Maliyet', icon: DollarSign, format: 'currency', insight: 'Birim maliyet düştü.' },
+      { id: 'damaged', label: 'Hasarlı Ürün %', icon: AlertCircle, format: 'percentage', insight: 'Hasar oranı minimal.' },
+      { id: 'utilization', label: 'Araç Kullanım %', icon: Truck, format: 'percentage', insight: 'Araç kullanımı optimum.' },
+    ],
+    charts: [
+      { id: 'daily', title: 'Günlük Sevkiyat Trendi', type: 'bar', dataKey: 'shipments', insight: 'Sevkiyat stabil.' },
+      { id: 'routes', title: 'Rota Bazlı Dağılım', type: 'pie', dataKey: 'routes', insight: 'Ana rotalar belirlendi.' },
+      { id: 'carriers', title: 'Taşıyıcı Performansı', type: 'bar', dataKey: 'carriers', insight: 'En iyi taşıyıcı seçildi.' },
+    ],
+  },
+
+  'fleet-management': {
+    id: 'fleet-management',
+    title: 'Filo Yönetimi Dashboard',
+    subtitle: 'Araç Filosu & Operasyon',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'fleetSize', label: 'Toplam Araç', icon: Truck, format: 'number', insight: 'Filo büyüklüğü planında.' },
+      { id: 'utilization', label: 'Araç Kullanım %', icon: Percent, format: 'percentage', insight: 'Kullanım optimum.' },
+      { id: 'fuelCost', label: 'Yakıt Maliyeti', icon: DollarSign, format: 'currency', insight: 'Yakıt tüketimi kontrol altında.' },
+      { id: 'maintenance', label: 'Bakım Maliyeti', icon: DollarSign, format: 'currency', insight: 'Bakım planı etkili.' },
+      { id: 'downtime', label: 'Araç Duruş Süresi', icon: Clock, format: 'number', insight: 'Duruş minimize edildi.' },
+      { id: 'accidents', label: 'Kaza Oranı', icon: AlertCircle, format: 'number', insight: 'Kaza sayısı düşük.' },
+    ],
+    charts: [
+      { id: 'utilization', title: 'Araç Kullanım Trendi', type: 'line', dataKey: 'utilization', insight: 'Kullanım dengelendi.' },
+      { id: 'costs', title: 'Maliyet Dağılımı', type: 'pie', dataKey: 'costs', insight: 'Yakıt en büyük kalem.' },
+      { id: 'vehicles', title: 'Araç Bazlı Performans', type: 'bar', dataKey: 'vehicles', insight: 'En verimli araçlar belirlendi.' },
+    ],
+  },
+
+  // ========== DIĞER SEKTÖRLER ==========
+  'healthcare': {
+    id: 'healthcare',
+    title: 'Sağlık Dashboard',
+    subtitle: 'Hasta Bakımı & Operasyon',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'patients', label: 'Hasta Sayısı', icon: Heart, format: 'number', insight: 'Hasta hacmi dengeli.' },
+      { id: 'occupancy', label: 'Yatak Doluluk %', icon: Building, format: 'percentage', insight: 'Doluluk optimum.' },
+      { id: 'satisfaction', label: 'Hasta Memnuniyeti', icon: Star, format: 'decimal', insight: 'Memnuniyet yüksek.' },
+      { id: 'waitTime', label: 'Ort. Bekleme (Dk)', icon: Clock, format: 'number', insight: 'Bekleme süresi kısaldı.' },
+      { id: 'readmission', label: 'Tekrar Yatış %', icon: Percent, format: 'percentage', insight: 'Tekrar yatış düşük.' },
+      { id: 'revenue', label: 'Sağlık Geliri', icon: DollarSign, format: 'currency', insight: 'Gelir hedefin üzerinde.' },
+    ],
+    charts: [
+      { id: 'admissions', title: 'Günlük Hasta Kabul', type: 'line', dataKey: 'admissions', insight: 'Kabul sayıları stabil.' },
+      { id: 'departments', title: 'Departman Bazlı Dağılım', type: 'pie', dataKey: 'departments', insight: 'Dahiliye en yoğun.' },
+      { id: 'performance', title: 'Kalite Göstergeleri', type: 'bar', dataKey: 'performance', insight: 'Kalite skoru yüksek.' },
+    ],
+  },
+
+  'education': {
+    id: 'education',
+    title: 'Eğitim Dashboard',
+    subtitle: 'Öğrenci & Akademik Performans',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'students', label: 'Öğrenci Sayısı', icon: Users, format: 'number', insight: 'Kayıt sayıları arttı.' },
+      { id: 'retention', label: 'Öğrenci Elde Tutma', icon: Percent, format: 'percentage', insight: 'Elde tutma yüksek.' },
+      { id: 'graduation', label: 'Mezuniyet Oranı', icon: GraduationCap, format: 'percentage', insight: 'Mezuniyet oranı mükemmel.' },
+      { id: 'satisfaction', label: 'Öğrenci Memnuniyeti', icon: Star, format: 'decimal', insight: 'Memnuniyet yüksek.' },
+      { id: 'avgGrade', label: 'Ortalama Not', icon: Award, format: 'decimal', insight: 'Akademik başarı arttı.' },
+      { id: 'revenue', label: 'Eğitim Geliri', icon: DollarSign, format: 'currency', insight: 'Gelir istikrarlı.' },
+    ],
+    charts: [
+      { id: 'enrollment', title: 'Dönemlik Kayıt Trendi', type: 'bar', dataKey: 'enrollment', insight: 'Kayıtlar büyüyor.' },
+      { id: 'programs', title: 'Program Dağılımı', type: 'pie', dataKey: 'programs', insight: 'Mühendislik en popüler.' },
+      { id: 'performance', title: 'Akademik Başarı', type: 'line', dataKey: 'performance', insight: 'Başarı trendi pozitif.' },
+    ],
+  },
+
+  'real-estate': {
+    id: 'real-estate',
+    title: 'Gayrimenkul Dashboard',
+    subtitle: 'Portföy & Doluluk Analizi',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'portfolio', label: 'Portföy Değeri', icon: Home, format: 'currency', insight: 'Portföy değeri arttı.' },
+      { id: 'occupancy', label: 'Doluluk Oranı', icon: Percent, format: 'percentage', insight: 'Doluluk yüksek.' },
+      { id: 'revenue', label: 'Kira Geliri', icon: DollarSign, format: 'currency', insight: 'Kira geliri istikrarlı.' },
+      { id: 'sqft', label: 'Toplam Alan (m²)', icon: Building, format: 'number', insight: 'Portföy genişliyor.' },
+      { id: 'yield', label: 'Getiri Oranı', icon: TrendingUp, format: 'percentage', insight: 'Getiri hedefin üzerinde.' },
+      { id: 'leaseExpiry', label: 'Sözleşme Yenileme', icon: Clock, format: 'number', insight: 'Yenileme oranı yüksek.' },
+    ],
+    charts: [
+      { id: 'revenue', title: 'Aylık Kira Geliri', type: 'line', dataKey: 'revenue', insight: 'Gelir trend yükseliyor.' },
+      { id: 'types', title: 'Gayrimenkul Tipi', type: 'pie', dataKey: 'types', insight: 'Ofis alanları dominant.' },
+      { id: 'properties', title: 'Mülk Bazlı Doluluk', type: 'bar', dataKey: 'properties', insight: 'En yüksek doluluk tespit edildi.' },
+    ],
+  },
+
+  'construction': {
+    id: 'construction',
+    title: 'İnşaat Dashboard',
+    subtitle: 'Proje & Şantiye Yönetimi',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'projects', label: 'Aktif Proje', icon: Building, format: 'number', insight: 'Proje portföyü büyüyor.' },
+      { id: 'completion', label: 'Tamamlanma %', icon: Percent, format: 'percentage', insight: 'Projeler planında.' },
+      { id: 'budget', label: 'Bütçe Sapma %', icon: DollarSign, format: 'percentage', insight: 'Bütçe kontrol altında.' },
+      { id: 'schedule', label: 'Program Sapma (Gün)', icon: Clock, format: 'number', insight: 'Programlama başarılı.' },
+      { id: 'safety', label: 'Güvenlik Skoru', icon: Shield, format: 'number', insight: 'Güvenlik mükemmel.' },
+      { id: 'quality', label: 'Kalite Skoru', icon: Award, format: 'number', insight: 'İnşaat kalitesi yüksek.' },
+    ],
+    charts: [
+      { id: 'progress', title: 'Proje İlerleme Trendi', type: 'line', dataKey: 'progress', insight: 'İlerleme planında.' },
+      { id: 'phases', title: 'Faz Dağılımı', type: 'pie', dataKey: 'phases', insight: 'Kaba inşaat aşamasında.' },
+      { id: 'contractors', title: 'Yüklenici Performansı', type: 'bar', dataKey: 'contractors', insight: 'En iyi yüklenici belirlendi.' },
+    ],
+  },
+
+  'energy': {
+    id: 'energy',
+    title: 'Enerji Dashboard',
+    subtitle: 'Enerji Tüketimi & Verimlilik',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'consumption', label: 'Toplam Tüketim (kWh)', icon: Zap, format: 'number', insight: 'Tüketim optimize edildi.' },
+      { id: 'cost', label: 'Enerji Maliyeti', icon: DollarSign, format: 'currency', insight: 'Maliyet kontrol altında.' },
+      { id: 'efficiency', label: 'Verimlilik %', icon: TrendingUp, format: 'percentage', insight: 'Enerji verimliliği arttı.' },
+      { id: 'renewable', label: 'Yenilenebilir %', icon: Leaf, format: 'percentage', insight: 'Yenilenebilir enerji kullanımı arttı.' },
+      { id: 'carbon', label: 'Karbon Ayak İzi', icon: Leaf, format: 'number', insight: 'Karbon emisyonu azaltıldı.' },
+      { id: 'peakDemand', label: 'Pik Talep (kW)', icon: Zap, format: 'number', insight: 'Pik talep yönetimi etkili.' },
+    ],
+    charts: [
+      { id: 'consumption', title: 'Günlük Tüketim Trendi', type: 'line', dataKey: 'consumption', insight: 'Tüketim stabil.' },
+      { id: 'sources', title: 'Enerji Kaynak Dağılımı', type: 'pie', dataKey: 'sources', insight: 'Elektrik dominant kaynak.' },
+      { id: 'buildings', title: 'Bina Bazlı Tüketim', type: 'bar', dataKey: 'buildings', insight: 'En çok tüketen bina belirlendi.' },
+    ],
+  },
+
+  'agriculture': {
+    id: 'agriculture',
+    title: 'Tarım Dashboard',
+    subtitle: 'Ürün & Hasat Yönetimi',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'yield', label: 'Hasat Verimi (Ton)', icon: Leaf, format: 'number', insight: 'Verim rekor seviyede.' },
+      { id: 'area', label: 'Ekim Alanı (Hektar)', icon: Target, format: 'number', insight: 'Ekim alanı genişledi.' },
+      { id: 'revenue', label: 'Satış Geliri', icon: DollarSign, format: 'currency', insight: 'Gelir artış trendinde.' },
+      { id: 'costPerUnit', label: 'Birim Maliyet', icon: DollarSign, format: 'currency', insight: 'Birim maliyet düştü.' },
+      { id: 'soilHealth', label: 'Toprak Sağlığı', icon: Award, format: 'number', insight: 'Toprak kalitesi iyileşti.' },
+      { id: 'weatherIndex', label: 'Hava Koşulu İndeksi', icon: Activity, format: 'number', insight: 'Hava koşulları uygun.' },
+    ],
+    charts: [
+      { id: 'yield', title: 'Mevsimsel Verim Trendi', type: 'bar', dataKey: 'yield', insight: 'Bahar hasadı en yüksek.' },
+      { id: 'crops', title: 'Ürün Dağılımı', type: 'pie', dataKey: 'crops', insight: 'Buğday dominant ürün.' },
+      { id: 'fields', title: 'Tarla Bazlı Verim', type: 'bar', dataKey: 'fields', insight: 'En verimli tarla belirlendi.' },
+    ],
+  },
+
+  'retail': {
+    id: 'retail',
+    title: 'Perakende Dashboard',
+    subtitle: 'Mağaza & Satış Performansı',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'revenue', label: 'Toplam Satış', icon: DollarSign, format: 'currency', insight: 'Satış hedefin üzerinde.' },
+      { id: 'transactions', label: 'İşlem Sayısı', icon: ShoppingCart, format: 'number', insight: 'İşlem hacmi arttı.' },
+      { id: 'avgBasket', label: 'Ort. Sepet', icon: ShoppingBag, format: 'currency', insight: 'Sepet tutarı büyüyor.' },
+      { id: 'footTraffic', label: 'Müşteri Trafiği', icon: Users, format: 'number', insight: 'Trafik yoğun.' },
+      { id: 'conversion', label: 'Dönüşüm Oranı', icon: Percent, format: 'percentage', insight: 'Dönüşüm arttı.' },
+      { id: 'inventory', label: 'Stok Devir', icon: Package, format: 'number', insight: 'Stok devri hızlı.' },
+    ],
+    charts: [
+      { id: 'daily', title: 'Günlük Satış Trendi', type: 'line', dataKey: 'sales', insight: 'Satış trendi pozitif.' },
+      { id: 'categories', title: 'Kategori Dağılımı', type: 'pie', dataKey: 'categories', insight: 'Giyim kategorisi lider.' },
+      { id: 'stores', title: 'Mağaza Bazlı Performans', type: 'bar', dataKey: 'stores', insight: 'En başarılı mağaza belirlendi.' },
+    ],
+  },
+
+  'ecommerce': {
+    id: 'ecommerce',
+    title: 'E-Ticaret Dashboard',
+    subtitle: 'Online Satış & Dijital Performans',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'revenue', label: 'Online Satış', icon: DollarSign, format: 'currency', insight: 'Online satış rekor kırdı.' },
+      { id: 'orders', label: 'Sipariş Sayısı', icon: ShoppingCart, format: 'number', insight: 'Sipariş hacmi yükseliyor.' },
+      { id: 'avgOrderValue', label: 'Ort. Sipariş Tutarı', icon: DollarSign, format: 'currency', insight: 'AOV arttı.' },
+      { id: 'conversion', label: 'Dönüşüm Oranı', icon: Percent, format: 'percentage', insight: 'Dönüşüm optimize edildi.' },
+      { id: 'cartAbandonment', label: 'Sepet Terk %', icon: AlertCircle, format: 'percentage', insight: 'Sepet terk azaldı.' },
+      { id: 'customerAcquisition', label: 'Müşteri Kazanım Maliyeti', icon: DollarSign, format: 'currency', insight: 'CAC düştü.' },
+    ],
+    charts: [
+      { id: 'sales', title: 'Günlük E-Ticaret Satışı', type: 'line', dataKey: 'sales', insight: 'Trend güçlü yükseliyor.' },
+      { id: 'channels', title: 'Satış Kanalları', type: 'pie', dataKey: 'channels', insight: 'Mobil app dominant.' },
+      { id: 'products', title: 'En Çok Satan Ürünler', type: 'bar', dataKey: 'products', insight: 'Elektronik kategorisi lider.' },
+    ],
+  },
+
+  'inventory': {
+    id: 'inventory',
+    title: 'Envanter Dashboard',
+    subtitle: 'Stok & Depo Yönetimi',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'inventoryValue', label: 'Stok Değeri', icon: Package, format: 'currency', insight: 'Stok seviyesi dengeli.' },
+      { id: 'turnover', label: 'Stok Devir Hızı', icon: TrendingUp, format: 'number', insight: 'Devir hızı yükseliyor.' },
+      { id: 'accuracy', label: 'Stok Doğruluk %', icon: Award, format: 'percentage', insight: 'Doğruluk %99.5, mükemmel.' },
+      { id: 'stockout', label: 'Stoksuzluk Oranı', icon: AlertCircle, format: 'percentage', insight: 'Stoksuzluk minimize edildi.' },
+      { id: 'obsolete', label: 'Eskime Oranı', icon: TrendingDown, format: 'percentage', insight: 'Eskime kontrol altında.' },
+      { id: 'carrying', label: 'Taşıma Maliyeti', icon: DollarSign, format: 'currency', insight: 'Maliyet optimize.' },
+    ],
+    charts: [
+      { id: 'levels', title: 'Stok Seviye Trendi', type: 'line', dataKey: 'levels', insight: 'Stok seviyesi optimal.' },
+      { id: 'categories', title: 'Kategori Bazlı Stok', type: 'pie', dataKey: 'categories', insight: 'Hammadde en büyük.' },
+      { id: 'warehouses', title: 'Depo Bazlı Dağılım', type: 'bar', dataKey: 'warehouses', insight: 'Merkez depo en yoğun.' },
+    ],
+  },
+
+  'insurance': {
+    id: 'insurance',
+    title: 'Sigorta Dashboard',
+    subtitle: 'Poliçe & Hasar Yönetimi',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'premium', label: 'Toplam Prim', icon: DollarSign, format: 'currency', insight: 'Prim geliri artıyor.' },
+      { id: 'policies', label: 'Aktif Poliçe', icon: Clipboard, format: 'number', insight: 'Poliçe sayısı büyüyor.' },
+      { id: 'claims', label: 'Hasar Sayısı', icon: AlertCircle, format: 'number', insight: 'Hasar oranı düşük.' },
+      { id: 'lossRatio', label: 'Loss Ratio %', icon: Percent, format: 'percentage', insight: 'Loss ratio kontrol altında.' },
+      { id: 'retention', label: 'Müşteri Elde Tutma', icon: Users, format: 'percentage', insight: 'Elde tutma yüksek.' },
+      { id: 'newBusiness', label: 'Yeni İş', icon: TrendingUp, format: 'currency', insight: 'Yeni iş hacmi arttı.' },
+    ],
+    charts: [
+      { id: 'premium', title: 'Aylık Prim Trendi', type: 'line', dataKey: 'premium', insight: 'Prim geliri istikrarlı.' },
+      { id: 'types', title: 'Poliçe Tipi Dağılımı', type: 'pie', dataKey: 'types', insight: 'Kasko en popüler.' },
+      { id: 'channels', title: 'Satış Kanalları', type: 'bar', dataKey: 'channels', insight: 'Acenteler lider kanal.' },
+    ],
+  },
+
+  'call-center': {
+    id: 'call-center',
+    title: 'Çağrı Merkezi Dashboard',
+    subtitle: 'Çağrı & Destek Performansı',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'calls', label: 'Toplam Çağrı', icon: Phone, format: 'number', insight: 'Çağrı hacmi normal.' },
+      { id: 'avgHandleTime', label: 'Ort. İşlem Süresi (Dk)', icon: Clock, format: 'number', insight: 'İşlem süresi kısaldı.' },
+      { id: 'firstCallResolution', label: 'İlk Aramalarda Çözüm', icon: Award, format: 'percentage', insight: 'FCR yüksek.' },
+      { id: 'abandonment', label: 'Terk Oranı %', icon: AlertCircle, format: 'percentage', insight: 'Terk oranı düşük.' },
+      { id: 'satisfaction', label: 'Müşteri Memnuniyeti', icon: Star, format: 'decimal', insight: 'CSAT skoru yüksek.' },
+      { id: 'sla', label: 'SLA Uyum %', icon: Target, format: 'percentage', insight: 'SLA hedefleri tutuluyor.' },
+    ],
+    charts: [
+      { id: 'volume', title: 'Saatlik Çağrı Hacmi', type: 'bar', dataKey: 'volume', insight: 'Öğleden sonra yoğun.' },
+      { id: 'types', title: 'Çağrı Tipi Dağılımı', type: 'pie', dataKey: 'types', insight: 'Destek talepleri dominant.' },
+      { id: 'agents', title: 'Temsilci Performansı', type: 'bar', dataKey: 'agents', insight: 'En başarılı temsilci belirlendi.' },
+    ],
+  },
+
+  'customer-service': {
+    id: 'customer-service',
+    title: 'Müşteri Hizmetleri Dashboard',
+    subtitle: 'Destek & Memnuniyet',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'tickets', label: 'Açık Talep', icon: Clipboard, format: 'number', insight: 'Talep hacmi normal.' },
+      { id: 'resolution', label: 'Ort. Çözüm Süresi (Saat)', icon: Clock, format: 'number', insight: 'Çözüm hızlandı.' },
+      { id: 'satisfaction', label: 'Müşteri Memnuniyeti', icon: Star, format: 'decimal', insight: 'Memnuniyet yüksek.' },
+      { id: 'firstResponse', label: 'İlk Yanıt Süresi (Dk)', icon: Clock, format: 'number', insight: 'Yanıt çok hızlı.' },
+      { id: 'sla', label: 'SLA Uyum %', icon: Target, format: 'percentage', insight: 'SLA performansı mükemmel.' },
+      { id: 'nps', label: 'Net Promoter Score', icon: Award, format: 'number', insight: 'NPS skoru lider seviyede.' },
+    ],
+    charts: [
+      { id: 'tickets', title: 'Günlük Talep Trendi', type: 'line', dataKey: 'tickets', insight: 'Talep sayısı düşüyor.' },
+      { id: 'categories', title: 'Talep Kategorileri', type: 'pie', dataKey: 'categories', insight: 'Teknik destek en yoğun.' },
+      { id: 'channels', title: 'Destek Kanalları', type: 'bar', dataKey: 'channels', insight: 'E-posta dominant kanal.' },
+    ],
+  },
+
+  'project-management': {
+    id: 'project-management',
+    title: 'Proje Yönetimi Dashboard',
+    subtitle: 'Proje & Kaynak İzleme',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'activeProjects', label: 'Aktif Proje', icon: Briefcase, format: 'number', insight: 'Proje portföyü dengeli.' },
+      { id: 'completion', label: 'Ort. Tamamlanma %', icon: Percent, format: 'percentage', insight: 'Projeler planında ilerliyor.' },
+      { id: 'onTime', label: 'Zamanında Teslim %', icon: Clock, format: 'percentage', insight: 'Teslimat performansı yüksek.' },
+      { id: 'budget', label: 'Bütçe Sapma %', icon: DollarSign, format: 'percentage', insight: 'Bütçe kontrol altında.' },
+      { id: 'utilization', label: 'Kaynak Kullanım %', icon: Users, format: 'percentage', insight: 'Kaynak kullanımı optimum.' },
+      { id: 'risk', label: 'Risk Skoru', icon: AlertCircle, format: 'number', insight: 'Risk seviyesi düşük.' },
+    ],
+    charts: [
+      { id: 'progress', title: 'Proje İlerleme Trendi', type: 'line', dataKey: 'progress', insight: 'İlerleme planında.' },
+      { id: 'status', title: 'Proje Durum Dağılımı', type: 'pie', dataKey: 'status', insight: 'Çoğu proje aktif.' },
+      { id: 'teams', title: 'Takım Bazlı Performans', type: 'bar', dataKey: 'teams', insight: 'En başarılı takım belirlendi.' },
+    ],
+  },
+
+  'web-analytics': {
+    id: 'web-analytics',
+    title: 'Web Analitiği Dashboard',
+    subtitle: 'Web Trafiği & Dijital Performans',
+    icon: '✅',
+    dataSource: 'Mockup Data (Demo)',
+    kpis: [
+      { id: 'visitors', label: 'Toplam Ziyaretçi', icon: Users, format: 'number', insight: 'Ziyaretçi trafiği arttı.' },
+      { id: 'pageviews', label: 'Sayfa Görüntüleme', icon: Activity, format: 'number', insight: 'Sayfa görüntülenmesi yükseliyor.' },
+      { id: 'bounceRate', label: 'Hemen Çıkma %', icon: TrendingDown, format: 'percentage', insight: 'Bounce rate düştü.' },
+      { id: 'avgSession', label: 'Ort. Oturum Süresi (Dk)', icon: Clock, format: 'number', insight: 'Oturum süresi uzadı.' },
+      { id: 'conversion', label: 'Dönüşüm Oranı', icon: Target, format: 'percentage', insight: 'Dönüşüm optimize edildi.' },
+      { id: 'newUsers', label: 'Yeni Kullanıcı %', icon: Users, format: 'percentage', insight: 'Yeni kullanıcı kazanımı güçlü.' },
+    ],
+    charts: [
+      { id: 'traffic', title: 'Günlük Trafik Trendi', type: 'line', dataKey: 'traffic', insight: 'Trafik büyüme trendinde.' },
+      { id: 'sources', title: 'Trafik Kaynakları', type: 'pie', dataKey: 'sources', insight: 'Organik arama dominant.' },
+      { id: 'pages', title: 'En Çok Ziyaret Edilen Sayfalar', type: 'bar', dataKey: 'pages', insight: 'Ana sayfa en popüler.' },
+    ],
+  },
+
+  // ========== RESTAURANT FINOPS (CSV-Ready) ==========
+  'restaurant-finops': {
+    id: 'restaurant-finops',
+    title: 'Restoran FinOps Operasyonel Panel',
+    subtitle: 'Operasyonel Metrikler & Performans',
+    icon: '✅',
+    dataSource: 'Mockup Data (CSV-Ready)',
+    kpis: [
+      { id: 'revenue', label: 'Günlük Ciro', icon: DollarSign, format: 'currency', insight: 'Ciro hedefin üzerinde seyrediyor.' },
+      { id: 'orders', label: 'Sipariş Sayısı', icon: ShoppingCart, format: 'number', insight: 'Sipariş hacmi artıyor.' },
+      { id: 'avgBasket', label: 'Ort. Sepet', icon: ShoppingBag, format: 'currency', insight: 'Upselling stratejisi etkili.' },
+      { id: 'foodCost', label: 'Food Cost %', icon: Percent, format: 'percentage', insight: 'Gıda maliyeti kontrol altında.' },
+      { id: 'laborCost', label: 'Labor Cost %', icon: TrendingUp, format: 'percentage', insight: 'İşgücü maliyeti optimize edildi.' },
+      { id: 'satisfaction', label: 'Müş. Memnuniyeti', icon: Star, format: 'decimal', insight: 'Müşteri memnuniyeti yüksek.' },
+    ],
+    charts: [
+      { id: 'revenue', title: 'Günlük Ciro Trendi', type: 'line', dataKey: 'revenue', insight: 'Ciro trendi pozitif seyirde.' },
+      { id: 'hourly', title: 'Saatlik Sipariş Yoğunluğu', type: 'bar', dataKey: 'hourly', insight: 'Öğle ve akşam zirvesi.' },
+      { id: 'products', title: 'Ürün Satış Dağılımı', type: 'pie', dataKey: 'products', insight: 'Ana yemek kategorisi lider.' },
+    ],
+  },
+
+  // ========== AUTOMOTIVE TERMOSTAT PRODUCTION (CSV-Ready) ==========
+  'automotive-termostat': {
+    id: 'automotive-termostat',
+    title: 'Otomotiv Termostat Üretim Dashboard',
+    subtitle: 'Üretim • Maliyet • Fire • Stok',
+    icon: '✅',
+    dataSource: 'termostat_uretim_takip_TR.csv',
+    kpis: [
+      { id: 'totalCost', label: 'Toplam Üretim Maliyeti', icon: DollarSign, format: 'currency', insight: 'Maliyet hedef dahilinde.' },
+      { id: 'totalProduced', label: 'Üretilen Adet', icon: Package, format: 'number', insight: 'Üretim hedefleri aşıldı.' },
+      { id: 'defectRate', label: 'Fire Oranı', icon: AlertCircle, format: 'percentage', insight: 'Fire oranı düşüyor, kalite iyileşiyor.' },
+      { id: 'totalDefects', label: 'Fire Adedi', icon: AlertCircle, format: 'number', insight: 'Toplam hatalı ürün azalıyor.' },
+      { id: 'finishedStock', label: 'Mamul Stok', icon: Factory, format: 'number', insight: 'Mamul stok seviyesi uygun.' },
+      { id: 'wipStock', label: 'Yarı Mamul Stok', icon: Clock, format: 'number', insight: 'Yarı mamul stok dengeli.' },
+    ],
+    charts: [
+      { id: 'costByStage', title: 'Aşama Bazlı Maliyet', type: 'bar', dataKey: 'costs', insight: 'Montaj aşamasında en yüksek maliyet.' },
+      { id: 'dailyProduction', title: 'Günlük Üretim Trendi', type: 'line', dataKey: 'production', insight: 'Üretim trendi stabil seyrediyor.' },
+      { id: 'stockDistribution', title: 'Stok Dağılımı', type: 'pie', dataKey: 'stock', insight: 'Mamul/Yarı mamul dağılımı dengeli.' },
+    ],
+  },
+};

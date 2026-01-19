@@ -90,6 +90,7 @@ export interface UploadedFile {
   rowCount?: number;
   columnCount?: number;
   preview?: string[];     // İlk 5 satır
+  fileContent?: string;   // 🔥 YENİ: CSV/JSON dosya içeriği (Base64 veya text)
   
   // Saklama ve arşiv
   expiresAt?: string;     // Otomatik silme tarihi (opsiyonel)
@@ -100,7 +101,7 @@ export interface UploadedFile {
 const USER_DATA_KEY = 'finops_user_uploaded_files';
 
 // Dosya kaydet (geliştirilmiş)
-export function saveUploadedFile(
+export async function saveUploadedFile(
   file: File,
   userEmail: string,
   rowCount?: number,
@@ -113,8 +114,12 @@ export function saveUploadedFile(
     description?: string;
     tags?: string[];
     expiresAt?: string;
+    fileContent?: string;  // DEPRECATED: Use runtimeFileStore instead
   }
-): UploadedFile {
+): Promise<UploadedFile> {
+  // DO NOT store file content in localStorage
+  // Content should be stored in runtimeFileStore by the caller
+
   const uploadedFile: UploadedFile = {
     id: `file_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
     fileName: file.name,
@@ -130,19 +135,61 @@ export function saveUploadedFile(
     rowCount,
     columnCount,
     preview,
+    // fileContent is intentionally excluded from localStorage
     expiresAt: options?.expiresAt,
     isArchived: false,
   };
 
   try {
     const allFiles = getAllUploadedFiles();
-    allFiles.push(uploadedFile);
-    localStorage.setItem(USER_DATA_KEY, JSON.stringify(allFiles));
     
-    console.log('✅ Veri kaydedildi:', uploadedFile.fileName, `[${uploadedFile.category}]`);
+    // ✅ ESKİ DOSYAYI GÜNCELLEREven dosya yeniden yükleniyorsa (özellikle fileContent eklemek için)
+    const existingIndex = allFiles.findIndex(f => 
+      f.fileName === uploadedFile.fileName && 
+      f.userEmail === uploadedFile.userEmail
+    );
+    
+    if (existingIndex !== -1) {
+      // Eğer yeni dosyada fileContent varsa ve eskide yoksa, ESKİYİ SİL YENİYİ EKLE
+      if (uploadedFile.fileContent && !allFiles[existingIndex].fileContent) {
+        console.log('✅ Eski dosya güncelleniyor (fileContent ekleniyor):', uploadedFile.fileName);
+        allFiles[existingIndex] = uploadedFile; // Eskiyi güncelle
+      } else {
+        console.warn('⚠️ Aynı dosya zaten var:', uploadedFile.fileName);
+        return allFiles[existingIndex]; // Mevcut dosyayı döndür
+      }
+    } else {
+      allFiles.push(uploadedFile); // Yeni dosya ekle
+    }
+    
+    // ✅ BOYUT KONTROLÜ - localStorage sınırı ~5-10MB
+    const dataStr = JSON.stringify(allFiles);
+    const sizeInMB = new Blob([dataStr]).size / (1024 * 1024);
+    
+    if (sizeInMB > 8) {
+      console.error('❌ localStorage sınırı aşıldı:', sizeInMB.toFixed(2), 'MB');
+      throw new Error(
+        `Dosya çok büyük! Toplam veri boyutu: ${sizeInMB.toFixed(2)}MB\n\n` +
+        `localStorage maksimum 8MB destekler.\n\n` +
+        `Çözüm:\n` +
+        `1. Eski dosyaları silin\n` +
+        `2. Daha küçük dosya yükleyin\n` +
+        `3. Veya geliştiriciyle iletişime geçin (IndexedDB gerekli)`
+      );
+    }
+    
+    localStorage.setItem(USER_DATA_KEY, dataStr);
+    
+    console.log('✅ Veri kaydedildi:', uploadedFile.fileName, `[${uploadedFile.category}]`, `(${sizeInMB.toFixed(2)}MB)`);
     return uploadedFile;
   } catch (error) {
     console.error('❌ Veri kaydedilemedi:', error);
+    
+    // localStorage quota exceeded hatası
+    if (error instanceof DOMException && error.name === 'QuotaExceededError') {
+      throw new Error('Depolama alanı dolu! Lütfen eski dosyaları silin.');
+    }
+    
     throw error;
   }
 }
@@ -164,7 +211,7 @@ export function updateUploadedFile(
     allFiles[fileIndex] = { ...allFiles[fileIndex], ...updates };
     localStorage.setItem(USER_DATA_KEY, JSON.stringify(allFiles));
     
-    console.log('✅ Veri güncellendi:', fileId);
+    console.log('Veri guncellendi:', fileId);
     return true;
   } catch (error) {
     console.error('❌ Veri güncellenemedi:', error);
@@ -265,7 +312,7 @@ export function toggleArchiveFile(fileId: string): boolean {
     file.archivedAt = file.isArchived ? new Date().toISOString() : undefined;
     
     localStorage.setItem(USER_DATA_KEY, JSON.stringify(allFiles));
-    console.log(file.isArchived ? '📦 Arşivlendi:' : '📂 Arşivden çıkarıldı:', file.fileName);
+    console.log(file.isArchived ? 'Arsivlendi:' : 'Arsivden cikarildi:', file.fileName);
     return true;
   } catch (error) {
     console.error('❌ Arşiv durumu değiştirilemedi:', error);
@@ -279,7 +326,7 @@ export function deleteUploadedFile(fileId: string): boolean {
     const allFiles = getAllUploadedFiles();
     const filtered = allFiles.filter(f => f.id !== fileId);
     localStorage.setItem(USER_DATA_KEY, JSON.stringify(filtered));
-    console.log('✅ Veri silindi:', fileId);
+    console.log('Veri silindi:', fileId);
     return true;
   } catch (error) {
     console.error('❌ Veri silinemedi:', error);
@@ -293,7 +340,7 @@ export function deleteAllUserFiles(userEmail: string): boolean {
     const allFiles = getAllUploadedFiles();
     const filtered = allFiles.filter(f => f.userEmail.toLowerCase() !== userEmail.toLowerCase());
     localStorage.setItem(USER_DATA_KEY, JSON.stringify(filtered));
-    console.log('✅ Kullanıcının tüm verileri silindi:', userEmail);
+    console.log('Kullanicinin tum verileri silindi:', userEmail);
     return true;
   } catch (error) {
     console.error('❌ Veriler silinemedi:', error);
@@ -322,7 +369,7 @@ export function cleanupArchivedFiles(userEmail: string, olderThanDays = 30): num
     const deleted = before - filtered.length;
     
     if (deleted > 0) {
-      console.log(`✅ ${deleted} arşiv dosyası temizlendi (>${olderThanDays} gün)`);
+      console.log(`${deleted} arsiv dosyasi temizlendi (>${olderThanDays} gun)`);
     }
     
     return deleted;
@@ -349,7 +396,7 @@ export function cleanupExpiredFiles(): number {
     const deleted = before - filtered.length;
     
     if (deleted > 0) {
-      console.log(`✅ ${deleted} süresi dolmuş dosya temizlendi`);
+      console.log(`${deleted} suresi dolmus dosya temizlendi`);
     }
     
     return deleted;

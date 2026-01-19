@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Pencil, LayoutDashboard, Eye } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { deleteUserDashboard, listUserDashboards } from '../utils/userDashboards';
+import { getUserDashboardConfigs, deleteUserDashboardConfig } from '../utils/wizardToConfig';
 
 export default function MyDashboardsPage() {
   const { currentUser } = useAuth();
@@ -17,6 +18,21 @@ export default function MyDashboardsPage() {
     void refreshKey;
     return listUserDashboards(userId);
   }, [userId, refreshKey]);
+  
+  // ✅ PHASE 2: DashboardFactory config'lerini de getir
+  const factoryDashboards = useMemo(() => {
+    if (!currentUser?.email) return [];
+    void refreshKey;
+    return getUserDashboardConfigs(currentUser.email);
+  }, [currentUser?.email, refreshKey]);
+  
+  const handleDeleteFactory = (configId: string) => {
+    if (!currentUser?.email) return;
+    const ok = confirm('Bu dashboard silinsin mi?');
+    if (!ok) return;
+    deleteUserDashboardConfig(currentUser.email, configId);
+    setRefreshKey((x) => x + 1);
+  };
 
   const handleDelete = (id: string) => {
     if (!userId) return;
@@ -58,7 +74,7 @@ export default function MyDashboardsPage() {
           </div>
         </div>
 
-        {dashboards.length === 0 ? (
+        {dashboards.length === 0 && factoryDashboards.length === 0 ? (
           <div className="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm">
             <div className="text-lg font-bold text-gray-900">Henüz kayıtlı dashboard yok</div>
             <div className="mt-2 text-sm text-gray-600">
@@ -75,46 +91,107 @@ export default function MyDashboardsPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {dashboards.map((d) => (
-              <div key={d.id} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="text-lg font-extrabold text-gray-900 truncate">{d.name}</div>
-                    <div className="mt-1 text-xs text-gray-500">
-                      Güncellendi: {new Date(d.updatedAtIso).toLocaleString('tr-TR')}
-                    </div>
-                    <div className="mt-2 text-xs text-gray-600">
-                      Tip: {d.wizardData.dashboardType ?? '—'} • Kaynak: {d.wizardData.dataSource ?? '—'}
-                    </div>
-                  </div>
-                </div>
+          <div className="space-y-8">
+            {/* ✅ PHASE 2: Standart Dashboard'lar (DashboardFactory) */}
+            {factoryDashboards.length > 0 && (
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <span className="text-2xl">✅</span>
+                  Standart Dashboard'lar ({factoryDashboards.length})
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {factoryDashboards.map((config: any) => (
+                    <div key={config.id} className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-2xl p-5 shadow-md">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="text-lg font-extrabold text-indigo-900 truncate">
+                            {config.icon} {config.title}
+                          </div>
+                          <div className="mt-1 text-xs text-indigo-700">{config.subtitle}</div>
+                          <div className="mt-2 text-xs text-gray-600">
+                            📊 {config.kpis.length} KPI • {config.charts.length} Grafik
+                          </div>
+                          <div className="mt-1 text-xs text-gray-500">
+                            {new Date(config.createdAt).toLocaleDateString('tr-TR')}
+                          </div>
+                        </div>
+                      </div>
 
-                <div className="mt-4 flex items-center gap-2 flex-wrap">
-                  <button
-                    onClick={() => navigate(`/dashboard/view/${d.id}`)}
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700"
-                  >
-                    <Eye className="w-4 h-4" />
-                    Görüntüle
-                  </button>
-                  <button
-                    onClick={() => navigate(`/dashboard/edit/${d.id}`)}
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700"
-                  >
-                    <Pencil className="w-4 h-4" />
-                    Düzenle
-                  </button>
-                  <button
-                    onClick={() => handleDelete(d.id)}
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-800 hover:border-rose-300 hover:text-rose-700"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                    Sil
-                  </button>
+                      <div className="mt-4 flex items-center gap-2 flex-wrap">
+                        <button
+                          onClick={() => navigate(`/dashboard/view-standard/${config.id}`)}
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700"
+                        >
+                          <Eye className="w-4 h-4" />
+                          Görüntüle
+                        </button>
+                        <button
+                          onClick={() => handleDeleteFactory(config.id)}
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-800 hover:border-rose-300 hover:text-rose-700"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          Sil
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
+            )}
+            
+            {/* Eski Dashboard'lar */}
+            {dashboards.length > 0 && (
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <span className="text-2xl">📊</span>
+                  Eski Format Dashboard'lar ({dashboards.length})
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {dashboards.map((d) => (
+                <div key={d.id} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm relative">
+                  <div className="absolute top-3 right-3 px-2 py-1 bg-yellow-100 border border-yellow-300 rounded text-xs font-bold text-yellow-700">
+                    Eski Format
+                  </div>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="text-lg font-extrabold text-gray-900 truncate">{d.name}</div>
+                      <div className="mt-1 text-xs text-gray-500">
+                        Güncellendi: {new Date(d.updatedAtIso).toLocaleString('tr-TR')}
+                      </div>
+                      <div className="mt-2 text-xs text-gray-600">
+                        Tip: {d.wizardData.dashboardType ?? '—'} • Kaynak: {d.wizardData.dataSource ?? '—'}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex items-center gap-2 flex-wrap">
+                    <button
+                      onClick={() => navigate(`/dashboard/view/${d.id}`)}
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700"
+                    >
+                      <Eye className="w-4 h-4" />
+                      Görüntüle
+                    </button>
+                    <button
+                      onClick={() => navigate(`/dashboard/edit/${d.id}`)}
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700"
+                    >
+                      <Pencil className="w-4 h-4" />
+                      Düzenle
+                    </button>
+                    <button
+                      onClick={() => handleDelete(d.id)}
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-800 hover:border-rose-300 hover:text-rose-700"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Sil
+                    </button>
+                  </div>
+                </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

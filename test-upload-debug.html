@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOSYA YÜKLEME TEST</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .test-box { background: white; padding: 30px; border-radius: 10px; margin: 20px 0; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 2px solid #28a745; }
+        .error { background: #f8d7da; color: #721c24; border: 2px solid #dc3545; }
+        .info { background: #d1ecf1; color: #0c5460; border: 2px solid #17a2b8; }
+        button { padding: 15px 30px; font-size: 16px; cursor: pointer; margin: 10px; }
+        pre { background: #f5f5f5; padding: 10px; overflow: auto; max-height: 300px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 SÜRÜKLE-BIRAK TEST SAYFASI</h1>
+    
+    <div class="test-box">
+        <h2>1. GİRİŞ DURUMU KONTROLÜ</h2>
+        <div id="loginStatus"></div>
+        <button onclick="checkLogin()">Giriş Durumunu Kontrol Et</button>
+    </div>
+    
+    <div class="test-box">
+        <h2>2. DOSYALARI GÖSTER</h2>
+        <div id="filesStatus"></div>
+        <button onclick="showFiles()">Kütüphanedeki Dosyaları Göster</button>
+    </div>
+    
+    <div class="test-box">
+        <h2>3. MANUEL TEST DOSYASI EKLE</h2>
+        <button onclick="addTestFile()">TEST DOSYASI EKLE</button>
+    </div>
+    
+    <div class="test-box">
+        <h2>4. TÜMÜNÜ SİL (Temizlik)</h2>
+        <button onclick="clearAll()" style="background: red; color: white;">HEPSİNİ SİL</button>
+    </div>
+
+    <script>
+        function checkLogin() {
+            const user = localStorage.getItem('finops_current_user');
+            const div = document.getElementById('loginStatus');
+            
+            if (user) {
+                const parsed = JSON.parse(user);
+                div.innerHTML = `<div class="status success"><strong>✅ GİRİŞ YAPILMIŞ!</strong><br>Email: ${parsed.email}</div>`;
+            } else {
+                div.innerHTML = '<div class="status error"><strong>❌ GİRİŞ YAPILMAMIŞ!</strong><br>Önce giriş yapmalısınız!</div>';
+            }
+        }
+        
+        function showFiles() {
+            const user = localStorage.getItem('finops_current_user');
+            const div = document.getElementById('filesStatus');
+            
+            if (!user) {
+                div.innerHTML = '<div class="status error">❌ Önce giriş yapın!</div>';
+                return;
+            }
+            
+            const userData = JSON.parse(user);
+            const allFiles = localStorage.getItem('finops_user_uploaded_files');
+            
+            if (!allFiles) {
+                div.innerHTML = '<div class="status info">📁 Hiç dosya yok (localStorage boş)</div>';
+                return;
+            }
+            
+            const files = JSON.parse(allFiles);
+            const userFiles = files.filter(f => f.userEmail.toLowerCase() === userData.email.toLowerCase());
+            
+            if (userFiles.length === 0) {
+                div.innerHTML = '<div class="status info">📁 Bu kullanıcıya ait dosya yok</div>';
+            } else {
+                let html = `<div class="status success"><strong>✅ ${userFiles.length} DOSYA BULUNDU!</strong></div><pre>`;
+                userFiles.forEach(f => {
+                    html += `\n📄 ${f.fileName} (${f.category}) - ${new Date(f.uploadedAt).toLocaleString()}`;
+                });
+                html += '</pre>';
+                div.innerHTML = html;
+            }
+        }
+        
+        function addTestFile() {
+            const user = localStorage.getItem('finops_current_user');
+            
+            if (!user) {
+                alert('❌ Önce giriş yapın!');
+                return;
+            }
+            
+            const userData = JSON.parse(user);
+            const testFile = {
+                id: 'file_' + Date.now() + '_test',
+                fileName: 'TEST_DOSYA_' + Date.now() + '.csv',
+                fileType: 'text/csv',
+                fileSize: 1024,
+                uploadedAt: new Date().toISOString(),
+                userEmail: userData.email,
+                category: 'other',
+                fileContent: 'isim,soyisim,yas\nAhmet,Yilmaz,30\nMehmet,Kaya,25',
+                isArchived: false
+            };
+            
+            let allFiles = [];
+            const existing = localStorage.getItem('finops_user_uploaded_files');
+            if (existing) {
+                allFiles = JSON.parse(existing);
+            }
+            
+            allFiles.push(testFile);
+            localStorage.setItem('finops_user_uploaded_files', JSON.stringify(allFiles));
+            
+            alert('✅ Test dosyası eklendi: ' + testFile.fileName);
+            showFiles();
+        }
+        
+        function clearAll() {
+            if (confirm('TÜM DOSYALAR SİLİNECEK! Emin misiniz?')) {
+                localStorage.removeItem('finops_user_uploaded_files');
+                alert('✅ Tüm dosyalar silindi!');
+                showFiles();
+            }
+        }
+        
+        // Sayfa yüklendiğinde otomatik kontrol
+        window.onload = () => {
+            checkLogin();
+            showFiles();
+        };
+    </script>
+</body>
+</html>

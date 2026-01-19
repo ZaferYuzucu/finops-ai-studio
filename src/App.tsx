@@ -1,6 +1,6 @@
 
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import PageLayout from './components/PageLayout';
 import LoadingSpinner from './components/LoadingSpinner';
 
@@ -27,8 +27,6 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import BrandKitPage from './pages/BrandKitPage'; // ✅ DÜZELTİLDİ - Eksik asset'ler kaldırıldı
 import ProjectActivityReportPage from './pages/ProjectActivityReportPage';
-// import IllustrationDemoPage from './pages/IllustrationDemoPage'; // ❌ HATALI DOSYA - GEÇİCİ OLARAK KAPALI
-// import UndrawComparisonPage from './pages/UndrawComparisonPage'; // ❌ HATALI DOSYA - GEÇİCİ OLARAK KAPALI
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import AdminLoginPage from './pages/AdminLoginPage';
@@ -56,6 +54,8 @@ import DashboardPage from './pages/DashboardPage';
 import ProfessionalDashboardsPage from './pages/ProfessionalDashboardsPage';
 import MyDashboardsPage from './pages/MyDashboardsPage';
 import DashboardViewPage from './pages/DashboardViewPage';
+import StandardDashboardViewPage from './pages/StandardDashboardViewPage';
+import SmartDashboardWizardPage from './pages/SmartDashboardWizardPage';
 import UserSettingsPage from './pages/UserSettingsPage';
 import AdminPanelPage from './pages/AdminPanelPage';
 import NewsletterPanelPage from './pages/admin/NewsletterPanelPage';
@@ -82,7 +82,6 @@ import ManufacturingPage from './pages/sectors/ManufacturingPage';
 import ManufacturingDashboardsPage from './pages/ManufacturingDashboardsPage';
 import DataIngestionPage from './pages/DataIngestionPage';
 import BetaApplicationFormPage from './pages/BetaApplicationFormPage';
-import AutomotivTermostatDashboard from './pages/dashboards/AutomotivTermostatDashboard';
 
 // Dev-only tools
 const I18nAuditPage = lazy(() => import('./pages/I18nAuditPage'));
@@ -118,9 +117,6 @@ const App: React.FC = () => {
         <Route path="/sektorler/uretim" element={<ManufacturingPage />} />
         <Route path="/sektorler/uretim/dashboards" element={<ManufacturingDashboardsPage />} />
         
-        {/* Demo Dashboards */}
-        <Route path="/dashboards/automotiv-termostat" element={<AutomotivTermostatDashboard />} />
-        
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/what-is-finops" element={<WhatIsFinopsPage />} />
         <Route path="/blog/bringing-teams-together" element={<BringingTeamsTogetherPage />} />
@@ -130,25 +126,30 @@ const App: React.FC = () => {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/brand-kit" element={<AdminProtectedRoute><BrandKitPage /></AdminProtectedRoute>} />
-        {/* <Route path="/illustration-demo" element={<IllustrationDemoPage />} /> */}
-        {/* <Route path="/undraw-comparison" element={<UndrawComparisonPage />} /> */}
 
         {/* === Kimlik Doğrulama Rotaları === */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/admin-login" element={<AdminLoginPage />} />
 
+        {/* === Dashboard Rotaları (Herkese Açık - Demo) === */}
+        {/* Canonical URL - Tek dashboard kütüphanesi */}
+        <Route path="/professional-dashboards" element={<ProfessionalDashboardsPage />} />
+        {/* Redirects - SEO ve backward compatibility */}
+        <Route path="/dashboards" element={<Navigate to="/professional-dashboards" replace />} />
+        <Route path="/dashboard/professional" element={<Navigate to="/professional-dashboards" replace />} />
+        <Route path="/dashboard/demo-preview" element={<DemoDashboardPreview />} />
+
         {/* === Kullanıcı Korumalı Rotalar (Giriş Yapmış Kullanıcılar) === */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/dashboard/create" element={<DashboardCreateWizardPage />} />
+          <Route path="/dashboard/smart-create" element={<SmartDashboardWizardPage />} />
           <Route path="/dashboard/preparation-guide" element={<DashboardPreparationGuide />} />
           <Route path="/dashboard/my" element={<MyDashboardsPage />} />
           <Route path="/dashboard/view/:id" element={<DashboardViewPage />} />
+          <Route path="/dashboard/view-standard/:id" element={<StandardDashboardViewPage />} />
           <Route path="/dashboard/edit/:id" element={<DashboardCreateWizardPage />} />
-          <Route path="/dashboards" element={<ProfessionalDashboardsPage />} />
-          <Route path="/professional-dashboards" element={<ProfessionalDashboardsPage />} />
-          <Route path="/dashboard/demo-preview" element={<DemoDashboardPreview />} />
           <Route path="/kutuphane" element={<DataLibraryPage />} />
           <Route path="/data-library" element={<DataLibraryPage />} />
           <Route path="/settings" element={<UserSettingsPage />} />

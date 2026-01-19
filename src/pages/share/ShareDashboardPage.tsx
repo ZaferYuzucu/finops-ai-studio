@@ -40,10 +40,8 @@ import {
   ProjectManagementDashboard,
   QualityControlDashboard,
   RealEstateDashboard,
-  RestaurantDashboard,
   RestaurantFinanceDashboard,
   RestaurantLaborDashboard,
-  RestaurantOperationsDashboard,
   RestaurantSalesDashboard,
   RetailDashboard,
   SalesDashboard,
@@ -199,10 +197,6 @@ function DemoTooltip({
 
 function getTemplateComponent(templateId: string): React.ReactNode | null {
   switch (templateId) {
-    case 'restaurant-general':
-      return <RestaurantDashboard />;
-    case 'restaurant-operations':
-      return <RestaurantOperationsDashboard />;
     case 'restaurant-sales':
       return <RestaurantSalesDashboard />;
     case 'restaurant-finance':

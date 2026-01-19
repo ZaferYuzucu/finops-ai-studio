@@ -1,0 +1,151 @@
+/* FINOPS Brand Identity - Professional Dashboard Color Palette */
+
+:root {
+  /* Primary Colors */
+  --finops-ocean: #0C4A6E;        /* Ana mavi - başlıklar */
+  --finops-forest: #047857;       /* Yeşil - pozitif metrikler */
+  --finops-amber: #7C3AED;        /* Mor - uyarılar */
+  --finops-rose: #BE123C;         /* Kırmızı - kritik */
+  
+  /* Background System */
+  --bg-main: #F0F9FF;             /* Ana sayfa arka plan */
+  --bg-card: #FEFCE8;             /* KPI/Grafik kartları */
+  --bg-card-border: #E0E7FF;      /* Kart çerçevesi */
+  
+  /* Text Hierarchy */
+  --text-primary: #1E293B;        /* Ana metinler */
+  --text-secondary: #64748B;      /* Yardımcı metinler */
+  --text-light: #94A3B8;          /* Hafif metinler */
+  
+  /* Chart Palette (Ajelix'ten farklı) */
+  --chart-1: #0284C7;             /* Parlak okyanus mavisi */
+  --chart-2: #059669;             /* Zümrüt yeşili */
+  --chart-3: #7C3AED;             /* Mor */
+  --chart-4: #8B5CF6;             /* Açık mor */
+  --chart-5: #475569;             /* Nötr gri */
+  --chart-6: #EC4899;             /* Pembe */
+  --chart-7: #14B8A6;             /* Teal */
+  
+  /* Semantic Colors (Değişmez) */
+  --status-success: #10B981;      /* ✅ Başarı */
+  --status-warning: #F59E0B;      /* 🟡 Uyarı */
+  --status-danger: #EF4444;       /* 🔴 Tehlike */
+  --status-info: #3B82F6;         /* ℹ️ Bilgi */
+}
+
+/* A4 Landscape Print-Ready Layout */
+@media print {
+  html, body {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 297mm !important;
+    height: 210mm !important;
+  }
+  
+  body > div {
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 210mm !important;
+    overflow: hidden !important;
+  }
+  
+  .dashboard-container {
+    width: 297mm !important;
+    height: 210mm !important;
+    max-width: 297mm !important;
+    max-height: 210mm !important;
+    margin: 0 !important;
+    padding: 8mm !important;
+    page-break-after: always;
+    overflow: hidden !important;
+    transform: scale(1) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .pdf-avoid-break {
+    page-break-inside: avoid;
+  }
+
+  /* Print mode: tüm content tek sayfaya sığmalı */
+  .dashboard-container > div {
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+
+  /* Print: grafikler küçült */
+  .finops-card {
+    padding: 8px !important;
+  }
+}
+
+/* Mobile & Tablet Responsive */
+@media (max-width: 1200px) {
+  .dashboard-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .finops-card {
+    padding: 12px !important;
+  }
+  
+  .grid-cols-6 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  
+  .grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+}
+
+/* FINOPS Dashboard Utility Classes */
+.finops-card {
+  background: var(--bg-card);
+  border: 2px solid var(--bg-card-border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.finops-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.finops-title {
+  color: var(--finops-ocean);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.finops-subtitle {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.finops-metric-positive {
+  color: var(--finops-forest);
+  font-weight: 700;
+}
+
+.finops-metric-negative {
+  color: var(--finops-rose);
+  font-weight: 700;
+}
+
+.finops-metric-warning {
+  color: var(--finops-amber);
+  font-weight: 700;
+}

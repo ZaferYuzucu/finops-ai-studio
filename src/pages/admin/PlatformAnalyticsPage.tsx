@@ -3,11 +3,11 @@ import { BarChart3, TrendingUp, Users, Database } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import DemoDashboardFromCSV from '../../components/DemoDashboardFromCSV';
 import {
-  RestaurantDashboard,
-  RestaurantOperationsDashboard,
+  RestaurantDashboardFinops,
   RestaurantSalesDashboard,
   RestaurantFinanceDashboard,
   RestaurantLaborDashboard,
+  AutomotivTermostatDashboard,
   ManufacturingDashboard,
   QualityControlDashboard,
   InventoryDashboard,
@@ -34,135 +34,18 @@ import {
   FleetManagementDashboard,
   RealEstateDashboard,
   InsuranceDashboard,
-  ConstructionDashboard
+  ConstructionDashboard,
+  AutomotiveExecutiveDashboard,
 } from '../../components/dashboards';
-import AutomotivTermostatDashboard from '../dashboards/AutomotivTermostatDashboard';
+import { DASHBOARD_CATEGORIES, DASHBOARD_STATS } from '../../config/dashboardCategoriesConfig';
 
-// Sektörel kategoriler ve dashboard'lar
-const DASHBOARD_CATEGORIES = {
-  restaurant: {
-    icon: '🍽️',
-    name: 'Restoran & Kafe',
-    color: 'green',
-    dashboards: [
-      { id: 'restaurant-general', name: 'Genel Kontrol Paneli', component: 'RestaurantDashboard' },
-      { id: 'restaurant-operations', name: 'Operasyon Paneli', component: 'RestaurantOperationsDashboard' },
-      { id: 'restaurant-sales', name: 'Satış Göstergeleri', component: 'RestaurantSalesDashboard' },
-      { id: 'restaurant-finance', name: 'Finansal Performans', component: 'RestaurantFinanceDashboard' },
-      { id: 'restaurant-labor', name: 'İşgücü Yönetimi', component: 'RestaurantLaborDashboard' },
-      { id: 'restaurant-inventory', name: 'Envanter Kontrol', component: 'InventoryDashboard' },
-    ]
-  },
-  manufacturing: {
-    icon: '🏭',
-    name: 'Üretim & Operasyon',
-    color: 'blue',
-    dashboards: [
-      { id: 'manufacturing-control', name: 'Üretim Kontrol', component: 'ManufacturingDashboard' },
-      { id: 'quality-control', name: 'Kalite Kontrol', component: 'QualityControlDashboard' },
-      { id: 'inventory-management', name: 'Stok Yönetimi', component: 'InventoryDashboard' },
-      { id: 'oee-dashboard', name: 'OEE Dashboard', component: 'OEEDashboard' },
-      { id: 'automotive-termostat', name: 'Otomotiv Termostat Üretim', component: 'AutomotivTermostatDashboard' },
-    ]
-  },
-  finance: {
-    icon: '💰',
-    name: 'Finans & Muhasebe',
-    color: 'purple',
-    dashboards: [
-      { id: 'finance-cfo', name: 'CFO Kontrol Paneli', component: 'FinanceDashboard' },
-      { id: 'cash-flow', name: 'Nakit Akışı', component: 'CashFlowDashboard' },
-      { id: 'profit-loss', name: 'Kâr-Zarar Analizi', component: 'HealthcareDashboard' },
-      { id: 'budget-actual', name: 'Bütçe & Gerçekleşen', component: 'LogisticsDashboard' },
-      { id: 'ceo-dashboard', name: 'CEO Dashboard', component: 'EducationDashboard' },
-      { id: 'kar-zarar', name: 'Kar Zarar Tablosu', component: 'HealthcareDashboard' },
-      { id: 'nakit-akisi', name: 'Nakit Akışı Gösterge', component: 'CashFlowDashboard' },
-    ]
-  },
-  hotel: {
-    icon: '🏨',
-    name: 'Otel & Konaklama',
-    color: 'amber',
-    dashboards: [
-      { id: 'hotel-management', name: 'Otel Yönetim Paneli', component: 'HotelOperationsDashboard' },
-      { id: 'hotel-occupancy', name: 'Doluluk & Gelir', component: 'EnergyDashboard' },
-      { id: 'hotel-guest', name: 'Misafir Deneyimi', component: 'RetailDashboard' },
-      { id: 'hotel-revenue', name: 'Gelir Yönetimi & RevPAR', component: 'HotelOperationsDashboard' },
-    ]
-  },
-  ecommerce: {
-    icon: '🛒',
-    name: 'E-Ticaret & Retail',
-    color: 'orange',
-    dashboards: [
-      { id: 'ecommerce-kpi', name: 'E-ticaret KPI', component: 'EcommerceDashboard' },
-      { id: 'ecommerce-orders', name: 'Sipariş Analizi', component: 'CallCenterDashboard' },
-      { id: 'ecommerce-products', name: 'Ürün Performansı', component: 'MarketingDashboard' },
-      { id: 'ecommerce-order-analysis', name: 'Sipariş Detay Analizi', component: 'CallCenterDashboard' },
-    ]
-  },
-  hr: {
-    icon: '👥',
-    name: 'İnsan Kaynakları',
-    color: 'teal',
-    dashboards: [
-      { id: 'hr-metrics', name: 'İK Metrikleri', component: 'HRDashboard' },
-      { id: 'hr-performance', name: 'Performans Yönetimi', component: 'SupplyChainDashboard' },
-      { id: 'hr-dashboard', name: 'İK Yetenek Yönetimi', component: 'HRDashboard' },
-    ]
-  },
-  automotive: {
-    icon: '🚗',
-    name: 'Otomotiv',
-    color: 'red',
-    dashboards: [
-      { id: 'automotive-sales', name: 'Satış Dashboard', component: 'ProjectManagementDashboard' },
-      { id: 'automotive-service', name: 'Servis Performansı', component: 'CustomerServiceDashboard' },
-      { id: 'automotive-sales-performance', name: 'Satış Performans Detay', component: 'ProjectManagementDashboard' },
-      { id: 'automotive-service-detail', name: 'Servis Detaylı Analiz', component: 'CustomerServiceDashboard' },
-      { id: 'otomotiv-dashboard', name: 'Otomotiv Dashboard Paneli', component: 'ProjectManagementDashboard' },
-    ]
-  },
-  sales: {
-    icon: '📊',
-    name: 'Satış & Pazarlama',
-    color: 'indigo',
-    dashboards: [
-      { id: 'sales-team', name: 'Satış Ekibi Performansı', component: 'SalesDashboard' },
-      { id: 'marketing-campaign', name: 'Kampanya Analizi', component: 'ITOperationsDashboard' },
-      { id: 'sales-funnel', name: 'Satış Hunisi', component: 'WebAnalyticsDashboard' },
-      { id: 'sales-team-performance', name: 'Satış Ekibi Detay', component: 'SalesDashboard' },
-      { id: 'marketing-analytics', name: 'Pazarlama Analitikleri', component: 'MarketingDashboard' },
-      { id: 'sales-funnel-analytics', name: 'Satış Hunisi Detay Analiz', component: 'WebAnalyticsDashboard' },
-    ]
-  },
-  agriculture: {
-    icon: '🌾',
-    name: 'Tarım',
-    color: 'lime',
-    dashboards: [
-      { id: 'agriculture-operations', name: 'Tarım Operasyon Paneli', component: 'AgricultureDashboard' },
-      { id: 'agriculture-harvest', name: 'Hasat Yönetimi', component: 'FleetManagementDashboard' },
-      { id: 'tarim-tohum-yonetim', name: 'Tohum Yönetim Paneli', component: 'AgricultureDashboard' },
-    ]
-  },
-  education: {
-    icon: '🎓',
-    name: 'Eğitim & Akademik',
-    color: 'pink',
-    dashboards: [
-      { id: 'education-performance', name: 'Eğitim Performans Paneli', component: 'EducationDashboard' },
-      { id: 'education-student', name: 'Öğrenci Başarı Analizi', component: 'EducationDashboard' },
-      { id: 'education-faculty', name: 'Fakülte & Kaynak Yönetimi', component: 'EducationDashboard' },
-    ]
-  }
-};
+// Sektörel kategoriler - Ortak config'den import edildi
 
 const PlatformAnalyticsPage = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'admin' | 'demo' | 'dashboards' | 'test' | 'survey'>('dashboards');
   const [selectedCategory, setSelectedCategory] = useState<string>('restaurant');
-  const [selectedDashboard, setSelectedDashboard] = useState<string>('restaurant-general');
+  const [selectedDashboard, setSelectedDashboard] = useState<string>('restaurant-sales');
   const [selectedCSVDataset, setSelectedCSVDataset] = useState<string | null>(null);
 
   // CSV Library'den seçili dataset'i oku
@@ -1022,7 +905,7 @@ const PlatformAnalyticsPage = () => {
                   {t('platformAnalytics.tabs.dashboards')}
                 </h2>
                 <p className="text-gray-700 mb-4">
-                  <strong>50+ adet</strong> profesyonel dashboard, <strong>10 sektör</strong> kategorisinde gruplandırılmış.
+                  <strong>{DASHBOARD_STATS.totalDashboards} adet</strong> profesyonel dashboard, <strong>{DASHBOARD_STATS.totalCategories} sektör</strong> kategorisinde gruplandırılmış.
                   Zengin CSV verileri ile beslenen, A4 print-ready, Recharts + Tailwind ile kodlanmış.
                 </p>
                 
@@ -1086,20 +969,19 @@ const PlatformAnalyticsPage = () => {
 
               {/* Dashboard Display */}
               <div className="bg-white rounded-xl shadow-2xl overflow-auto" style={{ maxHeight: '85vh' }}>
-                {/* Restoran Dashboards */}
-                {selectedDashboard === 'restaurant-general' && <RestaurantDashboard />}
-                {selectedDashboard === 'restaurant-operations' && <RestaurantOperationsDashboard />}
+                {/* ✅ Restoran Dashboards - Standardize Edildi */}
+                {selectedDashboard === 'restaurant-finops' && <RestaurantDashboardFinops />}
                 {selectedDashboard === 'restaurant-sales' && <RestaurantSalesDashboard />}
                 {selectedDashboard === 'restaurant-finance' && <RestaurantFinanceDashboard />}
                 {selectedDashboard === 'restaurant-labor' && <RestaurantLaborDashboard />}
                 {selectedDashboard === 'restaurant-inventory' && <InventoryDashboard />}
                 
                 {/* Manufacturing Dashboards */}
+                {selectedDashboard === 'automotive-termostat' && <AutomotivTermostatDashboard />}
                 {selectedDashboard === 'manufacturing-control' && <ManufacturingDashboard />}
                 {selectedDashboard === 'quality-control' && <QualityControlDashboard />}
                 {selectedDashboard === 'inventory-management' && <InventoryDashboard />}
                 {selectedDashboard === 'oee-dashboard' && <OEEDashboard />}
-                {selectedDashboard === 'automotive-termostat' && <AutomotivTermostatDashboard />}
                 
                 {/* Finance Dashboards */}
                 {selectedDashboard === 'finance-cfo' && <FinanceDashboard />}
@@ -1157,6 +1039,7 @@ const PlatformAnalyticsPage = () => {
                 {selectedDashboard === 'customerservice-kpi' && <CustomerServiceDashboard />}
                 
                 {/* Automotive Dashboards */}
+                {selectedDashboard === 'automotive-executive' && <AutomotiveExecutiveDashboard />}
                 {selectedDashboard === 'automotive-sales' && <ProjectManagementDashboard />}
                 {selectedDashboard === 'automotive-service' && <CustomerServiceDashboard />}
                 {selectedDashboard === 'automotive-sales-performance' && <ProjectManagementDashboard />}
@@ -1188,16 +1071,16 @@ const PlatformAnalyticsPage = () => {
               {/* Info Box */}
               <div className="mt-6 bg-blue-50 rounded-lg p-4 border border-blue-200">
                 <p className="text-sm text-blue-900">
-                  <strong>ℹ️ Bilgi:</strong> Toplam <strong>50+ dashboard</strong> |
+                  <strong>ℹ️ Bilgi:</strong> Toplam <strong>45 dashboard</strong> |
                   <strong> 10 sektör kategorisi</strong> |
                   <strong> 20+ zengin CSV dosyası</strong> |
                   Standart boyut: %98 genişlik, 1800px max |
                   Detaylar: <code className="bg-blue-100 px-2 py-1 rounded">DASHBOARD_STANDARDS.md</code>
                 </p>
                 <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
-                  <div>🍽️ Restoran: 6 | 🏭 Üretim: 9 | 💰 Finans: 7</div>
+                  <div>🍽️ Restoran: 4 | 🏭 Üretim: 5 | 💰 Finans: 7</div>
                   <div>🏨 Otel: 4 | 🛒 E-ticaret: 4 | 👥 İK: 3</div>
-                  <div>🚗 Otomotiv: 5 | 📊 Satış: 6 | 🌾 Tarım: 3 | 🎓 Eğitim: 3</div>
+                  <div>🚗 Otomotiv: 6 | 📊 Satış: 6 | 🌾 Tarım: 3 | 🎓 Eğitim: 3</div>
                 </div>
               </div>
             </div>

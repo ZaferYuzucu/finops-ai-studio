@@ -103,6 +103,12 @@ export interface Dataset {
     headerRow: number;
     processedAt: Date;
   };
+  // Semantic layer integration
+  semanticMappings?: Array<{
+    datasetColumn: string;
+    semanticFieldId: string;
+  }>;
+  grain?: 'daily' | 'weekly' | 'monthly' | 'yearly';
 }
 
 export interface DataIngestionState {
