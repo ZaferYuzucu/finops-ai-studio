@@ -220,17 +220,52 @@ async function generateResponse(
       content: msg.text
     }));
 
-    // Call server-side API (with authentication)
-    const { authenticatedFetchJson } = await import('../utils/apiClient');
+    // Call server-side API (supports both authenticated and public mode)
+    const { auth } = await import('../firebase');
     
-    const data = await authenticatedFetchJson('/api/chat', {
+    // Try to get auth token if user is logged in
+    let headers: Record<string, string> = {
+      'Content-Type': 'application/json'
+    };
+    
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const token = await user.getIdToken();
+        headers['Authorization'] = `Bearer ${token}`;
+        console.log('🔐 [Fino] Authenticated chat request');
+      } else {
+        console.log('🌐 [Fino] Public chat request');
+      }
+    } catch (error) {
+      // Continue without auth - public mode
+      console.log('🌐 [Fino] Public chat mode (auth unavailable)');
+    }
+
+    const response = await fetch('/api/chat', {
       method: 'POST',
+      headers,
       body: JSON.stringify({
         message: userQuery,
         context,
         history
       })
     });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+      console.error('[Fino] API error:', response.status, errorData);
+      throw new Error(errorData.error || 'API request failed');
+    }
+
+    const data = await response.json();
+    
+    // Log chat mode
+    if (data.chatMode) {
+      console.log(`✅ [Fino] Chat mode: ${data.chatMode}`);
+    }
+    
+    return data.message || "Üzgünüm, bir hata oluştu.";
 
   } catch (error) {
     console.error('[Fino] Error calling API:', error);

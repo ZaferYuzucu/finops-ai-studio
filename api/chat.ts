@@ -2,11 +2,13 @@
  * Fino Chat API Route
  * Server-side OpenAI integration for security
  * 
- * SECURITY: Requires Firebase Authentication
+ * SUPPORTS:
+ * - Authenticated users (with Firebase token)
+ * - Public chat mode (unauthenticated)
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { requireAuth } from './_lib/firebaseAuth';
+import { verifyAuthToken } from './_lib/firebaseAuth';
 
 interface ChatRequest {
   message: string;
@@ -18,13 +20,28 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
-  // SECURITY-CRITICAL: Require authentication
-  const user = await requireAuth(req, res);
-  if (!user) return; // Response already sent (401)
-
   // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Try to authenticate, but fall back to PUBLIC CHAT MODE if no auth
+  let user: { uid: string; email?: string; role?: string } | null = null;
+  let chatMode: 'authenticated' | 'public' = 'public';
+
+  try {
+    user = await verifyAuthToken(req);
+    if (user) {
+      chatMode = 'authenticated';
+      console.log(`✅ [Fino Chat] Authenticated user: ${user.uid}`);
+    } else {
+      console.log('ℹ️ [Fino Chat] PUBLIC CHAT MODE - No authentication token');
+    }
+  } catch (error) {
+    // Auth failed - continue as public chat
+    console.log('ℹ️ [Fino Chat] PUBLIC CHAT MODE - Auth verification failed');
+    user = null;
+    chatMode = 'public';
   }
 
   try {
@@ -101,7 +118,9 @@ ${context || 'FinOps AI Studio, KOBİ\'ler için yapay zeka destekli finansal ka
 
     return res.status(200).json({ 
       message: aiMessage,
-      success: true 
+      success: true,
+      chatMode, // Include chat mode in response
+      user: user ? { uid: user.uid, email: user.email } : null
     });
 
   } catch (error) {
