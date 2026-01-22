@@ -220,27 +220,17 @@ async function generateResponse(
       content: msg.text
     }));
 
-    // Call server-side API
-    const response = await fetch('/api/chat', {
+    // Call server-side API (with authentication)
+    const { authenticatedFetchJson } = await import('../utils/apiClient');
+    
+    const data = await authenticatedFetchJson('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
       body: JSON.stringify({
         message: userQuery,
         context,
         history
       })
     });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('[Fino] API error:', response.status, errorData);
-      throw new Error(errorData.error || 'API request failed');
-    }
-
-    const data = await response.json();
-    return data.message || "Üzgünüm, bir hata oluştu.";
 
   } catch (error) {
     console.error('[Fino] Error calling API:', error);

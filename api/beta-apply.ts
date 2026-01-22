@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getAdminDb, FieldValue } from './_lib/firebaseAdmin';
+import { getAdminDb } from './_lib/firebaseAuth';
+import { FieldValue } from 'firebase-admin/firestore';
 import { requireAdmin } from './_lib/adminSession';
 
 const BETA_LIMIT = 20;

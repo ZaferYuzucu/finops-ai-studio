@@ -1,3 +1,14 @@
+/**
+ * SECURITY-CRITICAL: Admin Login Page
+ * 
+ * ⚠️ DO NOT MODIFY WITHOUT SECURITY TEAM APPROVAL
+ * 
+ * Admin authentication uses server-side HMAC session cookies.
+ * NO localStorage/sessionStorage flags allowed.
+ * 
+ * @stability LOCKED
+ * @security CRITICAL
+ */
 
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -9,61 +20,45 @@ const AdminLoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
-  const ADMIN_PASSWORD = 'ATA1923';
-  const ADMIN_EMAIL = 'admin@finops.ai';
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-
-    if (password !== ADMIN_PASSWORD) {
-      setError('Yanlış şifre. Lütfen tekrar deneyin.');
-      return;
-    }
+    setLoading(true);
 
     try {
-      console.log('✅ Admin şifre doğru! Giriş yapılıyor...');
+      // SECURITY-CRITICAL: Server-side password verification
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Include httpOnly cookie
+        body: JSON.stringify({ password }),
+      });
 
-      // Admin user profile'ı localStorage'a kaydet
-      const adminUser = {
-        uid: 'admin_001',
-        email: ADMIN_EMAIL,
-        role: 'admin'
-      };
-      
-      // Admin session should not override normal user session storage.
-      localStorage.setItem('finops_admin_user', JSON.stringify(adminUser));
-      localStorage.setItem('isAdminAuthenticated', 'true');
-      sessionStorage.setItem('isAdminAuthenticated', 'true');
-
-      // Create server-side admin session (cookie) for /api/admin/* routes
-      try {
-        const response = await fetch('/api/admin/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ password }),
-        });
-        if (!response.ok) {
-          const text = await response.text();
-          throw new Error(text || 'Admin session oluşturulamadı');
+      if (!response.ok) {
+        if (response.status === 401) {
+          setError('Yanlış şifre. Lütfen tekrar deneyin.');
+        } else {
+          const data = await response.json().catch(() => ({}));
+          setError(data.error || 'Giriş başarısız. Lütfen tekrar deneyin.');
         }
-      } catch (apiErr: any) {
-        console.warn('⚠️ Admin API login failed (demo may still work partially):', apiErr?.message || apiErr);
+        setLoading(false);
+        return;
       }
 
       console.log('✅ Admin girişi başarılı!');
 
+      // Redirect to intended page or office
       const queryParams = new URLSearchParams(location.search);
-      const redirectPath = queryParams.get('redirect');
-      console.log('🚀 Yönlendiriliyor:', redirectPath || '/office');
-      navigate(redirectPath || '/office');
+      const redirectPath = queryParams.get('redirect') || '/office';
+      navigate(redirectPath, { replace: true });
     } catch (err: any) {
-      console.error('❌ Beklenmeyen hata:', err);
-      setError(`Beklenmeyen hata: ${err.message || 'Lütfen tekrar deneyin'}`);
+      console.error('❌ Admin login error:', err);
+      setError('Bağlantı hatası. Lütfen tekrar deneyin.');
+      setLoading(false);
     }
   };
 
@@ -97,9 +92,10 @@ const AdminLoginPage: React.FC = () => {
           <div>
             <button
               type="submit"
-              className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              disabled={loading}
+              className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {t('platformAnalytics.adminLogin.loginButton')}
+              {loading ? 'Giriş yapılıyor...' : t('platformAnalytics.adminLogin.loginButton')}
             </button>
           </div>
         </form>

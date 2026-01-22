@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getAdminDb } from '../../_lib/firebaseAdmin';
+import { getAdminDb } from '../../_lib/firebaseAuth';
 import { requireAdmin } from '../../_lib/adminSession';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

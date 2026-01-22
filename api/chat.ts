@@ -1,9 +1,12 @@
 /**
  * Fino Chat API Route
  * Server-side OpenAI integration for security
+ * 
+ * SECURITY: Requires Firebase Authentication
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { requireAuth } from './_lib/firebaseAuth';
 
 interface ChatRequest {
   message: string;
@@ -15,6 +18,10 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
+  // SECURITY-CRITICAL: Require authentication
+  const user = await requireAuth(req, res);
+  if (!user) return; // Response already sent (401)
+
   // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
