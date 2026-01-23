@@ -46,9 +46,27 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
-  // SECURITY: Require admin authentication
-  const auth = requireAdmin(req);
-  if (!auth.ok) {
+  // TEMPORARY: Accept both Firebase Auth and HMAC session
+  // Try Firebase Auth first
+  const { verifyAuthToken } = await import('../_lib/firebaseAuth');
+  let isAdmin = false;
+  
+  try {
+    const user = await verifyAuthToken(req);
+    if (user && user.role === 'admin') {
+      isAdmin = true;
+      console.log('✅ Admin authenticated via Firebase:', user.uid);
+    }
+  } catch (error) {
+    // Fall back to HMAC session
+    const auth = requireAdmin(req);
+    if (auth.ok) {
+      isAdmin = true;
+      console.log('✅ Admin authenticated via HMAC session');
+    }
+  }
+
+  if (!isAdmin) {
     return res.status(401).json({ 
       error: 'Unauthorized',
       message: 'Admin authentication required'

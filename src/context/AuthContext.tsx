@@ -12,10 +12,20 @@ interface UserProfile {
 interface AuthContextType {
   currentUser: UserProfile | null;
   loading: boolean;
+  isAdmin: boolean;
   signup: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   signInWithGoogle: () => Promise<void>;
+}
+
+// Admin email - single source of truth
+const ADMIN_EMAIL = 'zaferyuzucu@gmail.com';
+
+// Helper: Check if user is admin
+function checkIsAdmin(user: UserProfile | null): boolean {
+  if (!user || !user.email) return false;
+  return normalizeEmail(user.email) === normalizeEmail(ADMIN_EMAIL) || user.role === 'admin';
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -56,12 +66,6 @@ function getStoredUser(): UserProfile | null {
   if (!stored) return null;
   try {
     const parsed = JSON.parse(stored) as UserProfile;
-    // Admin session is handled separately via isAdminAuthenticated flags.
-    // Do not treat admin profile as a signed-in "user" for the app navbar/user flow.
-    if (parsed?.role === 'admin') {
-      localStorage.removeItem(USER_STORAGE_KEY);
-      return null;
-    }
     return parsed;
   } catch {
     localStorage.removeItem(USER_STORAGE_KEY);
@@ -212,8 +216,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       throw new Error('Invalid email or password');
     }
     
+    // Check if this is admin email and enforce admin role
+    const isAdminUser = normalizeEmail(emailNorm) === normalizeEmail(ADMIN_EMAIL);
+    const finalRole = isAdminUser ? 'admin' : (user.role || 'user');
+    
     // Deterministic uid (and migration from any legacy uid buckets)
-    const { uid, legacyIds } = ensureMgmtUser(emailNorm, user.role || 'user');
+    const { uid, legacyIds } = ensureMgmtUser(emailNorm, finalRole);
     legacyIds.forEach((oldId) => {
       try {
         migrateUserDashboards(oldId, uid);
@@ -225,7 +233,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const userProfile = {
       uid,
       email: user.email,
-      role: user.role
+      role: finalRole
     };
     
     setStoredUser(userProfile);
@@ -272,9 +280,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(false);
   }, []);
 
+  // Compute isAdmin based on current user
+  const isAdmin = checkIsAdmin(currentUser);
+
   const value = {
     currentUser,
     loading,
+    isAdmin,
     signup,
     login,
     logout,

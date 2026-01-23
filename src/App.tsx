@@ -50,6 +50,7 @@ import ChartWizardDemoPage from './pages/ChartWizardDemoPage';
 // Koruma Bileşenleri ve Korunan Sayfalar
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
+import AdminLayout from './components/AdminLayout';
 import DashboardPage from './pages/DashboardPage';
 import ProfessionalDashboardsPage from './pages/ProfessionalDashboardsPage';
 import MyDashboardsPage from './pages/MyDashboardsPage';
@@ -157,33 +158,38 @@ const App: React.FC = () => {
         </Route>
         
         {/* === Yönetici Korumalı Rotalar (Sadece Yöneticiler) === */}
-        <Route path="/admin/platform-analytics" element={<AdminProtectedRoute><PlatformAnalyticsPage /></AdminProtectedRoute>} />
-        <Route path="/admin/csv-library" element={<AdminProtectedRoute><CSVLibraryPage /></AdminProtectedRoute>} />
-        <Route path="/admin/dashboard" element={<AdminProtectedRoute><PlatformAnalyticsDashboard /></AdminProtectedRoute>} />
-        <Route path="/admin/panel" element={<AdminProtectedRoute><AdminPanelPage /></AdminProtectedRoute>} />
-        <Route path="/admin/newsletter" element={<AdminProtectedRoute><NewsletterPanelPage /></AdminProtectedRoute>} />
-        <Route path="/admin/payment-guide" element={<AdminProtectedRoute><PaymentGuideAdminPage /></AdminProtectedRoute>} />
-        <Route path="/office" element={<AdminProtectedRoute><OfficePage /></AdminProtectedRoute>} />
-        <Route path="/finops-theatre" element={<AdminProtectedRoute><FinOpsTheatrePage /></AdminProtectedRoute>} />
-        <Route path="/business-plan" element={<AdminProtectedRoute><BusinessPlanPage /></AdminProtectedRoute>} />
-        <Route path="/admin/system-guide" element={<AdminProtectedRoute><SystemGuidePage /></AdminProtectedRoute>} />
-        <Route path="/admin/beta-applications" element={<AdminProtectedRoute><BetaApplicationsPage /></AdminProtectedRoute>} />
-        <Route path="/admin/user-management" element={<AdminProtectedRoute><UserManagementPage /></AdminProtectedRoute>} />
-        <Route path="/admin/email-outbox" element={<AdminProtectedRoute><EmailOutboxPage /></AdminProtectedRoute>} />
-        <Route path="/admin/internal-pricing" element={<AdminProtectedRoute><InternalPricingGuidePage /></AdminProtectedRoute>} />
-        <Route path="/admin/chart-rules" element={<AdminProtectedRoute><ChartRulesAdminPage /></AdminProtectedRoute>} />
-        <Route path="/admin/management-office/executive-report" element={<AdminProtectedRoute><ExecutiveStatusReportPage /></AdminProtectedRoute>} />
-        <Route path="/admin/management-office/project-activity-report" element={<AdminProtectedRoute><ProjectActivityReportPage /></AdminProtectedRoute>} />
-        <Route path="/admin/dashboard-library" element={<AdminProtectedRoute><DashboardLibraryAdminPage /></AdminProtectedRoute>} />
-        <Route path="/marketing-plan" element={<AdminProtectedRoute><MarketingPlanPage /></AdminProtectedRoute>} />
-        <Route path="/launch-roadmap" element={<AdminProtectedRoute><LaunchRoadmapPage /></AdminProtectedRoute>} />
-        <Route path="/investor-presentation" element={<AdminProtectedRoute><InvestorPresentationPage /></AdminProtectedRoute>} />
+        <Route element={<AdminProtectedRoute><AdminLayout /></AdminProtectedRoute>}>
+          <Route path="/admin" element={<AdminPanelPage />} />
+          <Route path="/admin/platform-analytics" element={<PlatformAnalyticsPage />} />
+          <Route path="/admin/csv-library" element={<CSVLibraryPage />} />
+          <Route path="/admin/dashboard" element={<PlatformAnalyticsDashboard />} />
+          <Route path="/admin/panel" element={<AdminPanelPage />} />
+          <Route path="/admin/newsletter" element={<NewsletterPanelPage />} />
+          <Route path="/admin/payment-guide" element={<PaymentGuideAdminPage />} />
+          <Route path="/office" element={<OfficePage />} />
+          <Route path="/finops-theatre" element={<FinOpsTheatrePage />} />
+          <Route path="/business-plan" element={<BusinessPlanPage />} />
+          <Route path="/admin/system-guide" element={<SystemGuidePage />} />
+          <Route path="/admin/beta-applications" element={<BetaApplicationsPage />} />
+          <Route path="/admin/user-management" element={<UserManagementPage />} />
+          <Route path="/admin/email-outbox" element={<EmailOutboxPage />} />
+          <Route path="/admin/internal-pricing" element={<InternalPricingGuidePage />} />
+          <Route path="/admin/chart-rules" element={<ChartRulesAdminPage />} />
+          <Route path="/admin/management-office/executive-report" element={<ExecutiveStatusReportPage />} />
+          <Route path="/admin/management-office/project-activity-report" element={<ProjectActivityReportPage />} />
+          <Route path="/admin/dashboard-library" element={<DashboardLibraryAdminPage />} />
+          <Route path="/marketing-plan" element={<MarketingPlanPage />} />
+          <Route path="/launch-roadmap" element={<LaunchRoadmapPage />} />
+          <Route path="/investor-presentation" element={<InvestorPresentationPage />} />
+          <Route path="/user-journey-map" element={<UserJourneyMapPage />} />
+          <Route path="/data-ingestion" element={<DataIngestionPage />} />
+        </Route>
+        
+        {/* === Public Info Pages (Not Admin-Only) === */}
         <Route path="/veri-hazirlama" element={<VeriHazirlamaRehberiPage />} />
         <Route path="/veri-kaynaklari" element={<VeriKaynaklariPage />} />
         <Route path="/ai-veri-analizi" element={<AIVeriAnaliziPage />} />
         <Route path="/veri-gorsellestirme" element={<VeriGorsellestirmePage />} />
-        <Route path="/user-journey-map" element={<AdminProtectedRoute><UserJourneyMapPage /></AdminProtectedRoute>} />
-        <Route path="/data-ingestion" element={<AdminProtectedRoute><DataIngestionPage /></AdminProtectedRoute>} />
 
         {/* === Yasal Sayfalar === */}
         <Route path="/legal/privacy-policy" element={<PrivacyPolicyPage />} />

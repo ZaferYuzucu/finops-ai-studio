@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 interface FirebaseUser {
   uid: string;
@@ -35,7 +35,7 @@ const AdminPanelPage: React.FC = () => {
       setError('');
 
       // Get Firebase ID token
-      const { auth } = await import('../firebase');
+      const { auth } = await import('../../firebase');
       const user = auth.currentUser;
       
       if (!user) {

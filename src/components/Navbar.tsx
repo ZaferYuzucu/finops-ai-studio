@@ -9,12 +9,18 @@ import { useTranslation } from 'react-i18next';
 // Navigation config will be dynamic based on translation
 
 export default function Navbar() {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout, isAdmin } = useAuth();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Navbar should not be rendered for admin users (handled by PageLayout)
+  // But as a safety check, don't show user menu for admins
+  if (isAdmin) {
+    return null;
+  }
 
   // Close user menu when clicking outside
   useEffect(() => {
@@ -140,8 +146,8 @@ export default function Navbar() {
                     {t('nav.signUp')}
                 </Link>
                 
-                {/* Kullanıcı Giriş Yapmışsa Profil Dropdown */}
-                {currentUser && (
+                {/* Kullanıcı Giriş Yapmışsa Profil Dropdown (Sadece normal kullanıcılar için) */}
+                {currentUser && !isAdmin && (
                   <>
                     <div className="w-px h-6 bg-gray-300 mx-1"></div>
                     
@@ -306,9 +312,9 @@ export default function Navbar() {
                 </div>
               </div>
 
-              {/* Mobile Auth Buttons */}
+              {/* Mobile Auth Buttons (Only for non-admin users) */}
               <div className="pt-4 border-t border-gray-200 space-y-2">
-                {currentUser ? (
+                {currentUser && !isAdmin ? (
                   <>
                     <Link
                       to="/dashboard"
@@ -327,7 +333,7 @@ export default function Navbar() {
                       {t('nav.logout')}
                     </button>
                   </>
-                ) : (
+                ) : !currentUser && (
                   <>
                     <Link
                       to="/login"

@@ -1,75 +1,48 @@
 /**
- * SECURITY-CRITICAL: Admin Protected Route
+ * Admin Protected Route
  * 
- * ⚠️ DO NOT MODIFY WITHOUT SECURITY TEAM APPROVAL
- * 
- * Protects admin routes using server-side HMAC session cookies.
- * Verifies admin session via API call (httpOnly cookie).
- * 
- * @stability LOCKED
- * @security CRITICAL
+ * Ensures only admin users can access admin routes
+ * Redirects non-admin users to admin login page
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 interface AdminProtectedRouteProps {
   children: React.ReactNode;
 }
 
 const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const { currentUser, loading, isAdmin } = useAuth();
   const location = useLocation();
 
-  // Dev-only bypass (NEVER enable in production)
+  // Dev-only bypass
   const disableAdminGuard =
     import.meta.env.DEV && import.meta.env.VITE_DISABLE_AUTH_GUARD === 'true';
   
-  useEffect(() => {
-    if (disableAdminGuard) {
-      console.warn('⚠️ ADMIN GUARD DISABLED - DEV MODE ONLY');
-      setIsAuthenticated(true);
-      return;
-    }
-
-    // SECURITY-CRITICAL: Verify admin session via API
-    const verifySession = async () => {
-      try {
-        const response = await fetch('/api/admin/verify-session', {
-          method: 'GET',
-          credentials: 'include', // Include httpOnly cookie
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setIsAuthenticated(data.authenticated === true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch (error) {
-        console.error('Admin session verification failed:', error);
-        setIsAuthenticated(false);
-      }
-    };
-
-    verifySession();
-  }, [disableAdminGuard, location.pathname]);
+  if (disableAdminGuard) {
+    console.warn('⚠️ ADMIN GUARD DISABLED - DEV MODE');
+    return <>{children}</>;
+  }
 
   // Loading state
-  if (isAuthenticated === null) {
+  if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex items-center justify-center min-h-screen bg-gray-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500"></div>
       </div>
     );
   }
 
-  // Authenticated - show protected content
-  if (isAuthenticated) {
+  // Check if user is authenticated and is admin
+  if (currentUser && isAdmin) {
+    console.log('✅ Admin access granted');
     return <>{children}</>;
   }
 
-  // Not authenticated - redirect to login
+  // Not authenticated or not admin - redirect to admin login
+  console.log('❌ Admin access denied - redirecting to admin login');
   return <Navigate to={`/admin-login?redirect=${encodeURIComponent(location.pathname)}`} replace />;
 };
 

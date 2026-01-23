@@ -1,0 +1,85 @@
+╔══════════════════════════════════════════════════════════════╗
+║              OTONOM ADMIN OLUŞTUR - TEK KOMUT                ║
+╚══════════════════════════════════════════════════════════════╝
+
+SENARYO: zaferyuzucu@gmail.com kullanıcısı zaten Firebase'de var
+         (Jan 20, 2026'da oluşturulmuş)
+         
+HEDEF:   Bu kullanıcıyı ADMIN yap
+
+
+📋 İHTİYACIN OLAN:
+─────────────────────────────────────────────────────────────
+Firebase Service Account Key (JSON dosyası)
+
+
+🎯 ADIM ADIM TALİMAT:
+─────────────────────────────────────────────────────────────
+
+1️⃣  FIREBASE SERVICE ACCOUNT KEY AL
+    
+    a) Bu linki aç:
+       https://console.firebase.google.com/project/finopsprojesi-39510656-2ec03/settings/serviceaccounts/adminsdk
+    
+    b) "Generate New Private Key" butonuna tıkla
+    
+    c) İndirilen JSON dosyasını aç (Not Defteri veya TextEdit ile)
+    
+    d) TÜM içeriği KOPYALA (Ctrl+A, Ctrl+C)
+
+
+2️⃣  ENVIRONMENT VARIABLE AYARLA
+    
+    Terminal'de (veya Command Prompt'ta) bu komutu çalıştır:
+    
+    export FIREBASE_SERVICE_ACCOUNT_KEY='BURAYA_JSON_YAPISTIR'
+    
+    ÖNEMLİ: Tek tırnak içine yapıştır!
+
+
+3️⃣  OTONOM SCRIPT'İ ÇALIŞTIR
+    
+    Terminal'de şu komutu çalıştır:
+    
+    ./OTOMATIK_ADMIN.sh
+    
+    VEYA:
+    
+    npx tsx scripts/set-admin-role.ts
+
+
+4️⃣  ADMIN GİRİŞİ YAP
+    
+    a) Tarayıcıda aç: http://localhost:5173/admin-login
+    
+    b) Giriş bilgileri:
+       Email: zaferyuzucu@gmail.com
+       Şifre: Zafer1961
+    
+    c) "Giriş Yap" butonuna tıkla
+    
+    d) ✅ /admin sayfasına yönlendirileceksin!
+
+
+═══════════════════════════════════════════════════════════════
+
+📞 SORUN YAŞARSAN:
+
+Hata: "FIREBASE_SERVICE_ACCOUNT_KEY bulunamadı"
+Çözüm: Adım 2'yi tekrar yap
+
+Hata: "User not found"
+Çözüm: Önce /signup sayfasından kayıt ol
+
+Hata: "Permission denied"
+Çözüm: Service Account Key'in doğru olduğundan emin ol
+
+═══════════════════════════════════════════════════════════════
+
+🚀 HIZLI BAŞLANGIÇ (Tek satır):
+
+npx tsx scripts/set-admin-role.ts
+
+(Önce FIREBASE_SERVICE_ACCOUNT_KEY'i ayarlamayı unutma!)
+
+═══════════════════════════════════════════════════════════════
