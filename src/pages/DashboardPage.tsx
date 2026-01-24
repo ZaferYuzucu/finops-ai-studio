@@ -82,7 +82,7 @@ const DashboardPage: React.FC = () => {
 
           {/* Dashboard Oluştur */}
           <button
-            onClick={() => navigate('/dashboard/create')}
+            onClick={() => navigate('/dashboard/create-wizard')}
             className="bg-gradient-to-br from-indigo-50 to-blue-50 p-6 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-indigo-200 hover:border-indigo-400 text-left group"
           >
             <div className="flex items-center gap-4 mb-3">

@@ -13,13 +13,13 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   const location = useLocation();
   const { isAdmin } = useAuth();
   
-  // Admin routes should not show regular navbar/footer
+  // Only hide navbar/footer on actual admin routes, NOT for regular users on public pages
   const isAdminRoute = location.pathname.startsWith('/admin') || 
                        location.pathname.startsWith('/office') ||
                        location.pathname === '/admin-login';
   
-  // Hide navbar and footer for admin users or on admin routes
-  const hideNavbarAndFooter = isAdmin || isAdminRoute;
+  // Hide navbar ONLY if on admin route (admin users will see AdminLayout instead)
+  const hideNavbarAndFooter = isAdminRoute;
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -29,8 +29,8 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
       </main>
       {!hideNavbarAndFooter && <Footer />}
       
-      {/* Fino Chat Widget - Only for regular users, not for admins */}
-      {!isAdmin && <FinoChatWidget />}
+      {/* Fino Chat Widget - Available for all users */}
+      <FinoChatWidget />
     </div>
   );
 };

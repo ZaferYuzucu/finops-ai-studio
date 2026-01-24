@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=http://localhost:5173/">
+    <title>FinOps AI Studio - Yönlendiriliyor...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 { font-size: 2.5em; margin: 0 0 20px 0; }
+        p { font-size: 1.2em; margin: 10px 0; }
+        .link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: transform 0.2s;
+        }
+        .link:hover {
+            transform: scale(1.05);
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 FinOps AI Studio</h1>
+        <div class="spinner"></div>
+        <p>Uygulama başlatılıyor...</p>
+        <p><strong>Otomatik yönlendirme aktif</strong></p>
+        <a href="http://localhost:5173/" class="link">Manuel Olarak Aç →</a>
+        <p style="font-size: 0.9em; margin-top: 30px; opacity: 0.8;">
+            Port: 5173<br>
+            Status: ✅ ÇALIŞIYOR
+        </p>
+    </div>
+</body>
+</html>

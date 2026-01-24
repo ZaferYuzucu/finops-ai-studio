@@ -16,11 +16,7 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
-  // Navbar should not be rendered for admin users (handled by PageLayout)
-  // But as a safety check, don't show user menu for admins
-  if (isAdmin) {
-    return null;
-  }
+  console.log('🔍 NAVBAR: Rendering | isAdmin:', isAdmin, '| currentUser:', currentUser?.email);
 
   // Close user menu when clicking outside
   useEffect(() => {

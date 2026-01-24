@@ -1,0 +1,18 @@
+plan_date,branch_id,counter_account,description,amount_net,payment_terms,recurrence,company_id,cost_center
+2026-02-01,branch_kadikoy,320.001,Şubat satış tahmini,416666.67,POS_T2,MONTHLY,company_restoran_a,
+2026-02-01,branch_besiktas,320.001,Şubat satış tahmini,333333.33,POS_T2,MONTHLY,company_restoran_a,
+2026-02-01,branch_taksim,320.001,Şubat satış tahmini,250000.00,POS_T2,MONTHLY,company_restoran_a,
+2026-02-01,branch_kadikoy,600.001,Gıda alımı tahmini,-125000.00,DPO_30,MONTHLY,company_restoran_a,CC_KITCHEN
+2026-02-01,branch_besiktas,600.001,Gıda alımı tahmini,-100000.00,DPO_30,MONTHLY,company_restoran_a,CC_KITCHEN
+2026-02-01,branch_taksim,600.001,Gıda alımı tahmini,-75000.00,DPO_30,MONTHLY,company_restoran_a,CC_KITCHEN
+2026-02-01,branch_kadikoy,601.001,İçecek alımı tahmini,-33333.33,DPO_30,MONTHLY,company_restoran_a,CC_BAR
+2026-02-15,branch_kadikoy,335.001,Personel maaş tahmini,-15000.00,PAYROLL_15,MONTHLY,company_restoran_a,CC_HR
+2026-02-15,branch_besiktas,335.001,Personel maaş tahmini,-12000.00,PAYROLL_15,MONTHLY,company_restoran_a,CC_HR
+2026-02-15,branch_taksim,335.001,Personel maaş tahmini,-10000.00,PAYROLL_15,MONTHLY,company_restoran_a,CC_HR
+2026-02-01,branch_kadikoy,180.001,Kira ödemesi,-6500.00,DPO_0,MONTHLY,company_restoran_a,
+2026-02-01,branch_besiktas,180.001,Kira ödemesi,-5500.00,DPO_0,MONTHLY,company_restoran_a,
+2026-02-01,branch_taksim,180.001,Kira ödemesi,-4500.00,DPO_0,MONTHLY,company_restoran_a,
+2026-02-10,branch_kadikoy,770.001,Elektrik faturası,-2000.00,DPO_10,MONTHLY,company_restoran_a,CC_UTILITIES
+2026-02-10,branch_kadikoy,770.002,Su faturası,-700.00,DPO_10,MONTHLY,company_restoran_a,CC_UTILITIES
+2026-02-26,branch_kadikoy,360.001,KDV ödemesi tahmini,-50000.00,VAT_26,MONTHLY,company_restoran_a,
+2026-02-23,branch_kadikoy,361.001,SGK primi ödemesi,-12300.00,SGK_23,MONTHLY,company_restoran_a,CC_HR

@@ -83,6 +83,10 @@ import ManufacturingPage from './pages/sectors/ManufacturingPage';
 import ManufacturingDashboardsPage from './pages/ManufacturingDashboardsPage';
 import DataIngestionPage from './pages/DataIngestionPage';
 import BetaApplicationFormPage from './pages/BetaApplicationFormPage';
+import TemplateLibraryPage from './pages/TemplateLibraryPage';
+import DashboardTemplatePage from './pages/DashboardTemplatePage';
+import UnifiedDashboardsPage from './pages/UnifiedDashboardsPage';
+import UnifiedDashboardWizardPage from './pages/UnifiedDashboardWizardPage';
 
 // Dev-only tools
 const I18nAuditPage = lazy(() => import('./pages/I18nAuditPage'));
@@ -134,17 +138,26 @@ const App: React.FC = () => {
         <Route path="/admin-login" element={<AdminLoginPage />} />
 
         {/* === Dashboard Rotaları (Herkese Açık - Demo) === */}
+        {/* NEW: Unified Dashboard System */}
+        <Route path="/dashboards/all" element={<UnifiedDashboardsPage />} />
+        
         {/* Canonical URL - Tek dashboard kütüphanesi */}
         <Route path="/professional-dashboards" element={<ProfessionalDashboardsPage />} />
         {/* Redirects - SEO ve backward compatibility */}
-        <Route path="/dashboards" element={<Navigate to="/professional-dashboards" replace />} />
-        <Route path="/dashboard/professional" element={<Navigate to="/professional-dashboards" replace />} />
+        <Route path="/dashboards" element={<Navigate to="/dashboards/all" replace />} />
+        <Route path="/dashboard/professional" element={<Navigate to="/dashboards/all" replace />} />
         <Route path="/dashboard/demo-preview" element={<DemoDashboardPreview />} />
 
+        {/* === Dashboard Template System (Public) === */}
+        <Route path="/dashboard/templates" element={<TemplateLibraryPage />} />
+        <Route path="/dashboard/template/:templateId" element={<DashboardTemplatePage />} />
+        <Route path="/dashboard/template-preview/:templateId" element={<DashboardTemplatePage />} />
+        
         {/* === Kullanıcı Korumalı Rotalar (Giriş Yapmış Kullanıcılar) === */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/dashboard/create" element={<DashboardCreateWizardPage />} />
+          <Route path="/dashboard/create-wizard" element={<UnifiedDashboardWizardPage />} />
           <Route path="/dashboard/smart-create" element={<SmartDashboardWizardPage />} />
           <Route path="/dashboard/preparation-guide" element={<DashboardPreparationGuide />} />
           <Route path="/dashboard/my" element={<MyDashboardsPage />} />

@@ -1,388 +1,376 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DataSourceSelection } from './steps/DataSourceSelection';
-import { KpiSelection } from './steps/KpiSelection';
-import { ChartTypeSelection } from './steps/ChartTypeSelection';
-import { AxisMapping } from './steps/AxisMapping';
-import { Preview } from './steps/Preview';
-import { SaveTemplate } from './steps/SaveTemplate';
+import { ArrowLeft, ArrowRight, Check, Upload, FileSpreadsheet } from 'lucide-react';
+import { INTENT_TO_DASHBOARD, IntentKey } from '../../config/intentToDashboard';
+import { DASHBOARD_CONFIGS } from '../../config/dashboardConfigs';
 import { useAuth } from '../../context/AuthContext';
-import { getUserUploadedFiles, type UploadedFile } from '../../utils/userDataStorage';
-import { parseCSVFile } from '../../utils/csvParser';
-import { wizardStateToDashboardConfig, saveUserDashboardConfig } from '../../utils/wizardToConfig';
-import { runtimeFileStore } from '../../store/runtimeFileStore';
+import { saveUserDashboardConfig } from '../../utils/wizardToConfig';
 
-export interface WizardState {
-  // Veri Kaynağı
-  selectedFile: UploadedFile | null;
-  parsedData: {
-    headers: string[];
-    rows: any[];
-    numericColumns: string[];
-    categoryColumns: string[];
-    dateColumn: string | null;
-  } | null;
-  
-  // KPI'lar (6 ADET)
-  selectedKpis: Array<{
-    column: string;
-    label: string;
-    calculation: 'sum' | 'avg' | 'count' | 'max' | 'min' | 'formula';
-    numerator?: string;  // Formul için pay
-    denominator?: string;  // Formul için payda
-  }>;
-  
-  // GRAFİKLER (5 ADET)
-  selectedCharts: Array<{
-    id: string;
-    chartType: string;
-    xAxis: { field: string; type: string } | null;
-    yAxis: { field: string; type: string } | null;
-    title: string;
-  }>;
-  
-  // Kaydetme
-  dashboardName: string;
-
-  // Phase 2: Multi-dataset dashboard support (OPT-IN)
-  multiDatasetMode?: boolean;
-  referencedDatasets?: string[];
-  semanticMappings?: Array<{ datasetId: string; column: string; semanticId: string }>;
-  joinConfigs?: Array<{ leftDataset: string; rightDataset: string; joinType: 'inner' | 'left'; leftKey: string; rightKey: string }>;
-  grain?: 'daily' | 'weekly' | 'monthly' | 'yearly';
-  aiSuggestionsEnabled?: boolean; // Disabled by default
+interface WizardState {
+  step: number;
+  intent: IntentKey | null;
+  dataSource: 'upload' | 'existing' | null;
+  uploadedFile: File | null;
+  period: 'daily' | 'weekly' | 'monthly' | null;
+  scope: 'single' | 'all' | null;
+  viewLevel: 'executive' | 'detailed' | null;
 }
 
-const STEPS = ['Veri Seçimi', 'KPI Tanımlama (6)', 'Grafik Tanımlama (5)', 'Önizleme', 'Kaydet'];
-
 export const DashboardWizard: React.FC = () => {
-  const { currentUser } = useAuth();
   const navigate = useNavigate();
-  const [step, setStep] = useState(0);
+  const { currentUser } = useAuth();
   const [state, setState] = useState<WizardState>({
-    selectedFile: null,
-    parsedData: null,
-    selectedKpis: [],
-    selectedCharts: [],
-    dashboardName: ''
+    step: 1,
+    intent: null,
+    dataSource: null,
+    uploadedFile: null,
+    period: null,
+    scope: null,
+    viewLevel: null,
   });
-
-  const [userFiles, setUserFiles] = useState<UploadedFile[]>([]);
-
-  // GİRİŞ KONTROLÜ - Kullanıcı yoksa login'e yönlendir
-  useEffect(() => {
-    if (!currentUser) {
-      alert('Dashboard olusturmak icin once giris yapmalisiniz.');
-      navigate('/login');
-    }
-  }, [currentUser, navigate]);
-
-  // Kullanıcı dosyalarını yükle
-  useEffect(() => {
-    const loadFiles = () => {
-      if (currentUser?.email) {
-        const files = getUserUploadedFiles(currentUser.email);
-        setUserFiles(files);
-        
-        // EĞER VERİ YOKSA UYARI GÖSTER
-        if (files.length === 0) {
-          // Kullanıcıya bilgi ver ama yönlendirme, kendi seçsin
-          console.log('Kullanicinin veri dosyasi yok');
-        }
-      }
-    };
-    
-    loadFiles();
-    
-    // Listen for file updates from other components
-    const handleDataUpdate = () => {
-      console.log('[DashboardWizard] File list updated, refreshing...');
-      loadFiles();
-    };
-    
-    window.addEventListener('finops-data-updated', handleDataUpdate);
-    
-    return () => {
-      window.removeEventListener('finops-data-updated', handleDataUpdate);
-    };
-  }, [currentUser]);
 
   const updateState = (updates: Partial<WizardState>) => {
     setState(prev => ({ ...prev, ...updates }));
   };
 
-  // Dosya seçildiğinde parse et
-  const handleFileSelect = async (file: UploadedFile) => {
-    try {
-      console.log('Dosya secildi:', file.fileName, 'ID:', file.id);
-      
-      // Fetch content from runtime store
-      let text = runtimeFileStore.get(file.id);
-      
-      // If not in runtime store, try fallback sources
-      if (!text) {
-        console.warn('[DashboardWizard] Content not in runtime store, trying fallback sources...');
-        
-        // Fallback 1: demo-data folder
-        try {
-          const response = await fetch(`/demo-data/${file.fileName}`);
-          if (response.ok) {
-            text = await response.text();
-            console.log('[DashboardWizard] Loaded from demo-data folder');
-          }
-        } catch (e) {
-          console.log('[DashboardWizard] Not found in demo-data');
-        }
-        
-        // Fallback 2: sample-data folder
-        if (!text) {
-          try {
-            const response = await fetch(`/sample-data/${file.fileName}`);
-            if (response.ok) {
-              text = await response.text();
-              console.log('[DashboardWizard] Loaded from sample-data folder');
-            }
-          } catch (e) {
-            console.log('[DashboardWizard] Not found in sample-data');
-          }
-        }
-      }
-      
-      // If still no content, show clear error
-      if (!text) {
-        throw new Error(
-          '❌ Veri oturumu süresi doldu\n\n' +
-          'Dosya içeriği bellekte bulunamadı.\n' +
-          'Lütfen dosyayı tekrar yükleyin.\n\n' +
-          'Not: Sayfa yenilendiğinde dosyaların içeriği silinir.'
-        );
-      }
-      
-      const blob = new Blob([text], { type: 'text/csv' });
-      const fileObj = new File([blob], file.fileName, { type: 'text/csv' });
-      
-      const parsed = await parseCSVFile(fileObj);
-      console.log('CSV Parse Edildi:', parsed.headers);
-      console.log('Ilk 3 satir:', parsed.rows.slice(0, 3));
-      
-      // GÜÇLENDİRİLMİŞ Sütun tiplerini analiz et
-      const numericColumns: string[] = [];
-      const categoryColumns: string[] = [];
-      let dateColumn: string | null = null;
-      
-      parsed.headers.forEach(header => {
-        const values = parsed.rows.map(row => row[header]).filter(v => v != null && v !== '');
-        
-        if (values.length === 0) {
-          console.log(`Sutun "${header}" bos`);
-          return;
-        }
-        
-        // Sayısal değer kontrolü - GÜÇLENDİRİLMİŞ
-        const numericValues = values.filter(v => {
-          // String ise temizle
-          const cleanValue = String(v)
-            .replace(/[₺$€£]/g, '') // Para birimi sembolleri
-            .replace(/\./g, '')      // Binlik ayırıcı nokta
-            .replace(/,/g, '.')      // Virgül ondalık ayırıcı
-            .trim();
-          
-          const num = Number(cleanValue);
-          return !isNaN(num) && isFinite(num);
-        });
-        
-        const numericRatio = numericValues.length / values.length;
-        const uniqueCount = new Set(values).size;
-        
-        console.log(`Sutun "${header}":`, {
-          totalValues: values.length,
-          numericValues: numericValues.length,
-          numericRatio: numericRatio.toFixed(2),
-          uniqueCount
-        });
-        
-        // Tarih kontrolü
-        if (header.toLowerCase().includes('tarih') || 
-            header.toLowerCase().includes('date') ||
-            header.toLowerCase().includes('ay') ||
-            header.toLowerCase().includes('yil')) {
-          dateColumn = header;
-          console.log(`Tarih sutunu bulundu: ${header}`);
-        }
-        // Sayısal sütun (eşik %50'ye düşürüldü)
-        else if (numericRatio > 0.5) {
-          numericColumns.push(header);
-          console.log(`Sayisal sutun: ${header}`);
-        }
-        // Kategori sütunu
-        else if (uniqueCount < values.length * 0.5) {
-          categoryColumns.push(header);
-          console.log(`Kategori sutunu: ${header}`);
-        }
-      });
-
-      console.log('SONUC:', { numericColumns, categoryColumns, dateColumn });
-
-      updateState({
-        selectedFile: file,
-        parsedData: {
-          headers: parsed.headers,
-          rows: parsed.rows,
-          numericColumns,
-          categoryColumns,
-          dateColumn
-        }
-      });
-    } catch (error) {
-      console.error('Dosya parse hatasi:', error);
-      alert(`Dosya yuklenirken hata olustu:\n${error}\n\nLutfen dosyanin dogru formatta oldugundan emin olun.`);
+  const nextStep = () => {
+    if (state.step < 5) {
+      updateState({ step: state.step + 1 });
     }
   };
 
+  const prevStep = () => {
+    if (state.step > 1) {
+      updateState({ step: state.step - 1 });
+    }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      updateState({ uploadedFile: file, dataSource: 'upload' });
+    }
+  };
+
+  const handleComplete = () => {
+    if (!state.intent || !currentUser?.email) return;
+
+    const intentConfig = INTENT_TO_DASHBOARD[state.intent];
+    const dashboardConfig = DASHBOARD_CONFIGS[intentConfig.dashboardId];
+
+    if (!dashboardConfig) return;
+
+    const customConfig = {
+      ...dashboardConfig,
+      id: `${dashboardConfig.id}-${Date.now()}`,
+      title: `${intentConfig.label} Dashboard`,
+      subtitle: `${state.viewLevel === 'executive' ? 'Executive' : 'Detailed'} | ${state.period || 'Monthly'} | ${state.scope === 'all' ? 'All Branches' : 'Single Branch'}`,
+    };
+
+    saveUserDashboardConfig(currentUser.email, customConfig);
+    navigate('/dashboard/my');
+  };
+
   const canProceed = () => {
-    switch (step) {
-      case 0: return state.selectedFile !== null && state.parsedData !== null;
-      case 1: return state.selectedKpis.length >= 1 && state.selectedKpis.length <= 6;
-      case 2: return state.selectedCharts.length >= 1 && state.selectedCharts.length <= 5;
-      case 3: return true;
-      case 4: return state.dashboardName.trim().length > 0;
+    switch (state.step) {
+      case 1: return state.intent !== null;
+      case 2: return state.dataSource !== null;
+      case 3: return state.period !== null && state.scope !== null;
+      case 4: return state.viewLevel !== null;
+      case 5: return true;
       default: return false;
     }
   };
 
-  // Kullanıcı yoksa hiçbir şey gösterme
-  if (!currentUser) {
-    return null;
-  }
-
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      {/* Kullanıcı Bilgisi */}
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">
-            {currentUser.email?.[0]?.toUpperCase() || 'U'}
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-gray-900">{currentUser.email}</p>
-            <p className="text-xs text-gray-500">Dashboard Oluşturuluyor</p>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 py-8 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Create Your Dashboard
+          </h1>
+          <p className="text-gray-600">
+            Answer a few simple questions and we'll build it for you
+          </p>
         </div>
-        <button
-          onClick={() => navigate('/dashboard')}
-          className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
-        >
-          ← Dashboard'a Dön
-        </button>
-      </div>
 
-      {/* İlerleme Çubuğu */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard Oluşturma Sihirbazı</h1>
-          <span className="text-sm font-medium text-indigo-600">Adım {step + 1} / {STEPS.length}</span>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          {STEPS.map((s, i) => (
-            <React.Fragment key={s}>
-              <div className="flex flex-col items-center flex-1">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all ${
-                  i === step ? 'bg-indigo-600 text-white shadow-lg scale-110' : 
-                  i < step ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
-                }`}>
-                  {i < step ? '✓' : i + 1}
-                </div>
-                <span className={`mt-2 text-xs font-medium text-center ${
-                  i === step ? 'text-indigo-600' : i < step ? 'text-green-600' : 'text-gray-500'
-                }`}>{s}</span>
-              </div>
-              {i < STEPS.length - 1 && (
-                <div className={`flex-1 h-1 mx-2 rounded transition-all ${
-                  i < step ? 'bg-green-500' : 'bg-gray-200'
-                }`} />
-              )}
-            </React.Fragment>
+        {/* Progress */}
+        <div className="flex items-center justify-center mb-8 gap-2">
+          {[1, 2, 3, 4, 5].map(num => (
+            <div
+              key={num}
+              className={`h-2 rounded-full transition-all ${
+                num === state.step ? 'w-12 bg-blue-600' :
+                num < state.step ? 'w-8 bg-green-500' :
+                'w-8 bg-gray-200'
+              }`}
+            />
           ))}
         </div>
-      </div>
 
-      {/* Adım İçerikleri */}
-      <div className="bg-white rounded-2xl shadow-2xl p-8 min-h-[600px] border border-gray-100">
-        {step === 0 && (
-          <DataSourceSelection 
-            userFiles={userFiles} 
-            selectedFile={state.selectedFile}
-            onFileSelect={handleFileSelect}
-          />
-        )}
-        {step === 1 && state.parsedData && (
-          <KpiSelection 
-            state={state} 
-            updateState={updateState}
-            availableColumns={state.parsedData.numericColumns}
-          />
-        )}
-        {step === 2 && state.parsedData && (
-          <ChartTypeSelection 
-            state={state} 
-            updateState={updateState}
-            parsedData={state.parsedData}
-          />
-        )}
-        {step === 3 && <Preview state={state} />}
-        {step === 4 && <SaveTemplate state={state} updateState={updateState} />}
-      </div>
+        {/* Content */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
+          {/* Step 1: Intent */}
+          {state.step === 1 && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                What do you want to understand?
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Choose the business question you want to answer
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {(Object.keys(INTENT_TO_DASHBOARD) as IntentKey[]).map(key => {
+                  const intent = INTENT_TO_DASHBOARD[key];
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => updateState({ intent: key })}
+                      className={`p-6 rounded-xl border-2 transition-all text-left ${
+                        state.intent === key
+                          ? 'border-blue-600 bg-blue-50 shadow-lg'
+                          : 'border-gray-200 hover:border-blue-300 hover:shadow-md'
+                      }`}
+                    >
+                      <div className="text-4xl mb-3">{intent.icon}</div>
+                      <div className="font-bold text-lg text-gray-900 mb-2">
+                        {intent.label}
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {intent.description}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
-      {/* Navigasyon Butonları */}
-      <div className="flex justify-between mt-8">
-        <button
-          onClick={() => setStep(s => Math.max(0, s - 1))}
-          disabled={step === 0}
-          className="px-8 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300 transition-all"
-        >
-          ← Geri
-        </button>
-        {step < STEPS.length - 1 ? (
+          {/* Step 2: Data Source */}
+          {state.step === 2 && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Where is your data?
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Upload your data or use existing datasets
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label
+                  className={`p-8 rounded-xl border-2 cursor-pointer transition-all ${
+                    state.dataSource === 'upload'
+                      ? 'border-blue-600 bg-blue-50 shadow-lg'
+                      : 'border-gray-200 hover:border-blue-300 hover:shadow-md'
+                  }`}
+                >
+                  <input
+                    type="file"
+                    accept=".csv,.xlsx,.xls"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <Upload className="w-12 h-12 text-blue-600 mb-4" />
+                  <div className="font-bold text-lg text-gray-900 mb-2">
+                    Upload File
+                  </div>
+                  <div className="text-sm text-gray-600 mb-3">
+                    CSV or Excel file
+                  </div>
+                  {state.uploadedFile && (
+                    <div className="text-xs text-green-600 font-semibold">
+                      ✓ {state.uploadedFile.name}
+                    </div>
+                  )}
+                </label>
+
+                <button
+                  onClick={() => updateState({ dataSource: 'existing' })}
+                  className={`p-8 rounded-xl border-2 transition-all text-left ${
+                    state.dataSource === 'existing'
+                      ? 'border-blue-600 bg-blue-50 shadow-lg'
+                      : 'border-gray-200 hover:border-blue-300 hover:shadow-md'
+                  }`}
+                >
+                  <FileSpreadsheet className="w-12 h-12 text-blue-600 mb-4" />
+                  <div className="font-bold text-lg text-gray-900 mb-2">
+                    Use Demo Data
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    Start with sample data
+                  </div>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 3: Time & Scope */}
+          {state.step === 3 && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                Set your view
+              </h2>
+              
+              <div className="mb-8">
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                  Time Period
+                </label>
+                <div className="grid grid-cols-3 gap-3">
+                  {(['daily', 'weekly', 'monthly'] as const).map(period => (
+                    <button
+                      key={period}
+                      onClick={() => updateState({ period })}
+                      className={`py-4 px-6 rounded-xl border-2 font-semibold capitalize transition-all ${
+                        state.period === period
+                          ? 'border-blue-600 bg-blue-50 text-blue-700'
+                          : 'border-gray-200 text-gray-700 hover:border-blue-300'
+                      }`}
+                    >
+                      {period}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                  Scope
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => updateState({ scope: 'single' })}
+                    className={`py-4 px-6 rounded-xl border-2 font-semibold transition-all ${
+                      state.scope === 'single'
+                        ? 'border-blue-600 bg-blue-50 text-blue-700'
+                        : 'border-gray-200 text-gray-700 hover:border-blue-300'
+                    }`}
+                  >
+                    Single Branch
+                  </button>
+                  <button
+                    onClick={() => updateState({ scope: 'all' })}
+                    className={`py-4 px-6 rounded-xl border-2 font-semibold transition-all ${
+                      state.scope === 'all'
+                        ? 'border-blue-600 bg-blue-50 text-blue-700'
+                        : 'border-gray-200 text-gray-700 hover:border-blue-300'
+                    }`}
+                  >
+                    All Branches
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Step 4: View Level */}
+          {state.step === 4 && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Choose your view level
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Select the level of detail you need
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button
+                  onClick={() => updateState({ viewLevel: 'executive' })}
+                  className={`p-8 rounded-xl border-2 transition-all text-left ${
+                    state.viewLevel === 'executive'
+                      ? 'border-blue-600 bg-blue-50 shadow-lg'
+                      : 'border-gray-200 hover:border-blue-300 hover:shadow-md'
+                  }`}
+                >
+                  <div className="text-4xl mb-3">👔</div>
+                  <div className="font-bold text-lg text-gray-900 mb-2">
+                    Executive Summary
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    High-level overview for quick decisions
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => updateState({ viewLevel: 'detailed' })}
+                  className={`p-8 rounded-xl border-2 transition-all text-left ${
+                    state.viewLevel === 'detailed'
+                      ? 'border-blue-600 bg-blue-50 shadow-lg'
+                      : 'border-gray-200 hover:border-blue-300 hover:shadow-md'
+                  }`}
+                >
+                  <div className="text-4xl mb-3">📊</div>
+                  <div className="font-bold text-lg text-gray-900 mb-2">
+                    Detailed Analysis
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    In-depth metrics and breakdowns
+                  </div>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 5: Preview */}
+          {state.step === 5 && state.intent && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Your dashboard is ready!
+              </h2>
+              <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 mb-6">
+                <div className="flex items-start gap-4">
+                  <div className="text-5xl">{INTENT_TO_DASHBOARD[state.intent].icon}</div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      {INTENT_TO_DASHBOARD[state.intent].label}
+                    </h3>
+                    <div className="space-y-1 text-sm text-gray-600">
+                      <div>📊 Data: {state.dataSource === 'upload' ? state.uploadedFile?.name : 'Demo data'}</div>
+                      <div>📅 Period: {state.period}</div>
+                      <div>📍 Scope: {state.scope === 'all' ? 'All branches' : 'Single branch'}</div>
+                      <div>👁️ View: {state.viewLevel === 'executive' ? 'Executive' : 'Detailed'}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="text-center text-sm text-gray-600">
+                Click "Create Dashboard" to finish
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Navigation */}
+        <div className="flex justify-between items-center">
           <button
-            onClick={() => setStep(s => s + 1)}
-            disabled={!canProceed()}
-            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg"
+            onClick={prevStep}
+            disabled={state.step === 1}
+            className="flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
-            İleri →
+            <ArrowLeft size={20} />
+            Back
           </button>
-        ) : (
-          <button 
-            onClick={() => {
-              if (!currentUser?.email) {
-                alert('Kullanıcı bilgisi bulunamadı. Lütfen tekrar giriş yapın.');
-                return;
-              }
-              
-              // ✅ PHASE 2: Dashboard Standardizasyonu
-              // Wizard state'ini DashboardFactory config formatına çevir
-              const dashboardConfig = wizardStateToDashboardConfig(state);
-              
-              // Config'i kaydet (localStorage)
-              saveUserDashboardConfig(currentUser.email, dashboardConfig);
-              
-              alert(`✅ Dashboard "${state.dashboardName}" başarıyla kaydedildi!\n\n` +
-                    `📊 Standart Format: DashboardFactory\n` +
-                    `📁 Dosya: ${state.selectedFile?.fileName}\n` +
-                    `📈 KPI: ${state.selectedKpis.length} → 6 (standart)\n` +
-                    `📊 Grafik: ${state.selectedCharts.length} → 3 (standart)\n\n` +
-                    `Dashboard'ınız profesyonel örneklerle aynı standartta oluşturuldu.`);
-              
-              // Kullanıcıyı dashboard sayfasına yönlendir
-              navigate('/dashboard/my');
-            }}
-            disabled={!canProceed()}
-            className="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:from-green-700 hover:to-emerald-700 transition-all shadow-lg"
-          >
-            ✓ Tamamla ve Kaydet
-          </button>
-        )}
+
+          {state.step < 5 ? (
+            <button
+              onClick={nextStep}
+              disabled={!canProceed()}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg"
+            >
+              Next
+              <ArrowRight size={20} />
+            </button>
+          ) : (
+            <button
+              onClick={handleComplete}
+              className="flex items-center gap-2 px-8 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition-all shadow-lg"
+            >
+              <Check size={20} />
+              Create Dashboard
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
 };
+
+export default DashboardWizard;

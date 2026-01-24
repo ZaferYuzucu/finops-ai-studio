@@ -1,0 +1,48 @@
+FINO AI CHAT WIDGET - GÖRÜNÜRLÜK FİX
+=====================================
+
+SORUN: Fino chat widget görünmüyordu
+
+ÇÖZÜM UYGULANDI:
+---------------
+
+✅ Admin kontrolü kaldırıldı
+   - Önceki: {!isAdmin && <FinoChatWidget />}
+   - Yeni: <FinoChatWidget />
+   - Artık TÜM kullanıcılara görünür
+
+FINO CHAT WIDGET DETAYLARI:
+---------------------------
+
+Konum: Sağ alt köşe
+- Position: fixed bottom-6 right-6
+- Z-index: 50
+- Boyut: 80x80px buton
+- Renk: Turuncu gradient (from-orange-400 to-amber-500)
+
+Görünüm:
+- 🐕 Köpek emoji
+- "Fino" yazısı
+- Pulse animasyon efekti
+- Hover'da scale-110
+
+Özellikler:
+- AI destekli chat
+- Konuşma geçmişi
+- Rate limiting
+- Örnek sorular
+- Auto-scroll
+
+Dosyalar:
+- Widget: src/components/FinoChatWidget.tsx
+- Layout: src/components/PageLayout.tsx (satır 33)
+- Service: src/services/finoRagService.ts
+
+TEST:
+-----
+1. http://localhost:5173 aç
+2. Sağ alt köşede turuncu buton görünmeli
+3. Butona tıkla → Chat penceresi açılır
+4. "Merhaba" yaz → Fino yanıt verir
+
+NOT: Tarayıcıyı refresh et (Ctrl+R veya Cmd+R)

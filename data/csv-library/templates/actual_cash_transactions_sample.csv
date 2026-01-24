@@ -1,0 +1,17 @@
+txn_date,branch_id,counter_account,description,amount_gross,payment_method,document_no,company_id,cost_center
+2026-01-20,branch_kadikoy,320.001,Günlük nakit satış,12500.00,NAKIT,FIS_20260120_001,company_restoran_a,
+2026-01-20,branch_kadikoy,320.002,POS satış - öğle,28400.00,POS,FIS_20260120_002,company_restoran_a,
+2026-01-20,branch_kadikoy,320.003,POS satış - akşam,45600.00,POS,FIS_20260120_003,company_restoran_a,
+2026-01-20,branch_besiktas,320.001,Günlük nakit satış,8200.00,NAKIT,FIS_20260120_011,company_restoran_a,
+2026-01-20,branch_besiktas,320.002,POS satış,32100.00,POS,FIS_20260120_012,company_restoran_a,
+2026-01-21,branch_kadikoy,600.001,Gıda tedarikçisi - Et & Tavuk,-24000.00,HAVALE,FAT_TEDARIKCÍ_123,company_restoran_a,CC_KITCHEN
+2026-01-21,branch_kadikoy,601.001,İçecek tedarikçisi - Meşrubat,-8400.00,HAVALE,FAT_TEDARIKCÍ_124,company_restoran_a,CC_BAR
+2026-01-21,branch_besiktas,600.002,Gıda tedarikçisi - Sebze Meyve,-15600.00,HAVALE,FAT_TEDARIKCÍ_125,company_restoran_a,CC_KITCHEN
+2026-01-22,branch_kadikoy,335.001,Personel maaş ödemesi,-15000.00,HAVALE,BORDRO_202601,company_restoran_a,CC_HR
+2026-01-22,branch_besiktas,335.001,Personel maaş ödemesi,-12000.00,HAVALE,BORDRO_202601,company_restoran_a,CC_HR
+2026-01-23,branch_kadikoy,180.001,Kira ödemesi - Ocak,-6500.00,HAVALE,KIRA_202601,company_restoran_a,
+2026-01-23,branch_besiktas,180.001,Kira ödemesi - Ocak,-5500.00,HAVALE,KIRA_202601,company_restoran_a,
+2026-01-23,branch_kadikoy,770.001,Elektrik faturası,-2400.00,HAVALE,ELEKTRIK_202601,company_restoran_a,CC_UTILITIES
+2026-01-23,branch_kadikoy,770.002,Su faturası,-850.00,HAVALE,SU_202601,company_restoran_a,CC_UTILITIES
+2026-01-23,branch_taksim,320.001,Günlük nakit satış,10200.00,NAKIT,FIS_20260123_021,company_restoran_a,
+2026-01-23,branch_taksim,320.002,POS satış,38500.00,POS,FIS_20260123_022,company_restoran_a,

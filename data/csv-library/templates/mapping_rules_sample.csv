@@ -1,0 +1,23 @@
+counter_account_prefix,CF_Kalem,CF_Bölüm,vat_profile,default_payment_terms,priority,notes
+100.*,Kasa,İşletme Faaliyetleri,0%,CASH_T0,1,Nakit kasası
+102.*,Banka,İşletme Faaliyetleri,0%,CASH_T0,1,Banka hesabı - vadesiz
+103.*,Banka - POS,İşletme Faaliyetleri,0%,POS_T2,1,POS tahsilatları
+320.*,Satış Tahsilatı,İşletme Faaliyetleri,20%,POS_T2,1,Müşteri satışları (restoran)
+600.*,Gıda Malzemeleri,İşletme Faaliyetleri,20%,DPO_30,1,Gıda tedarikçileri (et tavuk balık sebze meyve)
+601.*,İçecek Malzemeleri,İşletme Faaliyetleri,20%,DPO_30,1,İçecek tedarikçileri (meşrubat alkol)
+602.*,Paketleme Malzemeleri,İşletme Faaliyetleri,20%,DPO_30,1,Paketleme malzemeleri (kutu torba)
+335.001,Maaş Ödemeleri,İşletme Faaliyetleri,0%,PAYROLL_15,1,Personel maaşları (brüt)
+335.002,SGK Ödemeleri,İşletme Faaliyetleri,0%,SGK_23,1,SGK işveren + işçi primi
+180.*,Kira Ödemeleri,İşletme Faaliyetleri,20%,DPO_0,1,Kira giderleri (lokasyon kira)
+770.001,Elektrik Giderleri,İşletme Faaliyetleri,20%,DPO_10,1,Elektrik faturası
+770.002,Su Giderleri,İşletme Faaliyetleri,20%,DPO_10,1,Su faturası
+770.003,Doğalgaz Giderleri,İşletme Faaliyetleri,20%,DPO_10,1,Doğalgaz faturası
+760.*,Pazarlama ve Reklam,İşletme Faaliyetleri,20%,DPO_30,1,Pazarlama giderleri
+360.001,KDV Ödemesi,İşletme Faaliyetleri,0%,VAT_26,1,KDV beyannamesi (aylık)
+361.001,Stopaj Ödemesi,İşletme Faaliyetleri,0%,DPO_23,1,Muhtasar beyanname
+254.*,Demirbaş Alımı,Yatırım Faaliyetleri,20%,DPO_45,1,Makine ekipman demirbaş
+253.*,Yazılım Lisans,Yatırım Faaliyetleri,20%,DPO_30,1,Yazılım ve lisans alımı
+300.*,Kredi Anapara,Finansman Faaliyetleri,0%,DPO_30,1,Banka kredisi anapara ödemesi
+780.*,Kredi Faiz,Finansman Faaliyetleri,0%,DPO_0,1,Kredi faiz gideri
+500.*,Ortak Sermaye,Finansman Faaliyetleri,0%,CASH_T0,1,Ortak sermaye artırımı
+999.*,Diğer,İşletme Faaliyetleri,20%,DPO_30,99,Tanımsız işlemler (fallback)

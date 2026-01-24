@@ -48,7 +48,13 @@ export const DashboardRenderer: React.FC<DashboardRendererProps> = ({ layout }) 
   // KPI kartlarını render et
   const renderKPICards = () => {
     const metrics = Object.entries(layout.summary.keyMetrics);
-    if (metrics.length === 0) return null;
+    if (metrics.length === 0) {
+      return (
+        <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4">
+          <p className="text-yellow-800 font-semibold text-center">⚠️ Veri Bağlı Değil - KPI verisi yüklenmedi</p>
+        </div>
+      );
+    }
 
     return (
       <div className={`grid gap-3 ${
