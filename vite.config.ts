@@ -5,6 +5,13 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/', // Ensure assets are loaded from root
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    minify: 'esbuild',
+  },
   // Some transitive deps include Node built-ins (e.g. require("https")).
   // They are not meant for the browser bundle; excluding them avoids Vite dep-prebundle crashes in dev.
   optimizeDeps: {
