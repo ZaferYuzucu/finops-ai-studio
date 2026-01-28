@@ -33,7 +33,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 
 const EmailOutboxPage: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, isAdmin } = useAuth();
   const [emails, setEmails] = useState<EmailRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState<EmailStatus | 'all'>('all');
@@ -47,9 +47,7 @@ const EmailOutboxPage: React.FC = () => {
     pending: 0,
   });
 
-  const isAdminFlag = () =>
-    localStorage.getItem('isAdminAuthenticated') === 'true' ||
-    sessionStorage.getItem('isAdminAuthenticated') === 'true';
+  const isAdminFlag = () => isAdmin;
 
   // E-postaları yükle
   useEffect(() => {

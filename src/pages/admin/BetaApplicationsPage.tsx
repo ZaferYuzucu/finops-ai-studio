@@ -105,10 +105,9 @@ const BetaApplicationsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState<BetaApplication | null>(null);
+  const { isAdmin } = useAuth();
 
-  const isAdminFlag = () =>
-    localStorage.getItem('isAdminAuthenticated') === 'true' ||
-    sessionStorage.getItem('isAdminAuthenticated') === 'true';
+  const isAdminFlag = () => isAdmin;
 
   // Başvuruları yükle
   useEffect(() => {
@@ -602,7 +601,7 @@ interface AddOfferModalProps {
 }
 
 const AddOfferModal: React.FC<AddOfferModalProps> = ({ currentUser, onClose, onSuccess }) => {
-  const isAdminModal = localStorage.getItem('isAdminAuthenticated') === 'true' || sessionStorage.getItem('isAdminAuthenticated') === 'true';
+  const { isAdmin: isAdminModal } = useAuth();
   // Default davet mektubu şablonu
   const defaultInvitationText = `Merhaba [İsim],
 

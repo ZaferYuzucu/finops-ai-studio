@@ -1,51 +1,64 @@
-/**
- * YÖNETİCİ GİRİŞİ - Arka Kapı
- * 
- * Sadece şifre ile giriş
- * Platform yöneticisi için gözlem ve işlem paneli
- */
-
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Eye, EyeOff, Lock } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../firebase';
 
 const AdminLoginPage: React.FC = () => {
-  const { t } = useTranslation();
   const { login } = useAuth();
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Sabit yönetici email (sadece backend'de)
-  const ADMIN_EMAIL = 'zaferyuzucu@gmail.com';
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     try {
-      // Sabit email ile giriş (kullanıcı sadece şifre girer)
-      await login(ADMIN_EMAIL, password);
+      await login(email, password);
       
-      console.log('✅ Yönetici girişi başarılı');
-
-      // HEMEN YÖNETİM OFİSİ ana kapısına yönlendir
       const queryParams = new URLSearchParams(location.search);
       const redirectPath = queryParams.get('redirect') || '/office';
-      
-      // Force redirect - sayfa değişikliğini zorla
-      window.location.href = redirectPath;
+      navigate(redirectPath);
       
     } catch (err: any) {
-      console.error('❌ Yönetici giriş hatası:', err);
-      setError('Hatalı şifre. Lütfen tekrar deneyin.');
+      console.error('Admin login error:', err);
+      setError('Geçersiz email veya şifre.');
       setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError('Lütfen önce email adresinizi girin.');
+      return;
+    }
+
+    setError('');
+    setSuccess('');
+    setResetLoading(true);
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setSuccess('Şifre sıfırlama linki email adresinize gönderildi.');
+    } catch (err: any) {
+      console.error('Password reset error:', err);
+      if (err.code === 'auth/user-not-found') {
+        setError('Bu email adresi ile kayıtlı kullanıcı bulunamadı.');
+      } else {
+        setError('Şifre sıfırlama linki gönderilemedi.');
+      }
+    } finally {
+      setResetLoading(false);
     }
   };
 
@@ -59,8 +72,25 @@ const AdminLoginPage: React.FC = () => {
         
         <form className="space-y-6" onSubmit={handleLogin}>
           <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              className="w-full px-4 py-3 text-gray-900 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@finops.ai"
+            />
+          </div>
+          
+          <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-              Yönetici Şifresi
+              Şifre
             </label>
             <div className="relative">
               <input
@@ -89,6 +119,12 @@ const AdminLoginPage: React.FC = () => {
               <p className="text-sm text-red-600">{error}</p>
             </div>
           )}
+
+          {success && (
+            <div className="p-3 bg-green-50 border border-green-200 rounded-md">
+              <p className="text-sm text-green-600">{success}</p>
+            </div>
+          )}
           
           <button
             type="submit"
@@ -98,6 +134,17 @@ const AdminLoginPage: React.FC = () => {
             {loading ? 'Kontrol ediliyor...' : 'Giriş Yap'}
           </button>
         </form>
+
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={handleForgotPassword}
+            disabled={resetLoading}
+            className="w-full px-4 py-2 text-sm font-medium text-blue-600 bg-white border border-blue-600 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {resetLoading ? 'Gönderiliyor...' : 'Şifremi Unuttum'}
+          </button>
+        </div>
       </div>
     </div>
   );

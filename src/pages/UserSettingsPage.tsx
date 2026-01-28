@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, Save, ArrowLeft, Camera } from 'lucide-react';
+import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import { auth } from '../firebase';
 
 const UserSettingsPage: React.FC = () => {
   const { currentUser, logout } = useAuth();
@@ -67,37 +69,32 @@ const UserSettingsPage: React.FC = () => {
     }
 
     try {
-      // Şifre değiştirme (şimdilik localStorage)
-      const users = JSON.parse(localStorage.getItem('finops_users') || '{}');
-      
-      // Mevcut şifre kontrolü
-      if (!users[formData.email]) {
+      const user = auth.currentUser;
+      if (!user || !user.email) {
         setMessage({ type: 'error', text: '❌ Kullanıcı bulunamadı!' });
         setLoading(false);
         return;
       }
-      
-      if (users[formData.email].password !== formData.currentPassword) {
-        setMessage({ type: 'error', text: '❌ Mevcut şifre yanlış!' });
-        setLoading(false);
-        return;
-      }
-      
-      // Yeni şifreyi kaydet
-      users[formData.email].password = formData.newPassword;
-      localStorage.setItem('finops_users', JSON.stringify(users));
+
+      const credential = EmailAuthProvider.credential(user.email, formData.currentPassword);
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, formData.newPassword);
 
       setMessage({ type: 'success', text: '✅ Şifreniz başarıyla değiştirildi!' });
       
-      // Formu temizle
       setFormData({
         ...formData,
         currentPassword: '',
         newPassword: '',
         confirmPassword: ''
       });
-    } catch (error) {
-      setMessage({ type: 'error', text: '❌ Şifre değiştirilemedi.' });
+    } catch (error: any) {
+      console.error('Password change error:', error);
+      if (error.code === 'auth/wrong-password') {
+        setMessage({ type: 'error', text: '❌ Mevcut şifre yanlış!' });
+      } else {
+        setMessage({ type: 'error', text: '❌ Şifre değiştirilemedi.' });
+      }
     } finally {
       setLoading(false);
     }

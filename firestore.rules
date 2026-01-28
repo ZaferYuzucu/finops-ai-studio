@@ -2,246 +2,80 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // ============================================================
-    // FinOps AI Studio — BETA MODE (Minimum Viable Security)
-    //
-    // Goal:
-    // "Beta sürecinde ürün gelişsin, kullanıcı gelsin ama veri asla başıboş kalmasın."
-    //
-    // Principles:
-    // - Auth olmayan kimse hiçbir şeye erişemez.
-    // - Tenant isolation: Kullanıcı sadece kendi (uid) alanına erişir.
-    // - Roles are stored on the user's profile doc (users/{uid} or kullanicilar/{uid})
-    //   e.g. { uid, role: "user|beta|admin|cfo_view", status: "active|..." }
-    //
-    // NOTE: Şu aşamada yalnız USER ve BETA aktif kullanılıyor.
-    // ============================================================
-
-    // ---------- Helpers ----------
-    function signedIn() {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
       return request.auth != null;
     }
-
-    function isOwner(uid) {
-      return signedIn() && request.auth.uid == uid;
-    }
-
-    // Backward-compat: some code may use /kullanicilar instead of /users.
-    function profilePath() {
-      return exists(/databases/$(database)/documents/users/$(request.auth.uid))
-        ? /databases/$(database)/documents/users/$(request.auth.uid)
-        : /databases/$(database)/documents/kullanicilar/$(request.auth.uid);
-    }
-
-    function profile() {
-      return signedIn() ? get(profilePath()).data : null;
-    }
-
-    function isActive() {
-      return signedIn() && profile().status == "active";
-    }
-
-    function hasRole(role) {
-      return isActive() && profile().role == role;
-    }
-
+    
+    // Helper function to check if user is admin
     function isAdmin() {
-      return hasRole("admin");
+      return isAuthenticated() && 
+             (request.auth.token.email == 'zaferyuzucu@gmail.com' ||
+              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
     }
-
-    function isUserOrBeta() {
-      return hasRole("user") || hasRole("beta");
+    
+    // Helper function to check if user owns the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
     }
-
-    // ---------- Default: deny ----------
-    match /{document=**} {
-      allow read, write: if false;
-    }
-
-    // ============================================================
-    // Users / Kullanicilar (profiles + roles)
-    // ============================================================
-    match /users/{uid} {
-      // Owner can read own profile; admin can read all.
-      allow get: if isOwner(uid) || isAdmin();
-      // Prevent user enumeration
-      allow list: if isAdmin();
-
-      // Create own profile doc after signup.
-      // IMPORTANT: prevent self-escalation by forcing a safe default role.
-      allow create: if isOwner(uid)
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.role == "user"
-        && request.resource.data.status == "active";
-
-      // Owner can update SAFE fields only (cannot change role/status).
-      allow update: if isOwner(uid)
-        && request.resource.data.role == resource.data.role
-        && request.resource.data.status == resource.data.status;
-
-      // Only admin can delete user docs
+    
+    // Users collection
+    match /users/{userId} {
+      // Users can read their own document
+      // Admins can read all user documents
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // Users can create their own document on signup
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      
+      // Users can update their own document (except role field)
+      // Admins can update any user document
+      allow update: if (isOwner(userId) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role'])) 
+                    || isAdmin();
+      
+      // Only admins can delete user documents
       allow delete: if isAdmin();
     }
-
-    match /kullanicilar/{uid} {
-      // Same semantics as /users (legacy collection name).
-      allow get: if isOwner(uid) || isAdmin();
-      allow list: if isAdmin();
-
-      allow create: if isOwner(uid)
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.role == "user"
-        && request.resource.data.status == "active";
-
-      allow update: if isOwner(uid)
-        && request.resource.data.role == resource.data.role
-        && request.resource.data.status == resource.data.status;
-
-      allow delete: if isAdmin();
+    
+    // Dashboards collection (if exists)
+    match /dashboards/{dashboardId} {
+      allow read: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isAuthenticated() && 
+                               (resource.data.userId == request.auth.uid || isAdmin());
     }
-
-    // ============================================================
-    // Per-user subcollections (tenant isolated)
-    // ============================================================
-    match /users/{uid}/dashboards/{dashboardId} {
-      // USER + BETA read their own dashboards
-      allow get, list: if isOwner(uid) && isUserOrBeta();
-      // Only USER can write (BETA is read-only)
-      allow create, update, delete: if isOwner(uid) && hasRole("user");
-    }
-
-    match /kullanicilar/{uid}/dashboards/{dashboardId} {
-      allow get, list: if isOwner(uid) && isUserOrBeta();
-      allow create, update, delete: if isOwner(uid) && hasRole("user");
-    }
-
-    // Generic "data" namespace (CSV outputs, derived metrics, uploads metadata, etc.)
-    match /users/{uid}/data/{docId} {
-      allow get, list: if isOwner(uid) && isUserOrBeta();
-      allow create, update, delete: if isOwner(uid) && hasRole("user");
-    }
-
-    match /kullanicilar/{uid}/data/{docId} {
-      allow get, list: if isOwner(uid) && isUserOrBeta();
-      allow create, update, delete: if isOwner(uid) && hasRole("user");
-    }
-
-    // Keep compatibility for existing subcollections used in the codebase.
-    match /users/{uid}/{subCollection}/{doc=**} {
-      // Default rule for unknown per-user subcollections:
-      // - USER/BETA can read their own
-      // - only USER can write their own
-      // Tighten later per collection schema.
-      allow read: if isOwner(uid) && isUserOrBeta();
-      allow write: if isOwner(uid) && hasRole("user");
-    }
-
-    match /kullanicilar/{uid}/{subCollection}/{doc=**} {
-      allow read: if isOwner(uid) && isUserOrBeta();
-      allow write: if isOwner(uid) && hasRole("user");
-    }
-
-    // ============================================================
-    // Templates (auth-only readable, not public)
-    // ============================================================
-    match /templates/{templateId} {
-      allow get, list: if isUserOrBeta();
-      allow create, update, delete: if isAdmin();
-    }
-
-    // ============================================================
-    // Beta Applications / Newsletter
-    // ============================================================
-    // NOTE: Eğer "login olmadan başvuru" istenirse, Firestore'u açmak yerine
-    // Cloud Functions/Backend üzerinden rate-limit + spam koruma ile yazdır.
-    match /betaApplications/{applicationId} {
-      allow create: if isActive(); // auth + active
-      allow read, update, delete: if isAdmin();
-    }
-
+    
+    // Beta applications collection
     match /beta_applications/{applicationId} {
-      allow create: if isActive(); // auth + active
-      allow read, update, delete: if isAdmin();
-    }
-
-    match /newsletter/{id} {
-      allow create: if isActive(); // auth + active
-      allow read, update, delete: if isAdmin();
-    }
-
-    // ============================================================
-    // Payments / Bank transfer receipts (USER owns, admin audits)
-    // ============================================================
-    match /payments/{paymentId} {
-      // User can read own; admin can read all
-      allow get: if isActive() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isAdmin(); // avoid leaking payments via list
-      // Create only by USER (BETA cannot create payments)
-      allow create: if hasRole("user") && request.resource.data.userId == request.auth.uid;
-      allow update, delete: if isAdmin();
-    }
-
-    match /bankTransfers/{transferId} {
-      allow get: if isActive() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isAdmin();
-      allow create: if hasRole("user") && request.resource.data.userId == request.auth.uid;
-      allow update, delete: if isAdmin();
-    }
-
-    // ============================================================
-    // Admin/System areas
-    // ============================================================
-    match /analytics/{doc=**} {
       allow read, write: if isAdmin();
+      allow create: if true; // Anyone can submit beta application
     }
-
-    match /admin/{doc=**} {
+    
+    // Newsletter subscribers
+    match /newsletter_subscribers/{subscriberId} {
       allow read, write: if isAdmin();
+      allow create: if true; // Anyone can subscribe
     }
-
-    match /system/{doc=**} {
+    
+    // Diagnostics collection (admin-only read, authenticated write)
+    match /diagnostics/events/{logId} {
+      // Admin can read all diagnostic logs
+      allow read: if isAdmin();
+      
+      // Authenticated users can write their own diagnostic events
+      allow create: if isAuthenticated() && 
+                     (request.resource.data.userId == request.auth.uid || 
+                      request.resource.data.userId == null);
+      
+      // No update/delete (logs are immutable)
+      allow update, delete: if false;
+    }
+    
+    // Default deny all other collections
+    match /{document=**} {
       allow read, write: if isAdmin();
-    }
-
-    // Outbound emails should be server-controlled (Cloud Functions) - admin only for now.
-    match /outbound_emails/{emailId} {
-      allow read, write: if isAdmin();
-    }
-
-    // DEPRECATED: do not allow self-registration of admins.
-    // Admin bootstrap should be done via Firebase Console / backend.
-    match /admins/{uid} {
-      allow read, write: if false;
-    }
-
-    // ============================================================
-    // Future: Shares / Exports
-    // ============================================================
-    // BETA MUST NOT be able to create share links or export jobs.
-    // Tighten later: token-based read-only shares with expiry + scopes.
-    match /shares/{shareId} {
-      allow read, write: if false;
-    }
-
-    match /exports/{exportId} {
-      allow read, write: if false;
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

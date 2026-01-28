@@ -1,25 +1,50 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Pencil, LayoutDashboard, Eye } from 'lucide-react';
+import { Plus, Trash2, Pencil, LayoutDashboard, Eye, Loader } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { deleteUserDashboard, listUserDashboards } from '../utils/userDashboards';
 import { getUserDashboardConfigs, deleteUserDashboardConfig } from '../utils/wizardToConfig';
+import { getUserDashboards, deleteDashboard } from '../services/firestorePersistence';
 
 export default function MyDashboardsPage() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [refreshKey, setRefreshKey] = useState(0);
+  const [firestoreDashboards, setFirestoreDashboards] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const userId = currentUser?.uid ?? '';
 
-  const dashboards = useMemo(() => {
+  // Firestore'dan dashboard'ları yükle
+  useEffect(() => {
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+    
+    const loadDashboards = async () => {
+      try {
+        const firestore = await getUserDashboards(userId);
+        setFirestoreDashboards(firestore);
+      } catch (e) {
+        console.warn('Firestore dashboards load failed:', e);
+        setFirestoreDashboards([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadDashboards();
+  }, [userId, refreshKey]);
+
+  // localStorage'dan eski dashboard'ları getir (backward compatibility)
+  const localDashboards = useMemo(() => {
     if (!userId) return [];
-    // refreshKey forces recalculation after delete
     void refreshKey;
     return listUserDashboards(userId);
   }, [userId, refreshKey]);
   
-  // ✅ PHASE 2: DashboardFactory config'lerini de getir
+  // ✅ PHASE 2: DashboardFactory config'lerini de getir (localStorage)
   const factoryDashboards = useMemo(() => {
     if (!currentUser?.email) return [];
     void refreshKey;
@@ -34,12 +59,22 @@ export default function MyDashboardsPage() {
     setRefreshKey((x) => x + 1);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string, isFirestore: boolean) => {
     if (!userId) return;
     const ok = confirm('Bu dashboard silinsin mi?');
     if (!ok) return;
-    deleteUserDashboard(userId, id);
-    setRefreshKey((x) => x + 1);
+    
+    if (isFirestore) {
+      const success = await deleteDashboard(userId, id);
+      if (success) {
+        setRefreshKey((x) => x + 1);
+      } else {
+        alert('Dashboard silinirken bir hata oluştu');
+      }
+    } else {
+      deleteUserDashboard(userId, id);
+      setRefreshKey((x) => x + 1);
+    }
   };
 
   return (
@@ -74,7 +109,12 @@ export default function MyDashboardsPage() {
           </div>
         </div>
 
-        {dashboards.length === 0 && factoryDashboards.length === 0 ? (
+        {loading ? (
+          <div className="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm">
+            <Loader className="w-8 h-8 animate-spin mx-auto text-indigo-600" />
+            <div className="mt-4 text-gray-600">Dashboard'lar yükleniyor...</div>
+          </div>
+        ) : firestoreDashboards.length === 0 && localDashboards.length === 0 && factoryDashboards.length === 0 ? (
           <div className="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm">
             <div className="text-lg font-bold text-gray-900">Henüz kayıtlı dashboard yok</div>
             <div className="mt-2 text-sm text-gray-600">
@@ -92,11 +132,79 @@ export default function MyDashboardsPage() {
           </div>
         ) : (
           <div className="space-y-8">
-            {/* ✅ PHASE 2: Standart Dashboard'lar (DashboardFactory) */}
-            {factoryDashboards.length > 0 && (
+            {/* ✅ Firestore Dashboard'lar (Yeni Format) */}
+            {firestoreDashboards.length > 0 && (
               <div>
                 <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <span className="text-2xl">✅</span>
+                  Dashboard'larım ({firestoreDashboards.length})
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {firestoreDashboards.map((d) => {
+                    const updatedAt = d.updatedAt?.toDate?.() || new Date();
+                    const confidence = d.diagnosis?.confidenceScore;
+                    return (
+                      <div key={d.id} className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-2xl p-5 shadow-md">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0 flex-1">
+                            <div className="text-lg font-extrabold text-indigo-900 truncate">{d.name}</div>
+                            <div className="mt-1 text-xs text-indigo-700">
+                              Güncellendi: {updatedAt.toLocaleDateString('tr-TR')}
+                            </div>
+                            {confidence !== undefined && (
+                              <div className="mt-2 text-xs">
+                                <span className={`px-2 py-1 rounded ${
+                                  confidence >= 0.85 ? 'bg-green-100 text-green-700' :
+                                  confidence >= 0.60 ? 'bg-yellow-100 text-yellow-700' :
+                                  'bg-gray-100 text-gray-700'
+                                }`}>
+                                  Güven: {Math.round(confidence * 100)}%
+                                </span>
+                              </div>
+                            )}
+                            {d.diagnosis?.riskFlags?.length > 0 && (
+                              <div className="mt-1 text-xs text-orange-600">
+                                ⚠ {d.diagnosis.riskFlags.length} risk tespit edildi
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="mt-4 flex items-center gap-2 flex-wrap">
+                          <button
+                            onClick={() => navigate(`/dashboard/view/${d.id}`)}
+                            className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700"
+                          >
+                            <Eye className="w-4 h-4" />
+                            Görüntüle
+                          </button>
+                          <button
+                            onClick={() => navigate(`/dashboard/edit/${d.id}`)}
+                            className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-purple-600 text-white text-sm font-semibold hover:bg-purple-700"
+                          >
+                            <Pencil className="w-4 h-4" />
+                            Düzenle
+                          </button>
+                          <button
+                            onClick={() => handleDelete(d.id, true)}
+                            className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-800 hover:border-rose-300 hover:text-rose-700"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            Sil
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ✅ PHASE 2: Standart Dashboard'lar (DashboardFactory - localStorage) */}
+            {factoryDashboards.length > 0 && (
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <span className="text-2xl">📋</span>
                   Standart Dashboard'lar ({factoryDashboards.length})
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -139,55 +247,55 @@ export default function MyDashboardsPage() {
               </div>
             )}
             
-            {/* Eski Dashboard'lar */}
-            {dashboards.length > 0 && (
+            {/* Eski Format Dashboard'lar (localStorage) */}
+            {localDashboards.length > 0 && (
               <div>
                 <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <span className="text-2xl">📊</span>
-                  Eski Format Dashboard'lar ({dashboards.length})
+                  Eski Format Dashboard'lar ({localDashboards.length})
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {dashboards.map((d) => (
-                <div key={d.id} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm relative">
-                  <div className="absolute top-3 right-3 px-2 py-1 bg-yellow-100 border border-yellow-300 rounded text-xs font-bold text-yellow-700">
-                    Eski Format
-                  </div>
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="text-lg font-extrabold text-gray-900 truncate">{d.name}</div>
-                      <div className="mt-1 text-xs text-gray-500">
-                        Güncellendi: {new Date(d.updatedAtIso).toLocaleString('tr-TR')}
+                  {localDashboards.map((d) => (
+                    <div key={d.id} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm relative">
+                      <div className="absolute top-3 right-3 px-2 py-1 bg-yellow-100 border border-yellow-300 rounded text-xs font-bold text-yellow-700">
+                        Eski Format
                       </div>
-                      <div className="mt-2 text-xs text-gray-600">
-                        Tip: {d.wizardData.dashboardType ?? '—'} • Kaynak: {d.wizardData.dataSource ?? '—'}
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="text-lg font-extrabold text-gray-900 truncate">{d.name}</div>
+                          <div className="mt-1 text-xs text-gray-500">
+                            Güncellendi: {new Date(d.updatedAtIso).toLocaleString('tr-TR')}
+                          </div>
+                          <div className="mt-2 text-xs text-gray-600">
+                            Tip: {d.wizardData.dashboardType ?? '—'} • Kaynak: {d.wizardData.dataSource ?? '—'}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 flex items-center gap-2 flex-wrap">
+                        <button
+                          onClick={() => navigate(`/dashboard/view/${d.id}`)}
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700"
+                        >
+                          <Eye className="w-4 h-4" />
+                          Görüntüle
+                        </button>
+                        <button
+                          onClick={() => navigate(`/dashboard/edit/${d.id}`)}
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700"
+                        >
+                          <Pencil className="w-4 h-4" />
+                          Düzenle
+                        </button>
+                        <button
+                          onClick={() => handleDelete(d.id, false)}
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-800 hover:border-rose-300 hover:text-rose-700"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          Sil
+                        </button>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="mt-4 flex items-center gap-2 flex-wrap">
-                    <button
-                      onClick={() => navigate(`/dashboard/view/${d.id}`)}
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700"
-                    >
-                      <Eye className="w-4 h-4" />
-                      Görüntüle
-                    </button>
-                    <button
-                      onClick={() => navigate(`/dashboard/edit/${d.id}`)}
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700"
-                    >
-                      <Pencil className="w-4 h-4" />
-                      Düzenle
-                    </button>
-                    <button
-                      onClick={() => handleDelete(d.id)}
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-800 hover:border-rose-300 hover:text-rose-700"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      Sil
-                    </button>
-                  </div>
-                </div>
                   ))}
                 </div>
               </div>

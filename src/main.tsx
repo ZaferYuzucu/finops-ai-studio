@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import ErrorBoundary from './components/ErrorBoundary'
+import { GlobalErrorBoundary } from './utils/antiChaos/globalErrorBoundary'
 import LanguageRouteSync from './components/LanguageRouteSync'
 import App from './App'
 import './index.css'
@@ -39,13 +40,17 @@ seedElbaThermostatDashboard();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <BrowserRouter>
-        <LanguageRouteSync />
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </BrowserRouter>
-    </ErrorBoundary>
+    {/* 🛡️ Global Error Boundary - EN ÜST SEVİYE - Beyaz ekran önleme */}
+    <GlobalErrorBoundary>
+      {/* Mevcut ErrorBoundary korunuyor (iç içe - çift koruma) */}
+      <ErrorBoundary>
+        <BrowserRouter>
+          <LanguageRouteSync />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </BrowserRouter>
+      </ErrorBoundary>
+    </GlobalErrorBoundary>
   </React.StrictMode>,
 )

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { deleteUserDashboard, getUserDashboard } from '../utils/userDashboards';
+import { getDashboard } from '../services/firestorePersistence';
 import { DashboardRenderer } from '../components/DashboardRenderer';
+import { createFinopsDashboard } from '../components/dashboards/DashboardFactory';
 import { ArrowLeft, Loader, AlertCircle, Pencil, Download, Printer } from 'lucide-react';
 
 export default function DashboardViewPage() {
@@ -31,9 +33,34 @@ export default function DashboardViewPage() {
     return () => window.removeEventListener('dashboard-ready', handleDashboardReady);
   }, [currentUser, id]);
 
-  const loadDashboard = () => {
+  const loadDashboard = async () => {
     if (!currentUser?.uid || !id) return;
 
+    try {
+      // Try Firestore first
+      const dash = await getDashboard(currentUser.uid, id);
+      if (dash) {
+        // Convert Firestore format to local format
+        setDashboard({
+          id: dash.id,
+          name: dash.name,
+          wizardData: {
+            dashboardName: dash.name,
+            dataSource: dash.fileId ? 'csv' : 'demo',
+          },
+          renderedLayout: dash.config,
+          config: dash.config, // For DashboardFactory
+          diagnosis: dash.diagnosis,
+          status: 'ready',
+        });
+        setLoading(false);
+        return;
+      }
+    } catch (e) {
+      console.warn('Firestore load failed, trying localStorage:', e);
+    }
+    
+    // Fallback to localStorage
     const dash = getUserDashboard(currentUser.uid, id);
     setDashboard(dash);
     setLoading(false);
@@ -218,7 +245,13 @@ export default function DashboardViewPage() {
         </div>
 
         {/* Dashboard Content */}
-        <DashboardRenderer layout={dashboard.renderedLayout} />
+        {dashboard.config ? (
+          React.createElement(createFinopsDashboard(dashboard.config))
+        ) : dashboard.renderedLayout ? (
+          <DashboardRenderer layout={dashboard.renderedLayout} />
+        ) : (
+          <div className="text-center py-12 text-gray-500">Dashboard verisi yüklenemedi</div>
+        )}
       </div>
     </div>
   );

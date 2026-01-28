@@ -3,9 +3,11 @@ import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import PageLayout from './components/PageLayout';
 import LoadingSpinner from './components/LoadingSpinner';
+import { GlobalErrorBoundary } from './utils/antiChaos/globalErrorBoundary';
 
 // Sayfaları ve Bileşenleri Import Et
 import HeroPage from './pages/HeroPage';
+import HeroJourneyPreview from './pages/HeroJourneyPreview';
 import PricingPage from './pages/PricingPage';
 import FinancialDataAnalysisPage from './pages/solutions/FinansalVeriAnaliziPage';
 import CostInventoryManagementPage from './pages/solutions/MaliyetVeStokYonetimiPage';
@@ -79,6 +81,9 @@ import InternalPricingGuidePage from './pages/admin/InternalPricingGuidePage';
 import ChartRulesAdminPage from './pages/admin/ChartRulesAdminPage';
 import ExecutiveStatusReportPage from './pages/admin/ExecutiveStatusReportPage';
 import DashboardLibraryAdminPage from './pages/admin/DashboardLibraryAdminPage';
+import DiagnosticsPage from './pages/admin/DiagnosticsPage';
+import DataPreviewPage from './pages/DataPreviewPage';
+import DashboardEditPage from './pages/DashboardEditPage';
 import ManufacturingPage from './pages/sectors/ManufacturingPage';
 import ManufacturingDashboardsPage from './pages/ManufacturingDashboardsPage';
 import DataIngestionPage from './pages/DataIngestionPage';
@@ -94,11 +99,13 @@ const ShareDashboardPage = lazy(() => import('./pages/share/ShareDashboardPage')
 
 const App: React.FC = () => {
   return (
-    <PageLayout>
-      <Suspense fallback={<LoadingSpinner fullScreen message="Sayfa yükleniyor..." />}>
-        <Routes>
+    <GlobalErrorBoundary>
+      <PageLayout>
+        <Suspense fallback={<LoadingSpinner fullScreen message="Sayfa yükleniyor..." />}>
+          <Routes>
         {/* === Genel ve Halka Açık Rotalar === */}
         <Route path="/" element={<HeroPage />} />
+        <Route path="/hero-journey" element={<HeroJourneyPreview />} />
         {import.meta.env.DEV && <Route path="/i18n-audit" element={<I18nAuditPage />} />}
         <Route path="/share" element={<ShareDashboardPage />} />
         <Route path="/pricing" element={<PricingPage />} />
@@ -163,7 +170,7 @@ const App: React.FC = () => {
           <Route path="/dashboard/my" element={<MyDashboardsPage />} />
           <Route path="/dashboard/view/:id" element={<DashboardViewPage />} />
           <Route path="/dashboard/view-standard/:id" element={<StandardDashboardViewPage />} />
-          <Route path="/dashboard/edit/:id" element={<DashboardCreateWizardPage />} />
+          <Route path="/dashboard/edit/:id" element={<DashboardEditPage />} />
           <Route path="/kutuphane" element={<DataLibraryPage />} />
           <Route path="/data-library" element={<DataLibraryPage />} />
           <Route path="/settings" element={<UserSettingsPage />} />
@@ -191,6 +198,9 @@ const App: React.FC = () => {
           <Route path="/admin/management-office/executive-report" element={<ExecutiveStatusReportPage />} />
           <Route path="/admin/management-office/project-activity-report" element={<ProjectActivityReportPage />} />
           <Route path="/admin/dashboard-library" element={<DashboardLibraryAdminPage />} />
+          <Route path="/admin/diagnostics" element={<DiagnosticsPage />} />
+          <Route path="/data-preview/:fileId" element={<DataPreviewPage />} />
+          <Route path="/dashboard/edit/:id" element={<DashboardEditPage />} />
           <Route path="/marketing-plan" element={<MarketingPlanPage />} />
           <Route path="/launch-roadmap" element={<LaunchRoadmapPage />} />
           <Route path="/investor-presentation" element={<InvestorPresentationPage />} />
@@ -216,6 +226,7 @@ const App: React.FC = () => {
         </Routes>
       </Suspense>
     </PageLayout>
+    </GlobalErrorBoundary>
   );
 };
 

@@ -15,23 +15,25 @@
 
 import type { WizardState } from '../components/dashboard-wizard/DashboardWizard';
 import type { DashboardConfig } from '../components/dashboards/DashboardFactory';
+import { attachDiagnosisToConfig } from './dashboardDiagnosisHelper';
+import type { DashboardDiagnosis } from './antiChaos/selfDiagnosis';
 import { 
   DollarSign, TrendingUp, TrendingDown, Package, 
   Users, Target, Activity, BarChart3, PieChart,
   Calendar, Percent, Award
 } from 'lucide-react';
 
-// KPI calculation tipine göre icon seç
-function getIconForCalculation(calculation: string): any {
-  const map: Record<string, any> = {
-    sum: DollarSign,
-    avg: TrendingUp,
-    count: Package,
-    max: TrendingUp,
-    min: TrendingDown,
-    formula: Percent,
+// KPI calculation tipine göre icon seç (string olarak döndür!)
+function getIconForCalculation(calculation: string): string {
+  const map: Record<string, string> = {
+    sum: 'DollarSign',
+    avg: 'TrendingUp',
+    count: 'Package',
+    max: 'TrendingUp',
+    min: 'TrendingDown',
+    formula: 'Percent',
   };
-  return map[calculation] || Activity;
+  return map[calculation] || 'Activity';
 }
 
 // Sütun adına göre format belirle
@@ -93,8 +95,13 @@ function generateChartInsight(chart: any): string {
 
 /**
  * Wizard state'ini DashboardFactory config'e çevirir
+ * @param state Wizard state
+ * @param diagnosis Opsiyonel: Anti-Chaos diagnosis bilgisi (sessiz bilgilendirme için)
  */
-export function wizardStateToDashboardConfig(state: WizardState): DashboardConfig {
+export function wizardStateToDashboardConfig(
+  state: WizardState,
+  diagnosis?: DashboardDiagnosis | null
+): DashboardConfig {
   // KPI'ları DashboardFactory formatına çevir
   const kpis = state.selectedKpis.slice(0, 6).map(kpi => ({
     id: kpi.column.replace(/\s+/g, '_').toLowerCase(),
@@ -109,7 +116,7 @@ export function wizardStateToDashboardConfig(state: WizardState): DashboardConfi
     kpis.push({
       id: `placeholder_${kpis.length}`,
       label: 'Veri Yok',
-      icon: Activity,
+      icon: 'Activity',
       format: 'number' as const,
       insight: 'Bu KPI için henüz veri yok.',
     });
@@ -146,6 +153,11 @@ export function wizardStateToDashboardConfig(state: WizardState): DashboardConfi
     kpis,
     charts,
   };
+  
+  // 🛡️ Anti-Chaos: Diagnosis bilgisini ekle (varsa)
+  if (diagnosis) {
+    return attachDiagnosisToConfig(config, diagnosis);
+  }
   
   return config;
 }

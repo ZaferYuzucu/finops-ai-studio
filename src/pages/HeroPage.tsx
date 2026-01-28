@@ -4,7 +4,7 @@ import { ArrowRight, Sparkles, TrendingUp, Zap, BarChart3, Database, Shield } fr
 import FlowAnimation from '@/components/FlowAnimation';
 import SolutionsSection from '@/components/SolutionsSection';
 import IntegrationsSection from '@/components/IntegrationsSection';
-import ceoDashboardImg from '@/assets/illustrations/undraw/site-stats-bro-finops.svg';
+import { InteractiveHeroJourney } from '@/components/InteractiveHeroJourney';
 
 const HeroPage = () => {
   const { t } = useTranslation();
@@ -90,31 +90,8 @@ const HeroPage = () => {
         </div>
       </div>
 
-      {/* Dashboard Preview - Beyaz arka plan */}
-      <div className="bg-white py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              {t('heroPage.dashboard.title')}
-            </h2>
-            <p className="text-lg text-gray-600">
-              {t('heroPage.dashboard.subtitle')}
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl shadow-2xl p-8 max-w-5xl w-full border-2 border-white">
-                <img 
-                  src={ceoDashboardImg} 
-                  alt={t('heroPage.dashboard.alt')}
-                  className="w-full h-auto"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* 5-Step Interactive Dashboard Journey */}
+      <InteractiveHeroJourney autoPlay={true} autoPlayDelay={3000} />
 
       {/* Features Section - 4 Kartlı */}
       <div id="features" className="bg-gradient-to-br from-gray-50 to-blue-50 py-16 sm:py-20 scroll-mt-20">

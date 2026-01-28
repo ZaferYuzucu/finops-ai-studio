@@ -1,11 +1,18 @@
 // ✅ FINOPS Dashboard Factory - Otomatik Standart Dashboard Üretici
 // Tüm dashboard'lar için tek kaynak, %100 standart format
+// 🛡️ Anti-Chaos: Fail-soft render engine entegre edildi
 import React from 'react';
-import { LucideIcon } from 'lucide-react';
+import { 
+  DollarSign, TrendingUp, TrendingDown, Package, 
+  Users, Target, Activity, BarChart3, PieChart as PieChartIcon,
+  Calendar, Percent, Award, AlertCircle, Info, CheckCircle2 
+} from 'lucide-react';
 import { 
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
 } from 'recharts';
+import { createFallbackDashboard } from '../../utils/antiChaos/failSoftDashboard';
+import { logDashboardFallback, logLowConfidence } from '../../utils/diagnostics/eventLogger';
 
 // Dashboard Configuration Type
 export interface DashboardConfig {
@@ -17,7 +24,7 @@ export interface DashboardConfig {
   kpis: Array<{
     id: string;
     label: string;
-    icon: React.ComponentType<{ size?: number }>;
+    icon: string | React.ComponentType<{ size?: number }>; // String (icon name) veya component
     format: 'currency' | 'number' | 'percentage' | 'decimal';
     insight: string;
   }>;
@@ -28,6 +35,16 @@ export interface DashboardConfig {
     dataKey: string;
     insight: string;
   }>;
+  // 🛡️ Anti-Chaos: Confidence & Risk Indicators (opsiyonel)
+  diagnosis?: {
+    confidenceScore: number; // 0-1 arası
+    riskFlags: Array<{
+      code: string;
+      severity: 'low' | 'medium' | 'high' | 'critical';
+      message: string;
+    }>;
+    blockedAssumptions?: string[];
+  };
 }
 
 // FINOPS Brand Colors
@@ -44,6 +61,29 @@ const FINOPS_COLORS = {
   success: '#10B981',
   warning: '#F59E0B',
   danger: '#EF4444',
+};
+
+// Icon string'i React component'e map et
+const iconMap: Record<string, React.ComponentType<{ size?: number }>> = {
+  DollarSign,
+  TrendingUp,
+  TrendingDown,
+  Package,
+  Users,
+  Target,
+  Activity,
+  BarChart3,
+  PieChartIcon,
+  Calendar,
+  Percent,
+  Award,
+};
+
+const getIconComponent = (icon: string | React.ComponentType<{ size?: number }>): React.ComponentType<{ size?: number }> => {
+  // Eğer zaten component ise direkt döndür
+  if (typeof icon === 'function') return icon;
+  // String ise map'ten bul, yoksa Activity döndür
+  return iconMap[icon] || Activity;
 };
 
 // Format helper - CEO/CFO için kısa ve net format
@@ -82,100 +122,131 @@ export const createFinopsDashboard = (config: DashboardConfig) => {
 
     const fetchData = async () => {
       setIsLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 300));
       
-      // Mock data generation (basit algoritma)
-      const baseMultiplier = dateRange === 'ytd' ? 4.8 : dateRange === 'wtd' ? 0.35 : 1.0;
-      const locMultiplier = location === 'kadikoy' ? 0.38 : location === 'besiktas' ? 0.35 : location === 'taksim' ? 0.27 : 1.0;
-      
-      const mockKpis: any = {};
-      config.kpis.forEach(kpi => {
-        let baseValue;
+      try {
+        await new Promise(resolve => setTimeout(resolve, 300));
         
-        // Format'a göre uygun değer aralığı belirle
-        if (kpi.format === 'percentage') {
-          // Percentage için 0-100 arası (gerçekçi yüzde değerleri)
-          baseValue = Math.random() * 60 + 20; // 20-80 arası
-        } else if (kpi.format === 'decimal') {
-          // Decimal için küçük değerler (ör: puan, rating)
-          baseValue = Math.random() * 2 + 3; // 3-5 arası
-        } else if (kpi.format === 'currency') {
-          // Currency için büyük değerler
-          baseValue = 100000 * baseMultiplier * locMultiplier * (Math.random() * 0.4 + 0.8);
-        } else {
-          // Number için orta-büyük değerler
-          baseValue = 50000 * baseMultiplier * locMultiplier * (Math.random() * 0.4 + 0.8);
-        }
+        // 🛡️ Mock data generation - Fail-soft korumalı
+        const baseMultiplier = dateRange === 'ytd' ? 4.8 : dateRange === 'wtd' ? 0.35 : 1.0;
+        const locMultiplier = location === 'kadikoy' ? 0.38 : location === 'besiktas' ? 0.35 : location === 'taksim' ? 0.27 : 1.0;
         
-        mockKpis[kpi.id] = {
-          value: baseValue,
-          change: (Math.random() * 20 - 5).toFixed(1),
-          previous: baseValue / 1.1,
-        };
-      });
+        const mockKpis: any = {};
+        config.kpis.forEach(kpi => {
+          try {
+            let baseValue;
+            
+            // Format'a göre uygun değer aralığı belirle
+            if (kpi.format === 'percentage') {
+              baseValue = Math.random() * 60 + 20; // 20-80 arası
+            } else if (kpi.format === 'decimal') {
+              baseValue = Math.random() * 2 + 3; // 3-5 arası
+            } else if (kpi.format === 'currency') {
+              baseValue = 100000 * baseMultiplier * locMultiplier * (Math.random() * 0.4 + 0.8);
+            } else {
+              baseValue = 50000 * baseMultiplier * locMultiplier * (Math.random() * 0.4 + 0.8);
+            }
+            
+            mockKpis[kpi.id] = {
+              value: baseValue,
+              change: (Math.random() * 20 - 5).toFixed(1),
+              previous: baseValue / 1.1,
+            };
+          } catch (kpiError) {
+            // 🛡️ KPI oluşturma hatası - placeholder kullan
+            console.warn(`⚠️ KPI oluşturma hatası (${kpi.id}):`, kpiError);
+            mockKpis[kpi.id] = {
+              value: 0,
+              change: 0,
+              previous: 0,
+              placeholder: true,
+            };
+          }
+        });
 
-      const mockChartData = Array.from({ length: dateRange === 'ytd' ? 12 : 7 }, (_, i) => ({
-        name: dateRange === 'ytd' 
-          ? ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'][i]
-          : `${String(i + 1).padStart(2, '0')} Ara`,
-        value: Math.round(50000 * baseMultiplier * locMultiplier * (0.8 + Math.random() * 0.4)),
-        target: Math.round(45000 * baseMultiplier * locMultiplier),
-      }));
+        const mockChartData = Array.from({ length: dateRange === 'ytd' ? 12 : 7 }, (_, i) => ({
+          name: dateRange === 'ytd' 
+            ? ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'][i] || `Ay ${i+1}`
+            : `${String(i + 1).padStart(2, '0')} Ara`,
+          value: Math.round(50000 * baseMultiplier * locMultiplier * (0.8 + Math.random() * 0.4)),
+          target: Math.round(45000 * baseMultiplier * locMultiplier),
+        }));
 
-      const mockPieData = [
-        { name: 'Kategori A', value: Math.round(125000 * baseMultiplier * locMultiplier) },
-        { name: 'Kategori B', value: Math.round(98000 * baseMultiplier * locMultiplier) },
-        { name: 'Kategori C', value: Math.round(87000 * baseMultiplier * locMultiplier) },
-        { name: 'Kategori D', value: Math.round(76000 * baseMultiplier * locMultiplier) },
-        { name: 'Kategori E', value: Math.round(54000 * baseMultiplier * locMultiplier) },
-      ];
+        const mockPieData = [
+          { name: 'Kategori A', value: Math.round(125000 * baseMultiplier * locMultiplier) },
+          { name: 'Kategori B', value: Math.round(98000 * baseMultiplier * locMultiplier) },
+          { name: 'Kategori C', value: Math.round(87000 * baseMultiplier * locMultiplier) },
+          { name: 'Kategori D', value: Math.round(76000 * baseMultiplier * locMultiplier) },
+          { name: 'Kategori E', value: Math.round(54000 * baseMultiplier * locMultiplier) },
+        ];
 
-      setDashboardData({ kpis: mockKpis, chartData: mockChartData, pieData: mockPieData });
-      setIsLoading(false);
+        setDashboardData({ kpis: mockKpis, chartData: mockChartData, pieData: mockPieData });
+      } catch (error) {
+        // 🛡️ Veri yükleme hatası - Boş data set et, UI render etmeye devam et
+        console.error('❌ Dashboard veri yükleme hatası:', error);
+        setDashboardData({ 
+          kpis: {}, 
+          chartData: [], 
+          pieData: [],
+          error: true,
+        });
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     const handleExport = (type: 'pdf' | 'excel') => {
-      if (type === 'pdf') {
-        window.print();
-      } else {
-        // Excel/CSV Export - Tek sayfa format
-        const { kpis, chartData } = dashboardData;
-        
-        // KPI verilerini CSV formatına çevir
-        let csvContent = `${config.title} - Dashboard Raporu\n`;
-        csvContent += `Dönem: ${dateRange.toUpperCase()}, Lokasyon: ${location === 'all' ? 'Tüm Lokasyonlar' : location}\n\n`;
-        
-        // KPI Başlıkları
-        csvContent += 'KPI ÖZET\n';
-        csvContent += 'Metrik,Değer,Değişim\n';
-        config.kpis.forEach(kpiConfig => {
-          const kpiData = kpis[kpiConfig.id] || { value: 0, change: 0 };
-          const formattedValue = formatValue(kpiData.value, kpiConfig.format);
-          const changeSymbol = kpiData.change >= 0 ? '+' : '';
-          csvContent += `${kpiConfig.label},${formattedValue},${changeSymbol}${kpiData.change.toFixed(1)}%\n`;
-        });
-        
-        // Chart verileri
-        csvContent += '\n\nGRAFİK VERİLERİ\n';
-        csvContent += 'Dönem,Değer\n';
-        chartData.forEach((item: any) => {
-          csvContent += `${item.name},${item.value}\n`;
-        });
-        
-        // CSV dosyasını indir
-        const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        const fileName = `${config.id}_${dateRange}_${new Date().toISOString().split('T')[0]}.csv`;
-        
-        link.setAttribute('href', url);
-        link.setAttribute('download', fileName);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        showToast('✅ CSV dosyası indirildi!');
+      try {
+        if (type === 'pdf') {
+          window.print();
+        } else {
+          // 🛡️ Excel/CSV Export - Fail-soft korumalı
+          const exportKpis = safeKpis || {};
+          const exportChartData = safeChartData || [];
+          
+          // KPI verilerini CSV formatına çevir
+          let csvContent = `${config.title} - Dashboard Raporu\n`;
+          csvContent += `Dönem: ${dateRange.toUpperCase()}, Lokasyon: ${location === 'all' ? 'Tüm Lokasyonlar' : location}\n\n`;
+          
+          // KPI Başlıkları
+          csvContent += 'KPI ÖZET\n';
+          csvContent += 'Metrik,Değer,Değişim\n';
+          config.kpis.forEach(kpiConfig => {
+            const kpiData = exportKpis[kpiConfig.id] || { value: 0, change: 0 };
+            const formattedValue = kpiData.placeholder ? 'N/A' : formatValue(kpiData.value, kpiConfig.format);
+            const changeSymbol = kpiData.change >= 0 ? '+' : '';
+            csvContent += `${kpiConfig.label},${formattedValue},${changeSymbol}${kpiData.change.toFixed(1)}%\n`;
+          });
+          
+          // Chart verileri
+          csvContent += '\n\nGRAFİK VERİLERİ\n';
+          csvContent += 'Dönem,Değer\n';
+          if (exportChartData.length > 0) {
+            exportChartData.forEach((item: any) => {
+              csvContent += `${item.name || 'N/A'},${item.value || 0}\n`;
+            });
+          } else {
+            csvContent += 'Veri Yok,0\n';
+          }
+          
+          // CSV dosyasını indir
+          const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+          const link = document.createElement('a');
+          const url = URL.createObjectURL(blob);
+          const fileName = `${config.id}_${dateRange}_${new Date().toISOString().split('T')[0]}.csv`;
+          
+          link.setAttribute('href', url);
+          link.setAttribute('download', fileName);
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          
+          showToast('✅ CSV dosyası indirildi!');
+        }
+      } catch (error) {
+        // 🛡️ Export hatası durumunda bile UI render etmeye devam et
+        console.error('❌ Export hatası:', error);
+        showToast('⚠️ Export sırasında bir sorun oluştu. Lütfen tekrar deneyin.');
       }
     };
 
@@ -195,15 +266,78 @@ export const createFinopsDashboard = (config: DashboardConfig) => {
       setTimeout(() => document.body.removeChild(toast), 3000);
     };
 
-    if (!dashboardData) {
-      return (
-        <div style={{width:'100vw',height:'100vh',display:'flex',alignItems:'center',justifyContent:'center',background:'#E8EAED'}}>
-          <div style={{width:'60px',height:'60px',border:'4px solid #E5E7EB',borderTop:'4px solid #8000FF',borderRadius:'50%',animation:'spin 1s linear infinite'}}/>
-        </div>
-      );
+    // 🛡️ Anti-Chaos: Fail-soft render - Veri yoksa bile UI render et
+    let safeKpis: any = {};
+    let safeChartData: any[] = [];
+    let safePieData: any[] = [];
+    let hasData = false;
+    let dataWarning: string | null = null;
+    let fallbackUsed = false;
+
+    try {
+      if (dashboardData && dashboardData.kpis && dashboardData.chartData) {
+        safeKpis = dashboardData.kpis || {};
+        safeChartData = Array.isArray(dashboardData.chartData) ? dashboardData.chartData : [];
+        safePieData = Array.isArray(dashboardData.pieData) ? dashboardData.pieData : [];
+        hasData = Object.keys(safeKpis).length > 0 || safeChartData.length > 0;
+      } else {
+        // 🛡️ Veri yoksa fallback kullan
+        dataWarning = 'Veriler yükleniyor veya mevcut değil. Placeholder gösteriliyor.';
+        hasData = false;
+        fallbackUsed = true;
+      }
+    } catch (error) {
+      // 🛡️ Hata durumunda bile render et
+      console.warn('⚠️ Dashboard veri işleme hatası:', error);
+      dataWarning = 'Veri işleme sırasında bir sorun oluştu. Dashboard placeholder modunda gösteriliyor.';
+      hasData = false;
+      fallbackUsed = true;
+    }
+    
+    // 🛡️ Diagnostics: Fallback kullanıldı log (sessiz)
+    if (fallbackUsed) {
+      logDashboardFallback(
+        undefined, // userId (opsiyonel)
+        undefined, // email
+        config.id,
+        dataWarning || 'Veri eksikliği'
+      ).catch(() => {}); // Sessizce atla, UI etkilenmez
     }
 
-    const { kpis, chartData, pieData } = dashboardData;
+    // 🛡️ KPI fallback - En azından placeholder göster
+    if (!hasData || Object.keys(safeKpis).length === 0) {
+      // Config'den placeholder KPI'lar oluştur
+      config.kpis.forEach(kpi => {
+        if (!safeKpis[kpi.id]) {
+          safeKpis[kpi.id] = {
+            value: 0,
+            change: 0,
+            previous: 0,
+            placeholder: true,
+          };
+        }
+      });
+    }
+
+    // 🛡️ Chart fallback - Boş array yerine placeholder data
+    if (safeChartData.length === 0 && config.charts.length > 0) {
+      safeChartData = [
+        { name: 'Veri Yok', value: 0, target: 0 },
+        { name: 'Veri Yok', value: 0, target: 0 },
+      ];
+    }
+
+    if (safePieData.length === 0) {
+      safePieData = [
+        { name: 'Veri Yok', value: 0 },
+      ];
+    }
+
+    const { kpis, chartData, pieData } = {
+      kpis: safeKpis,
+      chartData: safeChartData,
+      pieData: safePieData,
+    };
 
     return (
       <>
@@ -313,6 +447,98 @@ export const createFinopsDashboard = (config: DashboardConfig) => {
           <div className="dashboard-print-area">
             {isLoading && <div style={{position:'absolute',top:0,left:0,right:0,bottom:0,background:'rgba(255,255,255,0.8)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:1000}}><div style={{width:'40px',height:'40px',border:'4px solid #E5E7EB',borderTop:'4px solid #8000FF',borderRadius:'50%',animation:'spin 0.8s linear infinite'}}/></div>}
 
+            {/* 🛡️ Confidence & Risk Indicator - Sessiz bilgilendirme */}
+            {config.diagnosis && (() => {
+              try {
+                const confidence = config.diagnosis.confidenceScore || 0;
+                const riskCount = config.diagnosis.riskFlags?.length || 0;
+                const confidencePercent = Math.round(confidence * 100);
+                
+                // 🛡️ Admin: Console'a log (kullanıcı görmez)
+                if (import.meta.env.DEV) {
+                  console.group('🔬 [Dashboard Diagnosis]', config.title);
+                  console.log('Confidence Score:', confidencePercent + '%');
+                  console.log('Risk Flags:', riskCount);
+                  if (riskCount > 0) {
+                    console.log('Risk Details:', config.diagnosis.riskFlags);
+                  }
+                  if (config.diagnosis.blockedAssumptions && config.diagnosis.blockedAssumptions.length > 0) {
+                    console.log('Blocked Assumptions:', config.diagnosis.blockedAssumptions);
+                  }
+                  console.groupEnd();
+                }
+                
+                // 🛡️ Diagnostics: Low confidence log (sessiz)
+                if (confidence < 0.8) {
+                  logLowConfidence(
+                    undefined, // userId (config'de yok, opsiyonel)
+                    undefined, // email
+                    config.id,
+                    confidence,
+                    config.diagnosis.riskFlags
+                  ).catch(() => {}); // Sessizce atla, UI etkilenmez
+                }
+                
+                // Renk belirleme (korkutma yok - kırmızı YOK)
+                let confidenceColor = '#6B7280'; // Gri (varsayılan)
+                let confidenceBg = '#F3F4F6';
+                let confidenceIcon = Info;
+                
+                if (confidence >= 0.85) {
+                  confidenceColor = '#10B981'; // Yeşil
+                  confidenceBg = '#ECFDF5';
+                  confidenceIcon = CheckCircle2;
+                } else if (confidence >= 0.60) {
+                  confidenceColor = '#F59E0B'; // Sarı
+                  confidenceBg = '#FFFBEB';
+                }
+                // <60 için gri kalır (korkutma yok)
+                
+                return (
+                  <div 
+                    className="confidence-indicator no-print"
+                    style={{
+                      marginBottom: '8px',
+                      padding: '8px 12px',
+                      background: confidenceBg,
+                      border: `1px solid ${confidenceColor}20`,
+                      borderRadius: '6px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontSize: '12px',
+                      color: '#374151',
+                    }}
+                  >
+                    <confidenceIcon size={16} style={{ color: confidenceColor, flexShrink: 0 }} />
+                    <span style={{ fontWeight: 500 }}>
+                      Veri Güveni: <strong style={{ color: confidenceColor }}>%{confidencePercent}</strong>
+                    </span>
+                    {riskCount > 0 && (
+                      <span 
+                        style={{ 
+                          marginLeft: 'auto', 
+                          color: '#6B7280',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          cursor: 'help',
+                        }}
+                        title={config.diagnosis.riskFlags?.map(r => `${r.code}: ${r.message}`).join('\n') || ''}
+                      >
+                        <AlertCircle size={14} />
+                        <span>{riskCount} potansiyel varsayım</span>
+                      </span>
+                    )}
+                  </div>
+                );
+              } catch (error) {
+                // 🛡️ Hata durumunda bile render etmeye devam et
+                console.warn('⚠️ Confidence indicator render hatası:', error);
+                return null; // Sessizce atla
+              }
+            })()}
+
             <div className="dashboard-header">
               <div>
                 <h1 className="dashboard-title">{config.icon} {config.title}</h1>
@@ -346,66 +572,110 @@ export const createFinopsDashboard = (config: DashboardConfig) => {
               </div>
             </div>
 
+            {/* 🛡️ Data Warning Banner */}
+            {dataWarning && (
+              <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 mb-4 flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-yellow-800">{dataWarning}</p>
+                </div>
+              </div>
+            )}
+
             <div className="kpi-grid">
               {config.kpis.map((kpiConfig, idx) => {
-                const kpiData = kpis[kpiConfig.id] || { value: 0, change: 0 };
-                const IconComponent = kpiConfig.icon;
+                const kpiData = kpis[kpiConfig.id] || { value: 0, change: 0, placeholder: false };
+                const IconComponent = getIconComponent(kpiConfig.icon);
+                const isPlaceholder = kpiData.placeholder || (kpiData.value === 0 && !hasData);
+                
                 return (
-                  <div key={idx} className="kpi-card">
+                  <div key={idx} className={`kpi-card ${isPlaceholder ? 'opacity-60' : ''}`}>
                     <div className="kpi-header">
                       <div className="kpi-icon"><IconComponent size={16} /></div>
                       <div className="kpi-label">{kpiConfig.label}</div>
                     </div>
-                    <div className="kpi-value">{formatValue(kpiData.value, kpiConfig.format)}</div>
-                    <div className={`kpi-change ${parseFloat(kpiData.change) >= 0 ? 'positive' : 'negative'}`}>
-                      {parseFloat(kpiData.change) >= 0 ? '↑' : '↓'} {Math.abs(parseFloat(kpiData.change)).toFixed(1)}%
+                    <div className="kpi-value">
+                      {isPlaceholder ? (
+                        <span className="text-gray-400 text-lg">—</span>
+                      ) : (
+                        formatValue(kpiData.value, kpiConfig.format)
+                      )}
                     </div>
-                    <div className="kpi-insight">{kpiConfig.insight}</div>
+                    {!isPlaceholder && (
+                      <div className={`kpi-change ${parseFloat(String(kpiData.change)) >= 0 ? 'positive' : 'negative'}`}>
+                        {parseFloat(String(kpiData.change)) >= 0 ? '↑' : '↓'} {Math.abs(parseFloat(String(kpiData.change))).toFixed(1)}%
+                      </div>
+                    )}
+                    <div className="kpi-insight">
+                      {isPlaceholder ? 'Veri yükleniyor...' : kpiConfig.insight}
+                    </div>
                   </div>
                 );
               })}
             </div>
 
             <div className="charts-grid">
-              {config.charts.map((chartConfig, idx) => (
-                <div key={idx} className="chart-card">
-                  <div className="chart-title">{chartConfig.title}</div>
-                  <div className="chart-container">
-                    <ResponsiveContainer width="100%" height="100%">
-                      {chartConfig.type === 'line' && (
-                        <LineChart data={chartData}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                          <XAxis dataKey="name" tick={{fontSize:10}} />
-                          <YAxis tick={{fontSize:10}} />
-                          <Tooltip />
-                          <Line type="monotone" dataKey="value" stroke={FINOPS_COLORS.primary} strokeWidth={3} />
-                          <Line type="monotone" dataKey="target" stroke="#9CA3AF" strokeDasharray="5 5" strokeWidth={2} />
-                        </LineChart>
+              {config.charts.map((chartConfig, idx) => {
+                // 🛡️ Veri kontrolü
+                const chartHasData = chartConfig.type === 'pie' 
+                  ? (pieData && pieData.length > 0 && pieData.some((d: any) => d.value > 0))
+                  : (chartData && chartData.length > 0 && chartData.some((d: any) => d.value !== undefined));
+                
+                return (
+                  <div key={idx} className="chart-card">
+                    <div className="chart-title">{chartConfig.title}</div>
+                    <div className="chart-container">
+                      {chartHasData ? (
+                        <ResponsiveContainer width="100%" height="100%">
+                          {chartConfig.type === 'line' && (
+                            <LineChart data={chartData}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                              <XAxis dataKey="name" tick={{fontSize:10}} />
+                              <YAxis tick={{fontSize:10}} />
+                              <Tooltip />
+                              <Line type="monotone" dataKey="value" stroke={FINOPS_COLORS.primary} strokeWidth={3} />
+                              <Line type="monotone" dataKey="target" stroke="#9CA3AF" strokeDasharray="5 5" strokeWidth={2} />
+                            </LineChart>
+                          )}
+                          {chartConfig.type === 'bar' && (
+                            <BarChart data={chartData}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                              <XAxis dataKey="name" tick={{fontSize:10}} />
+                              <YAxis tick={{fontSize:10}} />
+                              <Tooltip />
+                              <Bar dataKey="value" fill={FINOPS_COLORS.chart1} />
+                            </BarChart>
+                          )}
+                          {chartConfig.type === 'pie' && (
+                            <PieChart>
+                              <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={60} label={(e) => e.name}>
+                                {pieData.map((entry: any, i: number) => (
+                                  <Cell key={`cell-${i}`} fill={[FINOPS_COLORS.chart1,FINOPS_COLORS.chart2,FINOPS_COLORS.chart3,FINOPS_COLORS.chart4,FINOPS_COLORS.chart5][i%5]} />
+                                ))}
+                              </Pie>
+                              <Tooltip />
+                            </PieChart>
+                          )}
+                        </ResponsiveContainer>
+                      ) : (
+                        // 🛡️ Fail-soft: Veri yoksa açıklayıcı mesaj göster
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 p-6">
+                          <AlertCircle className="w-12 h-12 text-gray-400 mb-3" />
+                          <p className="text-sm font-medium text-gray-600 text-center mb-1">
+                            Grafik Verisi Mevcut Değil
+                          </p>
+                          <p className="text-xs text-gray-500 text-center">
+                            Bu grafik için henüz veri yüklenmedi veya veri bulunamadı.
+                          </p>
+                        </div>
                       )}
-                      {chartConfig.type === 'bar' && (
-                        <BarChart data={chartData}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                          <XAxis dataKey="name" tick={{fontSize:10}} />
-                          <YAxis tick={{fontSize:10}} />
-                          <Tooltip />
-                          <Bar dataKey="value" fill={FINOPS_COLORS.chart1} />
-                        </BarChart>
-                      )}
-                      {chartConfig.type === 'pie' && (
-                        <PieChart>
-                          <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={60} label={(e) => e.name}>
-                            {pieData.map((entry: any, i: number) => (
-                              <Cell key={`cell-${i}`} fill={[FINOPS_COLORS.chart1,FINOPS_COLORS.chart2,FINOPS_COLORS.chart3,FINOPS_COLORS.chart4,FINOPS_COLORS.chart5][i%5]} />
-                            ))}
-                          </Pie>
-                          <Tooltip />
-                        </PieChart>
-                      )}
-                    </ResponsiveContainer>
+                    </div>
+                    <div className="chart-insight">
+                      💡 <strong>Insight:</strong> {chartHasData ? chartConfig.insight : 'Veri yüklendiğinde insight gösterilecek.'}
+                    </div>
                   </div>
-                  <div className="chart-insight">💡 <strong>Insight:</strong> {chartConfig.insight}</div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

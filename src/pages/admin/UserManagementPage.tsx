@@ -32,17 +32,8 @@ interface UserData {
   companyName?: string;
 }
 
-// localStorage helpers
-const USERS_STORAGE_KEY = 'finops_users_management';
-
-function getStoredUsers(): UserData[] {
-  const stored = localStorage.getItem(USERS_STORAGE_KEY);
-  return stored ? JSON.parse(stored) : [];
-}
-
-function saveUsers(users: UserData[]): void {
-  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-}
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 const UserManagementPage: React.FC = () => {
   const [users, setUsers] = useState<UserData[]>([]);
@@ -62,32 +53,24 @@ const UserManagementPage: React.FC = () => {
     try {
       setLoading(true);
       
-      // localStorage'dan kullanıcıları yükle
-      const usersData = getStoredUsers();
+      const usersSnapshot = await getDocs(collection(db, 'users'));
+      const usersData: UserData[] = usersSnapshot.docs.map(doc => ({
+        id: doc.id,
+        email: doc.data().email || '',
+        displayName: doc.data().displayName || doc.data().email?.split('@')[0] || '',
+        createdAt: doc.data().createdAt || new Date().toISOString(),
+        role: doc.data().role || 'user',
+        plan: doc.data().plan || 'free',
+        isActive: doc.data().isActive !== false,
+        lastLogin: doc.data().lastLogin,
+        companyName: doc.data().companyName
+      }));
       
-      // Eğer hiç kullanıcı yoksa, mock data ekle
-      if (usersData.length === 0) {
-        const mockUsers: UserData[] = [
-          {
-            id: 'admin_001',
-            email: 'admin@finops.ai',
-            displayName: 'Admin',
-            createdAt: new Date().toISOString(),
-            role: 'admin',
-            plan: 'enterprise',
-            isActive: true,
-            companyName: 'FinOps AI Studio'
-          }
-        ];
-        saveUsers(mockUsers);
-        setUsers(mockUsers);
-      } else {
-        setUsers(usersData.sort((a, b) => 
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        ));
-      }
+      setUsers(usersData.sort((a, b) => 
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      ));
     } catch (error: any) {
-      console.error('Kullanıcılar yüklenirken hata:', error);
+      console.error('Error loading users:', error);
       setUsers([]);
     } finally {
       setLoading(false);
@@ -115,36 +98,24 @@ const UserManagementPage: React.FC = () => {
     activeUsers: users.filter(u => u.isActive).length,
   };
 
-  // Plan değiştir
   const handleChangePlan = async (userId: string, newPlan: string) => {
     try {
-      const usersData = getStoredUsers();
-      const index = usersData.findIndex(u => u.id === userId);
-      if (index !== -1) {
-        usersData[index].plan = newPlan as any;
-        saveUsers(usersData);
-        alert(`✅ Plan ${newPlan} olarak güncellendi!`);
-        loadUsers();
-      }
+      await updateDoc(doc(db, 'users', userId), { plan: newPlan });
+      alert(`✅ Plan ${newPlan} olarak güncellendi!`);
+      loadUsers();
     } catch (error) {
-      console.error('Plan değiştirme hatası:', error);
-      alert('❌ Plan değiştirilemedi!');
+      console.error('Plan update error:', error);
+      alert('❌ Plan güncellenemedi!');
     }
   };
 
-  // Kullanıcı aktif/pasif
   const handleToggleActive = async (userId: string, currentStatus: boolean) => {
     try {
-      const usersData = getStoredUsers();
-      const index = usersData.findIndex(u => u.id === userId);
-      if (index !== -1) {
-        usersData[index].isActive = !currentStatus;
-        saveUsers(usersData);
-        alert(`✅ Kullanıcı ${!currentStatus ? 'aktif' : 'pasif'} edildi!`);
-        loadUsers();
-      }
+      await updateDoc(doc(db, 'users', userId), { isActive: !currentStatus });
+      alert(`✅ Kullanıcı ${!currentStatus ? 'aktif' : 'pasif'} edildi!`);
+      loadUsers();
     } catch (error) {
-      console.error('Durum değiştirme hatası:', error);
+      console.error('Status update error:', error);
       alert('❌ Durum değiştirilemedi!');
     }
   };

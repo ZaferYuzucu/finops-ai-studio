@@ -2,18 +2,27 @@
 // Backend entegrasyonu için hazır API fonksiyonları
 
 import { generateMockData } from '../utils/mockDataGenerator';
+import { auth } from '../firebase';
 
 // API Base URL (production'da environment variable olacak)
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
-// Auth token'ı localStorage'dan al
-const getAuthToken = (): string | null => {
-  return localStorage.getItem('authToken');
+// Firebase ID token'ı al
+const getAuthToken = async (): Promise<string | null> => {
+  const user = auth.currentUser;
+  if (!user) return null;
+  
+  try {
+    return await user.getIdToken();
+  } catch (error) {
+    console.error('Error getting Firebase ID token:', error);
+    return null;
+  }
 };
 
 // Generic API request fonksiyonu
 const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
-  const token = getAuthToken();
+  const token = await getAuthToken();
   
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
@@ -147,11 +156,12 @@ export const exportDashboardPDF = async (
   try {
     // GERÇEK API ÇAĞRISI
     /*
+    const token = await getAuthToken();
     const response = await fetch(
       `${API_BASE_URL}/dashboard/export/pdf?type=${dashboardType}&period=${filters.dateRange}&location=${filters.location}`,
       {
         headers: {
-          'Authorization': `Bearer ${getAuthToken()}`,
+          ...(token && { 'Authorization': `Bearer ${token}` }),
         },
       }
     );

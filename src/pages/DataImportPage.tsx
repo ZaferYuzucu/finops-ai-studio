@@ -8,7 +8,12 @@ import { markDataImportCompleted } from '../utils/dataImportGate';
 import { BETA_LIMIT, getLocalRemainingBetaQuota } from '../utils/betaQuota';
 import { saveUploadedFile, DATA_CATEGORIES, type DataCategory } from '../utils/userDataStorage';
 import { useAuth } from '../context/AuthContext';
-import { runtimeFileStore } from '../store/runtimeFileStore';
+import { fileStorage } from '../utils/fileStorage';
+// 🛡️ Anti-Chaos: CSV güvenli parse için
+import { runAntiChaosPipeline } from '../utils/antiChaos';
+import { translateError } from '../utils/antiChaos/userDignityGuard';
+import { logCSVParseWarning, logAssumptionBlocked } from '../utils/diagnostics/eventLogger';
+import { persistFile, migrateIndexedDBToFirestore } from '../services/firestorePersistence';
 
 const DataImportPage: React.FC = () => {
   const { t } = useTranslation();
@@ -37,11 +42,17 @@ const DataImportPage: React.FC = () => {
     refresh();
     window.addEventListener('storage', refresh);
     window.addEventListener('finops-beta-applications-updated', refresh as any);
+    
+    // ✅ FIX 1: Migrate IndexedDB to Firestore on mount
+    if (currentUser?.uid) {
+      migrateIndexedDBToFirestore(currentUser.uid).catch(() => {});
+    }
+    
     return () => {
       window.removeEventListener('storage', refresh);
       window.removeEventListener('finops-beta-applications-updated', refresh as any);
     };
-  }, []);
+  }, [currentUser]);
 
   const isAllowedFile = (f: File) => /\.(csv|xlsx)$/i.test(f.name);
 
@@ -92,25 +103,105 @@ const DataImportPage: React.FC = () => {
           for (const file of allowed) {
             console.log('📄 Dosya okunuyor:', file.name);
             
-            // ✅ UTF-8 ile oku (Türkçe karakter desteği)
-            const fileContent = await new Promise<string>((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onload = (e) => resolve(e.target?.result as string);
-              reader.onerror = reject;
-              reader.readAsText(file, 'UTF-8'); // ✅ UTF-8 encoding belirtildi
-            });
+            let cleanContent: string;
             
-            // Trim BOM if present
-            const cleanContent = fileContent.replace(/^\uFEFF/, '');
-            
-            // Validate content
-            if (cleanContent.length < 10) {
-              throw new Error(`Dosya içeriği çok kısa veya boş: ${file.name}`);
+            // 🛡️ Anti-Chaos: Önce güvenli parse dene
+            try {
+              const antiChaosResult = await runAntiChaosPipeline(file);
+              
+              if (antiChaosResult.success && antiChaosResult.data) {
+                // Anti-Chaos başarılı, güvenli içeriği kullan
+                // CSV içeriğini tekrar oluştur (header + rows)
+                const headers = antiChaosResult.data.headers.join(',');
+                const rows = antiChaosResult.data.rows.map(row => 
+                  antiChaosResult.data.headers.map(h => row[h] || '').join(',')
+                );
+                cleanContent = [headers, ...rows].join('\n');
+                
+                // Uyarıları göster
+                if (antiChaosResult.warnings.length > 0) {
+                  console.warn('⚠️ Anti-Chaos Uyarıları:', antiChaosResult.warnings);
+                  const friendlyWarnings = antiChaosResult.warnings.slice(0, 3).join('\n');
+                  setDropError(`⚠️ Dosya yüklendi ancak bazı uyarılar var:\n\n${friendlyWarnings}`);
+                  
+                  // 🛡️ Diagnostics: CSV parse warning log (sessiz)
+                  logCSVParseWarning(
+                    currentUser?.uid,
+                    currentUser?.email || undefined,
+                    savedFile.id,
+                    antiChaosResult.warnings,
+                    antiChaosResult.diagnosis?.confidenceScore
+                  ).catch(() => {}); // Sessizce atla, UI etkilenmez
+                }
+                
+                // 🛡️ Diagnostics: Blocked assumptions log
+                if (antiChaosResult.assumptionResult?.blockedAssumptions.length > 0) {
+                  logAssumptionBlocked(
+                    currentUser?.uid,
+                    currentUser?.email || undefined,
+                    savedFile.id,
+                    antiChaosResult.assumptionResult.blockedAssumptions
+                  ).catch(() => {}); // Sessizce atla
+                }
+                
+                console.log('✅ Anti-Chaos parse başarılı, güven skoru:', antiChaosResult.diagnosis?.confidenceScore);
+              } else {
+                // Anti-Chaos başarısız, eski yönteme dön (fallback)
+                console.warn('⚠️ Anti-Chaos başarısız, eski parse yöntemine dönülüyor');
+                
+                // 🛡️ Diagnostics: Fallback kullanıldı log (sessiz)
+                logCSVParseWarning(
+                  currentUser?.uid,
+                  currentUser?.email || undefined,
+                  undefined,
+                  ['Anti-Chaos parse başarısız, fallback yöntem kullanıldı'],
+                  0.5 // Düşük confidence (fallback)
+                ).catch(() => {}); // Sessizce atla
+                
+                throw new Error('Anti-Chaos parse başarısız');
+              }
+            } catch (antiChaosError) {
+              // 🛡️ Fallback: Eski güvenilir yöntem
+              console.log('📋 Eski parse yöntemi kullanılıyor (fallback)');
+              
+              // 🛡️ Diagnostics: Fallback kullanıldı log (sessiz)
+              logCSVParseWarning(
+                currentUser?.uid,
+                currentUser?.email || undefined,
+                undefined,
+                ['Anti-Chaos parse hatası, eski yöntem kullanıldı'],
+                0.5
+              ).catch(() => {}); // Sessizce atla
+              
+              // ✅ UTF-8 ile oku (Türkçe karakter desteği)
+              const fileContent = await new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target?.result as string);
+                reader.onerror = reject;
+                reader.readAsText(file, 'UTF-8'); // ✅ UTF-8 encoding belirtildi
+              });
+              
+              // Trim BOM if present
+              cleanContent = fileContent.replace(/^\uFEFF/, '');
+              
+              // Validate content
+              if (cleanContent.length < 10) {
+                // 🛡️ Kullanıcı dostu hata mesajı
+                const friendlyError = translateError(new Error(`Dosya içeriği çok kısa veya boş: ${file.name}`));
+                throw new Error(friendlyError.message);
+              }
             }
             
             console.log('💾 KAYDETME BAŞLIYOR, içerik uzunluğu:', cleanContent.length);
             
-            // Save metadata to localStorage (NO content)
+            // ✅ FIX 1: TRUE PERSISTENCE - Firestore+Storage
+            const fileId = await persistFile(
+              currentUser.uid,
+              file,
+              cleanContent
+            );
+            
+            // Save metadata to localStorage (backward compat)
             const savedFile = await saveUploadedFile(
               file,
               currentUser.email || 'unknown',
@@ -119,18 +210,23 @@ const DataImportPage: React.FC = () => {
               undefined,
               {
                 category: selectedCategory || 'other',
-                // Do NOT store content in localStorage
                 fileContent: undefined,
               }
             );
             
-            // Store content in runtime store
-            runtimeFileStore.set(savedFile.id, cleanContent);
+            // Update savedFile.id to match Firestore fileId
+            savedFile.id = fileId;
             
-            console.log('✅ DOSYA KAYDEDİLDİ! ID:', savedFile.id);
+            console.log('✅ DOSYA KAYDEDİLDİ! ID:', fileId, '(Firestore)');
             
             // ✅ Diğer sayfaları bilgilendir (aynı sekmede)
             window.dispatchEvent(new Event('finops-data-updated'));
+            
+            // ✅ FIX 2: Redirect to preview instead of dashboard
+            setTimeout(() => {
+              navigate(`/data-preview/${fileId}`);
+            }, 1000);
+            return; // Exit early
           }
           
           console.log('🛑 INTERVAL TEMİZLENİYOR...');
@@ -151,18 +247,18 @@ const DataImportPage: React.FC = () => {
           // Alert ile de bildir (kesin görsün diye!)
           alert(`✅ BAŞARILI!\n\nDosya kütüphanenize kaydedildi: ${allowed[0].name}\n\nDashboard hazırlama sayfasına yönlendiriliyorsunuz...`);
           
-          // 2 saniye sonra dashboard'a yönlendir
-          console.log('⏰ 2 SANİYE TIMER BAŞLATILIYOR...');
-          setTimeout(() => {
-            console.log('🚀 DASHBOARD\'A YÖNLENDİRİLİYOR...');
-            navigate('/dashboard');
-          }, 2000);
+          // Redirect handled above in file loop
           
         } catch (error) {
           console.error('❌ Otomatik kaydetme hatası (sürükle-bırak):', error);
-          setDropError(`❌ DOSYA KAYDEDİLEMEDİ!\n\nHata: ${error instanceof Error ? error.message : 'Bilinmeyen hata'}`);
+          
+          // 🛡️ Anti-Chaos: Kullanıcı dostu hata mesajı
+          const friendlyError = translateError(error instanceof Error ? error : new Error(String(error)));
+          setDropError(`❌ ${friendlyError.title}\n\n${friendlyError.message}\n\n💡 ${friendlyError.suggestion}`);
+          
           setStatus('error');
           setIsProcessing(false);
+          // 🛡️ UI render etmeye devam et - sistem çökmesin
         }
       })();
     }
@@ -205,20 +301,52 @@ const DataImportPage: React.FC = () => {
       if (currentUser && allowed.length > 0) {
         try {
           for (const file of allowed) {
-            // ✅ UTF-8 ile oku
-            const fileContent = await new Promise<string>((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onload = (e) => resolve(e.target?.result as string);
-              reader.onerror = reject;
-              reader.readAsText(file, 'UTF-8');
-            });
+            let cleanContent: string;
             
-            // Trim BOM
-            const cleanContent = fileContent.replace(/^\uFEFF/, '');
-            
-            // Validate
-            if (cleanContent.length < 10) {
-              throw new Error(`Dosya içeriği çok kısa: ${file.name}`);
+            // 🛡️ Anti-Chaos: Önce güvenli parse dene
+            try {
+              const antiChaosResult = await runAntiChaosPipeline(file);
+              
+              if (antiChaosResult.success && antiChaosResult.data) {
+                // Anti-Chaos başarılı
+                const headers = antiChaosResult.data.headers.join(',');
+                const rows = antiChaosResult.data.rows.map(row => 
+                  antiChaosResult.data.headers.map(h => row[h] || '').join(',')
+                );
+                cleanContent = [headers, ...rows].join('\n');
+                console.log('✅ Anti-Chaos parse başarılı (file picker)');
+              } else {
+                throw new Error('Anti-Chaos parse başarısız');
+              }
+            } catch (antiChaosError) {
+              // 🛡️ Fallback: Eski yöntem
+              console.log('📋 Eski parse yöntemi kullanılıyor (file picker fallback)');
+              
+              // 🛡️ Diagnostics: Fallback kullanıldı log (sessiz)
+              logCSVParseWarning(
+                currentUser?.uid,
+                currentUser?.email || undefined,
+                undefined,
+                ['Anti-Chaos parse hatası (file picker), eski yöntem kullanıldı'],
+                0.5
+              ).catch(() => {}); // Sessizce atla
+              
+              // ✅ UTF-8 ile oku
+              const fileContent = await new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target?.result as string);
+                reader.onerror = reject;
+                reader.readAsText(file, 'UTF-8');
+              });
+              
+              // Trim BOM
+              cleanContent = fileContent.replace(/^\uFEFF/, '');
+              
+              // Validate
+              if (cleanContent.length < 10) {
+                const friendlyError = translateError(new Error(`Dosya içeriği çok kısa: ${file.name}`));
+                throw new Error(friendlyError.message);
+              }
             }
             
             // Save metadata only
@@ -234,12 +362,25 @@ const DataImportPage: React.FC = () => {
               }
             );
             
-            // Store content in runtime
-            runtimeFileStore.set(savedFile.id, cleanContent);
+            // ✅ FIX 1: TRUE PERSISTENCE - Firestore+Storage
+            const fileId = await persistFile(
+              currentUser.uid,
+              file,
+              cleanContent
+            );
+            savedFile.id = fileId;
+            
+            setTimeout(() => {
+              navigate(`/data-preview/${fileId}`);
+            }, 1000);
           }
           console.log('✅ Dosya otomatik kaydedildi:', allowed[0].name);
         } catch (error) {
           console.error('❌ Otomatik kaydetme hatası:', error);
+          // 🛡️ Kullanıcı dostu hata mesajı
+          const friendlyError = translateError(error instanceof Error ? error : new Error(String(error)));
+          setDropError(`⚠️ ${friendlyError.title}\n\n${friendlyError.message}`);
+          // 🛡️ UI render etmeye devam et
         }
       }
     }
@@ -255,20 +396,52 @@ const DataImportPage: React.FC = () => {
       try {
         // Her dosya icin icerigi oku ve kaydet
         for (const file of files) {
-          // ✅ UTF-8 ile oku
-          const fileContent = await new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (e) => resolve(e.target?.result as string);
-            reader.onerror = reject;
-            reader.readAsText(file, 'UTF-8');
-          });
+          let cleanContent: string;
           
-          // Trim BOM
-          const cleanContent = fileContent.replace(/^\uFEFF/, '');
-          
-          // Validate
-          if (cleanContent.length < 10) {
-            throw new Error(`Dosya içeriği çok kısa: ${file.name}`);
+          // 🛡️ Anti-Chaos: Önce güvenli parse dene
+          try {
+            const antiChaosResult = await runAntiChaosPipeline(file);
+            
+            if (antiChaosResult.success && antiChaosResult.data) {
+              // Anti-Chaos başarılı
+              const headers = antiChaosResult.data.headers.join(',');
+              const rows = antiChaosResult.data.rows.map(row => 
+                antiChaosResult.data.headers.map(h => row[h] || '').join(',')
+              );
+              cleanContent = [headers, ...rows].join('\n');
+              console.log('✅ Anti-Chaos parse başarılı (handleUpload)');
+            } else {
+              throw new Error('Anti-Chaos parse başarısız');
+            }
+          } catch (antiChaosError) {
+            // 🛡️ Fallback: Eski yöntem
+            console.log('📋 Eski parse yöntemi kullanılıyor (handleUpload fallback)');
+            
+            // 🛡️ Diagnostics: Fallback kullanıldı log (sessiz)
+            logCSVParseWarning(
+              currentUser?.uid,
+              currentUser?.email || undefined,
+              undefined,
+              ['Anti-Chaos parse hatası (handleUpload), eski yöntem kullanıldı'],
+              0.5
+            ).catch(() => {}); // Sessizce atla
+            
+            // ✅ UTF-8 ile oku
+            const fileContent = await new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (e) => resolve(e.target?.result as string);
+              reader.onerror = reject;
+              reader.readAsText(file, 'UTF-8');
+            });
+            
+            // Trim BOM
+            cleanContent = fileContent.replace(/^\uFEFF/, '');
+            
+            // Validate
+            if (cleanContent.length < 10) {
+              const friendlyError = translateError(new Error(`Dosya içeriği çok kısa: ${file.name}`));
+              throw new Error(friendlyError.message);
+            }
           }
           
           // Save metadata only
@@ -287,14 +460,22 @@ const DataImportPage: React.FC = () => {
             }
           );
           
-          // Store content in runtime
-          runtimeFileStore.set(savedFile.id, cleanContent);
+          // ✅ FIX 1: TRUE PERSISTENCE - Firestore+Storage
+          const fileId = await persistFile(
+            currentUser.uid,
+            file,
+            cleanContent
+          );
+          savedFile.id = fileId;
         }
         console.log('Dosyalar kaydedildi:', files.map(f => f.name), `[${selectedCategory}]`);
       } catch (error) {
         console.error('Dosya kaydedilemedi:', error);
-        alert('Dosya kaydedilirken hata olustu. Lutfen tekrar deneyin.');
-        return;  // Hata varsa islemi durdur
+        // 🛡️ Anti-Chaos: Kullanıcı dostu hata mesajı
+        const friendlyError = translateError(error instanceof Error ? error : new Error(String(error)));
+        alert(`${friendlyError.title}\n\n${friendlyError.message}\n\n💡 ${friendlyError.suggestion}`);
+        // 🛡️ UI render etmeye devam et - return etme, sadece uyar
+        setDropError(`${friendlyError.title}\n\n${friendlyError.message}`);
       }
     }
     
@@ -338,16 +519,47 @@ const DataImportPage: React.FC = () => {
     // VERİYİ HEMEN KAYDET!
     if (currentUser) {
       try {
-        // ✅ UTF-8 ile oku
-        const fileContent = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = (e) => resolve(e.target?.result as string);
-          reader.onerror = reject;
-          reader.readAsText(file, 'UTF-8');
-        });
+        let cleanContent: string;
         
-        // Trim BOM
-        const cleanContent = fileContent.replace(/^\uFEFF/, '');
+        // 🛡️ Anti-Chaos: Demo dosyası için de güvenli parse
+        try {
+          const antiChaosResult = await runAntiChaosPipeline(file);
+          
+          if (antiChaosResult.success && antiChaosResult.data) {
+            // Anti-Chaos başarılı
+            const headers = antiChaosResult.data.headers.join(',');
+            const rows = antiChaosResult.data.rows.map(row => 
+              antiChaosResult.data.headers.map(h => row[h] || '').join(',')
+            );
+            cleanContent = [headers, ...rows].join('\n');
+            console.log('✅ Anti-Chaos parse başarılı (demo mode)');
+          } else {
+            throw new Error('Anti-Chaos parse başarısız');
+          }
+        } catch (antiChaosError) {
+          // 🛡️ Fallback: Eski yöntem
+          console.log('📋 Eski parse yöntemi kullanılıyor (demo mode fallback)');
+          
+          // 🛡️ Diagnostics: Fallback kullanıldı log (sessiz)
+          logCSVParseWarning(
+            currentUser?.uid,
+            currentUser?.email || undefined,
+            undefined,
+            ['Anti-Chaos parse hatası (demo mode), eski yöntem kullanıldı'],
+            0.5
+          ).catch(() => {}); // Sessizce atla
+          
+          // ✅ UTF-8 ile oku
+          const fileContent = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target?.result as string);
+            reader.onerror = reject;
+            reader.readAsText(file, 'UTF-8');
+          });
+          
+          // Trim BOM
+          cleanContent = fileContent.replace(/^\uFEFF/, '');
+        }
         
         // Save metadata only
         const savedFile = await saveUploadedFile(file, currentUser.email || 'unknown', 3, 8, undefined, {
@@ -356,12 +568,24 @@ const DataImportPage: React.FC = () => {
           fileContent: undefined,  // NO content in localStorage
         });
         
-        // Store content in runtime
-        runtimeFileStore.set(savedFile.id, cleanContent);
+        // ✅ FIX 1: TRUE PERSISTENCE - Firestore+Storage
+        const fileId = await persistFile(
+          currentUser.uid,
+          file,
+          cleanContent
+        );
+        savedFile.id = fileId;
         
         console.log('✅ Demo dosyası kaydedildi:', file.name);
+        
+        setTimeout(() => {
+          navigate(`/data-preview/${fileId}`);
+        }, 1000);
       } catch (error) {
         console.error('❌ Demo dosyası kaydedilemedi:', error);
+        // 🛡️ UI render etmeye devam et
+        const friendlyError = translateError(error instanceof Error ? error : new Error(String(error)));
+        setDropError(`⚠️ ${friendlyError.message}`);
       }
     }
     
@@ -489,9 +713,15 @@ const DataImportPage: React.FC = () => {
         fileContent: undefined,
       });
       
-      // Store content in runtime
-      runtimeFileStore.set(savedOperasyon.id, cleanOperasyonText);
-      runtimeFileStore.set(savedFinansal.id, cleanFinansalText);
+      // ✅ FIX 1: TRUE PERSISTENCE - Firestore+Storage
+      const operasyonBlob = new File([cleanOperasyonText], 'restoran-operasyon.csv', { type: 'text/csv' });
+      const finansalBlob = new File([cleanFinansalText], 'restoran-finansal.csv', { type: 'text/csv' });
+      
+      const operasyonFileId = await persistFile(currentUser.uid, operasyonBlob, cleanOperasyonText);
+      const finansalFileId = await persistFile(currentUser.uid, finansalBlob, cleanFinansalText);
+      
+      savedOperasyon.id = operasyonFileId;
+      savedFinansal.id = finansalFileId;
       
       setStatus('success');
       markDataImportCompleted();

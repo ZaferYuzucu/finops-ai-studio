@@ -21,4 +21,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-export { auth, db };
+// Firebase Storage (anti-chaos için)
+import { getStorage } from 'firebase/storage';
+const storage = getStorage(app);
+
+export { auth, db, storage };

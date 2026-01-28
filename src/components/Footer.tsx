@@ -78,11 +78,8 @@ const getLegalLinks = (t: any) => [
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
-  const { currentUser } = useAuth();
-  const isAdminFlag =
-    typeof window !== 'undefined' &&
-    (localStorage.getItem('isAdminAuthenticated') === 'true' ||
-      sessionStorage.getItem('isAdminAuthenticated') === 'true');
+  const { currentUser, isAdmin } = useAuth();
+  const isAdminFlag = isAdmin;
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');

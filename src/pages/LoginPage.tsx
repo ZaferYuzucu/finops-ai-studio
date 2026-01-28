@@ -6,6 +6,8 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import FinopsDataFlowAnimation from '../components/FinopsDataFlowAnimation';
 import { useTranslation } from 'react-i18next';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../firebase';
 
 const LoginPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -13,6 +15,8 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [resetLoading, setResetLoading] = useState(false);
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const navigate = useNavigate();
@@ -57,7 +61,6 @@ const LoginPage: React.FC = () => {
     try {
       await signInWithGoogle();
       
-      // ✅ Pricing'den gelen kullanıcıyı geri yönlendir
       const selectedPlan = sessionStorage.getItem('selectedPlan');
       if (selectedPlan) {
         sessionStorage.removeItem('selectedPlan');
@@ -68,6 +71,31 @@ const LoginPage: React.FC = () => {
     } catch (err: any) {
       setError(t('login.googleError'));
       console.error(err);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError(t('login.emailRequired') || 'Lütfen önce email adresinizi girin.');
+      return;
+    }
+
+    setError('');
+    setSuccess('');
+    setResetLoading(true);
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setSuccess(t('login.resetEmailSent') || 'Şifre sıfırlama linki email adresinize gönderildi.');
+    } catch (err: any) {
+      console.error('Password reset error:', err);
+      if (err.code === 'auth/user-not-found') {
+        setError(t('login.userNotFound') || 'Bu email adresi ile kayıtlı kullanıcı bulunamadı.');
+      } else {
+        setError(t('login.resetError') || 'Şifre sıfırlama linki gönderilemedi.');
+      }
+    } finally {
+      setResetLoading(false);
     }
   };
 
@@ -93,6 +121,7 @@ const LoginPage: React.FC = () => {
           </div>
 
           {error && <p className="bg-red-100 text-red-700 p-3 rounded-md mb-4 text-sm">{error}</p>}
+          {success && <p className="bg-green-100 text-green-700 p-3 rounded-md mb-4 text-sm">{success}</p>}
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div className="rounded-md shadow-sm -space-y-px">
@@ -133,9 +162,14 @@ const LoginPage: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  {t('login.forgotPassword')}
-                </a>
+                <button
+                  type="button"
+                  onClick={handleForgotPassword}
+                  disabled={resetLoading}
+                  className="font-medium text-indigo-600 hover:text-indigo-500 disabled:opacity-50"
+                >
+                  {resetLoading ? 'Gönderiliyor...' : (t('login.forgotPassword') || 'Şifremi Unuttum')}
+                </button>
               </div>
             </div>
 

@@ -1,6 +1,8 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { translateError, createErrorDisplay, UserFriendlyError } from '../utils/antiChaos/userDignityGuard';
+import { logRuntimeError } from '../utils/diagnostics/eventLogger';
 
 interface Props {
   children: ReactNode;
@@ -10,6 +12,7 @@ interface State {
   hasError: boolean;
   error: Error | null;
   errorInfo: ErrorInfo | null;
+  friendlyError: UserFriendlyError | null;
 }
 
 class ErrorBoundary extends Component<Props, State> {
@@ -19,21 +22,39 @@ class ErrorBoundary extends Component<Props, State> {
       hasError: false,
       error: null,
       errorInfo: null,
+      friendlyError: null,
     };
   }
 
-  static getDerivedStateFromError(error: Error): State {
-    // Hata olduğunda state'i güncelle
+  static getDerivedStateFromError(error: Error): Partial<State> {
+    // 🛡️ Anti-Chaos: Friendly error oluştur
+    const friendlyError = translateError(error);
+    
     return {
       hasError: true,
       error,
       errorInfo: null,
+      friendlyError,
     };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Hata detaylarını logluyoruz
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    // 🛡️ Anti-Chaos: Hata logla (kullanıcı görmez)
+    console.group('🔴 [Error Boundary] Hata Yakalandı');
+    console.error('Error:', error);
+    console.error('Error Info:', errorInfo);
+    console.groupEnd();
+    
+    // 🛡️ Diagnostics: Runtime error log (sessiz)
+    logRuntimeError(
+      undefined, // userId (opsiyonel)
+      undefined, // email
+      error,
+      {
+        componentStack: errorInfo.componentStack,
+        errorBoundary: 'ErrorBoundary',
+      }
+    ).catch(() => {}); // Sessizce atla, UI etkilenmez
     
     this.setState({
       error,
@@ -50,6 +71,64 @@ class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
+      // 🛡️ Anti-Chaos: Friendly error göster
+      const { friendlyError } = this.state;
+      
+      if (friendlyError) {
+        const errorDisplay = createErrorDisplay(friendlyError);
+        
+        return (
+          <div className={`min-h-screen flex items-center justify-center px-4 ${errorDisplay.colors.bg}`}>
+            <div className={`max-w-2xl w-full ${errorDisplay.className}`}>
+              <div className="flex items-start gap-4">
+                <div className="text-3xl">{errorDisplay.colors.icon}</div>
+                <div className="flex-1">
+                  <h1 className="text-2xl font-bold mb-2">{friendlyError.title}</h1>
+                  <p className="mb-4">{friendlyError.message}</p>
+                  <div className="bg-white/50 rounded-lg p-3 mb-4">
+                    <p className="text-sm font-medium mb-1">💡 Öneri:</p>
+                    <p className="text-sm">{friendlyError.suggestion}</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={() => window.location.reload()}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      <RefreshCw className="w-4 h-4 inline mr-2" />
+                      Sayfayı Yenile
+                    </button>
+                    {friendlyError.actionUrl && (
+                      <Link
+                        to={friendlyError.actionUrl}
+                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors text-center"
+                      >
+                        {friendlyError.actionLabel || 'Devam Et'}
+                      </Link>
+                    )}
+                    <Link
+                      to="/"
+                      className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-center"
+                    >
+                      <Home className="w-4 h-4 inline mr-2" />
+                      Ana Sayfa
+                    </Link>
+                  </div>
+                  {import.meta.env.DEV && friendlyError.technicalDetails && (
+                    <details className="mt-4">
+                      <summary className="cursor-pointer text-sm text-gray-600">🔧 Teknik Detaylar (Dev Mode)</summary>
+                      <pre className="mt-2 text-xs bg-gray-100 p-2 rounded overflow-auto">
+                        {friendlyError.technicalDetails}
+                      </pre>
+                    </details>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+      
+      // Fallback (eğer friendly error oluşturulamazsa)
       return (
         <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 flex items-center justify-center px-4">
           <div className="max-w-2xl w-full text-center">
